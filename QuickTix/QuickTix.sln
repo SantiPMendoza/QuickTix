@@ -15,6 +15,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Tests", "QuickTix.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Mobile", "QuickTix.Mobile\QuickTix.Mobile.csproj", "{23D08417-1433-4A8D-A38F-F6EAB277F2B9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{0E18F3B2-AE13-4B41-98AA-95ED74513247}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{D107F4C8-89CC-BEA8-D3D7-CA6B7733353D}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +59,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{06CEE73D-FF31-45A9-9048-B4C2E09A5206} = {0E18F3B2-AE13-4B41-98AA-95ED74513247}
+		{3F225926-A2FD-460C-B525-7B581779B038} = {0E18F3B2-AE13-4B41-98AA-95ED74513247}
+		{6E1F8977-6C68-41AA-9B3E-DAB2B0F7F4A3} = {0E18F3B2-AE13-4B41-98AA-95ED74513247}
+		{7633E38E-8F59-4BD4-A5E7-B48CFB8F3977} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{23D08417-1433-4A8D-A38F-F6EAB277F2B9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DDF5214C-C792-42C2-A4BA-A61F79576E23}

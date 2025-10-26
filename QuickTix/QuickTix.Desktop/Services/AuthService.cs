@@ -1,5 +1,4 @@
-﻿using QuickTix.Core;
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
+﻿using QuickTix.Models.UserDTO;
 using System.Net.Http;
 using System.Net.Http.Json;
 

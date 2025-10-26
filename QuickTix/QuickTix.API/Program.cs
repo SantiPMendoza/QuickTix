@@ -1,7 +1,9 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using QuickTix.API.Data;
 using QuickTix.API.Mapping;
 using QuickTix.Core.Interfaces;
@@ -11,22 +13,30 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ============================
-// CONFIGURAR DB CONTEXT
-// ============================
+// ===================================================
+// 🔹 CONFIGURAR DB CONTEXT
+// ===================================================
 builder.Services.AddDbContext<QuickTixDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
-// ============================
-// CONFIGURAR IDENTITY
-// ============================
+// ===================================================
+// 🔹 CONFIGURAR IDENTITY
+// ===================================================
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<QuickTixDbContext>()
     .AddDefaultTokenProviders();
 
-// ============================
-// CONFIGURAR JWT
-// ============================
+// ===================================================
+// 🔹 REGISTRAR SERVICIOS Y REPOSITORIOS
+// ===================================================
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// AutoMapper (mapeos de entidades ↔ DTO)
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// ===================================================
+// 🔹 CONFIGURAR AUTENTICACIÓN JWT
+// ===================================================
 var secretKey = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
 
 builder.Services.AddAuthentication(options =>
@@ -34,7 +44,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(options =>
+.AddJwtBearer("JwtOwn", options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -47,23 +57,85 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// ============================
-// INYECCI�N DE DEPENDENCIAS
-// ============================
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Política de autorización por defecto
+builder.Services.AddAuthorization(options =>
+{
+    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+        .AddAuthenticationSchemes("JwtOwn")
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+// ===================================================
+// 🔹 CONFIGURAR CORS (Frontend: WPF y MAUI)
+// ===================================================
+var allowedOrigins = builder.Environment.IsDevelopment()
+    ? new[] { "http://localhost:5000", "http://localhost:4200" } // para desarrollo
+    : new[] { "https://quicktix.app" }; // dominio real futuro
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
-// ============================
-// SWAGGER + CONTROLLERS
-// ============================
+// ===================================================
+// 🔹 CONFIGURAR SWAGGER
+// ===================================================
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Auth Bearer Token.\r\nEjemplo: Bearer {tu_token_jwt}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new List<string>()
+        }
+    });
+});
+
+// ===================================================
+// 🔹 CONTROLADORES + ENDPOINTS
+// ===================================================
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+// ===================================================
+// 🔹 CONSTRUIR APLICACIÓN
+// ===================================================
 var app = builder.Build();
 
+// ===================================================
+// 🔹 SEEDING DE DATOS (opcional, futuro)
+// ===================================================
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+//     await AppDbSeeder.SeedAsync(services);
+// }
+
+// ===================================================
+// 🔹 PIPELINE HTTP
+// ===================================================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -71,8 +143,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

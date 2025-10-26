@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: QuickTix_SQLServer
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Abcd123!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - QuickTix_Volume:/var/opt/mssql
+    networks:
+      - quicktix-net
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: QuickTix.API/Dockerfile
+    container_name: QuickTix_API
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__QuickTixDb=Server=sqlserver,1433;Database=QuickTixDb;User Id=sa;Password=Abcd123!;TrustServerCertificate=True;
+    ports:
+      - "8080:8080"
+    networks:
+      - quicktix-net
+    restart: unless-stopped
+
+volumes:
+  QuickTix_Volume:
+
+networks:
+  quicktix-net:

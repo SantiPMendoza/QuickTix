@@ -2,15 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using QuickTix.API.Data;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
-using QuickTix.API.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-
 
 namespace QuickTix.Data.Repositories
 {
@@ -26,26 +24,19 @@ namespace QuickTix.Data.Repositories
         private readonly RoleManager<IdentityRole> _roleManager;
         private const int TokenExpirationDays = 7;
 
-        public UserRepository(
-            QuickTixDbContext context,
-            IConfiguration config,
-            UserManager<AppUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+        public UserRepository(QuickTixDbContext context, IConfiguration config,
+            UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _secretKey = config.GetValue<string>("ApiSettings:SecretKey");
             _userManager = userManager;
             _roleManager = roleManager;
-            _secretKey = config.GetValue<string>("ApiSettings:SecretKey")
-                ?? throw new InvalidOperationException("Falta ApiSettings:SecretKey en configuración.");
-
-            if (_secretKey.Length < 32)
-                throw new ArgumentException("La clave secreta debe tener al menos 32 caracteres.");
         }
 
         // ============================================================
         // REGISTRO
         // ============================================================
-        public async Task<UserLoginResponseDTO?> Register(UserRegistrationDTO dto)
+        public async Task<UserLoginResponseDTO?> RegisterAsync(UserRegistrationDTO dto)
         {
             var exists = await _context.Users.AnyAsync(u => u.UserName == dto.UserName);
             if (exists)
@@ -83,7 +74,7 @@ namespace QuickTix.Data.Repositories
         // ============================================================
         // LOGIN + JWT
         // ============================================================
-        public async Task<UserLoginResponseDTO?> Login(UserLoginDTO dto)
+        public async Task<UserLoginResponseDTO?> LoginAsync(UserLoginDTO dto)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserName.ToLower() == dto.UserName.ToLower());
@@ -147,12 +138,12 @@ namespace QuickTix.Data.Repositories
             return dtos;
         }
 
-        public async Task<AppUser?> GetUser(string id)
+        public async Task<AppUser?> GetUserAsync(string id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<bool> IsUniqueUser(string userName)
+        public async Task<bool> IsUniqueUserAsync(string userName)
         {
             return !await _context.Users.AnyAsync(u => u.UserName == userName);
         }

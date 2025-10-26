@@ -18,7 +18,7 @@ namespace QuickTix.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegistrationDTO dto)
         {
-            var result = await _userRepo.Register(dto);
+            var result = await _userRepo.RegisterAsync(dto);
             if (result == null)
                 return BadRequest("No se pudo registrar el usuario.");
             return Ok(result);
@@ -27,7 +27,7 @@ namespace QuickTix.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO dto)
         {
-            var result = await _userRepo.Login(dto);
+            var result = await _userRepo.LoginAsync(dto);
             if (result == null)
                 return Unauthorized("Usuario o contraseña incorrectos.");
             return Ok(result);

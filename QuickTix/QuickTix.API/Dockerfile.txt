@@ -1,0 +1,33 @@
+﻿# ===========================
+# 📦 Etapa 1: Build del proyecto
+# ===========================
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copiar archivos de la solución y restaurar dependencias
+COPY QuickTix.sln ./
+COPY QuickTix.API/QuickTix.API.csproj QuickTix.API/
+COPY QuickTix.Core/QuickTix.Core.csproj QuickTix.Core/
+COPY QuickTix.Data/QuickTix.Data.csproj QuickTix.Data/
+
+RUN dotnet restore QuickTix.API/QuickTix.API.csproj
+
+# Copiar todo el código y compilar
+COPY . .
+RUN dotnet publish QuickTix.API/QuickTix.API.csproj -c Release -o /app/publish
+
+# ===========================
+# 🚀 Etapa 2: Runtime
+# ===========================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+
+# Copiar binarios publicados
+COPY --from=build /app/publish .
+
+# Puerto expuesto
+EXPOSE 8080
+
+# Ejecutar migraciones EF Core automáticamente al iniciar
+# (esto asegura que la base de datos del contenedor SQL esté creada)
+ENTRYPOINT ["sh", "-c", "dotnet ef database update -p ../QuickTix.Data -s . && dotnet QuickTix.API.dll"]
