@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using QuickTix.Core.Helpers;
 
-namespace QuickTix.Models.UserDTO
+namespace QuickTix.Desktop.Models.UserDTO
 {
     public class UserRegistrationDTO
     {

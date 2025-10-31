@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace QuickTix.Core.Models.DTOs
+namespace QuickTix.Core.Models
 {
     public class ResponseApi
     {

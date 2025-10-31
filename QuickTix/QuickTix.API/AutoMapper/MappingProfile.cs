@@ -2,7 +2,7 @@
 using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
 
-namespace QuickTix.API.Mapping
+namespace QuickTix.API.AutoMapper
 {
     public class MappingProfile : Profile
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using QuickTix.API.Data;
+using QuickTix.DAL.Data;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace QuickTix.Data.Repositories
+namespace QuickTix.DAL.Repositories
 {
     /// <summary>
     /// Repositorio de usuarios: registro, login y gestión básica de roles.
@@ -18,13 +18,13 @@ namespace QuickTix.Data.Repositories
     /// </summary>
     public class UserRepository : IUserRepository
     {
-        private readonly QuickTixDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly string _secretKey;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private const int TokenExpirationDays = 7;
 
-        public UserRepository(QuickTixDbContext context, IConfiguration config,
+        public UserRepository(ApplicationDbContext context, IConfiguration config,
             UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;

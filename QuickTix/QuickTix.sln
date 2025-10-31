@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.API", "QuickTix.AP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Core", "QuickTix.Core\QuickTix.Core.csproj", "{3F225926-A2FD-460C-B525-7B581779B038}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Data", "QuickTix.Data\QuickTix.Data.csproj", "{6E1F8977-6C68-41AA-9B3E-DAB2B0F7F4A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.DAL", "QuickTix.Data\QuickTix.DAL.csproj", "{6E1F8977-6C68-41AA-9B3E-DAB2B0F7F4A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Desktop", "QuickTix.Desktop\QuickTix.Desktop.csproj", "{7633E38E-8F59-4BD4-A5E7-B48CFB8F3977}"
 EndProject

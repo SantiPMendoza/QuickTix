@@ -1,4 +1,4 @@
-﻿using QuickTix.Models.UserDTO;
+﻿using QuickTix.Desktop.Models.UserDTO;
 using System.Net.Http;
 using System.Net.Http.Json;
 

@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuickTix.Core\QuickTix.Core.csproj" />
-    <ProjectReference Include="..\QuickTix.Data\QuickTix.Data.csproj" />
+    <ProjectReference Include="..\QuickTix.Data\QuickTix.DAL.csproj" />
   </ItemGroup>
 
 </Project>
