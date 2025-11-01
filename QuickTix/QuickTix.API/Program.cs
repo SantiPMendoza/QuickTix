@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuickTix.DAL.Data;
@@ -22,6 +22,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+// Registrar IMemoryCache
+builder.Services.AddMemoryCache();
 
 // ===================================================
 // 🔹 REGISTRAR SERVICIOS Y REPOSITORIOS
@@ -47,6 +50,16 @@ builder.Services.AddControllers();
 // 🔹 CONSTRUIR APLICACIÓN
 // ===================================================
 var app = builder.Build();
+
+
+
+// Seeding inicial de datos
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await AppDbSeeder.SeedAsync(services);
+}
+
 
 // ===================================================
 // 🔹 PIPELINE HTTP

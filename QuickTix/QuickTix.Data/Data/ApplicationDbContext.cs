@@ -16,6 +16,13 @@ namespace QuickTix.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Admin ↔ AppUser relación uno a uno
+            modelBuilder.Entity<Admin>()
+                .HasOne(a => a.AppUser)
+                .WithOne()
+                .HasForeignKey<Admin>(a => a.AppUserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

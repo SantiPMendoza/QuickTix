@@ -142,7 +142,7 @@ namespace QuickTix.DAL.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
-
+        
         public async Task<bool> IsUniqueUserAsync(string userName)
         {
             return !await _context.Users.AnyAsync(u => u.UserName == userName);

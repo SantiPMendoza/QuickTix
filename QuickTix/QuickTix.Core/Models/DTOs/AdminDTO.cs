@@ -2,15 +2,15 @@
 
 namespace QuickTix.Core.Models.DTOs
 {
-    public class AdministradorDTO : CreateAdministradorDTO
+    public class AdminDTO : CreateAdminDTO
     {
         public int Id { get; set; }
     }
 
-    public class CreateAdministradorDTO
+    public class CreateAdminDTO
     {
         [Required]
-        public string Nombre { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [EmailAddress]

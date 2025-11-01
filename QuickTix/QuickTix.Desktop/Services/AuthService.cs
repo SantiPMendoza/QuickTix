@@ -23,7 +23,7 @@ public class AuthService : IAuthService
 
     public async Task<bool> LoginAsync(UserLoginDTO loginDto)
     {
-        var response = await _httpClient.PostAsJsonAsync("https://localhost:7228/api/User/login", loginDto);
+        var response = await _httpClient.PostAsJsonAsync("https://localhost:7137/api/User/login", loginDto);
 
         if (!response.IsSuccessStatusCode)
             return false;

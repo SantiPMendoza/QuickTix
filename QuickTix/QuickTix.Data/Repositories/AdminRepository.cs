@@ -27,7 +27,7 @@ namespace QuickTix.DAL.Repositories
             return result;
         }
 
-        private void ClearCache()
+        public void ClearCache()
         {
             _cache.Remove(_adminCacheKey);
         }
