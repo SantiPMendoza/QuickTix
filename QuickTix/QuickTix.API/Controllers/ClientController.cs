@@ -13,7 +13,7 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class ClientController : BaseController<Client, ClientDTO, CreateClientDTO>
     {
-        public ClientController(IRepository<Client> repository, IMapper mapper, ILogger<ClientController> logger)
+        public ClientController(IClientRepository repository, IMapper mapper, ILogger<ClientController> logger)
             : base(repository, mapper, logger)
         {
         }

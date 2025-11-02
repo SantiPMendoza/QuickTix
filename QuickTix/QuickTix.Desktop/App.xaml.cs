@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuickTix.Desktop.Services;
+using QuickTix.Desktop.ViewModels.Users;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace QuickTix.Desktop
                 _ = services.AddNavigationViewPageProvider();
 
                 // API Service
-                services.AddSingleton(new HttpClient { BaseAddress = new Uri("https://localhost:7228/") });
+                services.AddSingleton(new HttpClient { BaseAddress = new Uri("https://localhost:7137/") });
 
 
                 // App Host
@@ -52,13 +53,13 @@ namespace QuickTix.Desktop
 
                 // ViewModels
                 _ = services.AddSingleton<LoginViewModel>();
-                // _ = services.AddSingleton<ConfigViewModel>();
+                _ = services.AddSingleton<UsersViewModel>();
 
 
 
                 // Views
                 _ = services.AddSingleton<LoginView>();
-
+                _ = services.AddSingleton<UsersView>();
 
 
                 //_ = services.AddSingleton<Views.SplashScreen>();

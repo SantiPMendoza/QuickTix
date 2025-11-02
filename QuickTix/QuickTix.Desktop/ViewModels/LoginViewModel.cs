@@ -1,4 +1,5 @@
 ﻿using QuickTix.Desktop.Models.UserDTO;
+using QuickTix.Desktop.ViewModels.Base;
 
 namespace QuickTix.Desktop.ViewModels
 {
@@ -55,7 +56,7 @@ namespace QuickTix.Desktop.ViewModels
                 {
                     var user = _authService.GetCurrentUser();
                     System.Windows.MessageBox.Show($"Bienvenido {user?.Name}");
-                    // _navigationService.Navigate(typeof(ReservasView));
+                    _navigationService.Navigate(typeof(UsersView));
                 }
                 else
                 {

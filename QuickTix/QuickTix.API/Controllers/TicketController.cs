@@ -13,7 +13,7 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class TicketController : BaseController<Ticket, TicketDTO, CreateTicketDTO>
     {
-        public TicketController(IRepository<Ticket> repository, IMapper mapper, ILogger<TicketController> logger)
+        public TicketController(ITicketRepository repository, IMapper mapper, ILogger<TicketController> logger)
             : base(repository, mapper, logger)
         {
         }

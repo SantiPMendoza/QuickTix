@@ -9,12 +9,13 @@ using QuickTix.Core.Interfaces;
 
 namespace QuickTix.API.Controllers
 {
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : BaseController<Admin, AdminDTO, CreateAdminDTO>
     {
-        public AdminController(IRepository<Admin> repository, IMapper mapper, ILogger<AdminController> logger)
+        public AdminController(IAdminRepository repository, IMapper mapper, ILogger<AdminController> logger)
             : base(repository, mapper, logger)
         {
         }

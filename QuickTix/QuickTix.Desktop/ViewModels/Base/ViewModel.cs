@@ -1,5 +1,4 @@
-﻿
-namespace QuickTix.Desktop.ViewModels
+﻿namespace QuickTix.Desktop.ViewModels.Base
 {
     public abstract class ViewModel : ObservableObject, INavigationAware
     {

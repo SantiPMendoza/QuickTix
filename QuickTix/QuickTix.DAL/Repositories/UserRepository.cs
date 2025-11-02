@@ -86,33 +86,48 @@ namespace QuickTix.DAL.Repositories
             if (!valid)
                 return null;
 
+            // 🔹 Obtener roles del usuario
             var roles = await _userManager.GetRolesAsync(user);
-            var key = Encoding.ASCII.GetBytes(_secretKey);
+
+            // 🔹 Clave secreta del JWT
+            var key = Encoding.UTF8.GetBytes(_secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
 
+            // 🔹 Crear lista de claims
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+        new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+    };
+
+            // 🔹 Agregar todos los roles que tenga el usuario
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+            // 🔹 Crear el descriptor del token (define su contenido y validez)
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, roles.FirstOrDefault() ?? "client")
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(TokenExpirationDays),
+                Issuer = "QuickTix.API",        // 🪪 Emisor del token
+                Audience = "QuickTix.Clients",  // 🎯 Aplicaciones que pueden usarlo
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };
 
+            // 🔹 Crear y serializar el token
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
 
+            // 🔹 Devolver respuesta
             return new UserLoginResponseDTO
             {
-                Token = tokenHandler.WriteToken(token),
+                Token = tokenString,
                 User = user
             };
         }
+
 
         // ============================================================
         // USUARIOS

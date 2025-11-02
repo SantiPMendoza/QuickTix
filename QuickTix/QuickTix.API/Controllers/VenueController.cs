@@ -13,7 +13,7 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class VenueController : BaseController<Venue, VenueDTO, CreateVenueDTO>
     {
-        public VenueController(IRepository<Venue> repository, IMapper mapper, ILogger<VenueController> logger)
+        public VenueController(IVenueRepository repository, IMapper mapper, ILogger<VenueController> logger)
             : base(repository, mapper, logger)
         {
         }

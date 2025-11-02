@@ -1,4 +1,5 @@
-﻿using Wpf.Ui.Controls;
+﻿using QuickTix.Desktop.ViewModels.Base;
+using Wpf.Ui.Controls;
 
 namespace QuickTix.Desktop.ViewModels
 {

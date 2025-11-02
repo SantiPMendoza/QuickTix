@@ -13,7 +13,7 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class ManagerController : BaseController<Manager, ManagerDTO, CreateManagerDTO>
     {
-        public ManagerController(IRepository<Manager> repository, IMapper mapper, ILogger<ManagerController> logger)
+        public ManagerController(IManagerRepository repository, IMapper mapper, ILogger<ManagerController> logger)
             : base(repository, mapper, logger)
         {
         }

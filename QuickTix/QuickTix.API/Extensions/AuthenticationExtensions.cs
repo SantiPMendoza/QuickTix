@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace QuickTix.API.Extensions
@@ -17,47 +18,48 @@ namespace QuickTix.API.Extensions
             var key = configuration["ApiSettings:SecretKey"];
             var googleClientId = configuration["Google:ClientId"];
 
-            // JWT propio
-            services.AddAuthentication()
-                .AddJwtBearer("JwtOwn", options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key!)),
-                        ValidateIssuer = true,
-                        ValidIssuer = "QuickTix.API",
-                        ValidateAudience = true,
-                        ValidAudience = "QuickTix.Clients",
-                        ValidateLifetime = true
-                    };
-                })
-                // JWT de Google
-                .AddJwtBearer("JwtGoogle", options =>
-                {
-                    options.Authority = "https://accounts.google.com";
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = "https://accounts.google.com",
-                        ValidateAudience = true,
-                        ValidAudience = googleClientId,
-                        ValidateLifetime = true
-                    };
-                });
-
-            // Política combinada
-            services.AddAuthorization(options =>
+            services.AddAuthentication(options =>
             {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes("JwtOwn", "JwtGoogle")
-                    .RequireAuthenticatedUser()
-                    .Build();
+                // 🔹 Usa siempre "Bearer" como esquema principal
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            // 🔹 Token propio (para login con Identity)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key!)),
+                    ValidateIssuer = true,
+                    ValidIssuer = "QuickTix.API",
+                    ValidateAudience = true,
+                    ValidAudience = "QuickTix.Clients",
+                    ValidateLifetime = true,
+                    RoleClaimType = ClaimTypes.Role // ✅ importantísimo
+                };
+            })
+            // 🔹 Token de Google (para logins federados)
+            .AddJwtBearer("JwtGoogle", options =>
+            {
+                options.Authority = "https://accounts.google.com";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = "https://accounts.google.com",
+                    ValidateAudience = true,
+                    ValidAudience = googleClientId,
+                    ValidateLifetime = true
+                };
             });
+
+            // 🔹 Política estándar (ya usa el esquema "Bearer")
+            services.AddAuthorization();
 
             return services;
         }
     }
+
 }

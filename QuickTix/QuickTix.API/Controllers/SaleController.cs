@@ -13,7 +13,7 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class SaleController : BaseController<Sale, SaleDTO, CreateSaleDTO>
     {
-        public SaleController(IRepository<Sale> repository, IMapper mapper, ILogger<SaleController> logger)
+        public SaleController(ISaleRepository repository, IMapper mapper, ILogger<SaleController> logger)
             : base(repository, mapper, logger)
         {
         }

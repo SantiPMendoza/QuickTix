@@ -13,7 +13,7 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class SubscriptionController : BaseController<Subscription, SubscriptionDTO, CreateSubscriptionDTO>
     {
-        public SubscriptionController(IRepository<Subscription> repository, IMapper mapper, ILogger<SubscriptionController> logger)
+        public SubscriptionController(ISubscriptionRepository repository, IMapper mapper, ILogger<SubscriptionController> logger)
             : base(repository, mapper, logger)
         {
         }
