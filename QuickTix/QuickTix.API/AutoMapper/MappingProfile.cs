@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using QuickTix.API.AutoMapper;
 using QuickTix.Core.Models.DTOs;
 using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
