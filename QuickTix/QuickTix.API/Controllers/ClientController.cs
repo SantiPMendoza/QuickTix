@@ -1,0 +1,21 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using QuickTix.Core.Interfaces;
+using QuickTix.Core.Models.DTOs;
+using QuickTix.Core.Models.Entities;
+
+namespace QuickTix.API.Controllers
+{
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ClientController : BaseController<Client, ClientDTO, CreateClientDTO>
+    {
+        public ClientController(IRepository<Client> repository, IMapper mapper, ILogger<ClientController> logger)
+            : base(repository, mapper, logger)
+        {
+        }
+    }
+}
