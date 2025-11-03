@@ -28,6 +28,7 @@ namespace QuickTix.DAL.Repositories
 
         public void ClearCache() => _cache.Remove(_cacheKey);
 
+        // 🔹 Obtener todas las ventas (incluyendo items y sus relaciones)
         public async Task<ICollection<Sale>> GetAllAsync()
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<Sale> cachedSales))
@@ -36,17 +37,23 @@ namespace QuickTix.DAL.Repositories
             var sales = await _context.Sales
                 .Include(s => s.Venue)
                 .Include(s => s.Manager)
-                .Include(s => s.Ticket)
-                .Include(s => s.Subscription)
+                .Include(s => s.Items)
+                    .ThenInclude(i => i.Ticket)
+                .Include(s => s.Items)
+                    .ThenInclude(i => i.Subscription)
                 .OrderByDescending(s => s.Date)
+                .AsNoTracking()
                 .ToListAsync();
 
-            _cache.Set(_cacheKey, sales, new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime));
+
+            _cache.Set(_cacheKey, sales, cacheOptions);
 
             return sales;
         }
 
+        // 🔹 Obtener venta específica (con Items)
         public async Task<Sale?> GetAsync(int id)
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<Sale> cachedSales))
@@ -55,8 +62,11 @@ namespace QuickTix.DAL.Repositories
             return await _context.Sales
                 .Include(s => s.Venue)
                 .Include(s => s.Manager)
-                .Include(s => s.Ticket)
-                .Include(s => s.Subscription)
+                .Include(s => s.Items)
+                    .ThenInclude(i => i.Ticket)
+                .Include(s => s.Items)
+                    .ThenInclude(i => i.Subscription)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
@@ -75,10 +85,16 @@ namespace QuickTix.DAL.Repositories
             return await SaveAsync();
         }
 
+        // 🔹 Eliminar venta
         public async Task<bool> DeleteAsync(int id)
         {
-            var sale = await GetAsync(id);
-            if (sale == null) return false;
+            var sale = await _context.Sales
+                .Include(s => s.Items)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (sale == null)
+                return false;
+
             _context.Sales.Remove(sale);
             return await SaveAsync();
         }

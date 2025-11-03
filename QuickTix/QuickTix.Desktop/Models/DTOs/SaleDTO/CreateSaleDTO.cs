@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace QuickTix.Desktop.Models.DTOs
+namespace QuickTix.Desktop.Models.DTOs.SaleDTO
 {
-    public class SaleDTO : CreateSaleDTO
-    {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-    }
-
     public class CreateSaleDTO
     {
         [Required]
@@ -22,10 +15,14 @@ namespace QuickTix.Desktop.Models.DTOs
         [Required]
         public int ManagerId { get; set; }
 
-        public int? TicketId { get; set; }
+        // Si es venta de tickets
+        public int[]? TicketId { get; set; }
+
+        // Si es venta de suscripción
         public int? SubscriptionId { get; set; }
 
         [Range(0, double.MaxValue)]
         public decimal Amount { get; set; }
     }
+
 }

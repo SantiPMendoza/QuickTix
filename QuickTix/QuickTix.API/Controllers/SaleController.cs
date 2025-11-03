@@ -8,7 +8,8 @@ using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.API.Controllers
 {
-    [Authorize(Roles = "admin,manager")]
+    //[Authorize(Roles = "admin,manager")]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class SaleController : BaseController<Sale, SaleDTO, CreateSaleDTO>

@@ -46,15 +46,15 @@ namespace QuickTix.Desktop.ViewModels
             [
                 new NavigationViewItem()
                 {
-                    Content = "Reservas",
+                    Content = "Usuarios",
                     Icon = new SymbolIcon { Symbol = SymbolRegular.Add16 },
-                    //TargetPageType = typeof(ReservasView)
+                    TargetPageType = typeof(UsersView)
                 },
                 new NavigationViewItem()
                 {
-                    Content = "Calendario?",
+                    Content = "Historial",
                     Icon = new SymbolIcon { Symbol = SymbolRegular.Album20 },
-                    //TargetPageType = typeof(CalendarView)
+                    TargetPageType = typeof(TicketSalesView)
                 },
                 new NavigationViewItem()
                 {
@@ -70,7 +70,7 @@ namespace QuickTix.Desktop.ViewModels
                 {
                     Content = "Logout",
                     Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowExit20 },
-                    //TargetPageType = typeof(ConfigView)
+                    TargetPageType = typeof(LoginView)
                 },
             ];
 

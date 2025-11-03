@@ -11,8 +11,5 @@ namespace QuickTix.Desktop.ViewModels.Users
         {
             _ = LoadAsync();
         }
-
-        // Si más adelante necesitas algo específico (filtros, roles, etc.)
-        // puedes extender con nuevos métodos sin romper la base.
     }
 }

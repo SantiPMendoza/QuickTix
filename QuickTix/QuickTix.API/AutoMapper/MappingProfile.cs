@@ -41,6 +41,11 @@ namespace QuickTix.API.AutoMapper
             CreateMap<Sale, SaleDTO>().ReverseMap();
             CreateMap<Sale, CreateSaleDTO>().ReverseMap();
 
+            // SaleItem
+            CreateMap<SaleItem, SaleItemDTO>().ReverseMap();
+            CreateMap<SaleItem, CreateSaleItemDTO>().ReverseMap();
+
+
             // UserDTO para login / auth
             CreateMap<AppUser, UserDTO>()
                 .ForMember(dest => dest.Role, opt => opt.Ignore());

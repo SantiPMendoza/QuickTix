@@ -17,6 +17,9 @@ namespace QuickTix.Desktop.ViewModels.Users
             AdminsVM = new AdminViewModel(httpClient);
             ManagersVM = new ManagerViewModel(httpClient);
         }
+
+
+
     }
 
 

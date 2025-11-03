@@ -183,27 +183,44 @@ namespace QuickTix.DAL.Data
                 var ticket = await context.Tickets.FirstAsync();
                 var subscription = await context.Subscriptions.FirstAsync();
 
-                context.Sales.AddRange(
-                    new Sale
-                    {
-                        VenueId = venue.Id,
-                        ManagerId = manager.Id,
-                        TicketId = ticket.Id,
-                        Amount = ticket.Price,
-                        Date = DateTime.UtcNow
-                    },
-                    new Sale
-                    {
-                        VenueId = venue.Id,
-                        ManagerId = manager.Id,
-                        SubscriptionId = subscription.Id,
-                        Amount = subscription.Price,
-                        Date = DateTime.UtcNow.AddMinutes(-10)
-                    }
-                );
+                // Venta con entradas
+                var sale1 = new Sale
+                {
+                    VenueId = venue.Id,
+                    ManagerId = manager.Id,
+                    Date = DateTime.UtcNow,
+                    Items = new List<SaleItem>
+        {
+            new SaleItem
+            {
+                TicketId = ticket.Id,
+                Quantity = 3,
+                UnitPrice = ticket.Price
+            }
+        }
+                };
 
+                // Venta con suscripción
+                var sale2 = new Sale
+                {
+                    VenueId = venue.Id,
+                    ManagerId = manager.Id,
+                    Date = DateTime.UtcNow.AddMinutes(-10),
+                    Items = new List<SaleItem>
+        {
+            new SaleItem
+            {
+                SubscriptionId = subscription.Id,
+                Quantity = 1,
+                UnitPrice = subscription.Price
+            }
+        }
+                };
+
+                context.Sales.AddRange(sale1, sale2);
                 await context.SaveChangesAsync();
             }
+
         }
     }
 }

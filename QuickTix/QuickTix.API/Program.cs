@@ -37,6 +37,8 @@ builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<IVenueRepository, VenueRepository>();
+builder.Services.AddScoped<ISaleItemRepository, SaleItemRepository>();
+
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));

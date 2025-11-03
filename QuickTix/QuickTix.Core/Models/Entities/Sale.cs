@@ -16,13 +16,10 @@ namespace QuickTix.Core.Models.Entities
         public int ManagerId { get; set; }
         public Manager Manager { get; set; } = null!;
 
-        public int? TicketId { get; set; }
-        public Ticket? Ticket { get; set; }
+        public ICollection<SaleItem> Items { get; set; } = new List<SaleItem>();
 
-        public int? SubscriptionId { get; set; }
-        public Subscription? Subscription { get; set; }
+        public decimal TotalAmount => Items.Sum(i => i.UnitPrice * i.Quantity);
 
-        public decimal Amount { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 }

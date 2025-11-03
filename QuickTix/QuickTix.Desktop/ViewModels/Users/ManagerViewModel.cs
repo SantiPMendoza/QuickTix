@@ -1,5 +1,7 @@
-﻿using QuickTix.Desktop.Models.DTOs;
+﻿using QuickTix.Core.Models.Entities;
+using QuickTix.Desktop.Models.DTOs;
 using QuickTix.Desktop.ViewModels.Base;
+using System.Collections.ObjectModel;
 
 namespace QuickTix.Desktop.ViewModels.Users
 {
@@ -7,9 +9,13 @@ namespace QuickTix.Desktop.ViewModels.Users
     {
         protected override string Endpoint => "Manager";
 
+        [ObservableProperty] private ObservableCollection<VenueDTO> venues = [];
+        [ObservableProperty] private VenueDTO? selectedVenue;
+
         public ManagerViewModel(HttpJsonClient httpClient) : base(httpClient)
         {
             _ = LoadAsync();
         }
+
     }
 }

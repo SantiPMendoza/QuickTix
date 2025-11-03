@@ -49,18 +49,19 @@ namespace QuickTix.Desktop
                 // Main Window with Navigation
                 _ = services.AddSingleton<INavigationWindow, Views.MainWindow>();
                 _ = services.AddSingleton<MainViewModel>();
+                
 
 
                 // ViewModels
                 _ = services.AddSingleton<LoginViewModel>();
                 _ = services.AddSingleton<UsersViewModel>();
-
+                _ = services.AddSingleton<TicketSalesViewModel>();
 
 
                 // Views
                 _ = services.AddSingleton<LoginView>();
                 _ = services.AddSingleton<UsersView>();
-
+                _ = services.AddSingleton<TicketSalesView>();
 
                 //_ = services.AddSingleton<Views.SplashScreen>();
 
