@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using QuickTix.Desktop.Services;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -15,6 +16,8 @@ namespace QuickTix.Desktop.ViewModels.Base
         [ObservableProperty] private ObservableCollection<T> items = [];
         [ObservableProperty] private T? selectedItem;
 
+        
+
         public BaseCrudViewModel(HttpJsonClient httpClient)
         {
             _httpClient = httpClient;
@@ -29,9 +32,21 @@ namespace QuickTix.Desktop.ViewModels.Base
                 var list = await _httpClient.GetListAsync<T>($"api/{Endpoint}");
                 Items = new ObservableCollection<T>(list);
             }
+            catch (ApiException apiEx)
+            {
+                MessageBox.Show(
+                    $"Error cargando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
+                    "Error API",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading {Endpoint}: {ex.Message}");
+                MessageBox.Show(
+                    $"Error local cargando {Endpoint}: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -44,9 +59,21 @@ namespace QuickTix.Desktop.ViewModels.Base
                 await _httpClient.PostAsync<TCreate, T>($"api/{Endpoint}", newItem);
                 await LoadAsync();
             }
+            catch (ApiException apiEx)
+            {
+                MessageBox.Show(
+                    $"Error añadiendo {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
+                    "Error API",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding {Endpoint}: {ex.Message}");
+                MessageBox.Show(
+                    $"Error local añadiendo {Endpoint}: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -58,9 +85,21 @@ namespace QuickTix.Desktop.ViewModels.Base
                 await _httpClient.PutAsync($"api/{Endpoint}/{id}", updatedItem);
                 await LoadAsync();
             }
+            catch (ApiException apiEx)
+            {
+                MessageBox.Show(
+                    $"Error actualizando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
+                    "Error API",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating {Endpoint}: {ex.Message}");
+                MessageBox.Show(
+                    $"Error local actualizando {Endpoint}: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -68,9 +107,10 @@ namespace QuickTix.Desktop.ViewModels.Base
         [RelayCommand]
         public virtual async Task DeleteAsync(int id)
         {
-            if (id == 0) return;
+            if (id == 0)
+                return;
 
-            if (MessageBox.Show("¿Eliminar registro?", "Confirmar", MessageBoxButton.YesNo)
+            if (MessageBox.Show("¿Eliminar registro?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question)
                 != MessageBoxResult.Yes)
                 return;
 
@@ -79,9 +119,21 @@ namespace QuickTix.Desktop.ViewModels.Base
                 await _httpClient.DeleteAsync($"api/{Endpoint}/{id}");
                 await LoadAsync();
             }
+            catch (ApiException apiEx)
+            {
+                MessageBox.Show(
+                    $"Error eliminando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
+                    "Error API",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error deleting {Endpoint}: {ex.Message}");
+                MessageBox.Show(
+                    $"Error local eliminando {Endpoint}: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

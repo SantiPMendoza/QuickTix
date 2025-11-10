@@ -19,6 +19,7 @@ namespace QuickTix.Core.Helpers
                 ErrorMessage = "Password must be at least 8 characters long.";
                 return false;
             }
+            /**
             if (!Regex.IsMatch(password, @"[A-Z]"))
             {
                 ErrorMessage = "Password must contain at least one uppercase letter.";
@@ -28,7 +29,7 @@ namespace QuickTix.Core.Helpers
             {
                 ErrorMessage = "Password must contain at least one lowercase letter.";
                 return false;
-            }
+            }*/
             if (!Regex.IsMatch(password, @"\d"))
             {
                 ErrorMessage = "Password must contain at least one digit.";

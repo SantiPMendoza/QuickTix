@@ -1,11 +1,11 @@
 ﻿<Page x:Class="QuickTix.Desktop.Views.Pages.UsersView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
-      Title="Administradores y Gestores"
-      d:DesignHeight="600" d:DesignWidth="900">
+      Title="Administradores y Gestores">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -14,32 +14,122 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- ============================================================ -->
+        <!-- 🔹 Administradores -->
+        <!-- ============================================================ -->
         <GroupBox Header="Administradores" Grid.Row="0">
-            <ListView ItemsSource="{Binding AdminsVM.Items}"
-                  SelectedItem="{Binding AdminsVM.SelectedItem}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
-                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DockPanel Margin="10">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 10">
+                    <Button Content="Añadir Administrador"
+                            Command="{Binding OpenAdminFlyoutCommand}"
+                            Width="180" Margin="0,0,10,0"/>
+
+                    <Button Content="Eliminar seleccionado"
+                            Command="{Binding AdminsVM.DeleteCommand}"
+                            CommandParameter="{Binding AdminsVM.SelectedItem.Id}"
+                            IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
+                </StackPanel>
+
+                <ListView ItemsSource="{Binding AdminsVM.Items}"
+                          SelectedItem="{Binding AdminsVM.SelectedItem}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
+                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
+                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
         </GroupBox>
 
+        <!-- ============================================================ -->
+        <!-- 🔹 Gestores -->
+        <!-- ============================================================ -->
         <GroupBox Header="Gestores" Grid.Row="2">
-            <ListView ItemsSource="{Binding ManagersVM.Items}"
-                  SelectedItem="{Binding ManagersVM.SelectedItem}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
-                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
-                        <GridViewColumn Header="Recinto" DisplayMemberBinding="{Binding VenueName}" Width="200"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </GroupBox>
-    </Grid>
+            <DockPanel Margin="10">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 10">
+                    <Button Content="Añadir Gestor"
+                            Command="{Binding OpenManagerFlyoutCommand}"
+                            Width="150" Margin="15,0,10,0"/>
 
+                    <Button Content="Eliminar seleccionado"
+                            Command="{Binding ManagersVM.DeleteCommand}"
+                            CommandParameter="{Binding ManagersVM.SelectedItem.Id}"
+                            IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
+                </StackPanel>
+
+                <ListView ItemsSource="{Binding ManagersVM.Items}"
+                          SelectedItem="{Binding ManagersVM.SelectedItem}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
+                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
+                            <GridViewColumn Header="Recinto" DisplayMemberBinding="{Binding VenueName}" Width="200"/>
+                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+        </GroupBox>
+
+        <!-- ============================================================ -->
+        <!-- 🔹 Flyout Administrador -->
+        <!-- ============================================================ -->
+        <Popup IsOpen="{Binding IsAdminFlyoutOpen}" StaysOpen="False" Placement="Center">
+            <Grid Background="#80000000">
+                <Border Background="White" Padding="20" Width="400" MinHeight="250" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Añadir Administrador" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                        <Label Content="Nombre:"/>
+                        <TextBox Text="{Binding NewAdmin.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+
+                        <Label Content="NIF:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding NewAdmin.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+
+                        <Label Content="Email:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding NewAdmin.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+                        
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                            <Button Content="Cancelar" Command="{Binding CloseAdminFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
+                            <Button Content="Guardar" Command="{Binding SaveAdminCommand}" Width="90"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Popup>
+
+        <!-- ============================================================ -->
+        <!-- 🔹 Flyout Gestor -->
+        <!-- ============================================================ -->
+        <Popup IsOpen="{Binding IsManagerFlyoutOpen}" StaysOpen="False" Placement="Center">
+            <Grid Background="#80000000">
+                <Border Background="White" Padding="20" Width="400" MinHeight="300" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Añadir Gestor" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                        <Label Content="Nombre:"/>
+                        <TextBox Text="{Binding NewManager.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+
+                        <Label Content="NIF:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding NewManager.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+
+                        <Label Content="Email:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding NewManager.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+
+                        <Label Content="ID Recinto:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding NewManager.VenueId, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                            <Button Content="Cancelar" Command="{Binding CloseManagerFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
+                            <Button Content="Guardar" Command="{Binding SaveManagerCommand}" Width="90"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Popup>
+
+    </Grid>
 </Page>

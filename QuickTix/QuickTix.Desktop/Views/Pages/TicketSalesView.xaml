@@ -21,7 +21,7 @@
 
         <!-- ListView con reservas -->
         <ListView Grid.Row="1"
-                  Margin="10"
+                  Margin="50"
                   HorizontalContentAlignment="Stretch"
                   MaxHeight="600"
                   ItemsSource="{Binding Items}"

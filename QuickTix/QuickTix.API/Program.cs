@@ -1,11 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using QuickTix.DAL.Data;
 using QuickTix.API.AutoMapper;
 using QuickTix.API.Extensions;
+using QuickTix.API.Filters;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
+using QuickTix.DAL.Data;
 using QuickTix.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,7 +54,11 @@ builder.Services.AddSwaggerWithAuth();
 // ===================================================
 // 🔹 CONTROLADORES
 // ===================================================
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilter>();
+});
+
 
 // ===================================================
 // 🔹 CONSTRUIR APLICACIÓN

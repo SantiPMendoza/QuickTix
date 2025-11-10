@@ -11,6 +11,8 @@ namespace QuickTix.Core.Models.DTOs
     {
         public int Id { get; set; }
         public string VenueName { get; set; } = null!;
+
+        public bool IsActive { get; set; } = true;
     }
 
     public class CreateManagerDTO
@@ -21,6 +23,10 @@ namespace QuickTix.Core.Models.DTOs
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
+
+        public string? Nif { get; set; } = null;
+
+        public string? PhoneNumber { get; set; } = null;
 
         [Required]
         public int VenueId { get; set; }

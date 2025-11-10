@@ -33,7 +33,8 @@ namespace QuickTix.DAL.Data
                 {
                     UserName = "admin",
                     Email = adminEmail,
-                    Name = "Administrador"
+                    Name = "Administrador",
+                    Nif= "00000000A"
                 };
                 await userManager.CreateAsync(adminUser, adminPassword);
                 await userManager.AddToRoleAsync(adminUser, adminRole);

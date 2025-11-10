@@ -23,6 +23,10 @@ namespace QuickTix.Desktop.Models.DTOs
         [EmailAddress]
         public string Email { get; set; } = null!;
 
+        public string? Nif { get; set; }
+
+        public string? PhoneNumber { get; set; }
+
         [Required]
         public int VenueId { get; set; }
     }

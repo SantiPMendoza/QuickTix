@@ -73,10 +73,24 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var manager = await GetAsync(id);
-            if (manager == null) return false;
+            var manager = await _context.Managers
+                .Include(m => m.Sales)
+                .Include(m => m.AppUser)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (manager == null)
+                return false;
+            
+            // Evitar eliminación si tiene ventas
+            if (manager.Sales.Any())
+                throw new InvalidOperationException("No se puede eliminar un gestor con ventas registradas.");
+
+            // Opcional: eliminar también su AppUser (si quieres)
+            _context.AppUsers.Remove(manager.AppUser);
+
             _context.Managers.Remove(manager);
             return await SaveAsync();
         }
+
     }
 }

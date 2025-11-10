@@ -55,7 +55,7 @@ namespace QuickTix.Desktop.Views
                 }
                 else
                 {
-                    RootNavigation.OpenPaneLength = 180;
+                    RootNavigation.OpenPaneLength = 250;
                     RootNavigation.CompactPaneLength = double.NaN;
                 }
             };

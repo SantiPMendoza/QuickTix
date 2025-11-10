@@ -17,5 +17,7 @@ namespace QuickTix.Desktop.ViewModels.Users
             _ = LoadAsync();
         }
 
+
+
     }
 }
