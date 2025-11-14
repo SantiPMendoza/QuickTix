@@ -17,6 +17,18 @@ namespace QuickTix.Desktop.ViewModels.Users
             _ = LoadAsync();
         }
 
+        public async Task LoadVenuesAsync()
+        {
+            try
+            {
+                Venues = new ObservableCollection<VenueDTO>(
+                    await _httpClient.GetListAsync<VenueDTO>("api/Venue"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error cargando recintos: {ex.Message}");
+            }
+        }
 
 
     }

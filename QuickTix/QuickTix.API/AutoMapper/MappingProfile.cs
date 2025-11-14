@@ -10,14 +10,23 @@ namespace QuickTix.API.AutoMapper
         public MappingProfile()
         {
             // Admin
-            CreateMap<Admin, AdminDTO>().ReverseMap();
-            CreateMap<Admin, CreateAdminDTO>().ReverseMap();
+            CreateMap<Admin, AdminDTO>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AppUser.Email))
+                .ForMember(dest => dest.Nif, opt => opt.MapFrom(src => src.AppUser.Nif))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.AppUser.PhoneNumber));
 
-            // Manager
+            CreateMap<CreateAdminDTO, Admin>()
+                .ForMember(dest => dest.AppUser, opt => opt.Ignore());
+
+            // MANAGER
             CreateMap<Manager, ManagerDTO>()
-                .ForMember(dest => dest.VenueName, opt => opt.MapFrom(src => src.Venue.Name))
-                .ReverseMap();
-            CreateMap<Manager, CreateManagerDTO>().ReverseMap();
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AppUser.Email))
+                .ForMember(dest => dest.Nif, opt => opt.MapFrom(src => src.AppUser.Nif))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.AppUser.PhoneNumber))
+                .ForMember(dest => dest.VenueName, opt => opt.MapFrom(src => src.Venue.Name));
+
+            CreateMap<CreateManagerDTO, Manager>()
+                .ForMember(dest => dest.AppUser, opt => opt.Ignore());
 
             // Client
             CreateMap<Client, ClientDTO>().ReverseMap();

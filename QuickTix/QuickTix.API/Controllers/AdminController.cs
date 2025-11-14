@@ -63,5 +63,59 @@ namespace QuickTix.API.Controllers
                 new { id = response.Id },
                 response);
         }
+
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "admin")]
+        public override async Task<IActionResult> Update(int id, [FromBody] AdminDTO dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // Obtener admin real
+            var admin = await _repository.GetAsync(id);
+            if (admin == null)
+                return NotFound();
+
+            // Obtener UserManager
+            var userManager = HttpContext.RequestServices
+                .GetRequiredService<UserManager<AppUser>>();
+
+            // Buscar el AppUser asociado
+            var appUser = await userManager.FindByIdAsync(admin.AppUserId);
+            if (appUser == null)
+                throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
+
+            // ============================
+            // 🔹 Actualizar AppUser
+            // ============================
+            appUser.Name = dto.Name;
+            appUser.Email = dto.Email;
+            appUser.UserName = dto.Email;   // identidad principal
+            appUser.Nif = dto.Nif;
+            appUser.PhoneNumber = dto.PhoneNumber;
+
+            var userUpdateResult = await userManager.UpdateAsync(appUser);
+
+            if (!userUpdateResult.Succeeded)
+            {
+                var errors = string.Join(" | ",
+                    userUpdateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+
+                throw new InvalidOperationException($"Error Identity: {errors}");
+            }
+
+            // ============================
+            // 🔹 Actualizar entidad Admin
+            // ============================
+            admin.Name = dto.Name;
+
+            await _repository.UpdateAsync(admin);
+
+            // Mapear DTO final
+            var updated = _mapper.Map<AdminDTO>(admin);
+
+            return Ok(updated);
+        }
+
     }
 }

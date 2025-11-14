@@ -13,8 +13,10 @@
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
-
+            
+            <!-- Converters globales -->
             <conv:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <conv:BoolToTextConverter x:Key="BoolToTextConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

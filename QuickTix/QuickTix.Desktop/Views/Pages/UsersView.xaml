@@ -4,8 +4,10 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:QuickTix.Desktop.Views.Pages"
       mc:Ignorable="d"
       Title="Administradores y Gestores">
+
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -26,8 +28,16 @@
 
                     <Button Content="Eliminar seleccionado"
                             Command="{Binding AdminsVM.DeleteCommand}"
+                            Margin="0,0,10,0"
                             CommandParameter="{Binding AdminsVM.SelectedItem.Id}"
                             IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
+                    <Button Content="Editar seleccionado"
+        Command="{Binding EditAdminCommand}"
+        IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
+        Width="150" Margin="0,0,10,0"/>
+
+
+
                 </StackPanel>
 
                 <ListView ItemsSource="{Binding AdminsVM.Items}"
@@ -37,7 +47,7 @@
                             <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
                             <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
-                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Nif}" Width="200"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -56,8 +66,17 @@
 
                     <Button Content="Eliminar seleccionado"
                             Command="{Binding ManagersVM.DeleteCommand}"
+                            Margin="0,0,10,0"
                             CommandParameter="{Binding ManagersVM.SelectedItem.Id}"
                             IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
+
+                    <Button Content="Editar seleccionado"
+        Command="{Binding EditManagerCommand}"
+        IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
+        Width="150" Margin="0,0,10,0"/>
+
+
+
                 </StackPanel>
 
                 <ListView ItemsSource="{Binding ManagersVM.Items}"
@@ -68,7 +87,7 @@
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
                             <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
                             <GridViewColumn Header="Recinto" DisplayMemberBinding="{Binding VenueName}" Width="200"/>
-                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Nif}" Width="200"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -79,57 +98,87 @@
         <!-- 🔹 Flyout Administrador -->
         <!-- ============================================================ -->
         <Popup IsOpen="{Binding IsAdminFlyoutOpen}" StaysOpen="False" Placement="Center">
-            <Grid Background="#80000000">
-                <Border Background="White" Padding="20" Width="400" MinHeight="250" CornerRadius="5">
+            <Grid Background="#80000080">
+                <Border Background="White" Padding="20" Width="400" MinHeight="260" CornerRadius="5">
                     <StackPanel>
-                        <TextBlock Text="Añadir Administrador" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                        <!-- Título dinámico -->
+                        <TextBlock Text="{Binding IsEditingAdmin, 
+                                  Converter={StaticResource BoolToTextConverter},
+                                  ConverterParameter='Editar Administrador|Añadir Administrador'}"
+                           FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                        <!-- Campos -->
                         <Label Content="Nombre:"/>
-                        <TextBox Text="{Binding NewAdmin.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+                        <TextBox Text="{Binding ActiveAdminForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
                         <Label Content="NIF:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding NewAdmin.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+                        <TextBox Text="{Binding ActiveAdminForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
                         <Label Content="Email:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding NewAdmin.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-                        
+                        <TextBox Text="{Binding ActiveAdminForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
+                        <Label Content="Teléfono:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding ActiveAdminForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+
+                        <!-- Botones -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
                             <Button Content="Cancelar" Command="{Binding CloseAdminFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
-                            <Button Content="Guardar" Command="{Binding SaveAdminCommand}" Width="90"/>
+                            <Button Content="Guardar"  Command="{Binding SaveAdminCommand}"  Width="90"/>
                         </StackPanel>
+
                     </StackPanel>
                 </Border>
             </Grid>
         </Popup>
+
 
         <!-- ============================================================ -->
         <!-- 🔹 Flyout Gestor -->
         <!-- ============================================================ -->
         <Popup IsOpen="{Binding IsManagerFlyoutOpen}" StaysOpen="False" Placement="Center">
-            <Grid Background="#80000000">
-                <Border Background="White" Padding="20" Width="400" MinHeight="300" CornerRadius="5">
+            <Grid Background="#80000080">
+                <Border Background="White" Padding="20" Width="400" MinHeight="320" CornerRadius="5">
                     <StackPanel>
-                        <TextBlock Text="Añadir Gestor" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                        <!-- Título dinámico -->
+                        <TextBlock Text="{Binding IsEditingManager, 
+                                  Converter={StaticResource BoolToTextConverter},
+                                  ConverterParameter='Editar Gestor|Añadir Gestor'}"
+                           FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                        <!-- Campos -->
                         <Label Content="Nombre:"/>
-                        <TextBox Text="{Binding NewManager.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+                        <TextBox Text="{Binding ActiveManagerForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
                         <Label Content="NIF:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding NewManager.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+                        <TextBox Text="{Binding ActiveManagerForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
                         <Label Content="Email:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding NewManager.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
+                        <TextBox Text="{Binding ActiveManagerForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
-                        <Label Content="ID Recinto:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding NewManager.VenueId, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                        <Label Content="Teléfono:" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding ActiveManagerForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
 
+                        <Label Content="Recinto:" Margin="0,10,0,0"/>
+                        <ComboBox
+                    ItemsSource="{Binding ManagersVM.Venues}"
+                    SelectedValue="{Binding ActiveManagerForm.VenueId, Mode=TwoWay}"
+                    SelectedValuePath="Id"
+                    DisplayMemberPath="Name"
+                    Width="250"/>
+
+                        <!-- Botones -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
                             <Button Content="Cancelar" Command="{Binding CloseManagerFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
-                            <Button Content="Guardar" Command="{Binding SaveManagerCommand}" Width="90"/>
+                            <Button Content="Guardar"  Command="{Binding SaveManagerCommand}"  Width="90"/>
                         </StackPanel>
+
                     </StackPanel>
                 </Border>
             </Grid>
         </Popup>
+
 
     </Grid>
 </Page>

@@ -31,7 +31,7 @@ namespace QuickTix.API.Controllers
             // 1️⃣ Crear AppUser asociado
             var appUser = new AppUser
             {
-                UserName = dto.Nif,
+                UserName = dto.Email,
                 Email = dto.Email,
                 Name = dto.Name,
                 Nif = dto.Nif,
@@ -43,7 +43,11 @@ namespace QuickTix.API.Controllers
             var result = await userManager.CreateAsync(appUser, $"{dto.Nif}+*");
 
             if (!result.Succeeded)
-                throw new InvalidOperationException("No se pudo crear el usuario asociado al gestor.");
+            {
+                var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Error Identity: {errors}");
+            }
+
 
             // 2️⃣ Crear Manager vinculado al AppUser
             var manager = new Manager
@@ -63,6 +67,49 @@ namespace QuickTix.API.Controllers
                 new { id = response.Id },
                 response);
         }
+
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "admin")]
+        public override async Task<IActionResult> Update(int id, [FromBody] ManagerDTO dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var manager = await _repository.GetAsync(id);
+            if (manager == null)
+                return NotFound();
+
+            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
+            var appUser = await userManager.FindByIdAsync(manager.AppUserId);
+
+            if (appUser == null)
+                throw new InvalidOperationException("No se encontró el usuario asociado al gestor.");
+
+            // 🔹 Actualizar AppUser
+            appUser.Name = dto.Name;
+            appUser.Email = dto.Email;
+            appUser.UserName = dto.Email;
+            appUser.Nif = dto.Nif;
+            appUser.PhoneNumber = dto.PhoneNumber;
+
+            var result = await userManager.UpdateAsync(appUser);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Error Identity: {errors}");
+            }
+
+            // 🔹 Actualizar Manager
+            manager.Name = dto.Name;
+            manager.VenueId = dto.VenueId;
+
+            await _repository.UpdateAsync(manager);
+
+            var updated = _mapper.Map<ManagerDTO>(manager);
+            return Ok(updated);
+        }
+
+
 
 
     }
