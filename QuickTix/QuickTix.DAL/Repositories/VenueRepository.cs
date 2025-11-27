@@ -30,22 +30,20 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<ICollection<Venue>> GetAllAsync()
         {
-            if (_cache.TryGetValue(_cacheKey, out ICollection<Venue> cachedVenues))
-                return cachedVenues;
-
-            var venues = await _context.Venues
-                .Include(v => v.Managers)
-                .Include(v => v.Tickets)
-                .Include(v => v.Subscriptions)
-                .Include(v => v.Sales)
+            return await _context.Venues
+                .AsNoTracking()
+                .Select(v => new Venue
+                {
+                    Id = v.Id,
+                    Name = v.Name,
+                    Location = v.Location,
+                    Capacity = v.Capacity,
+                    IsActive = v.IsActive,
+                })
                 .OrderBy(v => v.Name)
                 .ToListAsync();
-
-            _cache.Set(_cacheKey, venues, new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
-
-            return venues;
         }
+
 
         public async Task<Venue?> GetAsync(int id)
         {

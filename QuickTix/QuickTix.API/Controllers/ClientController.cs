@@ -8,7 +8,7 @@ using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.API.Controllers
 {
-    [Authorize]
+    [AllowAnonymous] //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientController : BaseController<Client, ClientDTO, CreateClientDTO>

@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 
+
+namespace QuickTix.Desktop.Services;
 public interface IAuthService
 {
     Task<bool> LoginAsync(UserLoginDTO loginDto);

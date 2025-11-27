@@ -30,20 +30,31 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<ICollection<Manager>> GetAllAsync()
         {
-            if (_cache.TryGetValue(_cacheKey, out ICollection<Manager> cachedManagers))
-                return cachedManagers;
+            return await _context.Managers
+                .AsNoTracking()
+                .Select(m => new Manager
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    VenueId = m.VenueId,
 
-            var managers = await _context.Managers
-                .Include(m => m.AppUser)
-                .Include(m => m.Venue)
+                    AppUser = new AppUser
+                    {
+                        Email = m.AppUser.Email,
+                        PhoneNumber = m.AppUser.PhoneNumber,
+                        Nif = m.AppUser.Nif
+                    },
+
+                    Venue = new Venue
+                    {
+                        Id = m.Venue.Id,
+                        Name = m.Venue.Name
+                    }
+                })
                 .OrderBy(m => m.Id)
                 .ToListAsync();
-
-            _cache.Set(_cacheKey, managers, new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
-
-            return managers;
         }
+
 
         public async Task<Manager?> GetAsync(int id)
         {
@@ -67,7 +78,7 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> UpdateAsync(Manager manager)
         {
-            _context.Update(manager);
+            //_context.Update(manager);
             return await SaveAsync();
         }
 

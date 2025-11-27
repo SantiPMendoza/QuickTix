@@ -47,7 +47,8 @@
                             <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
                             <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
-                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Nif}" Width="200"/>
+                            <GridViewColumn Header="NIF" DisplayMemberBinding="{Binding Nif}" Width="200"/>
+                            <GridViewColumn Header="Teléfono" DisplayMemberBinding="{Binding PhoneNumber}" Width="200"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -71,9 +72,9 @@
                             IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
 
                     <Button Content="Editar seleccionado"
-        Command="{Binding EditManagerCommand}"
-        IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
-        Width="150" Margin="0,0,10,0"/>
+                            Command="{Binding EditManagerCommand}"
+                            IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
+                            Width="150" Margin="0,0,10,0"/>
 
 
 
@@ -87,7 +88,8 @@
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
                             <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
                             <GridViewColumn Header="Recinto" DisplayMemberBinding="{Binding VenueName}" Width="200"/>
-                            <GridViewColumn Header="Nif" DisplayMemberBinding="{Binding Nif}" Width="200"/>
+                            <GridViewColumn Header="NIF" DisplayMemberBinding="{Binding Nif}" Width="200"/>
+                            <GridViewColumn Header="Teléfono" DisplayMemberBinding="{Binding PhoneNumber}" Width="200"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

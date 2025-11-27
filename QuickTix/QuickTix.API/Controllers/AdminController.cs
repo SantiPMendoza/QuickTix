@@ -65,7 +65,7 @@ namespace QuickTix.API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public override async Task<IActionResult> Update(int id, [FromBody] AdminDTO dto)
         {
             if (!ModelState.IsValid)

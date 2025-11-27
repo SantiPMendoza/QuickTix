@@ -9,7 +9,7 @@ using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.API.Controllers
 {
-    [Authorize(Roles = "admin,manager")]
+    [AllowAnonymous] //[Authorize(Roles = "admin,manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class ManagerController : BaseController<Manager, ManagerDTO, CreateManagerDTO>

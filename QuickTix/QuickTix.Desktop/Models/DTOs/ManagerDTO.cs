@@ -10,7 +10,7 @@ namespace QuickTix.Desktop.Models.DTOs
     public class ManagerDTO : CreateManagerDTO
     {
         public int Id { get; set; }
-        public string VenueName { get; set; } = null!;
+        public string? VenueName { get; set; }
 
     }
 

@@ -114,7 +114,8 @@ namespace QuickTix.Desktop.ViewModels.Users
                 Email = ManagersVM.SelectedItem.Email,
                 Nif = ManagersVM.SelectedItem.Nif,
                 PhoneNumber = ManagersVM.SelectedItem.PhoneNumber,
-                VenueId = ManagersVM.SelectedItem.VenueId
+                VenueId = ManagersVM.SelectedItem.VenueId,
+                VenueName = ManagersVM.SelectedItem.VenueName
             };
 
             IsManagerFlyoutOpen = true;

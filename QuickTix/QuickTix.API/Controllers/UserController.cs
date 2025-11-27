@@ -10,7 +10,7 @@ namespace QuickTix.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")] // Cambiar a [Authorize(Roles = "admin")] cuando eso mi pana
+    [AllowAnonymous] // Cambiar a [Authorize(Roles = "admin")] cuando eso mi pana
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;

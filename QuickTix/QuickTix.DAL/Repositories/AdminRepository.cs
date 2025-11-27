@@ -34,20 +34,23 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<ICollection<Admin>> GetAllAsync()
         {
-            if (_cache.TryGetValue(_adminCacheKey, out ICollection<Admin> cachedAdmins))
-                return cachedAdmins;
-
-            var adminsFromDb = await _context.Admins
-                .Include(a => a.AppUser)
+            return await _context.Admins
+                .AsNoTracking()
+                .Select(a => new Admin
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    AppUser = new AppUser
+                    {
+                        Email = a.AppUser.Email,
+                        PhoneNumber = a.AppUser.PhoneNumber,
+                        Nif = a.AppUser.Nif
+                    }
+                })
                 .OrderBy(a => a.Id)
                 .ToListAsync();
-
-            var cacheOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime));
-
-            _cache.Set(_adminCacheKey, adminsFromDb, cacheOptions);
-            return adminsFromDb;
         }
+
 
         public async Task<Admin?> GetAsync(int id)
         {
@@ -76,7 +79,7 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> UpdateAsync(Admin admin)
         {
-            _context.Update(admin);
+            //_context.Update(admin);
             return await SaveAsync();
         }
 

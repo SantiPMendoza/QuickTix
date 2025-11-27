@@ -78,7 +78,7 @@ namespace QuickTix.Desktop.ViewModels.Base
         }
 
         // 🔹 Actualizar existente
-        public virtual async Task UpdateAsync(int id, TCreate updatedItem)
+        public virtual async Task UpdateAsync(int id, T updatedItem)
         {
             try
             {

@@ -8,6 +8,10 @@ namespace QuickTix.Desktop.ViewModels
         private readonly IAuthService _authService;
         private readonly INavigationService _navigationService;
 
+        [ObservableProperty]
+        private bool _rememberUser;
+
+
         /// <summary>
         /// Inicializa una nueva instancia de <see cref="LoginViewModel"/>.
         /// </summary>
@@ -17,6 +21,18 @@ namespace QuickTix.Desktop.ViewModels
         {
             _authService = authService;
             _navigationService = navigationService;
+
+
+            // Cargar datos guardados si RememberUser está activado
+            RememberUser = Properties.Settings.Default.RememberUser;
+
+            if (RememberUser)
+            {
+                Username = Properties.Settings.Default.SavedUsername;
+                Password = Properties.Settings.Default.SavedPassword;
+            }
+
+            ValidateLogin();
         }
 
         // Campos de entrada del usuario
@@ -54,6 +70,25 @@ namespace QuickTix.Desktop.ViewModels
 
                 if (success)
                 {
+                    // ======================================
+                    // Guardar preferencias
+                    // ======================================
+                    if (RememberUser)
+                    {
+                        Properties.Settings.Default.SavedUsername = Username;
+                        Properties.Settings.Default.SavedPassword = Password;
+                        Properties.Settings.Default.RememberUser = true;
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.SavedUsername = string.Empty;
+                        Properties.Settings.Default.SavedPassword = string.Empty;
+                        Properties.Settings.Default.RememberUser = false;
+                    }
+
+                    Properties.Settings.Default.Save();
+
+                    // ======================================
                     var user = _authService.GetCurrentUser();
                     System.Windows.MessageBox.Show($"Bienvenido {user?.Name}");
                     _navigationService.Navigate(typeof(UsersView));

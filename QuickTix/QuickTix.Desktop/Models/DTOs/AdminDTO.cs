@@ -15,7 +15,7 @@ namespace QuickTix.Desktop.Models.DTOs
         public string? Nif { get; set; }
 
         public string? PhoneNumber { get; set; }
-
+        
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
