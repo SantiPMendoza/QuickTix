@@ -1,9 +1,12 @@
+using QuickTix.Mobile.ViewModels;
+
 namespace QuickTix.Mobile.Views;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
-	{
-		InitializeComponent();
-	}
+    public LoginPage(LoginViewModel vm)
+    {
+        InitializeComponent();
+        BindingContext = vm;
+    }
 }

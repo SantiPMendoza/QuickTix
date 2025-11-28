@@ -4,12 +4,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:QuickTix.Mobile"
+    xmlns:views="clr-namespace:QuickTix.Mobile.Views"
     Shell.FlyoutBehavior="Disabled"
     Title="QuickTix.Mobile">
 
+    <!-- Página principal -->
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="LoginPage" />
+        Route="MainPage"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+
+    <!-- Login -->
+    <ShellContent 
+        Title="Login"
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate views:LoginPage}" />
 
 </Shell>

@@ -12,6 +12,13 @@ using QuickTix.DAL.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // ===================================================
+// 🔹 PERMITIR ACCESO DESDE MAUI (10.0.2.2)
+// ===================================================
+builder.WebHost.UseUrls(
+    "http://0.0.0.0:5137",
+    "https://0.0.0.0:7137"
+);
+// ===================================================
 // 🔹 CONFIGURAR DB CONTEXT
 // ===================================================
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

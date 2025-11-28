@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="QuickTix.Mobile.Views.LoginPage"
-             Title="LoginPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickTix.Mobile.Views.LoginPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+
+            <Label Text="Acceso a QuickTix" HorizontalOptions="Center" FontSize="24" />
+
+            <Entry Placeholder="Email"
+                   Text="{Binding Username}"
+                   Keyboard="Email" />
+
+            <Entry Placeholder="Contraseña"
+                   Text="{Binding Password}"
+                   IsPassword="True" />
+
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding RememberUser}" />
+                <Label Text="Recordar usuario" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Button Text="Iniciar sesión"
+                    Command="{Binding CheckLoginCommand}"
+                    IsEnabled="{Binding IsLoginEnabled}"
+                    HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

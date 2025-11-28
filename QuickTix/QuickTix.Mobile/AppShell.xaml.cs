@@ -1,10 +1,14 @@
-﻿namespace QuickTix.Mobile
+﻿using QuickTix.Mobile.Views;
+
+namespace QuickTix.Mobile;
+
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+
+        Routing.RegisterRoute("LoginPage", typeof(LoginPage));
+        Routing.RegisterRoute("MainPage", typeof(MainPage));
     }
 }
