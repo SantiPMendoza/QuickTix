@@ -69,7 +69,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Shells\AppShell_Manager.xaml.cs">
+	    <DependentUpon>AppShell_Manager.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Shells\AppShell_Client.xaml.cs">
+	    <DependentUpon>AppShell_Client.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Shells\AppShell_Manager.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Shells\AppShell_Client.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Client\SubscriptionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Manager\TicketsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

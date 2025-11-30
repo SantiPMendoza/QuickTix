@@ -44,7 +44,6 @@ namespace QuickTix.Mobile.ViewModels
         // ------------------------------
         // COMANDO DE LOGIN
         // ------------------------------
-
         [RelayCommand]
         private async Task CheckLoginAsync()
         {
@@ -64,27 +63,49 @@ namespace QuickTix.Mobile.ViewModels
             {
                 var success = await _authService.LoginAsync(dto);
 
-                if (success)
+                if (!success)
                 {
-                    // Guardar preferencias
-                    if (RememberUser)
-                    {
-                        Preferences.Set("SavedUsername", Username);
-                        Preferences.Set("SavedPassword", Password);
-                        Preferences.Set("RememberUser", true);
-                    }
-                    else
-                    {
-                        Preferences.Remove("SavedUsername");
-                        Preferences.Remove("SavedPassword");
-                        Preferences.Set("RememberUser", false);
-                    }
+                    await Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos.", "OK");
+                    return;
+                }
 
-                    await Shell.Current.GoToAsync("//MainPage");
+                // Guardar preferencias de usuario
+                if (RememberUser)
+                {
+                    Preferences.Set("SavedUsername", Username);
+                    Preferences.Set("SavedPassword", Password);
+                    Preferences.Set("RememberUser", true);
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos.", "OK");
+                    Preferences.Remove("SavedUsername");
+                    Preferences.Remove("SavedPassword");
+                    Preferences.Set("RememberUser", false);
+                }
+
+                // Obtener el usuario actual desde AuthService
+                var user = _authService.GetCurrentUser();
+
+                if (user is null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener la información del usuario.", "OK");
+                    return;
+                }
+
+                // Navegación según rol: cambiando completamente la Shell
+                switch (user.Role)
+                {
+                    case "Client":
+                        App.Current.MainPage = new AppShell_Client();
+                        break;
+
+                    case "Manager":
+                        App.Current.MainPage = new AppShell_Manager();
+                        break;
+
+                    default:
+                        await Application.Current.MainPage.DisplayAlert("Error", $"Rol no soportado: {user.Role}", "OK");
+                        break;
                 }
             }
             catch (Exception ex)
@@ -92,6 +113,7 @@ namespace QuickTix.Mobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
         }
+
 
         // ------------------------------
         // MÉTODOS PARCIALES
