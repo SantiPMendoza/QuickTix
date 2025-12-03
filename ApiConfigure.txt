@@ -6,6 +6,10 @@
 
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Abcd123!" -e "MSSQL_PID=Developer" -p 1433:1433 --name SQL_Server_DI -v SQL_Server_Volume:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2022-latest
 
+-----------------------------------------------------------------------------------------
+
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Abcd123!" -e "MSSQL_PID=Developer" -p 5000:1433 --name QuickTix_SQL_Server -v QuickTix_Volume:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2022-latest
+
 ────────────────────────────────────────────
 🔹 2. Crear base de datos, usuario y permisos:
 ────────────────────────────────────────────

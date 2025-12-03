@@ -1,0 +1,6 @@
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Abcd123!" -e "MSSQL_PID=Developer" -p 5000:1433 --name QuickTix_SQL_Server -v QuickTix_Volume:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2022-latest
+
+
+
+
+dotnet ef database update -p QuickTix.DAL -s QuickTix.API
