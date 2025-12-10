@@ -13,7 +13,7 @@ namespace QuickTix.Core.Interfaces
         Task<List<UserDTO>> GetUserDTOsAsync();
 
         // Obtiene usuario por Id
-        Task<AppUser?> GetUserAsync(string id);
+        Task<UserDTO?> GetUserAsync(string id);
 
         // Verifica si el nombre de usuario está disponible
         Task<bool> IsUniqueUserAsync(string userName);

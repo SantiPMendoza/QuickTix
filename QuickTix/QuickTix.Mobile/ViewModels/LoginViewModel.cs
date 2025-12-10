@@ -93,20 +93,31 @@ namespace QuickTix.Mobile.ViewModels
                 }
 
                 // Navegación según rol: cambiando completamente la Shell
-                switch (user.Role)
+                var role = user.Role?.ToLowerInvariant() ?? string.Empty;
+
+                switch (role)
                 {
-                    case "Client":
+                    case "client":
                         App.Current.MainPage = new AppShell_Client();
                         break;
 
-                    case "Manager":
+                    case "manager":
+                        App.Current.MainPage = new AppShell_Manager();
+                        break;
+
+                    case "admin":
+                        // Si en el futuro tienes un AppShell_Admin, cámbialo aquí
                         App.Current.MainPage = new AppShell_Manager();
                         break;
 
                     default:
-                        await Application.Current.MainPage.DisplayAlert("Error", $"Rol no soportado: {user.Role}", "OK");
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Error",
+                            $"Rol no soportado: {user.Role ?? "(sin rol)"}",
+                            "OK");
                         break;
                 }
+
             }
             catch (Exception ex)
             {

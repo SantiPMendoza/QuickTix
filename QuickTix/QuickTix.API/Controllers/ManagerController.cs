@@ -14,11 +14,19 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class ManagerController : BaseController<Manager, ManagerDTO, CreateManagerDTO>
     {
-        public ManagerController(IManagerRepository repository, IMapper mapper, ILogger<ManagerController> logger)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public ManagerController(
+            IManagerRepository repository,
+            IMapper mapper,
+            ILogger<ManagerController> logger,
+            UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager)
             : base(repository, mapper, logger)
         {
-
-
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost]
@@ -28,28 +36,47 @@ namespace QuickTix.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // 1️⃣ Crear AppUser asociado
+            // 1) Crear AppUser asociado a este Manager
             var appUser = new AppUser
             {
                 UserName = dto.Email,
                 Email = dto.Email,
                 Name = dto.Name,
                 Nif = dto.Nif,
-
+                PhoneNumber = dto.PhoneNumber,
                 MustChangePassword = true // fuerza cambio en el primer inicio de sesión
             };
 
-            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
-            var result = await userManager.CreateAsync(appUser, $"{dto.Nif}+*");
-
+            // Alta en Identity con la contraseña por defecto basada en el NIF
+            var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}+*");
             if (!result.Succeeded)
             {
                 var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
-                throw new InvalidOperationException($"Error Identity: {errors}");
+                throw new InvalidOperationException($"Error Identity al crear AppUser del Manager: {errors}");
             }
 
+            // 2) Asegurar que existe el rol "manager" en Identity
+            const string managerRole = "manager";
+            if (!await _roleManager.RoleExistsAsync(managerRole))
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole(managerRole));
+                if (!roleResult.Succeeded)
+                {
+                    var errors = string.Join(" | ", roleResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                    throw new InvalidOperationException($"Error Identity al crear rol '{managerRole}': {errors}");
+                }
+            }
 
-            // 2️⃣ Crear Manager vinculado al AppUser
+            // 3) Asignar el rol "manager" al nuevo AppUser
+            // Comentario: esta relación se guarda en AspNetUserRoles; luego GetRolesAsync(user) devolverá "manager".
+            var addToRoleResult = await _userManager.AddToRoleAsync(appUser, managerRole);
+            if (!addToRoleResult.Succeeded)
+            {
+                var errors = string.Join(" | ", addToRoleResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Error Identity al asignar rol '{managerRole}' al usuario: {errors}");
+            }
+
+            // 4) Crear la entidad Manager vinculada al AppUser
             var manager = new Manager
             {
                 Name = dto.Name,
@@ -59,7 +86,7 @@ namespace QuickTix.API.Controllers
 
             await _repository.CreateAsync(manager);
 
-            // 3️⃣ Mapear a DTO para respuesta
+            // 5) Mapear a DTO para respuesta
             var response = _mapper.Map<ManagerDTO>(manager);
 
             return CreatedAtRoute(
@@ -79,27 +106,25 @@ namespace QuickTix.API.Controllers
             if (manager == null)
                 return NotFound();
 
-            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
-            var appUser = await userManager.FindByIdAsync(manager.AppUserId);
-
+            var appUser = await _userManager.FindByIdAsync(manager.AppUserId);
             if (appUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al gestor.");
 
-            // 🔹 Actualizar AppUser
+            // Actualizar AppUser
             appUser.Name = dto.Name;
             appUser.Email = dto.Email;
             appUser.UserName = dto.Email;
             appUser.Nif = dto.Nif;
             appUser.PhoneNumber = dto.PhoneNumber;
 
-            var result = await userManager.UpdateAsync(appUser);
+            var result = await _userManager.UpdateAsync(appUser);
             if (!result.Succeeded)
             {
                 var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
-                throw new InvalidOperationException($"Error Identity: {errors}");
+                throw new InvalidOperationException($"Error Identity al actualizar AppUser del Manager: {errors}");
             }
 
-            // 🔹 Actualizar Manager
+            // Actualizar Manager
             manager.Name = dto.Name;
             manager.VenueId = dto.VenueId;
 
@@ -108,9 +133,5 @@ namespace QuickTix.API.Controllers
             var updated = _mapper.Map<ManagerDTO>(manager);
             return Ok(updated);
         }
-
-
-
-
     }
 }

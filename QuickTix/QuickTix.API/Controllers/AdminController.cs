@@ -7,7 +7,6 @@ using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.DTOs;
 using QuickTix.Core.Models.Entities;
 
-
 namespace QuickTix.API.Controllers
 {
     //[Authorize(Roles = "admin")]
@@ -16,11 +15,20 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class AdminController : BaseController<Admin, AdminDTO, CreateAdminDTO>
     {
-        public AdminController(IAdminRepository repository, IMapper mapper, ILogger<AdminController> logger)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public AdminController(
+            IAdminRepository repository,
+            IMapper mapper,
+            ILogger<AdminController> logger,
+            UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager)
             : base(repository, mapper, logger)
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
-
 
         [HttpPost]
         [Authorize(Roles = "admin")]
@@ -29,33 +37,54 @@ namespace QuickTix.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // 1️⃣ Crear AppUser asociado
+            // 1) Crear AppUser asociado al administrador
             var appUser = new AppUser
             {
-                UserName = dto.Nif,
+                UserName = dto.Email,
                 Email = dto.Email,
                 Name = dto.Name,
                 Nif = dto.Nif,
-
-                MustChangePassword = true // fuerza cambio en el primer inicio de sesión
+                MustChangePassword = true
             };
 
-            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
-            var result = await userManager.CreateAsync(appUser, $"{dto.Nif}+*");
-
+            var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}+*");
             if (!result.Succeeded)
-                throw new InvalidOperationException("No se pudo crear el usuario asociado al administrador.");
+            {
+                // Se agregan todos los errores de Identity en un único mensaje para facilitar el diagnóstico
+                var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Error Identity al crear AppUser del Admin: {errors}");
+            }
 
-            // 2️⃣ Crear Manager vinculado al AppUser
+            // 2) Asegurar que existe el rol "admin"
+            const string adminRole = "admin";
+            if (!await _roleManager.RoleExistsAsync(adminRole))
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole(adminRole));
+                if (!roleResult.Succeeded)
+                {
+                    var errors = string.Join(" | ", roleResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                    throw new InvalidOperationException($"Error Identity al crear rol '{adminRole}': {errors}");
+                }
+            }
+
+            // 3) Asignar el rol "admin" al usuario
+            var addToRoleResult = await _userManager.AddToRoleAsync(appUser, adminRole);
+            if (!addToRoleResult.Succeeded)
+            {
+                var errors = string.Join(" | ", addToRoleResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Error Identity al asignar rol '{adminRole}' al usuario: {errors}");
+            }
+
+            // 4) Crear la entidad Admin vinculada al AppUser
             var admin = new Admin
             {
                 Name = dto.Name,
-                AppUserId = appUser.Id,
+                AppUserId = appUser.Id
             };
 
             await _repository.CreateAsync(admin);
 
-            // 3️⃣ Mapear a DTO para respuesta
+            // 5) Mapear a DTO para respuesta
             var response = _mapper.Map<AdminDTO>(admin);
 
             return CreatedAtRoute(
@@ -71,51 +100,38 @@ namespace QuickTix.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Obtener admin real
             var admin = await _repository.GetAsync(id);
             if (admin == null)
                 return NotFound();
 
-            // Obtener UserManager
-            var userManager = HttpContext.RequestServices
-                .GetRequiredService<UserManager<AppUser>>();
-
-            // Buscar el AppUser asociado
-            var appUser = await userManager.FindByIdAsync(admin.AppUserId);
+            // Se usa el UserManager inyectado, en lugar de resolverlo desde HttpContext
+            var appUser = await _userManager.FindByIdAsync(admin.AppUserId);
             if (appUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
 
-            // ============================
-            // 🔹 Actualizar AppUser
-            // ============================
+            // Actualizar AppUser
             appUser.Name = dto.Name;
             appUser.Email = dto.Email;
-            appUser.UserName = dto.Email;   // identidad principal
+            appUser.UserName = dto.Email;
             appUser.Nif = dto.Nif;
             appUser.PhoneNumber = dto.PhoneNumber;
 
-            var userUpdateResult = await userManager.UpdateAsync(appUser);
-
+            var userUpdateResult = await _userManager.UpdateAsync(appUser);
             if (!userUpdateResult.Succeeded)
             {
                 var errors = string.Join(" | ",
                     userUpdateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
 
-                throw new InvalidOperationException($"Error Identity: {errors}");
+                throw new InvalidOperationException($"Error Identity al actualizar AppUser del Admin: {errors}");
             }
 
-            // ============================
-            // 🔹 Actualizar entidad Admin
-            // ============================
+            // Actualizar entidad Admin
             admin.Name = dto.Name;
 
             await _repository.UpdateAsync(admin);
 
-            // Mapear DTO final
             var updated = _mapper.Map<AdminDTO>(admin);
-
             return Ok(updated);
         }
-
     }
 }
