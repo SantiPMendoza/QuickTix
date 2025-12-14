@@ -47,20 +47,26 @@ namespace QuickTix.Desktop.ViewModels
                 new NavigationViewItem()
                 {
                     Content = "Usuarios",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Add16 },
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Person24 },
                     TargetPageType = typeof(UsersView)
                 },
                 new NavigationViewItem()
                 {
-                    Content = "Historial",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Album20 },
+                    Content = "Historial de\nentradas",
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Clock24 },
                     TargetPageType = typeof(TicketSalesView)
                 },
                 new NavigationViewItem()
                 {
-                    Content = "Configuración de\ndatos",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Clock12 },
-                    //TargetPageType = typeof(ConfigView)
+                    Content = "Abonos/Clientes",
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.AlbumAdd24},
+                    TargetPageType = typeof(SubscriptionsView)
+                },
+                new NavigationViewItem()
+                {
+                    Content = "Clientes",
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.AlertUrgent16},
+                    TargetPageType = typeof(ClientsView)
                 },
             ];
 

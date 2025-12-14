@@ -44,6 +44,7 @@ namespace QuickTix.API.Controllers
                 Email = dto.Email,
                 Name = dto.Name,
                 Nif = dto.Nif,
+                PhoneNumber = dto.PhoneNumber,
                 MustChangePassword = true
             };
 
@@ -100,34 +101,25 @@ namespace QuickTix.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var admin = await _repository.GetAsync(id);
-            if (admin == null)
-                return NotFound();
+            var admin = await _repository.GetForUpdateAsync(id);
+            if (admin == null) return NotFound();
+            if (admin.AppUser == null) throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
 
-            // Se usa el UserManager inyectado, en lugar de resolverlo desde HttpContext
-            var appUser = await _userManager.FindByIdAsync(admin.AppUserId);
-            if (appUser == null)
-                throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
 
-            // Actualizar AppUser
-            appUser.Name = dto.Name;
-            appUser.Email = dto.Email;
-            appUser.UserName = dto.Email;
-            appUser.Nif = dto.Nif;
-            appUser.PhoneNumber = dto.PhoneNumber;
+            admin.AppUser.Name = dto.Name;
+            admin.AppUser.Email = dto.Email;
+            admin.AppUser.UserName = dto.Email;
+            admin.AppUser.Nif = dto.Nif;
+            admin.AppUser.PhoneNumber = dto.PhoneNumber;
 
-            var userUpdateResult = await _userManager.UpdateAsync(appUser);
+            var userUpdateResult = await _userManager.UpdateAsync(admin.AppUser);
             if (!userUpdateResult.Succeeded)
             {
-                var errors = string.Join(" | ",
-                    userUpdateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
-
+                var errors = string.Join(" | ", userUpdateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
                 throw new InvalidOperationException($"Error Identity al actualizar AppUser del Admin: {errors}");
             }
 
-            // Actualizar entidad Admin
             admin.Name = dto.Name;
-
             await _repository.UpdateAsync(admin);
 
             var updated = _mapper.Map<AdminDTO>(admin);

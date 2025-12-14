@@ -2,5 +2,6 @@
 
 namespace QuickTix.Core.Interfaces
 {
-    public interface ISaleRepository : IRepository<Sale> { }
+    public interface ISaleRepository : IRepository<Sale> {
+    }
 }

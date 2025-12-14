@@ -16,18 +16,17 @@ using System.Windows.Shapes;
 
 namespace QuickTix.Desktop.Views.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para ProductosView.xaml
-    /// </summary>
     public partial class UsersView : INavigableView<UsersViewModel>
     {
         public UsersViewModel ViewModel { get; }
         public UsersView(UsersViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = ViewModel;
+
 
             InitializeComponent();
+
+            DataContext = ViewModel;
 
             //viewModel.OnPageLoaded();
         }

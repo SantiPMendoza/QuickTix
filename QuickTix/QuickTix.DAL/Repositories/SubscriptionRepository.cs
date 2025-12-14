@@ -34,8 +34,30 @@ namespace QuickTix.DAL.Repositories
                 return cachedSubs;
 
             var subs = await _context.Subscriptions
-                .Include(s => s.Venue)
-                .Include(s => s.Client)
+                .AsNoTracking()
+                .Select(s => new Subscription
+                {
+                    Id = s.Id,
+                    Category = s.Category,
+                    Duration = s.Duration,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    Price = s.Price,
+                    VenueId = s.VenueId,
+                    ClientId = s.ClientId,
+
+                    Venue = new Venue
+                    {
+                        Id = s.Venue.Id,
+                        Name = s.Venue.Name
+                    },
+
+                    Client = new Client
+                    {
+                        Id = s.Client.Id,
+                        Name = s.Client.Name
+                    }
+                })
                 .OrderByDescending(s => s.StartDate)
                 .ToListAsync();
 
@@ -51,10 +73,34 @@ namespace QuickTix.DAL.Repositories
                 return cachedSubs.FirstOrDefault(s => s.Id == id);
 
             return await _context.Subscriptions
+                .AsNoTracking()
                 .Include(s => s.Venue)
                 .Include(s => s.Client)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
+
+        public async Task<Subscription?> GetForUpdateAsync(int id)
+        {
+            return await _context.Subscriptions
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        // Solo si alguna pantalla necesita el grafo completo
+        public async Task<Subscription?> GetDetailAsync(int id)
+        {
+            return await _context.Subscriptions
+                .AsNoTracking()
+                .Include(s => s.Venue)
+                .Include(s => s.Client)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<bool> UpdateAsync(Subscription subscription)
+        {
+            return await SaveAsync();
+        }
+
 
         public async Task<bool> ExistsAsync(int id) =>
             await _context.Subscriptions.AnyAsync(s => s.Id == id);
@@ -62,12 +108,6 @@ namespace QuickTix.DAL.Repositories
         public async Task<bool> CreateAsync(Subscription subscription)
         {
             await _context.Subscriptions.AddAsync(subscription);
-            return await SaveAsync();
-        }
-
-        public async Task<bool> UpdateAsync(Subscription subscription)
-        {
-            _context.Update(subscription);
             return await SaveAsync();
         }
 

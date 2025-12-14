@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickTix.Desktop.ViewModels.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,18 @@ namespace QuickTix.Desktop.Views.Pages
     /// <summary>
     /// Lógica de interacción para SubscriptionsView.xaml
     /// </summary>
-    public partial class SubscriptionsView : Page
+    public partial class SubscriptionsView : INavigableView<SubscriptionsViewModel>
     {
-        public SubscriptionsView()
+        public SubscriptionsViewModel ViewModel { get; }
+        public SubscriptionsView(SubscriptionsViewModel viewModel)
         {
+            ViewModel = viewModel;
+
             InitializeComponent();
+
+
+            DataContext = ViewModel;
+            //viewModel.OnPageLoaded();
         }
     }
 }

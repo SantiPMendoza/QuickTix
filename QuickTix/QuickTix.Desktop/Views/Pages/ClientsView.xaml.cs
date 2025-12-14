@@ -1,5 +1,4 @@
-﻿using QuickTix.Desktop.ViewModels.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,21 +16,18 @@ using System.Windows.Shapes;
 namespace QuickTix.Desktop.Views.Pages
 {
     /// <summary>
-    /// Lógica de interacción para SalesView.xaml
+    /// Lógica de interacción para ClientsView.xaml
     /// </summary>
-    public partial class TicketSalesView : INavigableView<TicketSalesViewModel>
+    public partial class ClientsView : INavigableView<ClientsViewModel>
     {
-        public TicketSalesViewModel ViewModel { get; }
-        public TicketSalesView(TicketSalesViewModel viewModel)
+        public ClientsViewModel ViewModel { get; }
+        public ClientsView(ClientsViewModel viewModel)
         {
             ViewModel = viewModel;
-
-
+        
             InitializeComponent();
 
-
             DataContext = ViewModel;
-            //viewModel.OnPageLoaded();
         }
     }
 }

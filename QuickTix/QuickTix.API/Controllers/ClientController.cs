@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.DTOs;
 using QuickTix.Core.Models.Entities;
+using QuickTix.DAL.Repositories;
 
 namespace QuickTix.API.Controllers
 {
@@ -90,5 +91,42 @@ namespace QuickTix.API.Controllers
                 new { id = response.Id },
                 response);
         }
+
+
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "admin")]
+        public override async Task<IActionResult> Update(int id, [FromBody] ClientDTO dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var client = await _repository.GetForUpdateAsync(id);
+            if (client == null)
+                return NotFound();
+
+            if (client.AppUser == null)
+                throw new InvalidOperationException("No se encontró el usuario asociado al cliente.");
+
+            client.AppUser.Name = dto.Name;
+            client.AppUser.Email = dto.Email;
+            client.AppUser.UserName = dto.Email;
+            client.AppUser.Nif = dto.Nif;
+            client.AppUser.PhoneNumber = dto.PhoneNumber;
+
+            var userUpdateResult = await _userManager.UpdateAsync(client.AppUser);
+            if (!userUpdateResult.Succeeded)
+            {
+                var errors = string.Join(" | ", userUpdateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Error Identity al actualizar AppUser del Client: {errors}");
+            }
+
+            client.Name = dto.Name;
+
+            await _repository.UpdateAsync(client);
+
+            return Ok(_mapper.Map<ClientDTO>(client));
+        }
+
+
     }
 }

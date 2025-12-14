@@ -56,12 +56,16 @@ namespace QuickTix.Desktop
                 _ = services.AddSingleton<LoginViewModel>();
                 _ = services.AddSingleton<UsersViewModel>();
                 _ = services.AddSingleton<TicketSalesViewModel>();
+                _ = services.AddSingleton<SubscriptionsViewModel>();
+                _ = services.AddSingleton<ClientsViewModel>();
 
 
                 // Views
                 _ = services.AddSingleton<LoginView>();
                 _ = services.AddSingleton<UsersView>();
                 _ = services.AddSingleton<TicketSalesView>();
+                _ = services.AddSingleton<SubscriptionsView>();
+                _ = services.AddSingleton<ClientsView>();
 
                 //_ = services.AddSingleton<Views.SplashScreen>();
 

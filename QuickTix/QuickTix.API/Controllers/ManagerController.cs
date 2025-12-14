@@ -95,6 +95,9 @@ namespace QuickTix.API.Controllers
                 response);
         }
 
+
+
+
         [HttpPut("{id:int}")]
         [Authorize(Roles = "admin")]
         public override async Task<IActionResult> Update(int id, [FromBody] ManagerDTO dto)
@@ -102,36 +105,33 @@ namespace QuickTix.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var manager = await _repository.GetAsync(id);
+            var manager = await _repository.GetForUpdateAsync(id);
             if (manager == null)
                 return NotFound();
 
-            var appUser = await _userManager.FindByIdAsync(manager.AppUserId);
-            if (appUser == null)
+            if (manager.AppUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al gestor.");
 
-            // Actualizar AppUser
-            appUser.Name = dto.Name;
-            appUser.Email = dto.Email;
-            appUser.UserName = dto.Email;
-            appUser.Nif = dto.Nif;
-            appUser.PhoneNumber = dto.PhoneNumber;
+            manager.AppUser.Name = dto.Name;
+            manager.AppUser.Email = dto.Email;
+            manager.AppUser.UserName = dto.Email;
+            manager.AppUser.Nif = dto.Nif;
+            manager.AppUser.PhoneNumber = dto.PhoneNumber;
 
-            var result = await _userManager.UpdateAsync(appUser);
-            if (!result.Succeeded)
+            var userUpdateResult = await _userManager.UpdateAsync(manager.AppUser);
+            if (!userUpdateResult.Succeeded)
             {
-                var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                var errors = string.Join(" | ", userUpdateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
                 throw new InvalidOperationException($"Error Identity al actualizar AppUser del Manager: {errors}");
             }
 
-            // Actualizar Manager
             manager.Name = dto.Name;
             manager.VenueId = dto.VenueId;
 
             await _repository.UpdateAsync(manager);
 
-            var updated = _mapper.Map<ManagerDTO>(manager);
-            return Ok(updated);
+            return Ok(_mapper.Map<ManagerDTO>(manager));
         }
+
     }
 }

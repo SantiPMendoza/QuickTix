@@ -30,13 +30,17 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<ICollection<Manager>> GetAllAsync()
         {
-            return await _context.Managers
+            if (_cache.TryGetValue(_cacheKey, out ICollection<Manager> cachedManagers))
+                return cachedManagers;
+
+            var managers = await _context.Managers
                 .AsNoTracking()
                 .Select(m => new Manager
                 {
                     Id = m.Id,
                     Name = m.Name,
                     VenueId = m.VenueId,
+                    AppUserId = m.AppUserId,
 
                     AppUser = new AppUser
                     {
@@ -53,18 +57,45 @@ namespace QuickTix.DAL.Repositories
                 })
                 .OrderBy(m => m.Id)
                 .ToListAsync();
-        }
 
+            _cache.Set(_cacheKey, managers, new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
+
+            return managers;
+        }
 
         public async Task<Manager?> GetAsync(int id)
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<Manager> cachedManagers))
                 return cachedManagers.FirstOrDefault(m => m.Id == id);
 
+            // Fallback ligero, coherente con patrón (lectura, no tracking, sin colecciones)
             return await _context.Managers
+                .AsNoTracking()
                 .Include(m => m.AppUser)
                 .Include(m => m.Venue)
                 .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<Manager?> GetForUpdateAsync(int id)
+        {
+            // Escritura: tracking, sin caché, solo lo necesario
+            return await _context.Managers
+                .Include(m => m.AppUser)
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+
+        public async Task<Manager?> GetDetailAsync(int id)
+        {
+            return await GetAsync(id);
+
+            // Alternativa sin caché:
+            // return await _context.Managers
+            //     .AsNoTracking()
+            //     .Include(m => m.AppUser)
+            //     .Include(m => m.Venue)
+            //     .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<bool> ExistsAsync(int id) =>
@@ -78,7 +109,7 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> UpdateAsync(Manager manager)
         {
-            //_context.Update(manager);
+            // Importante: no usar _context.Update(manager) para evitar updates por grafo
             return await SaveAsync();
         }
 
@@ -91,17 +122,16 @@ namespace QuickTix.DAL.Repositories
 
             if (manager == null)
                 return false;
-            
-            // Evitar eliminación si tiene ventas
-            if (manager.Sales.Any())
+
+            if (manager.Sales != null && manager.Sales.Any())
                 throw new InvalidOperationException("No se puede eliminar un gestor con ventas registradas.");
 
-            // Opcional: eliminar también su AppUser (si quieres)
-            _context.AppUsers.Remove(manager.AppUser);
+            // Si quieres eliminar también su AppUser
+            if (manager.AppUser != null)
+                _context.AppUsers.Remove(manager.AppUser);
 
             _context.Managers.Remove(manager);
             return await SaveAsync();
         }
-
     }
 }

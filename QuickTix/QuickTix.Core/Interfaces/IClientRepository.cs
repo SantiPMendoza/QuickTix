@@ -2,5 +2,8 @@
 
 namespace QuickTix.Core.Interfaces
 {
-    public interface IClientRepository : IRepository<Client> { }
+    public interface IClientRepository : IRepository<Client> { 
+    
+
+    }
 }

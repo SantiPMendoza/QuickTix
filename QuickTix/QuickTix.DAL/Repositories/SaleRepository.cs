@@ -28,47 +28,65 @@ namespace QuickTix.DAL.Repositories
 
         public void ClearCache() => _cache.Remove(_cacheKey);
 
-        // 🔹 Obtener todas las ventas (incluyendo items y sus relaciones)
         public async Task<ICollection<Sale>> GetAllAsync()
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<Sale> cachedSales))
                 return cachedSales;
 
+            // Listado ligero (sin Items)
             var sales = await _context.Sales
+                .AsNoTracking()
                 .Include(s => s.Venue)
                 .Include(s => s.Manager)
-                .Include(s => s.Items)
-                    .ThenInclude(i => i.Ticket)
-                .Include(s => s.Items)
-                    .ThenInclude(i => i.Subscription)
                 .OrderByDescending(s => s.Date)
-                .AsNoTracking()
                 .ToListAsync();
 
-            var cacheOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime));
-
-            _cache.Set(_cacheKey, sales, cacheOptions);
+            _cache.Set(_cacheKey, sales, new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
 
             return sales;
         }
 
-        // 🔹 Obtener venta específica (con Items)
+        // Detalle completo (no cache)
+        public async Task<Sale?> GetDetailAsync(int id)
+        {
+            return await _context.Sales
+                .AsNoTracking()
+                .Include(s => s.Venue)
+                .Include(s => s.Manager)
+                .Include(s => s.Items).ThenInclude(i => i.Ticket)
+                .Include(s => s.Items).ThenInclude(i => i.Subscription)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        // Para edición (tracking)
+        public async Task<Sale?> GetForUpdateAsync(int id)
+        {
+            return await _context.Sales
+                .Include(s => s.Items) // incluye lo que vayas a tocar realmente
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
         public async Task<Sale?> GetAsync(int id)
         {
+            // coherente con patrón: de cache (listado) o fallback ligero
             if (_cache.TryGetValue(_cacheKey, out ICollection<Sale> cachedSales))
                 return cachedSales.FirstOrDefault(s => s.Id == id);
 
             return await _context.Sales
+                .AsNoTracking()
                 .Include(s => s.Venue)
                 .Include(s => s.Manager)
-                .Include(s => s.Items)
-                    .ThenInclude(i => i.Ticket)
-                .Include(s => s.Items)
-                    .ThenInclude(i => i.Subscription)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
+
+        public async Task<bool> UpdateAsync(Sale sale)
+        {
+            // NO _context.Update(sale)
+            return await SaveAsync();
+        }
+
 
         public async Task<bool> ExistsAsync(int id) =>
             await _context.Sales.AnyAsync(s => s.Id == id);
@@ -79,11 +97,6 @@ namespace QuickTix.DAL.Repositories
             return await SaveAsync();
         }
 
-        public async Task<bool> UpdateAsync(Sale sale)
-        {
-            _context.Update(sale);
-            return await SaveAsync();
-        }
 
         // 🔹 Eliminar venta
         public async Task<bool> DeleteAsync(int id)

@@ -34,12 +34,16 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<ICollection<Admin>> GetAllAsync()
         {
-            return await _context.Admins
+            if (_cache.TryGetValue(_adminCacheKey, out ICollection<Admin> cachedAdmins))
+                return cachedAdmins;
+
+            var admins = await _context.Admins
                 .AsNoTracking()
                 .Select(a => new Admin
                 {
                     Id = a.Id,
                     Name = a.Name,
+                    AppUserId = a.AppUserId,
                     AppUser = new AppUser
                     {
                         Email = a.AppUser.Email,
@@ -49,22 +53,45 @@ namespace QuickTix.DAL.Repositories
                 })
                 .OrderBy(a => a.Id)
                 .ToListAsync();
-        }
 
+            _cache.Set(_adminCacheKey, admins, new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
+
+            return admins;
+        }
 
         public async Task<Admin?> GetAsync(int id)
         {
             if (_cache.TryGetValue(_adminCacheKey, out ICollection<Admin> cachedAdmins))
-            {
-                var admin = cachedAdmins.FirstOrDefault(a => a.Id == id);
-                if (admin != null)
-                    return admin;
-            }
+                return cachedAdmins.FirstOrDefault(a => a.Id == id);
 
+            return await _context.Admins
+                .AsNoTracking()
+                .Include(a => a.AppUser)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<Admin?> GetForUpdateAsync(int id)
+        {
             return await _context.Admins
                 .Include(a => a.AppUser)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
+
+
+        public async Task<Admin?> GetDetailAsync(int id)
+        {
+            // Si "detalle" no añade nada más que GetAsync, puedes usar el mismo patrón.
+            // Opción A: reutilizar GetAsync (usa caché si existe)
+            return await GetAsync(id);
+
+            // Opción B: forzar lectura desde BD (sin caché), por si quieres "detalle siempre fresco":
+            // return await _context.Admins
+            //     .AsNoTracking()
+            //     .Include(a => a.AppUser)
+            //     .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
 
         public async Task<bool> ExistsAsync(int id)
         {

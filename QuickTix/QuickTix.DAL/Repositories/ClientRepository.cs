@@ -34,9 +34,19 @@ namespace QuickTix.DAL.Repositories
                 return cachedClients;
 
             var clients = await _context.Clients
-                .Include(c => c.AppUser)
-                .Include(c => c.Subscriptions)
-                .Include(c => c.Tickets)
+                .AsNoTracking()
+                .Select(c => new Client
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    AppUserId = c.AppUserId,
+                    AppUser = new AppUser
+                    {
+                        Email = c.AppUser.Email,
+                        PhoneNumber = c.AppUser.PhoneNumber,
+                        Nif = c.AppUser.Nif
+                    }
+                })
                 .OrderBy(c => c.Id)
                 .ToListAsync();
 
@@ -46,17 +56,39 @@ namespace QuickTix.DAL.Repositories
             return clients;
         }
 
-        public async Task<Client?> GetAsync(int id)
+        // Detalle para panel derecho (Abonos/Entradas)
+        public async Task<Client?> GetDetailAsync(int id)
         {
-            if (_cache.TryGetValue(_cacheKey, out ICollection<Client> cachedClients))
-                return cachedClients.FirstOrDefault(c => c.Id == id);
-
             return await _context.Clients
+                .AsNoTracking()
                 .Include(c => c.AppUser)
                 .Include(c => c.Subscriptions)
                 .Include(c => c.Tickets)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        // Exclusivo para escritura (tracking, sin caché, sin colecciones)
+        public async Task<Client?> GetForUpdateAsync(int id)
+        {
+            return await _context.Clients
+                .Include(c => c.AppUser)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<Client?> GetAsync(int id)
+        {
+            // Consistente: GetAsync puede resolverse desde el listado cacheado
+            if (_cache.TryGetValue(_cacheKey, out ICollection<Client> cachedClients))
+                return cachedClients.FirstOrDefault(c => c.Id == id);
+
+            // Fallback ligero (sin colecciones)
+            return await _context.Clients
+                .AsNoTracking()
+                .Include(c => c.AppUser)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
 
         public async Task<bool> ExistsAsync(int id) =>
             await _context.Clients.AnyAsync(c => c.Id == id);
@@ -69,7 +101,7 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> UpdateAsync(Client client)
         {
-            _context.Update(client);
+            // _context.Clients.Update(client);
             return await SaveAsync();
         }
 

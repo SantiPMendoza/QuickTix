@@ -17,6 +17,8 @@
             <!-- Converters globales -->
             <conv:NullToBoolConverter x:Key="NullToBoolConverter" />
             <conv:BoolToTextConverter x:Key="BoolToTextConverter" />
+            <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <conv:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

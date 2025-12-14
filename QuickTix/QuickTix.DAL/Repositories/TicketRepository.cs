@@ -27,15 +27,35 @@ namespace QuickTix.DAL.Repositories
         }
 
         public void ClearCache() => _cache.Remove(_cacheKey);
-
         public async Task<ICollection<Ticket>> GetAllAsync()
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<Ticket> cachedTickets))
                 return cachedTickets;
 
             var tickets = await _context.Tickets
-                .Include(t => t.Venue)
-                .Include(t => t.Client)
+                .AsNoTracking()
+                .Select(t => new Ticket
+                {
+                    Id = t.Id,
+                    Type = t.Type,
+                    Context = t.Context,
+                    Price = t.Price,
+                    PurchaseDate = t.PurchaseDate,
+                    VenueId = t.VenueId,
+                    ClientId = t.ClientId,
+
+                    Venue = new Venue
+                    {
+                        Id = t.Venue.Id,
+                        Name = t.Venue.Name
+                    },
+
+                    Client = new Client
+                    {
+                        Id = t.Client.Id,
+                        Name = t.Client.Name
+                    }
+                })
                 .OrderByDescending(t => t.PurchaseDate)
                 .ToListAsync();
 
@@ -51,10 +71,33 @@ namespace QuickTix.DAL.Repositories
                 return cachedTickets.FirstOrDefault(t => t.Id == id);
 
             return await _context.Tickets
+                .AsNoTracking()
                 .Include(t => t.Venue)
                 .Include(t => t.Client)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+
+        public async Task<Ticket?> GetForUpdateAsync(int id)
+        {
+            return await _context.Tickets
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
+
+        public async Task<Ticket?> GetDetailAsync(int id)
+        {
+            return await _context.Tickets
+                .AsNoTracking()
+                .Include(t => t.Venue)
+                .Include(t => t.Client)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
+
+        public async Task<bool> UpdateAsync(Ticket ticket)
+        {
+            return await SaveAsync();
+        }
+
 
         public async Task<bool> ExistsAsync(int id) =>
             await _context.Tickets.AnyAsync(t => t.Id == id);
@@ -62,12 +105,6 @@ namespace QuickTix.DAL.Repositories
         public async Task<bool> CreateAsync(Ticket ticket)
         {
             await _context.Tickets.AddAsync(ticket);
-            return await SaveAsync();
-        }
-
-        public async Task<bool> UpdateAsync(Ticket ticket)
-        {
-            _context.Update(ticket);
             return await SaveAsync();
         }
 

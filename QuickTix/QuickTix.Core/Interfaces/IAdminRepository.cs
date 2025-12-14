@@ -4,5 +4,6 @@ namespace QuickTix.Core.Interfaces
 {
     public interface IAdminRepository : IRepository<Admin>
     {
+
     }
 }

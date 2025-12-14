@@ -2,5 +2,7 @@
 
 namespace QuickTix.Core.Interfaces
 {
-    public interface IManagerRepository : IRepository<Manager> { }
+    public interface IManagerRepository : IRepository<Manager> {
+    
+    }
 }
