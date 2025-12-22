@@ -13,8 +13,11 @@ namespace QuickTix.Core.Models.DTOs
     public class SubscriptionDTO : CreateSubscriptionDTO
     {
         public int Id { get; set; }
-        public DateTime StartDate { get; set; }
+       
         public DateTime EndDate { get; set; }
+
+        public string Status => DateTime.UtcNow.Date <= EndDate.Date ? "Activo" : "Caducado";
+
     }
 
     public class CreateSubscriptionDTO
@@ -24,6 +27,9 @@ namespace QuickTix.Core.Models.DTOs
 
         [Required]
         public int ClientId { get; set; }
+
+        [Required]
+        public DateTime StartDate { get; set; }
 
         [Required]
         public SubscriptionCategory Category { get; set; }

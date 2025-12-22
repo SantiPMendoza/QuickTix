@@ -23,7 +23,7 @@ namespace QuickTix.Desktop.ViewModels.Base
             _httpClient = httpClient;
         }
 
-        // 🔹 Cargar lista
+        // Cargar lista
         [RelayCommand]
         public virtual async Task LoadAsync()
         {
@@ -50,7 +50,7 @@ namespace QuickTix.Desktop.ViewModels.Base
             }
         }
 
-        // 🔹 Añadir nuevo
+        // Añadir nuevo
         [RelayCommand]
         public virtual async Task AddAsync(TCreate newItem)
         {
@@ -77,7 +77,7 @@ namespace QuickTix.Desktop.ViewModels.Base
             }
         }
 
-        // 🔹 Actualizar existente
+        // Actualizar existente
         public virtual async Task UpdateAsync(int id, T updatedItem)
         {
             try
@@ -103,7 +103,7 @@ namespace QuickTix.Desktop.ViewModels.Base
             }
         }
 
-        // 🔹 Eliminar
+        // Eliminar
         [RelayCommand]
         public virtual async Task DeleteAsync(int id)
         {
@@ -131,6 +131,41 @@ namespace QuickTix.Desktop.ViewModels.Base
             {
                 MessageBox.Show(
                     $"Error local eliminando {Endpoint}: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+
+        partial void OnSelectedItemChanged(T? value)
+        {
+            _ = HandleSelectedItemChangedAsync(value);
+        }
+
+        protected virtual Task OnSelectedItemChangedAsync(T? value)
+        {
+            return Task.CompletedTask;
+        }
+
+        private async Task HandleSelectedItemChangedAsync(T? value)
+        {
+            try
+            {
+                await OnSelectedItemChangedAsync(value);
+            }
+            catch (ApiException apiEx)
+            {
+                MessageBox.Show(
+                    $"Error API al cambiar selección.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
+                    "Error API",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error local al cambiar selección: {ex.Message}",
                     "Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);

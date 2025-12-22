@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using QuickTix.Core.Enums;
 using QuickTix.Desktop.Models.DTOs;
+using QuickTix.Desktop.Models.Forms;
 using QuickTix.Desktop.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -10,6 +12,9 @@ namespace QuickTix.Desktop.ViewModels
     public partial class ClientsViewModel : BaseCrudViewModel<ClientDTO, CreateClientDTO>
     {
         protected override string Endpoint => "Client";
+
+
+
 
         // Flyout Cliente
         [ObservableProperty] private bool isClientFlyoutOpen;
@@ -22,10 +27,6 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private bool isSubscriptionFlyoutOpen;
         [ObservableProperty] private bool isEditingSubscription;
         [ObservableProperty] private object? activeSubscriptionForm;
-
-        public ObservableCollection<object> SubscriptionCategories { get; } = new();
-        public ObservableCollection<object> SubscriptionDurations { get; } = new();
-
         public ClientsViewModel(HttpJsonClient httpClient) : base(httpClient)
         {
             SubscriptionsVM = new SubscriptionsViewModel(httpClient);
@@ -94,12 +95,25 @@ namespace QuickTix.Desktop.ViewModels
 
         // Abonos (stubs)
         [RelayCommand]
-        private void OpenSubscriptionFlyout()
+        private async Task OpenSubscriptionFlyout()
         {
             if (SelectedItem == null) return;
 
             IsEditingSubscription = false;
-            ActiveSubscriptionForm = new object(); // luego lo sustituyes por CreateSubscriptionDTO real
+
+            await SubscriptionsVM.LoadVenuesAsync();
+            if (SubscriptionsVM.Venues.Count == 0) return;
+
+            SubscriptionsVM.SelectedVenue = SubscriptionsVM.Venues[0];
+
+            ActiveSubscriptionForm = new SubscriptionFormModel
+            {
+                VenueId = SubscriptionsVM.SelectedVenue.Id,
+                Category = SubscriptionCategory.Adulto,
+                Duration = SubscriptionDuration.Mensual,
+                StartDate = DateTime.Today
+            };
+
             IsSubscriptionFlyoutOpen = true;
         }
 
@@ -112,19 +126,58 @@ namespace QuickTix.Desktop.ViewModels
         }
 
         [RelayCommand]
-        private Task SaveSubscription()
+        private async Task SaveSubscription()
         {
-            // Placeholder hasta implementar CreateSubscriptionDTO + endpoint
+            if (SelectedItem == null) return;
+            if (ActiveSubscriptionForm is not SubscriptionFormModel form) return;
+
+            var dto = new CreateSubscriptionDTO
+            {
+                ClientId = SelectedItem.Id,
+                VenueId = form.VenueId,
+                Category = form.Category,
+                Duration = form.Duration,
+                StartDate = form.StartDate,
+
+                // La API recalcula precio; aquí puede ir 0.
+                Price = 0m
+            };
+
+            await SubscriptionsVM.AddAsync(dto);
+
+            ActiveSubscriptionForm = null;
+            IsEditingSubscription = false;
             IsSubscriptionFlyoutOpen = false;
-            return Task.CompletedTask;
         }
 
+
         [RelayCommand]
-        private Task CancelSubscription()
+        private async Task CancelSubscription()
         {
-            // Placeholder hasta implementar cancelación real
-            return Task.CompletedTask;
+            if (SelectedItem == null) return;
+            if (SubscriptionsVM.SelectedItem == null) return;
+
+            var subId = SubscriptionsVM.SelectedItem.Id;
+
+            await SubscriptionsVM.DeleteAsync(subId);
+
+            SubscriptionsVM.SelectedItem = null;
         }
+
+        protected override async Task OnSelectedItemChangedAsync(ClientDTO? value)
+        {
+            if (value == null)
+            {
+                SubscriptionsVM.Items.Clear();
+                SubscriptionsVM.SelectedItem = null;
+                return;
+            }
+
+            await SubscriptionsVM.LoadByClientAsync(value.Id);
+        }
+
+
+
     }
 
 }

@@ -118,5 +118,16 @@ namespace QuickTix.DAL.Repositories
             _context.Subscriptions.Remove(sub);
             return await SaveAsync();
         }
+
+
+        public async Task<ICollection<Subscription>> GetByClientAsync(int clientId)
+        {
+            return await _context.Subscriptions
+                .AsNoTracking()
+                .Where(s => s.ClientId == clientId)
+                .OrderByDescending(s => s.StartDate)
+                .ToListAsync();
+        }
+
     }
 }

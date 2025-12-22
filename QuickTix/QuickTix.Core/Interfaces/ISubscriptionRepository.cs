@@ -2,5 +2,8 @@
 
 namespace QuickTix.Core.Interfaces
 {
-    public interface ISubscriptionRepository : IRepository<Subscription> { }
+    public interface ISubscriptionRepository : IRepository<Subscription> {
+
+        Task<ICollection<Subscription>> GetByClientAsync(int clientId);
+    }
 }

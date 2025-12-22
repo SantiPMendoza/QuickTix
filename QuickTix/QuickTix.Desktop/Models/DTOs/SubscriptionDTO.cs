@@ -17,6 +17,9 @@ namespace QuickTix.Desktop.Models.DTOs
         public DateTime EndDate { get; set; }
         public Client Client { get; set; }
         public string ClientName => $"{Client.Name}";
+
+        public string Status => DateTime.UtcNow.Date <= EndDate.Date ? "Activo" : "Caducado";
+
     }
 
     public class CreateSubscriptionDTO
@@ -29,6 +32,12 @@ namespace QuickTix.Desktop.Models.DTOs
 
         [Required]
         public SubscriptionCategory Category { get; set; }
+
+        [Required]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        public DateTime EndDate { get; set; }
 
         [Required]
         public SubscriptionDuration Duration { get; set; }

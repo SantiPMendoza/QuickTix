@@ -139,10 +139,10 @@
                                         Width="140" Margin="0,0,10,0"/>
 
                                 <Button Content="Cancelar abono"
-                                        Command="{Binding CancelSubscriptionCommand}"
-                                        Width="140" Margin="0,0,10,0"
-                                        CommandParameter="{Binding SelectedItem.Id}"
-                                        IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
+        Command="{Binding CancelSubscriptionCommand}"
+        Width="140" Margin="0,0,10,0"
+        IsEnabled="{Binding SubscriptionsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
+
                             </StackPanel>
 
                             <ListView Grid.Row="1"
@@ -233,34 +233,39 @@
                         <TextBlock Text="{Binding SelectedItem.Name}"
                                    FontWeight="SemiBold"
                                    Margin="0,0,0,10"/>
+                        
+                        
+                        <Label Content="Recinto:"/>
+                        <ComboBox ItemsSource="{Binding SubscriptionsVM.Venues}"
+          SelectedValue="{Binding ActiveSubscriptionForm.VenueId, Mode=TwoWay}"
+          SelectedValuePath="Id"
+          DisplayMemberPath="Name"
+          Width="300"/>
+
 
                         <Label Content="Categoría:"/>
-                        <ComboBox ItemsSource="{Binding SubscriptionCategories}"
-                                  SelectedValue="{Binding ActiveSubscriptionForm.SubscriptionCategoryId, Mode=TwoWay}"
-                                  SelectedValuePath="Id"
-                                  DisplayMemberPath="Name"
-                                  Width="300"/>
+                        <ComboBox ItemsSource="{Binding SubscriptionsVM.Categories}"
+          SelectedItem="{Binding ActiveSubscriptionForm.Category, Mode=TwoWay}"
+          Width="300"/>
 
                         <Label Content="Duración:" Margin="0,10,0,0"/>
-                        <ComboBox ItemsSource="{Binding SubscriptionDurations}"
-                                  SelectedValue="{Binding ActiveSubscriptionForm.SubscriptionDurationId, Mode=TwoWay}"
-                                  SelectedValuePath="Id"
-                                  DisplayMemberPath="Name"
-                                  Width="300"/>
+                        <ComboBox ItemsSource="{Binding SubscriptionsVM.Durations}"
+          SelectedItem="{Binding ActiveSubscriptionForm.Duration, Mode=TwoWay}"
+          Width="300"/>
 
                         <Label Content="Fecha de inicio:" Margin="0,10,0,0"/>
                         <DatePicker SelectedDate="{Binding ActiveSubscriptionForm.StartDate, Mode=TwoWay}"
-                                    Width="200"/>
+            Width="200"/>
 
                         <Label Content="Fecha de fin (calculada):" Margin="0,10,0,0"/>
                         <DatePicker SelectedDate="{Binding ActiveSubscriptionForm.EndDate}"
-                                    Width="200"
-                                    IsEnabled="False"/>
+            Width="200"
+            IsEnabled="False"/>
 
                         <Label Content="Precio (calculado):" Margin="0,10,0,0"/>
                         <TextBox Text="{Binding ActiveSubscriptionForm.Price}"
-                                 Width="120"
-                                 IsReadOnly="True"/>
+         Width="120"
+         IsReadOnly="True"/>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
                             <Button Content="Cancelar" Command="{Binding CloseSubscriptionFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
