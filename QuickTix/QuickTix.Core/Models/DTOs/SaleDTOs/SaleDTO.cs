@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickTix.Core.Models.DTOs
+namespace QuickTix.Core.Models.DTOs.SaleDTOs
 {
     // ============================
     // 🔹 SaleDTO principal

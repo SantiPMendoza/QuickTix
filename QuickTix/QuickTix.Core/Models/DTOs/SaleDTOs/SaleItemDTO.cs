@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickTix.Core.Models.DTOs
+namespace QuickTix.Core.Models.DTOs.SaleDTOs
 {
     public class SaleItemDTO
     {

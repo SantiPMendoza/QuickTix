@@ -1,8 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using QuickTix.Core.Interfaces;
+using QuickTix.Core.Models.DTOs.SalesHistory;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuickTix.DAL.Repositories
 {
@@ -41,8 +46,12 @@ namespace QuickTix.DAL.Repositories
                 .OrderByDescending(s => s.Date)
                 .ToListAsync();
 
-            _cache.Set(_cacheKey, sales, new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime)));
+            _cache.Set(
+                _cacheKey,
+                sales,
+                new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime))
+            );
 
             return sales;
         }
@@ -64,13 +73,12 @@ namespace QuickTix.DAL.Repositories
         public async Task<Sale?> GetForUpdateAsync(int id)
         {
             return await _context.Sales
-                .Include(s => s.Items) // incluye lo que vayas a tocar realmente
+                .Include(s => s.Items)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<Sale?> GetAsync(int id)
         {
-            // coherente con patrón: de cache (listado) o fallback ligero
             if (_cache.TryGetValue(_cacheKey, out ICollection<Sale> cachedSales))
                 return cachedSales.FirstOrDefault(s => s.Id == id);
 
@@ -83,10 +91,10 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> UpdateAsync(Sale sale)
         {
-            // NO _context.Update(sale)
+            // Se asume que "sale" viene trackeado desde GetForUpdateAsync y ya tiene cambios aplicados.
+            // Si lo pasas detached, no se persistirá nada.
             return await SaveAsync();
         }
-
 
         public async Task<bool> ExistsAsync(int id) =>
             await _context.Sales.AnyAsync(s => s.Id == id);
@@ -97,8 +105,6 @@ namespace QuickTix.DAL.Repositories
             return await SaveAsync();
         }
 
-
-        // 🔹 Eliminar venta
         public async Task<bool> DeleteAsync(int id)
         {
             var sale = await _context.Sales
@@ -110,6 +116,73 @@ namespace QuickTix.DAL.Repositories
 
             _context.Sales.Remove(sale);
             return await SaveAsync();
+        }
+
+        public async Task<IEnumerable<TicketSaleHistoryDTO>> GetTicketHistoryAsync()
+        {
+            return await _context.Sales
+                .AsNoTracking()
+                .SelectMany(s => s.Items
+                    .Where(i => i.TicketId != null)
+                    .Select(i => new TicketSaleHistoryDTO
+                    {
+                        Id = s.Id,
+                        Date = s.Date,
+
+                        VenueId = s.VenueId,
+                        VenueName = s.Venue.Name,
+
+                        ManagerId = s.ManagerId,
+                        ManagerName = s.Manager.Name,
+
+                        Quantity = i.Quantity,
+                        UnitPrice = i.UnitPrice
+                    }))
+                .OrderByDescending(x => x.Date)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<SubscriptionSaleHistoryDTO>> GetSubscriptionHistoryAsync()
+        {
+            var rows = await _context.Sales
+                .AsNoTracking()
+                .SelectMany(s => s.Items
+                    .Where(i => i.SubscriptionId != null)
+                    .Select(i => new
+                    {
+                        SaleId = s.Id,
+                        s.Date,
+
+                        s.VenueId,
+                        VenueName = s.Venue.Name,
+
+                        s.ManagerId,
+                        ManagerName = s.Manager.Name,
+
+                        Category = i.Subscription.Category,
+                        Price = i.UnitPrice,
+
+                        ClientName = i.Subscription.Client != null ? i.Subscription.Client.Name : string.Empty
+                    }))
+                .OrderByDescending(x => x.Date)
+                .ToListAsync();
+
+            return rows.Select(x => new SubscriptionSaleHistoryDTO
+            {
+                Id = x.SaleId,
+                Date = x.Date,
+
+                VenueId = x.VenueId,
+                VenueName = x.VenueName,
+
+                ManagerId = x.ManagerId,
+                ManagerName = x.ManagerName,
+
+                SubscriptionCategory = x.Category.ToString(),
+                Price = x.Price,
+
+                ClientName = x.ClientName
+            });
         }
     }
 }

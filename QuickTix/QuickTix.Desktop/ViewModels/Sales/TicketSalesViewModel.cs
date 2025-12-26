@@ -1,19 +1,18 @@
-﻿using QuickTix.Desktop.Models.DTOs;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using QuickTix.Desktop.Models.DTOs;
 using QuickTix.Desktop.Models.DTOs.SaleDTO;
 using QuickTix.Desktop.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
-namespace QuickTix.Desktop.ViewModels
+namespace QuickTix.Desktop.ViewModels.Sales
 {
     public partial class TicketSalesViewModel : BaseCrudViewModel<TicketSaleDTO, CreateSaleDTO>
     {
         [ObservableProperty] private ObservableCollection<ManagerDTO> managers = [];
         [ObservableProperty] private ManagerDTO? selectedManager;
-        protected override string Endpoint => "SaleItem/tickets";
+
+        // Nuevo endpoint de historial (SaleController)
+        protected override string Endpoint => "Sale/history/tickets";
 
         public TicketSalesViewModel(HttpJsonClient httpClient) : base(httpClient)
         {

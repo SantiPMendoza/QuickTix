@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuickTix.Desktop.Services;
+using QuickTix.Desktop.ViewModels.Sales;
 using QuickTix.Desktop.ViewModels.Users;
 using System.IO;
 using System.Net.Http;
@@ -58,14 +59,17 @@ namespace QuickTix.Desktop
                 _ = services.AddSingleton<TicketSalesViewModel>();
                 _ = services.AddSingleton<SubscriptionsViewModel>();
                 _ = services.AddSingleton<ClientsViewModel>();
+                _ = services.AddSingleton<SalesViewModel>();
+                _ = services.AddSingleton<SuscriptionSalesViewModel>();
+
 
 
                 // Views
                 _ = services.AddSingleton<LoginView>();
                 _ = services.AddSingleton<UsersView>();
-                _ = services.AddSingleton<TicketSalesView>();
                 _ = services.AddSingleton<SubscriptionsView>();
                 _ = services.AddSingleton<ClientsView>();
+                _ = services.AddSingleton<SalesView>();
 
                 //_ = services.AddSingleton<Views.SplashScreen>();
 

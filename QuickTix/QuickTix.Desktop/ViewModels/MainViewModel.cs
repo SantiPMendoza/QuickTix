@@ -52,9 +52,9 @@ namespace QuickTix.Desktop.ViewModels
                 },
                 new NavigationViewItem()
                 {
-                    Content = "Historial de\nentradas",
+                    Content = "Historial de\nventas",
                     Icon = new SymbolIcon { Symbol = SymbolRegular.Clock24 },
-                    TargetPageType = typeof(TicketSalesView)
+                    TargetPageType = typeof(SalesView)
                 },
                 new NavigationViewItem()
                 {

@@ -1,4 +1,5 @@
-﻿using QuickTix.Desktop.ViewModels.Users;
+﻿using QuickTix.Desktop.ViewModels.Sales;
+using QuickTix.Desktop.ViewModels.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,14 @@ namespace QuickTix.Desktop.Views.Pages
     /// <summary>
     /// Lógica de interacción para SalesView.xaml
     /// </summary>
-    public partial class TicketSalesView : INavigableView<TicketSalesViewModel>
+    public partial class SalesView : INavigableView<SalesViewModel>
     {
-        public TicketSalesViewModel ViewModel { get; }
-        public TicketSalesView(TicketSalesViewModel viewModel)
+        public SalesViewModel ViewModel { get; }
+        public SalesView(SalesViewModel viewModel)
         {
             ViewModel = viewModel;
 
-
+           
             InitializeComponent();
 
 
