@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using QuickTix.Core.Enums;
-using QuickTix.Core.Models.Entities;
+using QuickTix.Core.Models.DTOs.SaleDTOs;
 using QuickTix.Desktop.Models.DTOs;
+using QuickTix.Desktop.Models.DTOs.SaleDTO;
 using QuickTix.Desktop.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -15,9 +16,8 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private ObservableCollection<VenueDTO> venues = [];
         [ObservableProperty] private VenueDTO? selectedVenue;
 
-
         public ObservableCollection<SubscriptionCategory> Categories { get; } =
-    new ObservableCollection<SubscriptionCategory>(Enum.GetValues<SubscriptionCategory>());
+            new ObservableCollection<SubscriptionCategory>(Enum.GetValues<SubscriptionCategory>());
 
         public ObservableCollection<SubscriptionDuration> Durations { get; } =
             new ObservableCollection<SubscriptionDuration>(Enum.GetValues<SubscriptionDuration>());
@@ -26,7 +26,6 @@ namespace QuickTix.Desktop.ViewModels
 
         public SubscriptionsViewModel(HttpJsonClient httpClient) : base(httpClient)
         {
-            // Importante: NO hacer _ = LoadAsync(); aquí, porque es listado global.
         }
 
         public async Task LoadVenuesAsync()
@@ -57,6 +56,7 @@ namespace QuickTix.Desktop.ViewModels
             }
         }
 
+        // CRUD administrativo
         public override async Task AddAsync(CreateSubscriptionDTO newItem)
         {
             await base.AddAsync(newItem);
@@ -71,6 +71,25 @@ namespace QuickTix.Desktop.ViewModels
 
             if (CurrentClientId.HasValue)
                 await LoadByClientAsync(CurrentClientId.Value);
+        }
+
+        public async Task SellAsync(SellSubscriptionDTO request)
+        {
+            try
+            {
+                await _httpClient.PostAsync<SellSubscriptionDTO, SaleDTO>(
+                "api/Sale/sell/subscription",
+                request
+                );
+
+
+                // Recarga listado de abonos del cliente tras la venta
+                await LoadByClientAsync(request.ClientId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error registrando la venta del abono: {ex.Message}");
+            }
         }
     }
 }

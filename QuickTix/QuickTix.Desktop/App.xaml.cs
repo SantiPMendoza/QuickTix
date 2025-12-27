@@ -60,7 +60,7 @@ namespace QuickTix.Desktop
                 _ = services.AddSingleton<SubscriptionsViewModel>();
                 _ = services.AddSingleton<ClientsViewModel>();
                 _ = services.AddSingleton<SalesViewModel>();
-                _ = services.AddSingleton<SuscriptionSalesViewModel>();
+                _ = services.AddSingleton<SubscriptionSalesViewModel>();
 
 
 

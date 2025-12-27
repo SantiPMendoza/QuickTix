@@ -6,15 +6,15 @@ using System.Collections.ObjectModel;
 
 namespace QuickTix.Desktop.ViewModels.Sales
 {
-    public partial class SuscriptionSalesViewModel : BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>
+    public partial class SubscriptionSalesViewModel : BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>
     {
         [ObservableProperty] private ObservableCollection<ManagerDTO> managers = [];
         [ObservableProperty] private ManagerDTO? selectedManager;
 
-        // Nuevo endpoint de historial (SaleController)
+
         protected override string Endpoint => "Sale/history/subscriptions";
 
-        public SuscriptionSalesViewModel(HttpJsonClient httpClient) : base(httpClient)
+        public SubscriptionSalesViewModel(HttpJsonClient httpClient) : base(httpClient)
         {
             _ = LoadAsync();
         }

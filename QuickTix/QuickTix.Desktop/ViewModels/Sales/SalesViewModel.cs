@@ -2,14 +2,14 @@
 
 namespace QuickTix.Desktop.ViewModels.Sales
 {
-    public class SalesViewModel : ViewModel
+    public partial class SalesViewModel : ViewModel
     {
         public TicketSalesViewModel TicketSales { get; }
-        public SuscriptionSalesViewModel SubscriptionSales { get; }
+        public SubscriptionSalesViewModel SubscriptionSales { get; }
 
         public SalesViewModel(
             TicketSalesViewModel ticketSales,
-            SuscriptionSalesViewModel subscriptionSales)
+            SubscriptionSalesViewModel subscriptionSales)
         {
             TicketSales = ticketSales;
             SubscriptionSales = subscriptionSales;

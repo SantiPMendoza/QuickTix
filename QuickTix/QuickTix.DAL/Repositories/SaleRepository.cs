@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using QuickTix.Core.Enums;
 using QuickTix.Core.Interfaces;
+using QuickTix.Core.Models.DTOs.SaleDTO;
 using QuickTix.Core.Models.DTOs.SalesHistory;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
@@ -91,8 +93,6 @@ namespace QuickTix.DAL.Repositories
 
         public async Task<bool> UpdateAsync(Sale sale)
         {
-            // Se asume que "sale" viene trackeado desde GetForUpdateAsync y ya tiene cambios aplicados.
-            // Si lo pasas detached, no se persistirá nada.
             return await SaveAsync();
         }
 
@@ -118,13 +118,13 @@ namespace QuickTix.DAL.Repositories
             return await SaveAsync();
         }
 
-        public async Task<IEnumerable<TicketSaleHistoryDTO>> GetTicketHistoryAsync()
+        public async Task<IEnumerable<TicketSaleDTO>> GetTicketHistoryAsync()
         {
             return await _context.Sales
                 .AsNoTracking()
                 .SelectMany(s => s.Items
                     .Where(i => i.TicketId != null)
-                    .Select(i => new TicketSaleHistoryDTO
+                    .Select(i => new TicketSaleDTO
                     {
                         Id = s.Id,
                         Date = s.Date,
@@ -142,7 +142,7 @@ namespace QuickTix.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<SubscriptionSaleHistoryDTO>> GetSubscriptionHistoryAsync()
+        public async Task<IEnumerable<SubscriptionSaleDTO>> GetSubscriptionHistoryAsync()
         {
             var rows = await _context.Sales
                 .AsNoTracking()
@@ -150,7 +150,7 @@ namespace QuickTix.DAL.Repositories
                     .Where(i => i.SubscriptionId != null)
                     .Select(i => new
                     {
-                        SaleId = s.Id,
+                        Id = s.Id,
                         s.Date,
 
                         s.VenueId,
@@ -159,7 +159,7 @@ namespace QuickTix.DAL.Repositories
                         s.ManagerId,
                         ManagerName = s.Manager.Name,
 
-                        Category = i.Subscription.Category,
+                        SubscriptionCategory = i.Subscription.Category,
                         Price = i.UnitPrice,
 
                         ClientName = i.Subscription.Client != null ? i.Subscription.Client.Name : string.Empty
@@ -167,9 +167,9 @@ namespace QuickTix.DAL.Repositories
                 .OrderByDescending(x => x.Date)
                 .ToListAsync();
 
-            return rows.Select(x => new SubscriptionSaleHistoryDTO
+            return rows.Select(x => new SubscriptionSaleDTO
             {
-                Id = x.SaleId,
+                Id = x.Id,
                 Date = x.Date,
 
                 VenueId = x.VenueId,
@@ -178,11 +178,191 @@ namespace QuickTix.DAL.Repositories
                 ManagerId = x.ManagerId,
                 ManagerName = x.ManagerName,
 
-                SubscriptionCategory = x.Category.ToString(),
+                SubscriptionCategory = x.SubscriptionCategory.ToString(),
                 Price = x.Price,
 
                 ClientName = x.ClientName
             });
+        }
+
+
+        public async Task<Sale> SellTicketsAsync(SellTicketDTO request)
+        {
+            if (request.Context == TicketContext.InvitadoAbonado && !request.ClientId.HasValue)
+                throw new ArgumentException("ClientId es obligatorio cuando el contexto es InvitadoAbonado.");
+
+            if (request.Quantity <= 0)
+                throw new ArgumentException("Quantity debe ser mayor que cero.");
+
+            // Validaciones mínimas de integridad
+            var manager = await _context.Managers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == request.ManagerId)
+                          ?? throw new ArgumentException("Manager no existe.");
+
+            if (manager.VenueId != request.VenueId)
+                throw new ArgumentException("El Manager no pertenece al Venue indicado.");
+
+            var venueExists = await _context.Venues.AsNoTracking().AnyAsync(v => v.Id == request.VenueId);
+            if (!venueExists)
+                throw new ArgumentException("Venue no existe.");
+
+            var unitPrice = request.UnitPrice ?? CalculateTicketPrice(request.Type, request.Context);
+            if (unitPrice <= 0)
+                throw new ArgumentException("No se pudo calcular el precio del ticket. Indica UnitPrice o define lógica de precios.");
+
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var sale = new Sale
+                {
+                    VenueId = request.VenueId,
+                    ManagerId = request.ManagerId,
+                    Date = DateTime.UtcNow,
+                    Items = new List<SaleItem>()
+                };
+
+                for (var i = 0; i < request.Quantity; i++)
+                {
+                    var ticket = new Ticket
+                    {
+                        VenueId = request.VenueId,
+                        ClientId = request.ClientId,
+                        Type = request.Type,
+                        Context = request.Context,
+                        Price = unitPrice,
+                        PurchaseDate = DateTime.UtcNow
+                    };
+
+                    var item = new SaleItem
+                    {
+                        Ticket = ticket,
+                        Quantity = 1,
+                        UnitPrice = unitPrice
+                    };
+
+                    sale.Items.Add(item);
+                }
+
+                await _context.Sales.AddAsync(sale);
+                await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+
+                ClearCache();
+                return sale;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<Sale> SellSubscriptionAsync(SellSubscriptionDTO request)
+        {
+            var manager = await _context.Managers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == request.ManagerId)
+                          ?? throw new ArgumentException("Manager no existe.");
+
+            if (manager.VenueId != request.VenueId)
+                throw new ArgumentException("El Manager no pertenece al Venue indicado.");
+
+            var venueExists = await _context.Venues.AsNoTracking().AnyAsync(v => v.Id == request.VenueId);
+            if (!venueExists)
+                throw new ArgumentException("Venue no existe.");
+
+            var clientExists = await _context.Clients.AsNoTracking().AnyAsync(c => c.Id == request.ClientId);
+            if (!clientExists)
+                throw new ArgumentException("Client no existe.");
+
+            var price = request.Price > 0 ? request.Price : CalculateSubscriptionPrice(request.Category, request.Duration);
+            if (price <= 0)
+                throw new ArgumentException("No se pudo calcular el precio de la suscripción.");
+
+            var endDate = CalculateSubscriptionEndDate(request.StartDate, request.Duration);
+
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var subscription = new Subscription
+                {
+                    VenueId = request.VenueId,
+                    ClientId = request.ClientId,
+                    Category = request.Category,
+                    Duration = request.Duration,
+                    Price = price,
+                    StartDate = request.StartDate,
+                    EndDate = endDate
+                };
+
+                var sale = new Sale
+                {
+                    VenueId = request.VenueId,
+                    ManagerId = request.ManagerId,
+                    Date = DateTime.UtcNow,
+                    Items = new List<SaleItem>
+                    {
+                        new SaleItem
+                        {
+                            Subscription = subscription,
+                            Quantity = 1,
+                            UnitPrice = price
+                        }
+                    }
+                };
+
+                await _context.Sales.AddAsync(sale);
+                await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+
+                ClearCache();
+                return sale;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+        private static DateTime CalculateSubscriptionEndDate(DateTime startDate, SubscriptionDuration duration)
+        {
+            return duration switch
+            {
+                SubscriptionDuration.Quincenal => startDate.AddDays(15),
+                SubscriptionDuration.Mensual => startDate.AddMonths(1),
+                SubscriptionDuration.Temporada => startDate.AddMonths(3),
+                _ => startDate.AddMonths(1)
+            };
+        }
+
+        private static decimal CalculateSubscriptionPrice(SubscriptionCategory category, SubscriptionDuration duration)
+        {
+            // Regla simple para no bloquear el flujo. Ideal: mover a PricePlan en BD.
+            var baseMonthly = category switch
+            {
+                SubscriptionCategory.Niño => 15m,
+                SubscriptionCategory.Adulto => 25m,
+                SubscriptionCategory.Jubilado => 20m,
+                SubscriptionCategory.FamiliaNumerosa => 30m,
+                _ => 25m
+            };
+
+            return duration switch
+            {
+                SubscriptionDuration.Quincenal => Math.Round(baseMonthly * 0.6m, 2),
+                SubscriptionDuration.Mensual => baseMonthly,
+                SubscriptionDuration.Temporada => Math.Round(baseMonthly * 3.0m, 2),
+                _ => baseMonthly
+            };
+        }
+
+        private static decimal CalculateTicketPrice(TicketType type, TicketContext context)
+        {
+            // Si ya tienes una lógica real, sustitúyela aquí.
+            // Por defecto, devuelve 0 para forzar a enviar UnitPrice desde UI si no quieres “inventar” precios.
+            return 0m;
         }
     }
 }

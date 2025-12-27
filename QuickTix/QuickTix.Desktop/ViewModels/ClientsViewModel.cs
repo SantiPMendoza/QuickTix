@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QuickTix.Core.Enums;
+using QuickTix.Desktop.Models.DTOs.SaleDTO;
 using QuickTix.Desktop.Models.DTOs;
 using QuickTix.Desktop.Models.Forms;
 using QuickTix.Desktop.ViewModels.Base;
@@ -13,7 +14,7 @@ namespace QuickTix.Desktop.ViewModels
     {
         protected override string Endpoint => "Client";
 
-
+        public int CurrentManagerId { get; set; } = 1;
 
 
         // Flyout Cliente
@@ -131,19 +132,31 @@ namespace QuickTix.Desktop.ViewModels
             if (SelectedItem == null) return;
             if (ActiveSubscriptionForm is not SubscriptionFormModel form) return;
 
-            var dto = new CreateSubscriptionDTO
+            if (CurrentManagerId <= 0)
+            {
+                MessageBox.Show("No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).");
+                return;
+            }
+
+            var request = new SellSubscriptionDTO
             {
                 ClientId = SelectedItem.Id,
                 VenueId = form.VenueId,
+                ManagerId = CurrentManagerId,
                 Category = form.Category,
                 Duration = form.Duration,
                 StartDate = form.StartDate,
-
-                // La API recalcula precio; aquí puede ir 0.
-                Price = 0m
+                Price = 0m // que lo calcule backend
             };
 
-            await SubscriptionsVM.AddAsync(dto);
+            // Llama al flujo de venta en SaleController
+            await _httpClient.PostAsync<SellSubscriptionDTO, object>(
+                "api/Sale/sell/subscription",
+                request
+            );
+
+            // Recarga el listado de abonos del cliente (ya incluirá el nuevo)
+            await SubscriptionsVM.LoadByClientAsync(SelectedItem.Id);
 
             ActiveSubscriptionForm = null;
             IsEditingSubscription = false;
