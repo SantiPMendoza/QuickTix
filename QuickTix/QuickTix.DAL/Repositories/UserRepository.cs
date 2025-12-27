@@ -93,7 +93,9 @@ namespace QuickTix.DAL.Repositories
                 Name = user.Name,
                 UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
-                Role = roleName
+                Role = roleName,
+
+                MustChangePassword = user.MustChangePassword
             };
 
             // En el registro no generamos token (se mantiene el comportamiento original).
@@ -126,18 +128,11 @@ namespace QuickTix.DAL.Repositories
             // Estas claims son la "identidad" que luego leerán las APIs protegidas.
             var claims = new List<Claim>
             {
-                // Identificador interno de Identity.
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-
-                // Nombre de usuario visible.
                 new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-
-                // Email asociado al usuario.
                 new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
             };
 
-            // Por cada rol, se añade una claim de tipo Role.
-            // Esto permite utilizar [Authorize(Roles = "...")] en controladores.
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             // Clave simétrica para firmar el token.
@@ -149,8 +144,6 @@ namespace QuickTix.DAL.Repositories
                 signingKey,
                 SecurityAlgorithms.HmacSha256Signature);
 
-            // Descriptor del token: aquí definimos contenido, expiración,
-            // emisor, audiencia y credenciales de firma.
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -174,7 +167,9 @@ namespace QuickTix.DAL.Repositories
                 Name = user.Name,
                 UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
-                Role = roleName
+                Role = roleName,
+
+                MustChangePassword = user.MustChangePassword
             };
 
             // Devolvemos el DTO de usuario consumible por Desktop/Mobile más el token.
@@ -204,7 +199,9 @@ namespace QuickTix.DAL.Repositories
                     Name = u.Name,
                     UserName = u.UserName ?? string.Empty,
                     Email = u.Email ?? string.Empty,
-                    Role = roles.FirstOrDefault() ?? string.Empty
+                    Role = roles.FirstOrDefault() ?? string.Empty,
+
+                    MustChangePassword= u.MustChangePassword
                 });
             }
 
@@ -231,9 +228,34 @@ namespace QuickTix.DAL.Repositories
                 Name = user.Name,
                 UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
-                Role = roles.FirstOrDefault() ?? string.Empty
+                Role = roles.FirstOrDefault() ?? string.Empty,
+
+                MustChangePassword = user.MustChangePassword
             };
         }
+
+        public async Task<bool> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return false;
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            if (!result.Succeeded)
+                return false;
+
+            // Marcar que ya no es primer inicio
+            if (user.MustChangePassword)
+            {
+                user.MustChangePassword = false;
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                    return false;
+            }
+
+            return true;
+        }
+
 
         // ============================================================
         // UTILIDADES

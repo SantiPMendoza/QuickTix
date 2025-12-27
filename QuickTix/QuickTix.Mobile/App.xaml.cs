@@ -8,7 +8,7 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        // Arranca directamente en LoginPage
-        MainPage = loginPage;
+
+        MainPage = new NavigationPage(loginPage);
     }
 }

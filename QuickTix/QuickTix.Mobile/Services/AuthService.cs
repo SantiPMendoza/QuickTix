@@ -10,6 +10,8 @@ public interface IAuthService
     string? GetToken();
     UserDTO? GetCurrentUser();
     void Logout();
+    Task<bool> ChangePasswordAsync(string currentPassword, string newPassword);
+
 }
 
 public class AuthService : IAuthService
@@ -51,4 +53,23 @@ public class AuthService : IAuthService
         _token = null;
         _currentUser = null;
     }
+
+    public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
+    {
+        if (string.IsNullOrWhiteSpace(_token))
+            return false;
+
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
+
+        var dto = new ChangePasswordRequestDTO
+        {
+            CurrentPassword = currentPassword,
+            NewPassword = newPassword
+        };
+
+        var response = await _httpClient.PostAsJsonAsync("http://localhost:5137/api/User/change-password", dto);
+        return response.IsSuccessStatusCode;
+    }
+
 }

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models;
+using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using System.Net;
+using System.Security.Claims;
 
 namespace QuickTix.API.Controllers
 {
@@ -120,6 +121,22 @@ namespace QuickTix.API.Controllers
             _responseApi.IsSuccess = true;
             _responseApi.Result = responseLogin;
             return Ok(_responseApi);
+        }
+
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequestDTO dto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized();
+
+            var ok = await _userRepository.ChangePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
+            if (!ok)
+                return BadRequest(new { message = "No se pudo cambiar la contraseña. Verifica la contraseña actual y la política." });
+
+            return Ok(new { success = true });
         }
 
     }

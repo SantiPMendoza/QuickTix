@@ -48,7 +48,7 @@ namespace QuickTix.API.Controllers
             };
 
             // Alta en Identity con la contraseña por defecto basada en el NIF
-            var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}+*");
+            var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}"+"*");
             if (!result.Succeeded)
             {
                 var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));

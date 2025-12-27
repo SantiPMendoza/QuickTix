@@ -3,16 +3,20 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Storage;
 using QuickTix.Mobile.Models.UserDTO;
 using QuickTix.Mobile.Services;
+using QuickTix.Mobile.Views;
 
 namespace QuickTix.Mobile.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
         private readonly IAuthService _authService;
+        private readonly IServiceProvider _services;
 
-        public LoginViewModel(IAuthService authService)
+        public LoginViewModel(IAuthService authService, IServiceProvider services)
         {
             _authService = authService;
+
+            _services = services;
 
             RememberUser = Preferences.Get("RememberUser", false);
 
@@ -92,8 +96,16 @@ namespace QuickTix.Mobile.ViewModels
                     return;
                 }
 
-                // Navegación según rol: cambiando completamente la Shell
-                var role = user.Role?.ToLowerInvariant() ?? string.Empty;
+                if (user.MustChangePassword)
+                {
+                    var page = _services.GetRequiredService<ChangePasswordPage>();
+                    await Application.Current.MainPage.Navigation.PushAsync(page);
+                    return;
+                }
+
+
+                // Si NO requiere cambio, entonces cambias a la Shell según rol
+                var role = (user.Role ?? string.Empty).Trim().ToLowerInvariant();
 
                 switch (role)
                 {

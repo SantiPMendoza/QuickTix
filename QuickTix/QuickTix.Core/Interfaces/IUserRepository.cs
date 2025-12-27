@@ -23,5 +23,8 @@ namespace QuickTix.Core.Interfaces
 
         // Registro de nuevo usuario
         Task<UserLoginResponseDTO?> RegisterAsync(UserRegistrationDTO dto);
+
+        Task<bool> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
+
     }
 }

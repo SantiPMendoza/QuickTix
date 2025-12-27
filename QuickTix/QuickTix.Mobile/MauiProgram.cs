@@ -23,11 +23,13 @@ public static class MauiProgram
 
         // ViewModels
         builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<ChangePasswordViewModel>();
         //builder.Services.AddTransient<MainViewModel>(); // si tienes uno
 
         // Pages
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<ChangePasswordPage>();
 
         return builder.Build();
     }
