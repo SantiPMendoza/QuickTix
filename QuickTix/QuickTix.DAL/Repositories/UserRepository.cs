@@ -130,7 +130,11 @@ namespace QuickTix.DAL.Repositories
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-                new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+
             };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -171,6 +175,8 @@ namespace QuickTix.DAL.Repositories
 
                 MustChangePassword = user.MustChangePassword
             };
+
+
 
             // Devolvemos el DTO de usuario consumible por Desktop/Mobile más el token.
             return new UserLoginResponseDTO
@@ -234,27 +240,32 @@ namespace QuickTix.DAL.Repositories
             };
         }
 
-        public async Task<bool> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+        public async Task ChangePasswordAsync(string userId, string currentPassword, string newPassword)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-                return false;
+            var user = await _userManager.FindByIdAsync(userId)
+                ?? throw new KeyNotFoundException("Usuario no encontrado.");
 
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
-            if (!result.Succeeded)
-                return false;
 
-            // Marcar que ya no es primer inicio
+            if (!result.Succeeded)
+            {
+                var msg = string.Join(" ", result.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(msg);
+            }
+
             if (user.MustChangePassword)
             {
                 user.MustChangePassword = false;
+
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
-                    return false;
+                {
+                    var msg = string.Join(" ", updateResult.Errors.Select(e => e.Description));
+                    throw new InvalidOperationException(msg);
+                }
             }
-
-            return true;
         }
+
 
 
         // ============================================================

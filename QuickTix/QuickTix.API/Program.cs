@@ -103,7 +103,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+    app.UseHsts();
+}
+
 app.UseCors("QuickTixCors");
 app.UseAuthentication();
 app.UseAuthorization();

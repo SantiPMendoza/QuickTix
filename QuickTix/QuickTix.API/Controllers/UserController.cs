@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QuickTix.Contracts.Common;
+using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models;
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
+using QuickTix.DAL.Repositories;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 
@@ -128,16 +130,24 @@ namespace QuickTix.API.Controllers
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequestDTO dto)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue(JwtRegisteredClaimNames.Sub) ??
+                User.FindFirstValue("nameid") ??
+                User.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+
             if (string.IsNullOrWhiteSpace(userId))
-                return Unauthorized();
+                throw new UnauthorizedAccessException("Token inválido o sin identificador de usuario.");
 
-            var ok = await _userRepository.ChangePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
-            if (!ok)
-                return BadRequest(new { message = "No se pudo cambiar la contraseña. Verifica la contraseña actual y la política." });
+            // Depuración (mejor en logs; si lo dejas así, al menos que se lea bien)
+            foreach (var c in User.Claims)
+                _responseApi.ErrorMessages.Add($"Claim {c.Type} = {c.Value}");
 
+            await _userRepository.ChangePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
             return Ok(new { success = true });
         }
+
+
 
     }
 }

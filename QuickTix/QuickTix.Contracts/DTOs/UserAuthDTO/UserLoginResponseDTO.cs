@@ -1,6 +1,6 @@
 ﻿using QuickTix.Core.Models.Entities;
 
-namespace QuickTix.Core.Models.DTOs.UserAuthDTO
+namespace QuickTix.Contracts.DTOs.UserAuthDTO
 {
     public class UserLoginResponseDTO
     {

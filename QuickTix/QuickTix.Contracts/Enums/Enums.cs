@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickTix.Core.Enums
+namespace QuickTix.Contracts.Enums
 {
     public enum TicketType
     {

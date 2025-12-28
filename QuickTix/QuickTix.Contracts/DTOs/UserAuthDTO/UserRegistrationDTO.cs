@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using QuickTix.Core.Helpers;
 
-namespace QuickTix.Core.Models.DTOs.UserAuthDTO
+namespace QuickTix.Contracts.DTOs.UserAuthDTO
 {
     public class UserRegistrationDTO
     {

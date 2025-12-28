@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickTix.Core.Models.DTOs.UserAuthDTO
+namespace QuickTix.Contracts.DTOs.UserAuthDTO
 {
     public class ChangePasswordRequestDTO
     {

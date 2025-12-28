@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.DTOs;
 using QuickTix.Core.Models.DTOs.SaleDTOs;
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.API.AutoMapper

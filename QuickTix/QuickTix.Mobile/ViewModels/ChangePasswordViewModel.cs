@@ -106,7 +106,7 @@ public partial class ChangePasswordViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK");
         }
         finally
         {

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuickTix.API\QuickTix.API.csproj" />
+    <ProjectReference Include="..\QuickTix.Contracts\QuickTix.Contracts.csproj" />
     <ProjectReference Include="..\QuickTix.Core\QuickTix.Core.csproj" />
     <ProjectReference Include="..\QuickTix.DAL\QuickTix.DAL.csproj" />
   </ItemGroup>
