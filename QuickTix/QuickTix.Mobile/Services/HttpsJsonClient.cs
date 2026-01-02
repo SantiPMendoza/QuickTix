@@ -73,6 +73,8 @@ namespace QuickTix.Mobile.Services
                     throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
 
                 var result = await response.Content.ReadFromJsonAsync<List<T>>();
+
+                Console.WriteLine(response.Content.ReadAsStringAsync());
                 return result ?? throw new ApiException("La respuesta fue nula o vacía.", HttpStatusCode.NoContent);
             }
             catch (ApiException)

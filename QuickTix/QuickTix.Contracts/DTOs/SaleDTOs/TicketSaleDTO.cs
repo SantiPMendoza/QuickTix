@@ -2,7 +2,7 @@
 {
     public class TicketSaleDTO
     {
-        public int Id { get; set; }                 // Id de Sale (o el que decidas)
+        public int Id { get; set; } 
         public DateTime Date { get; set; }
 
         public int VenueId { get; set; }

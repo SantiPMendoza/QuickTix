@@ -176,7 +176,7 @@ namespace QuickTix.Desktop.Services
                 var result = await ReadApiResultAsync<TResponse>(response);
 
                 if (result == null)
-                    throw new ApiException("La respuesta fue nula tras el POST.", HttpStatusCode.NoContent);
+                    throw new ApiException("La respuesta fue nula tras el POST.", HttpStatusCode.InternalServerError);
 
                 return result;
             }
