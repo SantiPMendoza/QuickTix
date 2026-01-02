@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QuickTix.Contracts\QuickTix.Contracts.csproj" />
     <ProjectReference Include="..\QuickTix.Core\QuickTix.Core.csproj" />
   </ItemGroup>
 

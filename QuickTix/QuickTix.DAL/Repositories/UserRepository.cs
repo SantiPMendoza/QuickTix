@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using QuickTix.DAL.Data;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.DTOs;
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
+using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -127,15 +127,13 @@ namespace QuickTix.DAL.Repositories
             // Lista de claims que se incluirán dentro del JWT.
             // Estas claims son la "identidad" que luego leerán las APIs protegidas.
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+{
+    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+    new Claim(ClaimTypes.NameIdentifier, user.Id),
+    new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+    new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+};
 
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-
-            };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 

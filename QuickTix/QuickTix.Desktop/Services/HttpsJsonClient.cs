@@ -43,14 +43,32 @@ namespace QuickTix.Desktop.Services
                 if (string.IsNullOrWhiteSpace(json))
                     return response.ReasonPhrase ?? "Error desconocido.";
 
-                var parsed = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-                if (parsed == null)
-                    return json;
+                using var doc = JsonDocument.Parse(json);
+                var root = doc.RootElement;
 
-                // Compatibilidad con diferentes formatos de API
-                if (parsed.TryGetValue("message", out var msg)) return msg;
-                if (parsed.TryGetValue("mensaje", out var mensaje)) return mensaje;
-                if (parsed.TryGetValue("error", out var err)) return err;
+                if (root.ValueKind == JsonValueKind.Object)
+                {
+                    if (root.TryGetProperty("message", out var msg) && msg.ValueKind == JsonValueKind.String)
+                        return msg.GetString() ?? "Error desconocido.";
+
+                    if (root.TryGetProperty("mensaje", out var mensaje) && mensaje.ValueKind == JsonValueKind.String)
+                        return mensaje.GetString() ?? "Error desconocido.";
+
+                    if (root.TryGetProperty("error", out var err) && err.ValueKind == JsonValueKind.String)
+                        return err.GetString() ?? "Error desconocido.";
+
+                    if (root.TryGetProperty("errorMessages", out var errors) && errors.ValueKind == JsonValueKind.Array)
+                    {
+                        var list = errors.EnumerateArray()
+                            .Where(e => e.ValueKind == JsonValueKind.String)
+                            .Select(e => e.GetString())
+                            .Where(s => !string.IsNullOrWhiteSpace(s))
+                            .ToList();
+
+                        if (list.Count > 0)
+                            return string.Join(" ", list);
+                    }
+                }
 
                 return json;
             }

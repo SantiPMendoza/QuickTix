@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using QuickTix.Contracts.Common;
 using System.Net;
 
 namespace QuickTix.API.Filters
@@ -55,10 +56,11 @@ namespace QuickTix.API.Filters
                     break;
             }
 
-            context.Result = new ObjectResult(new { message })
+            context.Result = new ObjectResult(new ApiErrorResponse { Message = message })
             {
                 StatusCode = (int)statusCode
             };
+
 
             context.ExceptionHandled = true;
         }

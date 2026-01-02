@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace QuickTix.Contracts.Routes
 {
-    internal class ApiRoutes
+    public static class ApiRoutes
     {
+        public static class User
+        {
+            public const string Login = "/api/User/login";
+            public const string ChangePassword = "/api/User/change-password";
+        }
     }
 }

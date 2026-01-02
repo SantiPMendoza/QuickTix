@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace QuickTix.Contracts.Common
 {
-    internal class ApiErrorResponse
+    public sealed class ApiErrorResponse
     {
+        public string Message { get; set; } = string.Empty;
     }
 }

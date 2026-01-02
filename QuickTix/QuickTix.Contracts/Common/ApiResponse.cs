@@ -2,16 +2,11 @@
 
 namespace QuickTix.Contracts.Common
 {
-    public class ResponseApi
+    public class ApiResponse<T>
     {
         public HttpStatusCode StatusCode { get; set; }
         public bool IsSuccess { get; set; } = true;
-        public List<string> ErrorMessages { get; set; }
-        public object Result { get; set; }
-
-        public ResponseApi()
-        {
-            ErrorMessages = new List<string>();
-        }
+        public List<string> ErrorMessages { get; set; } = new();
+        public T? Result { get; set; }
     }
 }
