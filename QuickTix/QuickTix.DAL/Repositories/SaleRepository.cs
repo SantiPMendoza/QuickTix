@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using QuickTix.Core.Enums;
+using QuickTix.Contracts.Enums;
+using QuickTix.Contracts.Models.DTOs.SaleDTO;
+using QuickTix.Contracts.Models.DTOs.SalesHistory;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs.SaleDTO;
-using QuickTix.Core.Models.DTOs.SalesHistory;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
 using System;

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using QuickTix.Core.Enums;
+using QuickTix.Contracts.Enums;
+
 
 namespace QuickTix.Desktop.Models.Forms
 {

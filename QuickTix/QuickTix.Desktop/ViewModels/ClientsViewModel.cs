@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using QuickTix.Core.Enums;
-using QuickTix.Desktop.Models.DTOs.SaleDTO;
-using QuickTix.Desktop.Models.DTOs;
 using QuickTix.Desktop.Models.Forms;
 using QuickTix.Desktop.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using QuickTix.Contracts.Enums;
+using QuickTix.Contracts.Models.DTOs;
+using QuickTix.Contracts.Models.DTOs.SaleDTO;
 
 namespace QuickTix.Desktop.ViewModels
 {

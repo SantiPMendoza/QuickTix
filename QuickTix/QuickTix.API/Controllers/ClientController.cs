@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using QuickTix.Contracts.Common;
+using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs;
 using QuickTix.Core.Models.Entities;
-using QuickTix.DAL.Repositories;
+using System.Net;
 
 namespace QuickTix.API.Controllers
 {
     //[Authorize]
+    // Recomendación: evitar AllowAnonymous aquí si quieres que Authorize funcione.
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
@@ -35,13 +36,22 @@ namespace QuickTix.API.Controllers
         [Authorize(Roles = "admin")]
         public override async Task<IActionResult> Create([FromBody] CreateClientDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             // 1) Crear AppUser asociado al cliente
             var appUser = new AppUser
             {
-                UserName = dto.Email,  
+                UserName = dto.Email,
                 Email = dto.Email,
                 Name = dto.Name,
                 Nif = dto.Nif,
@@ -49,7 +59,6 @@ namespace QuickTix.API.Controllers
                 MustChangePassword = true
             };
 
-            // Contraseña por defecto basada en el NIF (igual que en Admin/Manager)
             var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}+*");
             if (!result.Succeeded)
             {
@@ -84,25 +93,38 @@ namespace QuickTix.API.Controllers
             await _repository.CreateAsync(client);
 
             // 5) Mapear a DTO para respuesta
-            var response = _mapper.Map<ClientDTO>(client);
+            var responseDto = _mapper.Map<ClientDTO>(client);
 
-            return CreatedAtRoute(
-                $"{ControllerContext.ActionDescriptor.ControllerName}_GetEntity",
-                new { id = response.Id },
-                response);
+            var createdResponse = ApiResponse<ClientDTO>.Ok(responseDto, HttpStatusCode.Created, traceId);
+
+            return CreatedAtAction(nameof(Get), new { id = responseDto.Id }, createdResponse);
         }
-
 
         [HttpPut("{id:int}")]
         [Authorize(Roles = "admin")]
         public override async Task<IActionResult> Update(int id, [FromBody] ClientDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             var client = await _repository.GetForUpdateAsync(id);
             if (client == null)
-                return NotFound();
+            {
+                return NotFound(ApiResponse<object>.Fail(
+                    HttpStatusCode.NotFound,
+                    new[] { "Registro no encontrado." },
+                    traceId
+                ));
+            }
 
             if (client.AppUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al cliente.");
@@ -121,12 +143,11 @@ namespace QuickTix.API.Controllers
             }
 
             client.Name = dto.Name;
-
             await _repository.UpdateAsync(client);
 
-            return Ok(_mapper.Map<ClientDTO>(client));
+            var updatedDto = _mapper.Map<ClientDTO>(client);
+
+            return Ok(ApiResponse<ClientDTO>.Ok(updatedDto, HttpStatusCode.OK, traceId));
         }
-
-
     }
 }

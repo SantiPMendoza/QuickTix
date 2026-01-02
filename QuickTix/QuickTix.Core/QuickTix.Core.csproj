@@ -14,4 +14,8 @@
     <ProjectReference Include="..\QuickTix.Contracts\QuickTix.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DTOs\" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,5 @@
-﻿using QuickTix.Core.Models.DTOs.SaleDTO;
-using QuickTix.Core.Models.DTOs.SalesHistory;
+﻿using QuickTix.Contracts.Models.DTOs.SaleDTO;
+using QuickTix.Contracts.Models.DTOs.SalesHistory;
 using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.Core.Interfaces

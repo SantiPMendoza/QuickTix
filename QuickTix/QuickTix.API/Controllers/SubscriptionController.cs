@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using QuickTix.Core.Enums;
+using QuickTix.Contracts.Common;
+using QuickTix.Contracts.Enums;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs;
+using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Core.Models.Entities;
+using System.Net;
 
 namespace QuickTix.API.Controllers
 {
@@ -28,18 +29,34 @@ namespace QuickTix.API.Controllers
         }
 
         [HttpGet("by-client/{clientId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByClient(int clientId)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var subs = await _subscriptionRepository.GetByClientAsync(clientId);
             var dtos = _mapper.Map<IEnumerable<SubscriptionDTO>>(subs);
-            return Ok(dtos);
+
+            return Ok(ApiResponse<IEnumerable<SubscriptionDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public override async Task<IActionResult> Create([FromBody] CreateSubscriptionDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             var subscription = _mapper.Map<Subscription>(dto);
 
@@ -49,10 +66,23 @@ namespace QuickTix.API.Controllers
 
             var created = await _repository.CreateAsync(subscription);
             if (!created)
-                return StatusCode(500, "No se pudo crear el abono.");
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    ApiResponse<object>.Fail(
+                        HttpStatusCode.InternalServerError,
+                        new[] { "No se pudo crear el abono." },
+                        traceId
+                    )
+                );
+            }
 
             var result = _mapper.Map<SubscriptionDTO>(subscription);
-            return Ok(result);
+
+            var response = ApiResponse<SubscriptionDTO>.Ok(result, HttpStatusCode.Created, traceId);
+
+            // Usa la acción Get(int id) heredada del BaseController
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, response);
         }
 
         private static DateTime CalculateEndDate(DateTime startDate, SubscriptionDuration duration)
@@ -90,6 +120,5 @@ namespace QuickTix.API.Controllers
                 _ => 0m
             };
         }
-
     }
 }

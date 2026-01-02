@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickTix.Desktop.Models.DTOs
+namespace QuickTix.Contracts.Models.DTOs
 {
     public class ClientDTO : CreateClientDTO
     {
@@ -16,13 +16,13 @@ namespace QuickTix.Desktop.Models.DTOs
     {
         [Required]
         public string Name { get; set; } = null!;
-        public string? Nif { get; set; }
-
-        public string? PhoneNumber { get; set; }
 
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
+
+        public string? PhoneNumber { get; set; } = null;
+        public string? Nif { get; set; } = null;
     }
 }
 

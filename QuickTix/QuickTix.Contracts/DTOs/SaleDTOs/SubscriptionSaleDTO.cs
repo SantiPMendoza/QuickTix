@@ -1,4 +1,4 @@
-﻿namespace QuickTix.Core.Models.DTOs.SalesHistory
+﻿namespace QuickTix.Contracts.Models.DTOs.SalesHistory
 {
     public class SubscriptionSaleDTO
     {

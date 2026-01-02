@@ -1,14 +1,8 @@
-﻿using QuickTix.Core.Enums;
-using QuickTix.Core.Models.Entities;
-using System;
-using System;
-using System.Collections.Generic;
+﻿
+using QuickTix.Contracts.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace QuickTix.Core.Models.DTOs
+namespace QuickTix.Contracts.Models.DTOs
 {
     public class TicketDTO : CreateTicketDTO
     {

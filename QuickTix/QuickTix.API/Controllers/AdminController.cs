@@ -2,14 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using QuickTix.Contracts.Common;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs;
+using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Core.Models.Entities;
+using System.Net;
 
 namespace QuickTix.API.Controllers
 {
     //[Authorize(Roles = "admin")]
+    // Recomendación: evitar AllowAnonymous aquí si quieres que Authorize funcione.
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
@@ -34,8 +36,17 @@ namespace QuickTix.API.Controllers
         [Authorize(Roles = "admin")]
         public override async Task<IActionResult> Create([FromBody] CreateAdminDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             // 1) Crear AppUser asociado al administrador
             var appUser = new AppUser
@@ -51,7 +62,6 @@ namespace QuickTix.API.Controllers
             var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}+*");
             if (!result.Succeeded)
             {
-                // Se agregan todos los errores de Identity en un único mensaje para facilitar el diagnóstico
                 var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
                 throw new InvalidOperationException($"Error Identity al crear AppUser del Admin: {errors}");
             }
@@ -86,25 +96,41 @@ namespace QuickTix.API.Controllers
             await _repository.CreateAsync(admin);
 
             // 5) Mapear a DTO para respuesta
-            var response = _mapper.Map<AdminDTO>(admin);
+            var responseDto = _mapper.Map<AdminDTO>(admin);
 
-            return CreatedAtRoute(
-                $"{ControllerContext.ActionDescriptor.ControllerName}_GetEntity",
-                new { id = response.Id },
-                response);
+            var createdResponse = ApiResponse<AdminDTO>.Ok(responseDto, HttpStatusCode.Created, traceId);
+
+            return CreatedAtAction(nameof(Get), new { id = responseDto.Id }, createdResponse);
         }
 
         [HttpPut("{id:int}")]
         //[Authorize(Roles = "admin")]
         public override async Task<IActionResult> Update(int id, [FromBody] AdminDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             var admin = await _repository.GetForUpdateAsync(id);
-            if (admin == null) return NotFound();
-            if (admin.AppUser == null) throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
+            if (admin == null)
+            {
+                return NotFound(ApiResponse<object>.Fail(
+                    HttpStatusCode.NotFound,
+                    new[] { "Registro no encontrado." },
+                    traceId
+                ));
+            }
 
+            if (admin.AppUser == null)
+                throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
 
             admin.AppUser.Name = dto.Name;
             admin.AppUser.Email = dto.Email;
@@ -122,8 +148,9 @@ namespace QuickTix.API.Controllers
             admin.Name = dto.Name;
             await _repository.UpdateAsync(admin);
 
-            var updated = _mapper.Map<AdminDTO>(admin);
-            return Ok(updated);
+            var updatedDto = _mapper.Map<AdminDTO>(admin);
+
+            return Ok(ApiResponse<AdminDTO>.Ok(updatedDto, HttpStatusCode.OK, traceId));
         }
     }
 }

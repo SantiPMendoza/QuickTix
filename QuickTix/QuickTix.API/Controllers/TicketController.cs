@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs;
 using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.API.Controllers

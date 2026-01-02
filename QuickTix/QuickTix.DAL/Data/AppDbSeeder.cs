@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using QuickTix.Core.Enums;
+using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
 

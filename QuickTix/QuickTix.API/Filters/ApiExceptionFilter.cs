@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using QuickTix.Contracts.Common;
+using System.Diagnostics;
 using System.Net;
 
 namespace QuickTix.API.Filters
@@ -21,33 +22,32 @@ namespace QuickTix.API.Filters
             _logger.LogError(ex, "Unhandled exception occurred");
 
             HttpStatusCode statusCode;
-            string message = ex.Message;
+            string message;
 
             switch (ex)
             {
                 case InvalidOperationException:
                 case ArgumentException:
                     statusCode = HttpStatusCode.BadRequest;
+                    message = ex.Message;
                     break;
 
                 case KeyNotFoundException:
                     statusCode = HttpStatusCode.NotFound;
+                    message = ex.Message;
                     break;
 
                 case UnauthorizedAccessException:
                     statusCode = HttpStatusCode.Unauthorized;
+                    message = ex.Message;
                     break;
 
                 case DbUpdateException dbEx:
                     statusCode = HttpStatusCode.Conflict;
                     if (dbEx.InnerException?.Message.Contains("REFERENCE constraint", StringComparison.OrdinalIgnoreCase) == true)
-                    {
                         message = "No se puede eliminar este registro porque tiene elementos relacionados (por ejemplo, ventas asociadas).";
-                    }
                     else
-                    {
                         message = "Error al actualizar o eliminar datos en la base de datos.";
-                    }
                     break;
 
                 default:
@@ -56,11 +56,14 @@ namespace QuickTix.API.Filters
                     break;
             }
 
-            context.Result = new ObjectResult(new ApiErrorResponse { Message = message })
+            var traceId = Activity.Current?.Id ?? context.HttpContext.TraceIdentifier;
+
+            var response = ApiResponse<object>.Fail(statusCode, new[] { message }, traceId);
+
+            context.Result = new ObjectResult(response)
             {
                 StatusCode = (int)statusCode
             };
-
 
             context.ExceptionHandled = true;
         }

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using QuickTix.Contracts.Common;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -12,29 +13,31 @@ namespace QuickTix.Desktop.Services
     public class HttpJsonClient
     {
         private readonly HttpClient _httpClient;
-        private readonly IAuthService _authService;
+        private readonly ITokenStore _tokenStore;
 
-        public HttpJsonClient(HttpClient httpClient, IAuthService authService)
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        public HttpJsonClient(HttpClient httpClient, ITokenStore tokenStore)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _tokenStore = tokenStore ?? throw new ArgumentNullException(nameof(tokenStore));
         }
 
         private void AddAuthorizationHeader()
         {
-            var token = _authService.GetToken();
+            var token = _tokenStore.GetToken();
             _httpClient.DefaultRequestHeaders.Authorization = null;
 
-            if (!string.IsNullOrEmpty(token))
+            if (!string.IsNullOrWhiteSpace(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
         }
 
-        /// <summary>
-        /// Extrae el mensaje de error del cuerpo JSON devuelto por la API.
-        /// </summary>
         private async Task<string> ExtractErrorMessage(HttpResponseMessage response)
         {
             try
@@ -48,15 +51,7 @@ namespace QuickTix.Desktop.Services
 
                 if (root.ValueKind == JsonValueKind.Object)
                 {
-                    if (root.TryGetProperty("message", out var msg) && msg.ValueKind == JsonValueKind.String)
-                        return msg.GetString() ?? "Error desconocido.";
-
-                    if (root.TryGetProperty("mensaje", out var mensaje) && mensaje.ValueKind == JsonValueKind.String)
-                        return mensaje.GetString() ?? "Error desconocido.";
-
-                    if (root.TryGetProperty("error", out var err) && err.ValueKind == JsonValueKind.String)
-                        return err.GetString() ?? "Error desconocido.";
-
+                    // Nuevo contrato ApiResponse<T>
                     if (root.TryGetProperty("errorMessages", out var errors) && errors.ValueKind == JsonValueKind.Array)
                     {
                         var list = errors.EnumerateArray()
@@ -68,6 +63,16 @@ namespace QuickTix.Desktop.Services
                         if (list.Count > 0)
                             return string.Join(" ", list);
                     }
+
+                    // Compatibilidad antigua
+                    if (root.TryGetProperty("message", out var msg) && msg.ValueKind == JsonValueKind.String)
+                        return msg.GetString() ?? "Error desconocido.";
+
+                    if (root.TryGetProperty("mensaje", out var mensaje) && mensaje.ValueKind == JsonValueKind.String)
+                        return mensaje.GetString() ?? "Error desconocido.";
+
+                    if (root.TryGetProperty("error", out var err) && err.ValueKind == JsonValueKind.String)
+                        return err.GetString() ?? "Error desconocido.";
                 }
 
                 return json;
@@ -78,7 +83,49 @@ namespace QuickTix.Desktop.Services
             }
         }
 
-        // -------------------- MÉTODOS HTTP --------------------
+        private async Task<T?> ReadApiResultAsync<T>(HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+
+            ApiResponse<T>? api;
+
+            try
+            {
+                api = JsonSerializer.Deserialize<ApiResponse<T>>(content, JsonOptions);
+            }
+            catch (JsonException)
+            {
+                // Fallback temporal si queda algún endpoint devolviendo JSON plano
+                if (response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        return JsonSerializer.Deserialize<T>(content, JsonOptions);
+                    }
+                    catch (JsonException)
+                    {
+                        throw new ApiException("No se pudo interpretar la respuesta del servidor.", HttpStatusCode.InternalServerError);
+                    }
+                }
+
+                throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
+            }
+
+            if (api == null)
+                throw new ApiException("Respuesta del servidor vacía o inválida.", HttpStatusCode.InternalServerError);
+
+            if (!response.IsSuccessStatusCode || !api.IsSuccess)
+            {
+                var status = api.StatusCode != 0 ? api.StatusCode : response.StatusCode;
+                var message = (api.ErrorMessages != null && api.ErrorMessages.Count > 0)
+                    ? string.Join(" ", api.ErrorMessages)
+                    : await ExtractErrorMessage(response);
+
+                throw new ApiException(message, status);
+            }
+
+            return api.Result;
+        }
 
         public async Task<List<T>> GetListAsync<T>(string url)
         {
@@ -87,11 +134,8 @@ namespace QuickTix.Desktop.Services
                 AddAuthorizationHeader();
                 var response = await _httpClient.GetAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
-
-                var result = await response.Content.ReadFromJsonAsync<List<T>>();
-                return result ?? throw new ApiException("La respuesta fue nula o vacía.", HttpStatusCode.NoContent);
+                var result = await ReadApiResultAsync<List<T>>(response);
+                return result ?? new List<T>();
             }
             catch (ApiException)
             {
@@ -110,10 +154,7 @@ namespace QuickTix.Desktop.Services
                 AddAuthorizationHeader();
                 var response = await _httpClient.GetAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
-
-                return await response.Content.ReadFromJsonAsync<T>();
+                return await ReadApiResultAsync<T>(response);
             }
             catch (ApiException)
             {
@@ -130,13 +171,14 @@ namespace QuickTix.Desktop.Services
             try
             {
                 AddAuthorizationHeader();
-                var response = await _httpClient.PostAsJsonAsync(url, data);
+                var response = await _httpClient.PostAsJsonAsync(url, data, JsonOptions);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
+                var result = await ReadApiResultAsync<TResponse>(response);
 
-                var result = await response.Content.ReadFromJsonAsync<TResponse>();
-                return result ?? throw new ApiException("La respuesta fue nula tras el POST.", HttpStatusCode.NoContent);
+                if (result == null)
+                    throw new ApiException("La respuesta fue nula tras el POST.", HttpStatusCode.NoContent);
+
+                return result;
             }
             catch (ApiException)
             {
@@ -153,10 +195,9 @@ namespace QuickTix.Desktop.Services
             try
             {
                 AddAuthorizationHeader();
-                var response = await _httpClient.PutAsJsonAsync(url, data);
+                var response = await _httpClient.PutAsJsonAsync(url, data, JsonOptions);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
+                await ReadApiResultAsync<object>(response);
             }
             catch (ApiException)
             {
@@ -175,8 +216,7 @@ namespace QuickTix.Desktop.Services
                 AddAuthorizationHeader();
                 var response = await _httpClient.DeleteAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new ApiException(await ExtractErrorMessage(response), response.StatusCode);
+                await ReadApiResultAsync<object>(response);
             }
             catch (ApiException)
             {

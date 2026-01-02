@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickTix.Core.Models.DTOs
+namespace QuickTix.Contracts.Models.DTOs
 {
     public class ManagerDTO : CreateManagerDTO
     {

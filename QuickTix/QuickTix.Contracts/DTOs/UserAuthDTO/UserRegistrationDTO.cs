@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using QuickTix.Core.Helpers;
+﻿using QuickTix.Contracts.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuickTix.Contracts.DTOs.UserAuthDTO
 {

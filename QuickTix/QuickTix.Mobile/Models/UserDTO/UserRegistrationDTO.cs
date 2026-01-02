@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using QuickTix.Core.Helpers;
+using QuickTix.Contracts.Helpers;
 
 namespace QuickTix.Mobile.Models.UserDTO
 {

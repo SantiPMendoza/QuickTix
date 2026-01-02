@@ -1,5 +1,5 @@
-﻿using QuickTix.Core.Enums;
-using QuickTix.Core.Models.Entities;
+﻿
+using QuickTix.Contracts.Enums;
 using System;
 using System;
 using System.Collections.Generic;
@@ -8,15 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickTix.Desktop.Models.DTOs
+namespace QuickTix.Contracts.Models.DTOs
 {
     public class SubscriptionDTO : CreateSubscriptionDTO
     {
         public int Id { get; set; }
-        public DateTime StartDate { get; set; }
+       
         public DateTime EndDate { get; set; }
-        public Client Client { get; set; }
-        public string ClientName => $"{Client.Name}";
 
         public string Status => DateTime.UtcNow.Date <= EndDate.Date ? "Activo" : "Caducado";
 
@@ -31,13 +29,10 @@ namespace QuickTix.Desktop.Models.DTOs
         public int ClientId { get; set; }
 
         [Required]
-        public SubscriptionCategory Category { get; set; }
-
-        [Required]
         public DateTime StartDate { get; set; }
 
         [Required]
-        public DateTime EndDate { get; set; }
+        public SubscriptionCategory Category { get; set; }
 
         [Required]
         public SubscriptionDuration Duration { get; set; }

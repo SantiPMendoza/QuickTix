@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace QuickTix.Desktop.Models.DTOs
+namespace QuickTix.Contracts.Models.DTOs
 {
     public class AdminDTO : CreateAdminDTO
     {
@@ -10,14 +10,14 @@ namespace QuickTix.Desktop.Models.DTOs
     public class CreateAdminDTO
     {
         [Required]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
-        public string? Nif { get; set; }
-
-        public string? PhoneNumber { get; set; }
-        
         [Required]
         [EmailAddress]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; }
+
+        public string? PhoneNumber { get; set; } = null;
+
+        public string? Nif { get; set; } = null;
     }
 }

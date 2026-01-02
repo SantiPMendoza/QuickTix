@@ -1,4 +1,4 @@
-﻿using QuickTix.Desktop.Models.UserDTO;
+﻿using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Desktop.ViewModels.Base;
 
 namespace QuickTix.Desktop.ViewModels

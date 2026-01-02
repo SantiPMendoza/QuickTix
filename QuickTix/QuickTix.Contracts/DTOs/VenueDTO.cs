@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickTix.Desktop.Models.DTOs
+namespace QuickTix.Contracts.Models.DTOs
 {
     public class VenueDTO : CreateVenueDTO
     {

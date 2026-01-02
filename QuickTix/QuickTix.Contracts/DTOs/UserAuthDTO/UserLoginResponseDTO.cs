@@ -1,4 +1,4 @@
-﻿using QuickTix.Core.Models.Entities;
+﻿
 
 namespace QuickTix.Contracts.DTOs.UserAuthDTO
 {

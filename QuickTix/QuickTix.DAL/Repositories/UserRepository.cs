@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using QuickTix.DAL.Data;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs;
 using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
 using System.IdentityModel.Tokens.Jwt;

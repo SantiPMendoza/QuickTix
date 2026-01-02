@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs.SaleDTOs;
+using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Models.Entities;
 using System.Net;
 

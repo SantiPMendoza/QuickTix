@@ -23,37 +23,22 @@ namespace QuickTix.API.Controllers
             _mapper = mapper;
         }
 
-        // --------------------------------------------------------------------
-        // GET: api/User
-        // Flujo:
-        //  1) Obtener lista DTO desde repositorio.
-        //  2) Devolver ApiResponse<List<UserDTO>>.
-        //  3) Errores -> excepciones -> ApiExceptionFilter.
-        // --------------------------------------------------------------------
         [HttpGet]
-        [Authorize] // Ajusta roles cuando lo tengas claro
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsersAsync()
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var userListDto = await _userRepository.GetUserDTOsAsync();
 
-            var response = new ApiResponse<List<UserDTO>>
-            {
-                StatusCode = HttpStatusCode.OK,
-                IsSuccess = true,
-                Result = userListDto
-            };
-
-            return Ok(response);
+            return Ok(ApiResponse<List<UserDTO>>.Ok(userListDto, HttpStatusCode.OK, traceId));
         }
 
-        // --------------------------------------------------------------------
-        // GET: api/User/{id}
-        // Mejoras:
-        //  - En tu código original faltaba await al llamar al repositorio.
-        //  - Si no existe, lanzamos KeyNotFoundException -> 404 por filtro.
-        // --------------------------------------------------------------------
         [HttpGet("{id}", Name = "GetUser")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserAsync(string id)
         {
             var user = await _userRepository.GetUserAsync(id);
@@ -62,34 +47,27 @@ namespace QuickTix.API.Controllers
 
             var userDto = _mapper.Map<UserDTO>(user);
 
-            var response = new ApiResponse<UserDTO>
-            {
-                StatusCode = HttpStatusCode.OK,
-                IsSuccess = true,
-                Result = userDto
-            };
-
-            return Ok(response);
+            var traceId = HttpContext.TraceIdentifier;
+            return Ok(ApiResponse<UserDTO>.Ok(userDto, HttpStatusCode.OK, traceId));
         }
 
-        // --------------------------------------------------------------------
-        // POST: api/User/register
-        // Flujo:
-        //  1) Validar ModelState.
-        //  2) Validar unicidad.
-        //  3) Registrar.
-        //  4) Devolver ApiResponse<...>.
-        //
-        // Nota:
-        //  - En errores de validación devolvemos BadRequest directamente
-        //    (esto es un error "de forma", no una excepción).
-        // --------------------------------------------------------------------
         [AllowAnonymous]
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterAsync([FromBody] UserRegistrationDTO registrationDto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(new ApiErrorResponse { Message = "Entrada inválida." });
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             var isUnique = await _userRepository.IsUniqueUserAsync(registrationDto.UserName);
             if (!isUnique)
@@ -99,53 +77,29 @@ namespace QuickTix.API.Controllers
             if (newUser == null)
                 throw new InvalidOperationException("Error registrando el usuario.");
 
-            var response = new ApiResponse<object>
-            {
-                StatusCode = HttpStatusCode.OK,
-                IsSuccess = true,
-                Result = newUser
-            };
-
-            return Ok(response);
+            return Ok(ApiResponse<object>.Ok(newUser, HttpStatusCode.OK, traceId));
         }
 
-        // --------------------------------------------------------------------
-        // POST: api/User/login
-        // Mejora recomendada:
-        //  - Credenciales incorrectas deberían ser 401 (Unauthorized),
-        //    no 400 (BadRequest). Esto también ayuda a clientes.
-        // --------------------------------------------------------------------
         [AllowAnonymous]
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO loginDto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var responseLogin = await _userRepository.LoginAsync(loginDto);
 
             if (responseLogin == null || responseLogin.User == null || string.IsNullOrWhiteSpace(responseLogin.Token))
                 throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
 
-            var response = new ApiResponse<UserLoginResponseDTO>
-            {
-                StatusCode = HttpStatusCode.OK,
-                IsSuccess = true,
-                Result = responseLogin
-            };
-
-            return Ok(response);
+            return Ok(ApiResponse<UserLoginResponseDTO>.Ok(responseLogin, HttpStatusCode.OK, traceId));
         }
 
-        // --------------------------------------------------------------------
-        // POST: api/User/change-password
-        // Flujo:
-        //  1) Extraer UserId del token (fallback de claims).
-        //  2) Ejecutar cambio de contraseña en repositorio.
-        //  3) Devolver ApiResponse<bool>.
-        //
-        // Mejora:
-        //  - Eliminamos debug claims en respuesta; si quieres trazas, usa ILogger.
-        // --------------------------------------------------------------------
         [Authorize]
         [HttpPost("change-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequestDTO dto)
         {
             var userId =
@@ -159,14 +113,8 @@ namespace QuickTix.API.Controllers
 
             await _userRepository.ChangePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
 
-            var response = new ApiResponse<bool>
-            {
-                StatusCode = HttpStatusCode.OK,
-                IsSuccess = true,
-                Result = true
-            };
-
-            return Ok(response);
+            var traceId = HttpContext.TraceIdentifier;
+            return Ok(ApiResponse<bool>.Ok(true, HttpStatusCode.OK, traceId));
         }
     }
 }

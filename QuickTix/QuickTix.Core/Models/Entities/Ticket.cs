@@ -1,4 +1,6 @@
-﻿using QuickTix.Core.Enums;
+﻿
+
+using QuickTix.Contracts.Enums;
 
 namespace QuickTix.Core.Models.Entities
 {
