@@ -65,6 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\QuickTix.Contracts\QuickTix.Contracts.csproj" />
 	  <ProjectReference Include="..\QuickTix.Core\QuickTix.Core.csproj" />
 	</ItemGroup>
 
@@ -74,6 +75,9 @@
 	  </Compile>
 	  <Compile Update="Shells\AppShell_Client.xaml.cs">
 	    <DependentUpon>AppShell_Client.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ChangePasswordPage.xaml.cs">
+	    <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -91,6 +95,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Manager\TicketsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChangePasswordPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

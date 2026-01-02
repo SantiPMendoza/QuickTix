@@ -2,13 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using QuickTix.Contracts.Common;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.DTOs;
+using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Core.Models.Entities;
+using System.Net;
 
 namespace QuickTix.API.Controllers
 {
+    // Recomendación: evitar AllowAnonymous aquí si quieres que Authorize funcione.
     [AllowAnonymous] //[Authorize(Roles = "admin,manager")]
     [Route("api/[controller]")]
     [ApiController]
@@ -31,10 +33,21 @@ namespace QuickTix.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public override async Task<IActionResult> Create([FromBody] CreateManagerDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             // 1) Crear AppUser asociado a este Manager
             var appUser = new AppUser
@@ -44,18 +57,18 @@ namespace QuickTix.API.Controllers
                 Name = dto.Name,
                 Nif = dto.Nif,
                 PhoneNumber = dto.PhoneNumber,
-                MustChangePassword = true // fuerza cambio en el primer inicio de sesión
+                MustChangePassword = true
             };
 
             // Alta en Identity con la contraseña por defecto basada en el NIF
-            var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}+*");
+            var result = await _userManager.CreateAsync(appUser, $"{dto.Nif}*");
             if (!result.Succeeded)
             {
                 var errors = string.Join(" | ", result.Errors.Select(e => $"{e.Code}: {e.Description}"));
                 throw new InvalidOperationException($"Error Identity al crear AppUser del Manager: {errors}");
             }
 
-            // 2) Asegurar que existe el rol "manager" en Identity
+            // 2) Asegurar que existe el rol "manager"
             const string managerRole = "manager";
             if (!await _roleManager.RoleExistsAsync(managerRole))
             {
@@ -67,8 +80,7 @@ namespace QuickTix.API.Controllers
                 }
             }
 
-            // 3) Asignar el rol "manager" al nuevo AppUser
-            // Comentario: esta relación se guarda en AspNetUserRoles; luego GetRolesAsync(user) devolverá "manager".
+            // 3) Asignar el rol "manager"
             var addToRoleResult = await _userManager.AddToRoleAsync(appUser, managerRole);
             if (!addToRoleResult.Succeeded)
             {
@@ -87,27 +99,42 @@ namespace QuickTix.API.Controllers
             await _repository.CreateAsync(manager);
 
             // 5) Mapear a DTO para respuesta
-            var response = _mapper.Map<ManagerDTO>(manager);
+            var responseDto = _mapper.Map<ManagerDTO>(manager);
 
-            return CreatedAtRoute(
-                $"{ControllerContext.ActionDescriptor.ControllerName}_GetEntity",
-                new { id = response.Id },
-                response);
+            var createdResponse = ApiResponse<ManagerDTO>.Ok(responseDto, HttpStatusCode.Created, traceId);
+
+            // Usa la acción Get(int id) heredada del BaseController
+            return CreatedAtAction(nameof(Get), new { id = responseDto.Id }, createdResponse);
         }
-
-
-
 
         [HttpPut("{id:int}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public override async Task<IActionResult> Update(int id, [FromBody] ManagerDTO dto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
 
             var manager = await _repository.GetForUpdateAsync(id);
             if (manager == null)
-                return NotFound();
+            {
+                return NotFound(ApiResponse<object>.Fail(
+                    HttpStatusCode.NotFound,
+                    new[] { "Registro no encontrado." },
+                    traceId
+                ));
+            }
 
             if (manager.AppUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al gestor.");
@@ -130,8 +157,9 @@ namespace QuickTix.API.Controllers
 
             await _repository.UpdateAsync(manager);
 
-            return Ok(_mapper.Map<ManagerDTO>(manager));
-        }
+            var updatedDto = _mapper.Map<ManagerDTO>(manager);
 
+            return Ok(ApiResponse<ManagerDTO>.Ok(updatedDto, HttpStatusCode.OK, traceId));
+        }
     }
 }

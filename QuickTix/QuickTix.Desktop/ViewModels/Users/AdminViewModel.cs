@@ -1,4 +1,4 @@
-﻿using QuickTix.Desktop.Models.DTOs;
+﻿using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Desktop.ViewModels.Base;
 
 namespace QuickTix.Desktop.ViewModels.Users

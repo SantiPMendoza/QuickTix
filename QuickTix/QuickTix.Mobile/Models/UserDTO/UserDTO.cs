@@ -23,6 +23,9 @@ namespace QuickTix.Mobile.Models.UserDTO
 
         [JsonPropertyName("role")]
         public string Role { get; set; } = null!;
+
+        [JsonPropertyName("mustChangePassword")]
+        public bool MustChangePassword { get; set; }
     }
 
 }

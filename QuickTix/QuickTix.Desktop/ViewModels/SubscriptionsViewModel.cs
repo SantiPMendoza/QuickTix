@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using QuickTix.Core.Enums;
-using QuickTix.Core.Models.DTOs.SaleDTOs;
-using QuickTix.Desktop.Models.DTOs;
-using QuickTix.Desktop.Models.DTOs.SaleDTO;
+using QuickTix.Contracts.Enums;
+using QuickTix.Contracts.Models.DTOs;
+using QuickTix.Contracts.Models.DTOs.SaleDTO;
+using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Desktop.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Windows;

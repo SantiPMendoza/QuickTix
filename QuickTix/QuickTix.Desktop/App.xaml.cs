@@ -30,9 +30,8 @@ namespace QuickTix.Desktop
             {
                 _ = services.AddNavigationViewPageProvider();
 
-                // API Service
+                // API HttpClient
                 services.AddSingleton(new HttpClient { BaseAddress = new Uri("https://localhost:7137/") });
-
 
                 // App Host
                 _ = services.AddHostedService<ApplicationHostService>();
@@ -40,18 +39,16 @@ namespace QuickTix.Desktop
                 // Navigation service
                 _ = services.AddSingleton<INavigationService, Wpf.Ui.NavigationService>();
 
+                // Stores
+                _ = services.AddSingleton<ITokenStore, TokenStore>();
+
                 // Services
-                services.AddSingleton<HttpJsonClient>();
-                services.AddSingleton<IAuthService, AuthService>();
-
-
-
+                _ = services.AddSingleton<HttpJsonClient>();
+                _ = services.AddSingleton<IAuthService, AuthService>();
 
                 // Main Window with Navigation
                 _ = services.AddSingleton<INavigationWindow, Views.MainWindow>();
                 _ = services.AddSingleton<MainViewModel>();
-                
-
 
                 // ViewModels
                 _ = services.AddSingleton<LoginViewModel>();
@@ -62,17 +59,12 @@ namespace QuickTix.Desktop
                 _ = services.AddSingleton<SalesViewModel>();
                 _ = services.AddSingleton<SubscriptionSalesViewModel>();
 
-
-
                 // Views
                 _ = services.AddSingleton<LoginView>();
                 _ = services.AddSingleton<UsersView>();
                 _ = services.AddSingleton<SubscriptionsView>();
                 _ = services.AddSingleton<ClientsView>();
                 _ = services.AddSingleton<SalesView>();
-
-                //_ = services.AddSingleton<Views.SplashScreen>();
-
 
                 // Configuration
                 //_ = services.Configure<Utils.AppConfig>(context.Configuration.GetSection(nameof(Utils.AppConfig)));
@@ -92,10 +84,8 @@ namespace QuickTix.Desktop
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-
             await _host.StartAsync();
         }
-
 
         /// <summary>
         /// Occurs when the application exits.
@@ -115,4 +105,3 @@ namespace QuickTix.Desktop
         }
     }
 }
-

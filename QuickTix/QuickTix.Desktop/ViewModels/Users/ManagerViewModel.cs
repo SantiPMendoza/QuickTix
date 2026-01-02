@@ -1,5 +1,5 @@
 ﻿using QuickTix.Core.Models.Entities;
-using QuickTix.Desktop.Models.DTOs;
+using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Desktop.ViewModels.Base;
 using System.Collections.ObjectModel;
 

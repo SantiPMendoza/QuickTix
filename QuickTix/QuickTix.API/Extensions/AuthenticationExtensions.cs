@@ -25,22 +25,31 @@ namespace QuickTix.API.Extensions
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             // 🔹 Token propio (para login con Identity)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key!)),
-                    ValidateIssuer = true,
-                    ValidIssuer = "QuickTix.API",
-                    ValidateAudience = true,
-                    ValidAudience = "QuickTix.Clients",
-                    ValidateLifetime = true,
-                    RoleClaimType = ClaimTypes.Role // ✅ importantísimo
-                };
-            })
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+
+    // Asegura mapeo clásico (si tu runtime lo tiene desactivado)
+    options.MapInboundClaims = true;
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key!)),
+        ValidateIssuer = true,
+        ValidIssuer = "QuickTix.API",
+        ValidateAudience = true,
+        ValidAudience = "QuickTix.Clients",
+        ValidateLifetime = true,
+
+        // Mantén roles
+        RoleClaimType = ClaimTypes.Role,
+
+        // Opcional: fija el NameClaimType si lo quieres “canónico”
+        NameClaimType = ClaimTypes.NameIdentifier
+    };
+})
             // 🔹 Token de Google (para logins federados)
             .AddJwtBearer("JwtGoogle", options =>
             {

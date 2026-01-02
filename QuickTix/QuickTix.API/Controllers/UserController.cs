@@ -1,126 +1,120 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
+using QuickTix.Contracts.Common;
+using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
 
 namespace QuickTix.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous] // Cambiar a [Authorize(Roles = "admin")] cuando eso mi pana
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        protected ResponseApi _responseApi;
 
         public UserController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _responseApi = new ResponseApi();
         }
 
         [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsersAsync()
         {
-            try
-            {
-                List<UserDTO> userListDto = await _userRepository.GetUserDTOsAsync();
-                _responseApi.StatusCode = HttpStatusCode.OK;
-                _responseApi.IsSuccess = true;
-                _responseApi.Result = userListDto;
-                return Ok(_responseApi);
-            }
-            catch (System.Exception ex)
-            {
-                _responseApi.StatusCode = HttpStatusCode.InternalServerError;
-                _responseApi.IsSuccess = false;
-                _responseApi.ErrorMessages.Add(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, _responseApi);
-            }
+            var traceId = HttpContext.TraceIdentifier;
+
+            var userListDto = await _userRepository.GetUserDTOsAsync();
+
+            return Ok(ApiResponse<List<UserDTO>>.Ok(userListDto, HttpStatusCode.OK, traceId));
         }
 
         [HttpGet("{id}", Name = "GetUser")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserAsync(string id)
         {
-            try
-            {
-                var user = _userRepository.GetUserAsync(id);
-                if (user == null)
-                {
-                    _responseApi.StatusCode = HttpStatusCode.NotFound;
-                    _responseApi.IsSuccess = false;
-                    _responseApi.ErrorMessages.Add("User not found.");
-                    return NotFound(_responseApi);
-                }
-                var userDto = _mapper.Map<UserDTO>(user);
-                _responseApi.StatusCode = HttpStatusCode.OK;
-                _responseApi.IsSuccess = true;
-                _responseApi.Result = userDto;
-                return Ok(_responseApi);
-            }
-            catch (System.Exception ex)
-            {
-                _responseApi.StatusCode = HttpStatusCode.InternalServerError;
-                _responseApi.IsSuccess = false;
-                _responseApi.ErrorMessages.Add(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, _responseApi);
-            }
+            var user = await _userRepository.GetUserAsync(id);
+            if (user == null)
+                throw new KeyNotFoundException("Usuario no encontrado.");
+
+            var userDto = _mapper.Map<UserDTO>(user);
+
+            var traceId = HttpContext.TraceIdentifier;
+            return Ok(ApiResponse<UserDTO>.Ok(userDto, HttpStatusCode.OK, traceId));
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterAsync([FromBody] UserRegistrationDTO registrationDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new { error = "Incorrect Input", message = ModelState });
+            var traceId = HttpContext.TraceIdentifier;
 
-            if (!await _userRepository.IsUniqueUserAsync(registrationDto.UserName))
+            if (!ModelState.IsValid)
             {
-                _responseApi.StatusCode = HttpStatusCode.BadRequest;
-                _responseApi.IsSuccess = false;
-                _responseApi.ErrorMessages.Add("Username already exists");
-                return BadRequest(_responseApi);
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
             }
+
+            var isUnique = await _userRepository.IsUniqueUserAsync(registrationDto.UserName);
+            if (!isUnique)
+                throw new ArgumentException("El nombre de usuario ya existe.");
 
             var newUser = await _userRepository.RegisterAsync(registrationDto);
             if (newUser == null)
-            {
-                _responseApi.StatusCode = HttpStatusCode.BadRequest;
-                _responseApi.IsSuccess = false;
-                _responseApi.ErrorMessages.Add("Error registering the user");
-                return BadRequest(_responseApi);
-            }
+                throw new InvalidOperationException("Error registrando el usuario.");
 
-            _responseApi.StatusCode = HttpStatusCode.OK;
-            _responseApi.IsSuccess = true;
-            _responseApi.Result = newUser;
-            return Ok(_responseApi);
+            return Ok(ApiResponse<object>.Ok(newUser, HttpStatusCode.OK, traceId));
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO loginDto)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var responseLogin = await _userRepository.LoginAsync(loginDto);
 
-            if (responseLogin == null || responseLogin.User == null || string.IsNullOrEmpty(responseLogin.Token))
-            {
-                _responseApi.StatusCode = HttpStatusCode.BadRequest;
-                _responseApi.IsSuccess = false;
-                _responseApi.ErrorMessages.Add("Incorrect user or password");
-                return BadRequest(_responseApi);
-            }
+            if (responseLogin == null || responseLogin.User == null || string.IsNullOrWhiteSpace(responseLogin.Token))
+                throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
 
-            _responseApi.StatusCode = HttpStatusCode.OK;
-            _responseApi.IsSuccess = true;
-            _responseApi.Result = responseLogin;
-            return Ok(_responseApi);
+            return Ok(ApiResponse<UserLoginResponseDTO>.Ok(responseLogin, HttpStatusCode.OK, traceId));
         }
 
+        [Authorize]
+        [HttpPost("change-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequestDTO dto)
+        {
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue(JwtRegisteredClaimNames.Sub) ??
+                User.FindFirstValue("nameid") ??
+                User.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new UnauthorizedAccessException("Token inválido o sin identificador de usuario.");
+
+            await _userRepository.ChangePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
+
+            var traceId = HttpContext.TraceIdentifier;
+            return Ok(ApiResponse<bool>.Ok(true, HttpStatusCode.OK, traceId));
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-using QuickTix.Core.Models.DTOs.UserAuthDTO;
+using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Core.Models.Entities;
 
 namespace QuickTix.Core.Interfaces
@@ -23,5 +23,8 @@ namespace QuickTix.Core.Interfaces
 
         // Registro de nuevo usuario
         Task<UserLoginResponseDTO?> RegisterAsync(UserRegistrationDTO dto);
+
+        Task ChangePasswordAsync(string userId, string currentPassword, string newPassword);
+
     }
 }
