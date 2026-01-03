@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickTix.Contracts.Common;
-using QuickTix.Contracts.Models.DTOs.SaleDTO;
+using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
+using QuickTix.Contracts.DTOs.SaleDTOs.Ticket;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
-using QuickTix.Contracts.Models.DTOs.SalesHistory;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
 using System.Net;
@@ -37,6 +37,17 @@ namespace QuickTix.API.Controllers.Sales
             var result = await _saleRepository.GetTicketHistoryAsync();
             return Ok(ApiResponse<List<TicketSaleDTO>>.Ok(result.ToList(), HttpStatusCode.OK, traceId));
         }
+
+        [HttpGet("history/tickets/{saleId:int}/detail")]
+        public async Task<IActionResult> GetTicketHistoryDetail(int saleId)
+        {
+            var traceId = HttpContext.TraceIdentifier;
+
+            var data = await _saleRepository.GetTicketHistoryDetailAsync(saleId);
+            return Ok(ApiResponse<TicketSaleDetailDTO>.Ok(data, HttpStatusCode.OK, traceId));
+        }
+
+
 
         [HttpGet("history/subscriptions")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -86,6 +97,46 @@ namespace QuickTix.API.Controllers.Sales
             return Ok(ApiResponse<SaleDTO>.Ok(dto, HttpStatusCode.OK, traceId));
         }
 
+        [HttpPost("sell/tickets/batch")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SellTicketsBatch([FromBody] SellTicketsBatchDTO request)
+        {
+
+            var traceId = HttpContext.TraceIdentifier;
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
+
+            var sale = await _saleRepository.SellTicketsBatchAsync(request);
+
+            _logger.LogInformation("Venta batch de tickets registrada. SaleId={SaleId}", sale.Id);
+
+            var dto = _mapper.Map<SaleDTO>(sale);
+            if (dto == null)
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    ApiResponse<object>.Fail(
+                        HttpStatusCode.InternalServerError,
+                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." },
+                        traceId
+                    )
+                );
+            }
+
+            return Ok(ApiResponse<SaleDTO>.Ok(dto, HttpStatusCode.OK, traceId));
+        }
+
+
+
         [HttpPost("sell/subscription")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -122,5 +173,7 @@ namespace QuickTix.API.Controllers.Sales
 
             return Ok(ApiResponse<SaleDTO>.Ok(dto, HttpStatusCode.OK, traceId));
         }
+
+
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using QuickTix.Contracts.Enums;
+﻿using QuickTix.Contracts.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,18 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickTix.Contracts.Models.DTOs.SaleDTO
+namespace QuickTix.Contracts.DTOs.SaleDTOs.Ticket
 {
-    public class SellTicketDTO
+
+    public class SellTicketLineDTO
     {
-        [Required]
-        public int VenueId { get; set; }
-
-        [Required]
-        public int ManagerId { get; set; }
-
-        public int? ClientId { get; set; } // obligatorio si Context = InvitadoAbonado
-
         [Required]
         public TicketType Type { get; set; }
 
@@ -28,7 +20,7 @@ namespace QuickTix.Contracts.Models.DTOs.SaleDTO
         [Range(1, 1000)]
         public int Quantity { get; set; } = 1;
 
-        [Range(0, double.MaxValue)]
+        [Range(0, double.MaxValue, ErrorMessage = "El precio debe ser positivo.")]
         public decimal? UnitPrice { get; set; }
     }
 }

@@ -176,7 +176,7 @@ namespace QuickTix.DAL.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.AppUser", b =>
@@ -275,7 +275,7 @@ namespace QuickTix.DAL.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.Manager", b =>
@@ -304,7 +304,7 @@ namespace QuickTix.DAL.Migrations
 
                     b.HasIndex("VenueId");
 
-                    b.ToTable("Managers");
+                    b.ToTable("Managers", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.Sale", b =>
@@ -330,7 +330,7 @@ namespace QuickTix.DAL.Migrations
 
                     b.HasIndex("VenueId");
 
-                    b.ToTable("Sales");
+                    b.ToTable("Sales", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.SaleItem", b =>
@@ -364,7 +364,7 @@ namespace QuickTix.DAL.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("SaleItems");
+                    b.ToTable("SaleItems", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.Subscription", b =>
@@ -407,7 +407,7 @@ namespace QuickTix.DAL.Migrations
 
                     b.HasIndex("VenueId");
 
-                    b.ToTable("Subscriptions");
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.Ticket", b =>
@@ -447,7 +447,7 @@ namespace QuickTix.DAL.Migrations
 
                     b.HasIndex("VenueId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("QuickTix.Core.Models.Entities.Venue", b =>
@@ -474,7 +474,7 @@ namespace QuickTix.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Venues");
+                    b.ToTable("Venues", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

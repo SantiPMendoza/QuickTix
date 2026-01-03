@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
+using QuickTix.Contracts.DTOs.SaleDTOs.Ticket;
 using QuickTix.Contracts.Enums;
-using QuickTix.Contracts.Models.DTOs.SaleDTO;
-using QuickTix.Contracts.Models.DTOs.SalesHistory;
+using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
@@ -122,25 +123,102 @@ namespace QuickTix.DAL.Repositories
         {
             return await _context.Sales
                 .AsNoTracking()
-                .SelectMany(s => s.Items
-                    .Where(i => i.TicketId != null)
-                    .Select(i => new TicketSaleDTO
-                    {
-                        Id = s.Id,
-                        Date = s.Date,
+                .Where(s => s.Items.Any(i => i.TicketId != null))
+                .Select(s => new TicketSaleDTO
+                {
+                    Id = s.Id,
+                    Date = s.Date,
 
-                        VenueId = s.VenueId,
-                        VenueName = s.Venue.Name,
+                    VenueId = s.VenueId,
+                    VenueName = s.Venue.Name,
 
-                        ManagerId = s.ManagerId,
-                        ManagerName = s.Manager.Name,
+                    ManagerId = s.ManagerId,
+                    ManagerName = s.Manager.Name,
 
-                        Quantity = i.Quantity,
-                        UnitPrice = i.UnitPrice
-                    }))
+                    Quantity = s.Items
+                        .Where(i => i.TicketId != null)
+                        .Sum(i => i.Quantity),
+
+                    TotalAmount = s.Items
+                        .Where(i => i.TicketId != null)
+                        .Sum(i => i.UnitPrice * i.Quantity)
+                })
                 .OrderByDescending(x => x.Date)
                 .ToListAsync();
         }
+
+        public async Task<TicketSaleDetailDTO> GetTicketHistoryDetailAsync(int saleId)
+        {
+            var sale = await _context.Sales
+                .AsNoTracking()
+                .Include(s => s.Venue)
+                .Include(s => s.Manager)
+                .Include(s => s.Items)
+                    .ThenInclude(i => i.Ticket)
+                .FirstOrDefaultAsync(s => s.Id == saleId);
+
+            if (sale == null)
+                throw new KeyNotFoundException("Venta no encontrada.");
+
+            var ticketItems = sale.Items
+                .Where(i => i.TicketId != null && i.Ticket != null)
+                .ToList();
+
+            var lines = ticketItems
+                .GroupBy(i => new { i.Ticket!.Type, i.Ticket!.Context, i.UnitPrice })
+                .Select(g => new TicketSaleDetailLineDTO
+                {
+                    Type = g.Key.Type,
+                    Context = g.Key.Context,
+                    UnitPrice = g.Key.UnitPrice,
+                    Quantity = g.Sum(x => x.Quantity),
+                    TotalAmount = g.Sum(x => x.UnitPrice * x.Quantity)
+                })
+                .OrderBy(x => x.Type)
+                .ThenBy(x => x.Context)
+                .ToList();
+
+            var invitedClientId = ticketItems
+    .Where(i => i.Ticket != null && i.Ticket.Context == TicketContext.InvitadoAbonado)
+    .Select(i => i.Ticket!.ClientId)
+    .FirstOrDefault(id => id.HasValue);
+
+            string? invitedByName = null;
+
+            if (invitedClientId.HasValue)
+            {
+                invitedByName = await _context.Clients
+                    .AsNoTracking()
+                    .Where(c => c.Id == invitedClientId.Value)
+                    .Select(c => c.Name)
+                    .FirstOrDefaultAsync();
+            }
+
+
+            var totalQuantity = ticketItems.Sum(i => i.Quantity);
+            var totalAmount = ticketItems.Sum(i => i.UnitPrice * i.Quantity);
+
+            return new TicketSaleDetailDTO
+            {
+                Id = sale.Id,
+                Date = sale.Date,
+
+                VenueId = sale.VenueId,
+                VenueName = sale.Venue.Name,
+
+                InvitedByClientName = invitedByName,
+
+
+                ManagerId = sale.ManagerId,
+                ManagerName = sale.Manager.Name,
+
+                Quantity = totalQuantity,
+                TotalAmount = totalAmount,
+
+                Lines = lines
+            };
+        }
+
 
         public async Task<IEnumerable<SubscriptionSaleDTO>> GetSubscriptionHistoryAsync()
         {
@@ -257,6 +335,89 @@ namespace QuickTix.DAL.Repositories
                 throw;
             }
         }
+
+        public async Task<Sale> SellTicketsBatchAsync(SellTicketsBatchDTO request)
+        {
+            if (request.Lines == null || request.Lines.Count == 0)
+                throw new ArgumentException("Debe incluir al menos una línea de venta.");
+
+            if (request.Lines.Any(l => l.Context == TicketContext.InvitadoAbonado) && !request.ClientId.HasValue)
+                throw new ArgumentException("ClientId es obligatorio si hay tickets con Context=InvitadoAbonado.");
+
+            if (request.Lines.Any(l => l.Quantity <= 0))
+                throw new ArgumentException("Todas las líneas deben tener Quantity mayor que cero.");
+
+            var manager = await _context.Managers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == request.ManagerId)
+                          ?? throw new ArgumentException("Manager no existe.");
+
+            if (manager.VenueId != request.VenueId)
+                throw new ArgumentException("El Manager no pertenece al Venue indicado.");
+
+            var venueExists = await _context.Venues.AsNoTracking().AnyAsync(v => v.Id == request.VenueId);
+            if (!venueExists)
+                throw new ArgumentException("Venue no existe.");
+
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var sale = new Sale
+                {
+                    VenueId = request.VenueId,
+                    ManagerId = request.ManagerId,
+                    Date = DateTime.UtcNow,
+                    Items = new List<SaleItem>()
+                };
+
+                foreach (var line in request.Lines)
+                {
+                    var unitPrice = line.UnitPrice ?? CalculateTicketPrice(line.Type, line.Context);
+                    if (unitPrice <= 0)
+                        throw new ArgumentException("No se pudo calcular el precio del ticket. Indica UnitPrice o define lógica de precios.");
+
+                    // ClientId solo para InvitadoAbonado
+                    var ticketClientId = line.Context == TicketContext.InvitadoAbonado
+                        ? request.ClientId
+                        : null;
+
+                    for (var i = 0; i < line.Quantity; i++)
+                    {
+                        var ticket = new Ticket
+                        {
+                            VenueId = request.VenueId,
+                            ClientId = ticketClientId,
+                            Type = line.Type,
+                            Context = line.Context,
+                            Price = unitPrice,
+                            PurchaseDate = DateTime.UtcNow
+                        };
+
+                        sale.Items.Add(new SaleItem
+                        {
+                            Ticket = ticket,
+                            Quantity = 1,
+                            UnitPrice = unitPrice
+                        });
+                    }
+                }
+
+                await _context.Sales.AddAsync(sale);
+                await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+
+                ClearCache();
+
+                return sale;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+
 
         public async Task<Sale> SellSubscriptionAsync(SellSubscriptionDTO request)
         {

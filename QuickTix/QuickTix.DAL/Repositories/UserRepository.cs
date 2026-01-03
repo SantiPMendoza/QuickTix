@@ -136,6 +136,21 @@ namespace QuickTix.DAL.Repositories
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
+            // Si es manager, añadir venueId y managerId
+            if (roles.Any(r => r.Equals("Manager", StringComparison.OrdinalIgnoreCase)))
+            {
+                // Ajusta _context.Managers y campos a tu modelo real
+                var manager = await _context.Managers
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(m => m.AppUserId == user.Id);
+
+                if (manager == null)
+                    throw new InvalidOperationException("El usuario tiene rol Manager pero no existe registro Manager asociado.");
+
+                claims.Add(new Claim("managerId", manager.Id.ToString()));
+                claims.Add(new Claim("venueId", manager.VenueId.ToString()));
+            }
+
             // Clave simétrica para firmar el token.
             var keyBytes = Encoding.UTF8.GetBytes(_secretKey);
             var signingKey = new SymmetricSecurityKey(keyBytes);
@@ -216,15 +231,12 @@ namespace QuickTix.DAL.Repositories
         // ============================================================
         public async Task<UserDTO?> GetUserAsync(string id)
         {
-            // Localizamos el usuario en la tabla de Identity.
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
                 return null;
 
-            // Obtenemos sus roles actuales.
             var roles = await _userManager.GetRolesAsync(user);
 
-            // Proyectamos a DTO para no exponer AppUser directamente.
             return new UserDTO
             {
                 Id = user.Id,

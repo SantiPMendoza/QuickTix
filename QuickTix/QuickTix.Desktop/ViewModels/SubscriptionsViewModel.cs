@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
 using QuickTix.Contracts.Enums;
 using QuickTix.Contracts.Models.DTOs;
-using QuickTix.Contracts.Models.DTOs.SaleDTO;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Desktop.ViewModels.Base;
 using System.Collections.ObjectModel;

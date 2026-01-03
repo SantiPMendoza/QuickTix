@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Storage;
-using QuickTix.Mobile.Models.UserDTO;
+using QuickTix.Contracts.DTOs.UserAuthDTO;
 using QuickTix.Mobile.Services;
 using QuickTix.Mobile.Views;
 
@@ -118,7 +118,6 @@ namespace QuickTix.Mobile.ViewModels
                         break;
 
                     case "admin":
-                        // Si en el futuro tienes un AppShell_Admin, cámbialo aquí
                         App.Current.MainPage = new AppShell_Manager();
                         break;
 
@@ -140,7 +139,6 @@ namespace QuickTix.Mobile.ViewModels
 
         // ------------------------------
         // MÉTODOS PARCIALES
-        // Estos los genera automáticamente el toolkit
         // ------------------------------
 
         partial void OnUsernameChanged(string value) => ValidateLogin();

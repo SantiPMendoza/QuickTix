@@ -46,7 +46,6 @@ namespace QuickTix.API.Extensions
         // Mantén roles
         RoleClaimType = ClaimTypes.Role,
 
-        // Opcional: fija el NameClaimType si lo quieres “canónico”
         NameClaimType = ClaimTypes.NameIdentifier
     };
 })

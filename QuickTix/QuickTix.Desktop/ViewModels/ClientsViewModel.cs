@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using QuickTix.Contracts.Enums;
 using QuickTix.Contracts.Models.DTOs;
-using QuickTix.Contracts.Models.DTOs.SaleDTO;
+using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
 
 namespace QuickTix.Desktop.ViewModels
 {
