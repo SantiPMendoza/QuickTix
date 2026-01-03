@@ -13,11 +13,11 @@ namespace QuickTix.Desktop.Services
     public class AuthService : IAuthService
     {
         private readonly HttpJsonClient _apiClient;
-        private readonly ITokenStore _tokenStore;
+        private readonly TokenStore _tokenStore;
 
         private UserDTO? _currentUser;
 
-        public AuthService(HttpJsonClient apiClient, ITokenStore tokenStore)
+        public AuthService(HttpJsonClient apiClient, TokenStore tokenStore)
         {
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             _tokenStore = tokenStore ?? throw new ArgumentNullException(nameof(tokenStore));

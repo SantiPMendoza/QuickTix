@@ -13,14 +13,14 @@ namespace QuickTix.Desktop.Services
     public class HttpJsonClient
     {
         private readonly HttpClient _httpClient;
-        private readonly ITokenStore _tokenStore;
+        private readonly TokenStore _tokenStore;
 
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
             PropertyNameCaseInsensitive = true
         };
 
-        public HttpJsonClient(HttpClient httpClient, ITokenStore tokenStore)
+        public HttpJsonClient(HttpClient httpClient, TokenStore tokenStore)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _tokenStore = tokenStore ?? throw new ArgumentNullException(nameof(tokenStore));

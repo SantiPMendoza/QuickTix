@@ -40,7 +40,7 @@ namespace QuickTix.Desktop
                 _ = services.AddSingleton<INavigationService, Wpf.Ui.NavigationService>();
 
                 // Stores
-                _ = services.AddSingleton<ITokenStore, TokenStore>();
+                _ = services.AddSingleton<TokenStore, TokenStore>();
 
                 // Services
                 _ = services.AddSingleton<HttpJsonClient>();

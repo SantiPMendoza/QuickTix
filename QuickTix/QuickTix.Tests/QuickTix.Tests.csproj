@@ -20,13 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickTix.API\QuickTix.API.csproj" />
-    <ProjectReference Include="..\QuickTix.Core\QuickTix.Core.csproj" />
-    <ProjectReference Include="..\QuickTix.DAL\QuickTix.DAL.csproj" />
-    <ProjectReference Include="..\QuickTix.Data\QuickTix.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
