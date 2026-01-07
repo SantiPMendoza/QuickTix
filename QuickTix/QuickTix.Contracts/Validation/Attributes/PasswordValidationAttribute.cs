@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace QuickTix.Contracts.Helpers
+namespace QuickTix.Contracts.Validation.Attributes
 {
     public class PasswordValidationAttribute : ValidationAttribute
     {

@@ -105,6 +105,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
+	  <Folder Include="ViewModels\NewFolder\" />
 	</ItemGroup>
 
 </Project>

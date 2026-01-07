@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\SubscriptionDTOs\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

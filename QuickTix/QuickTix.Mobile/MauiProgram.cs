@@ -23,22 +23,26 @@ public static class MauiProgram
         builder.Services.AddSingleton<TokenStore>();
         builder.Services.AddSingleton<ITokenStore>(sp => sp.GetRequiredService<TokenStore>());
         builder.Services.AddSingleton<IAppSession, AppSession>();
+        builder.Services.AddSingleton<ISubscriptionService, SubscriptionService>();
 
-        builder.Services.AddSingleton(new HttpClient
+
+        builder.Services.AddSingleton(sp => new HttpClient
         {
-            BaseAddress = new Uri("https://localhost:7137/")
+            BaseAddress = new Uri(ApiConfig.GetBaseUrl().TrimEnd('/') + "/")
         });
 
         // ViewModels
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<ChangePasswordViewModel>();
         builder.Services.AddTransient<TicketsViewModel>();
+        builder.Services.AddTransient<SubscriptionsViewModel>();
 
         // Pages
         builder.Services.AddTransient<TicketsPage>();
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ChangePasswordPage>();
+        builder.Services.AddTransient<SubscriptionsPage>();
 
 
 

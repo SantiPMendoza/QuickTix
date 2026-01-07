@@ -151,6 +151,20 @@ namespace QuickTix.DAL.Repositories
                 claims.Add(new Claim("venueId", manager.VenueId.ToString()));
             }
 
+            // Si es client, añadir clientId y venueId
+            if (roles.Any(r => r.Equals("client", StringComparison.OrdinalIgnoreCase)))
+            {
+                var client = await _context.Clients
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.AppUserId == user.Id);
+
+                if (client == null)
+                    throw new InvalidOperationException("El usuario tiene rol Client pero no existe registro Client asociado.");
+
+                claims.Add(new Claim("clientId", client.Id.ToString()));
+            }
+
+
             // Clave simétrica para firmar el token.
             var keyBytes = Encoding.UTF8.GetBytes(_secretKey);
             var signingKey = new SymmetricSecurityKey(keyBytes);

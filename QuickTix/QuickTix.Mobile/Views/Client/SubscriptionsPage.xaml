@@ -1,12 +1,141 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:QuickTix.Mobile.ViewModels"
              x:Class="QuickTix.Mobile.Views.SubscriptionsPage"
-             Title="SubscriptionsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="vm:SubscriptionsViewModel"
+             Title="Abonos">
+
+    <ContentPage.Resources>
+        <Color x:Key="ExpiredCardColor">#BDBDBD</Color>
+        <Color x:Key="CardTextColor">White</Color>
+        <Color x:Key="CardMutedTextColor">#EDEDED</Color>
+        <Color x:Key="ChipBackgroundColor">#33000000</Color>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*,Auto,Auto"
+          Padding="16"
+          RowSpacing="12">
+
+        <CarouselView Grid.Row="0"
+                      ItemsSource="{Binding Subscriptions}"
+                      CurrentItem="{Binding SelectedSubscription}"
+                      IndicatorView="subscriptionsIndicator"
+                      PeekAreaInsets="40"
+                      IsBounceEnabled="True">
+
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="vm:SubscriptionCardViewModel">
+                    <Border StrokeShape="RoundRectangle 24"
+                            Padding="0"
+                            Margin="8"
+                            BackgroundColor="{Binding CardColor}">
+                        <Border.Shadow>
+                            <Shadow Opacity="0.35"
+                                    Radius="18"
+                                    Offset="0,8" />
+                        </Border.Shadow>
+
+                        <Grid RowDefinitions="Auto,*,Auto"
+                              Padding="20">
+
+                            <!-- Cabecera: estado + tipo -->
+                            <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border StrokeShape="RoundRectangle 16"
+                                        Padding="10,6"
+                                        BackgroundColor="{StaticResource ChipBackgroundColor}">
+                                    <Label Text="{Binding StatusText}"
+                                           TextColor="{StaticResource CardTextColor}"
+                                           FontAttributes="Bold"
+                                           FontSize="14" />
+                                </Border>
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding SubscriptionTitle}"
+                                       TextColor="{StaticResource CardTextColor}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Cuerpo: cliente + datos clave -->
+                            <Grid Grid.Row="1"
+                                  RowDefinitions="Auto,Auto,Auto"
+                                  RowSpacing="10"
+                                  Margin="0,18,0,18">
+
+                                <Label Text="{Binding ClientName}"
+                                       TextColor="{StaticResource CardTextColor}"
+                                       FontSize="26"
+                                       FontAttributes="Bold"
+                                       LineBreakMode="TailTruncation" />
+
+                                <Label Grid.Row="1"
+                                       Text="{Binding SubscriptionSubtitle}"
+                                       TextColor="{StaticResource CardMutedTextColor}"
+                                       FontSize="16"
+                                       LineBreakMode="TailTruncation" />
+
+                                <Label Grid.Row="2"
+                                       Text="{Binding ValidityText}"
+                                       TextColor="{StaticResource CardTextColor}"
+                                       FontSize="16"
+                                       FontAttributes="Bold" />
+                            </Grid>
+
+                            <!-- Footer: código / id / notas -->
+                            <Grid Grid.Row="2" ColumnDefinitions="*,Auto" VerticalOptions="End">
+                                <Label Text="{Binding ReferenceText}"
+                                       TextColor="{StaticResource CardMutedTextColor}"
+                                       FontSize="14" />
+
+                                <!-- Watermark caducada -->
+                                <Label Grid.Column="1"
+                                       Text="CADUCADA"
+                                       IsVisible="{Binding IsExpired}"
+                                       TextColor="{StaticResource CardTextColor}"
+                                       FontAttributes="Bold"
+                                       FontSize="14"
+                                       Opacity="0.85" />
+                            </Grid>
+
+                            <!-- Trigger para caducada a gris (por si quieres forzarlo desde XAML) -->
+                            <Grid.Triggers>
+                                <DataTrigger TargetType="Grid"
+                                             Binding="{Binding IsExpired}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="Transparent" />
+                                </DataTrigger>
+                            </Grid.Triggers>
+                        </Grid>
+
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding IsExpired}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource ExpiredCardColor}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                    </Border>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <Label Grid.Row="2"
+       Text="{Binding ErrorMessage}"
+       TextColor="Red"
+       FontSize="12"
+       Margin="0,8,0,0" />
+
+
+        <IndicatorView x:Name="subscriptionsIndicator"
+                       Grid.Row="1"
+                       HorizontalOptions="Center"
+                       IndicatorSize="8"
+                       Margin="0,0,0,6" />
+
+    </Grid>
 </ContentPage>

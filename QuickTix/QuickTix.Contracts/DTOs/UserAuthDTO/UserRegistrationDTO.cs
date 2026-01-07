@@ -1,4 +1,5 @@
-﻿using QuickTix.Contracts.Helpers;
+﻿
+using QuickTix.Contracts.Validation.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuickTix.Contracts.DTOs.UserAuthDTO

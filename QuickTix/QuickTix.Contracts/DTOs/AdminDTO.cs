@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using QuickTix.Contracts.Validation.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuickTix.Contracts.Models.DTOs
 {
@@ -16,8 +17,10 @@ namespace QuickTix.Contracts.Models.DTOs
         [EmailAddress]
         public string Email { get; set; }
 
+        [PhoneNumber]
         public string? PhoneNumber { get; set; } = null;
 
+        [NifNie]
         public string? Nif { get; set; } = null;
     }
 }

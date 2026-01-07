@@ -17,11 +17,24 @@ namespace QuickTix.DAL.Data
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Sale> Sales { get; set; }
-        public DbSet<SaleItem> SaleItems { get; set; } // 🔹 nueva tabla
+        public DbSet<SaleItem> SaleItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Unicidad global en Identity (AspNetUsers) para NIF y PhoneNumber
+            modelBuilder.Entity<AppUser>(entity =>
+            {
+                entity.HasIndex(u => u.Nif)
+                      .IsUnique()
+                      .HasFilter("[Nif] IS NOT NULL AND [Nif] <> ''");
+
+                entity.HasIndex(u => u.PhoneNumber)
+                      .IsUnique()
+                      .HasFilter("[PhoneNumber] IS NOT NULL AND [PhoneNumber] <> ''");
+            });
+
 
             // Relaciones 1:1 de usuarios
             modelBuilder.Entity<Admin>()
