@@ -58,9 +58,9 @@ namespace QuickTix.Desktop.ViewModels
                 },
                 new NavigationViewItem()
                 {
-                    Content = "Abonos/Clientes",
+                    Content = "Precios",
                     Icon = new SymbolIcon { Symbol = SymbolRegular.AlbumAdd24},
-                    TargetPageType = typeof(SubscriptionsView)
+                    TargetPageType = typeof(PricingView)
                 },
                 new NavigationViewItem()
                 {

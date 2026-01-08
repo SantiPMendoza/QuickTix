@@ -17,6 +17,7 @@ namespace QuickTix.Contracts.Models.DTOs
         public DateTime EndDate { get; set; }
 
         public string Status => DateTime.UtcNow.Date <= EndDate.Date ? "Activo" : "Caducado";
+        public string? VenueName { get; set; } = string.Empty;
 
     }
 

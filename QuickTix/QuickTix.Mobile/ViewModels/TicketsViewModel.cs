@@ -5,6 +5,7 @@ using QuickTix.Contracts.Enums;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Mobile.Helpers;
 using QuickTix.Mobile.Services;
+using QuickTix.Mobile.Views;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -15,11 +16,15 @@ public partial class TicketsViewModel : ObservableObject
 {
     private readonly HttpJsonClient _http;
     private readonly IAppSession _session;
+    private readonly IAuthService _authService;
+    private readonly IServiceProvider _services;
 
-    public TicketsViewModel(HttpJsonClient http, IAppSession session)
+    public TicketsViewModel(HttpJsonClient http, IAppSession session,IServiceProvider services, IAuthService authService)
     {
         _http = http ?? throw new ArgumentNullException(nameof(http));
         _session = session ?? throw new ArgumentNullException(nameof(session));
+        _services = services ?? throw new ArgumentNullException(nameof(services));
+        _authService = authService ?? throw new ArgumentNullException(nameof(authService));
 
         TicketTypes = new ObservableCollection<TicketType>();
         TicketContexts = new ObservableCollection<TicketContext>();
@@ -270,6 +275,20 @@ public partial class TicketsViewModel : ObservableObject
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private Task LogoutAsync()
+    {
+        _authService.Logout();
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            var loginPage = _services.GetRequiredService<LoginPage>();
+            App.Current.MainPage = new NavigationPage(loginPage);
+        });
+
+        return Task.CompletedTask;
     }
 
     private bool HasManagerContext() => _session.VenueId > 0 && _session.ManagerId > 0;

@@ -1,0 +1,156 @@
+﻿<Page x:Class="QuickTix.Desktop.Views.Pages.PricingView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      mc:Ignorable="d"
+      Title="Pricing">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Barra superior -->
+        <GroupBox Header="Mapa de precios por recinto" Grid.Row="0">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0"
+                  ItemsSource="{Binding Venues}"
+                  SelectedItem="{Binding SelectedVenue}"
+                  DisplayMemberPath="Name"
+                  Width="260"/>
+
+                <Button Grid.Column="2"
+                Content="Cargar"
+                Width="110"
+                Command="{Binding LoadPriceMapCommand}"
+                IsEnabled="{Binding SelectedVenue, Converter={StaticResource NullToBoolConverter}}"/>
+
+                <Button Grid.Column="4"
+                Content="Guardar"
+                Width="110"
+                Command="{Binding SavePriceMapCommand}"
+                IsEnabled="{Binding SelectedVenue, Converter={StaticResource NullToBoolConverter}}"/>
+
+                <TextBlock Grid.Column="6"
+                   VerticalAlignment="Center"
+                   Foreground="Gray"
+                   Text="{Binding InfoMessage}"
+                   TextTrimming="CharacterEllipsis"/>
+            </Grid>
+        </GroupBox>
+
+
+        <!-- Error -->
+        <TextBlock Grid.Row="2"
+                   Text="{Binding ErrorMessage}"
+                   Foreground="Red"
+                   TextWrapping="Wrap"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+
+        <!-- Tabs -->
+        <TabControl Grid.Row="4">
+
+            <TabItem Header="Tickets">
+                <Grid Margin="0,10,0,0">
+                    <DataGrid ItemsSource="{Binding TicketPrices}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              IsReadOnly="False"
+                              HeadersVisibility="Column"
+                              RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tipo"
+                    Binding="{Binding Type}"
+                    IsReadOnly="True"
+                    Width="*">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="#FFEDEDED"/>
+                                        <Setter Property="Foreground" Value="#FF444444"/>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Contexto"
+                    Binding="{Binding Context}"
+                    IsReadOnly="True"
+                    Width="*">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="#FFEDEDED"/>
+                                        <Setter Property="Foreground" Value="#FF444444"/>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Precio"
+                                                Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Abonos">
+                <Grid Margin="0,10,0,0">
+                    <DataGrid ItemsSource="{Binding SubscriptionPrices}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              IsReadOnly="False"
+                              HeadersVisibility="Column"
+                              RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Categoría"
+                    Binding="{Binding Category}"
+                    IsReadOnly="True"
+                    Width="*">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="#FFEDEDED"/>
+                                        <Setter Property="Foreground" Value="#FF444444"/>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Duración"
+                    Binding="{Binding Duration}"
+                    IsReadOnly="True"
+                    Width="*">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="#FFEDEDED"/>
+                                        <Setter Property="Foreground" Value="#FF444444"/>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Precio"
+                                                Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+</Page>

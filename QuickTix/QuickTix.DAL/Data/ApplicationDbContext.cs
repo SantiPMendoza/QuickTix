@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using QuickTix.Core.Models.Entities;
+using QuickTix.Core.Models.Entities.Price;
 
 namespace QuickTix.DAL.Data
 {
@@ -18,6 +19,10 @@ namespace QuickTix.DAL.Data
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleItem> SaleItems { get; set; }
+
+        public DbSet<VenueTicketPrice> VenueTicketPrices => Set<VenueTicketPrice>();
+        public DbSet<VenueSubscriptionPrice> VenueSubscriptionPrices => Set<VenueSubscriptionPrice>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -124,6 +129,39 @@ namespace QuickTix.DAL.Data
                 .WithMany()
                 .HasForeignKey(i => i.SubscriptionId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            // Prices
+            modelBuilder.Entity<VenueTicketPrice>()
+                .HasIndex(x => new { x.VenueId, x.Type, x.Context })
+                .IsUnique();
+
+            modelBuilder.Entity<VenueSubscriptionPrice>()
+                .HasIndex(x => new { x.VenueId, x.Category, x.Duration })
+                .IsUnique();
+
+
+            // Decimales: evitar truncados y warnings
+            modelBuilder.Entity<VenueTicketPrice>()
+                .Property(x => x.Price)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<VenueSubscriptionPrice>()
+                .Property(x => x.Price)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Ticket>()
+                .Property(x => x.Price)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Subscription>()
+                .Property(x => x.Price)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<SaleItem>()
+                .Property(x => x.UnitPrice)
+                .HasPrecision(18, 2);
+
         }
     }
 }

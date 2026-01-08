@@ -22,7 +22,6 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private bool isEditingClient;
         [ObservableProperty] private object? activeClientForm;
 
-        // Sección Abonos (mínimo para que no falle el XAML)
         public SubscriptionsViewModel SubscriptionsVM { get; }
 
         [ObservableProperty] private bool isSubscriptionFlyoutOpen;
@@ -40,6 +39,7 @@ namespace QuickTix.Desktop.ViewModels
         {
             IsEditingClient = false;
             ActiveClientForm = new CreateClientDTO();
+            ErrorMessage = null;
             IsClientFlyoutOpen = true;
         }
 
@@ -49,6 +49,8 @@ namespace QuickTix.Desktop.ViewModels
             if (SelectedItem == null) return;
 
             IsEditingClient = true;
+            ErrorMessage = null;
+
             ActiveClientForm = new ClientDTO
             {
                 Id = SelectedItem.Id,
@@ -57,34 +59,49 @@ namespace QuickTix.Desktop.ViewModels
                 Nif = SelectedItem.Nif,
                 PhoneNumber = SelectedItem.PhoneNumber
             };
+
             IsClientFlyoutOpen = true;
         }
+
 
         [RelayCommand]
         private async Task SaveClient()
         {
             if (ActiveClientForm == null) return;
 
+            ErrorMessage = null;
+
+            bool ok;
             int? idToReselect = null;
 
             if (!IsEditingClient)
             {
-                await AddAsync((CreateClientDTO)ActiveClientForm);
+                ok = await TryAddAsync((CreateClientDTO)ActiveClientForm);
             }
             else
             {
                 var dto = (ClientDTO)ActiveClientForm;
                 idToReselect = dto.Id;
-                await UpdateAsync(dto.Id, dto);
+                ok = await TryUpdateAsync(dto.Id, dto);
             }
 
+            if (!ok)
+            {
+                // Mantener abierto y mantener datos
+                IsClientFlyoutOpen = true;
+                return;
+            }
+
+            // Éxito: re-seleccionar si aplica
             if (idToReselect.HasValue)
                 SelectedItem = Items.FirstOrDefault(x => x.Id == idToReselect.Value);
 
+            // Limpiar y cerrar
             ActiveClientForm = null;
             IsEditingClient = false;
             IsClientFlyoutOpen = false;
         }
+
 
         [RelayCommand]
         private void CloseClientFlyout()
@@ -92,6 +109,7 @@ namespace QuickTix.Desktop.ViewModels
             IsClientFlyoutOpen = false;
             ActiveClientForm = null;
             IsEditingClient = false;
+            ErrorMessage = null;
         }
 
         // Abonos (stubs)
@@ -101,6 +119,8 @@ namespace QuickTix.Desktop.ViewModels
             if (SelectedItem == null) return;
 
             IsEditingSubscription = false;
+
+            SubscriptionsVM.ErrorMessage = null;
 
             await SubscriptionsVM.LoadVenuesAsync();
             if (SubscriptionsVM.Venues.Count == 0) return;
@@ -118,13 +138,17 @@ namespace QuickTix.Desktop.ViewModels
             IsSubscriptionFlyoutOpen = true;
         }
 
+
         [RelayCommand]
         private void CloseSubscriptionFlyout()
         {
             IsSubscriptionFlyoutOpen = false;
             ActiveSubscriptionForm = null;
             IsEditingSubscription = false;
+
+            SubscriptionsVM.ErrorMessage = null;
         }
+
 
         [RelayCommand]
         private async Task SaveSubscription()
@@ -134,9 +158,13 @@ namespace QuickTix.Desktop.ViewModels
 
             if (CurrentManagerId <= 0)
             {
-                MessageBox.Show("No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).");
+                // Esto también podría pasar a ErrorMessage si quieres 100% inline
+                SubscriptionsVM.ErrorMessage = "No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).";
+                IsSubscriptionFlyoutOpen = true;
                 return;
             }
+
+            SubscriptionsVM.ErrorMessage = null;
 
             var request = new SellSubscriptionDTO
             {
@@ -146,22 +174,26 @@ namespace QuickTix.Desktop.ViewModels
                 Category = form.Category,
                 Duration = form.Duration,
                 StartDate = form.StartDate,
-                Price = 0m // que lo calcule backend
+
+                // El backend calcula el precio; si falta en el mapa, devolverá error controlado
+                Price = 0m
             };
 
-            // Llama al flujo de venta en SaleController
-            await _httpClient.PostAsync<SellSubscriptionDTO, object>(
-                "api/Sale/sell/subscription",
-                request
-            );
+            var ok = await SubscriptionsVM.TrySellAsync(request);
 
-            // Recarga el listado de abonos del cliente (ya incluirá el nuevo)
-            await SubscriptionsVM.LoadByClientAsync(SelectedItem.Id);
+            if (!ok)
+            {
+                // Mantener flyout y datos
+                IsSubscriptionFlyoutOpen = true;
+                return;
+            }
 
+            // Éxito: cerrar y limpiar
             ActiveSubscriptionForm = null;
             IsEditingSubscription = false;
             IsSubscriptionFlyoutOpen = false;
         }
+
 
 
         [RelayCommand]

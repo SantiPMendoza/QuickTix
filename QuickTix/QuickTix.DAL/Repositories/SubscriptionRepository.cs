@@ -125,9 +125,27 @@ namespace QuickTix.DAL.Repositories
             return await _context.Subscriptions
                 .AsNoTracking()
                 .Where(s => s.ClientId == clientId)
+                .Select(s => new Subscription
+                {
+                    Id = s.Id,
+                    Category = s.Category,
+                    Duration = s.Duration,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    Price = s.Price,
+                    VenueId = s.VenueId,
+                    ClientId = s.ClientId,
+
+                    Venue = new Venue
+                    {
+                        Id = s.Venue.Id,
+                        Name = s.Venue.Name
+                    }
+                })
                 .OrderByDescending(s => s.StartDate)
                 .ToListAsync();
         }
+
 
     }
 }

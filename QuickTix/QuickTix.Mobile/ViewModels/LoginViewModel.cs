@@ -12,6 +12,8 @@ namespace QuickTix.Mobile.ViewModels
         private readonly IAuthService _authService;
         private readonly IServiceProvider _services;
 
+
+
         public LoginViewModel(IAuthService authService, IServiceProvider services)
         {
             _authService = authService;
@@ -45,35 +47,40 @@ namespace QuickTix.Mobile.ViewModels
         [ObservableProperty]
         private bool isLoginEnabled;
 
+        [ObservableProperty]
+        private bool isBusy;
+
         // ------------------------------
         // COMANDO DE LOGIN
         // ------------------------------
         [RelayCommand]
         private async Task CheckLoginAsync()
         {
+            if (IsBusy)
+                return;
+
             if (!IsLoginEnabled)
             {
-                await Application.Current.MainPage.DisplayAlert("Aviso", "Completa todos los campos.", "OK");
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Aviso", "Completa todos los campos.", "OK"));
                 return;
             }
 
-            var dto = new UserLoginDTO
-            {
-                UserName = Username,
-                Password = Password
-            };
-
+            IsBusy = true;
             try
             {
+                var dto = new UserLoginDTO { UserName = Username, Password = Password };
+
                 var success = await _authService.LoginAsync(dto);
 
                 if (!success)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos.", "OK");
+                    await MainThread.InvokeOnMainThreadAsync(() =>
+                        Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos.", "OK"));
                     return;
                 }
 
-                // Guardar preferencias de usuario
+                // Preferencias (esto no es UI, pero está bien aquí)
                 if (RememberUser)
                 {
                     Preferences.Set("SavedUsername", Username);
@@ -87,52 +94,56 @@ namespace QuickTix.Mobile.ViewModels
                     Preferences.Set("RememberUser", false);
                 }
 
-                // Obtener el usuario actual desde AuthService
                 var user = _authService.GetCurrentUser();
-
                 if (user is null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener la información del usuario.", "OK");
+                    await MainThread.InvokeOnMainThreadAsync(() =>
+                        Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener la información del usuario.", "OK"));
                     return;
                 }
 
                 if (user.MustChangePassword)
                 {
                     var page = _services.GetRequiredService<ChangePasswordPage>();
-                    await Application.Current.MainPage.Navigation.PushAsync(page);
+
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        // Importante: asegúrate de que existe NavigationPage o navegación válida
+                        await Application.Current.MainPage.Navigation.PushAsync(page);
+                    });
+
                     return;
                 }
 
-
-                // Si NO requiere cambio, entonces cambias a la Shell según rol
                 var role = (user.Role ?? string.Empty).Trim().ToLowerInvariant();
 
-                switch (role)
+                await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    case "client":
-                        App.Current.MainPage = new AppShell_Client();
-                        break;
-
-                    case "manager":
-                        App.Current.MainPage = new AppShell_Manager();
-                        break;
-
-                    case "admin":
-                        App.Current.MainPage = new AppShell_Manager();
-                        break;
-
-                    default:
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Error",
-                            $"Rol no soportado: {user.Role ?? "(sin rol)"}",
-                            "OK");
-                        break;
-                }
-
+                    switch (role)
+                    {
+                        case "client":
+                            App.Current.MainPage = new AppShell_Client();
+                            break;
+                        case "manager":
+                        case "admin":
+                            App.Current.MainPage = new AppShell_Manager();
+                            break;
+                        default:
+                            // Ojo: aquí estás dentro de InvokeOnMainThreadAsync; si quieres alert, hazlo fuera o con Dispatcher async.
+                            App.Current.MainPage.DisplayAlert("Error", $"Rol no soportado: {user.Role ?? "(sin rol)"}", "OK");
+                            break;
+                    }
+                });
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK"));
+            }
+            finally
+            {
+                IsBusy = false;
+                ValidateLogin();
             }
         }
 

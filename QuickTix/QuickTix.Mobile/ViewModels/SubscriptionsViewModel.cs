@@ -6,24 +6,33 @@ using QuickTix.Contracts.Enums;
 using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Mobile.Helpers;
 using QuickTix.Mobile.Services;
+using QuickTix.Mobile.Views;
 
 namespace QuickTix.Mobile.ViewModels;
 
 public partial class SubscriptionsViewModel : ObservableObject
 {
-    private readonly ISubscriptionService _subscriptionService;
-    private readonly IAppSession _session;
-
     public ObservableCollection<SubscriptionCardViewModel> Subscriptions { get; } = new();
 
     [ObservableProperty] private SubscriptionCardViewModel? selectedSubscription;
     [ObservableProperty] private bool isBusy;
     [ObservableProperty] private string? errorMessage;
 
-    public SubscriptionsViewModel(ISubscriptionService subscriptionService, IAppSession session)
+    private readonly ISubscriptionService _subscriptionService;
+    private readonly IAppSession _session;
+    private readonly IAuthService _authService;
+    private readonly IServiceProvider _services;
+
+    public SubscriptionsViewModel(
+        ISubscriptionService subscriptionService,
+        IAppSession session,
+        IAuthService authService,
+        IServiceProvider services)
     {
         _subscriptionService = subscriptionService ?? throw new ArgumentNullException(nameof(subscriptionService));
         _session = session ?? throw new ArgumentNullException(nameof(session));
+        _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+        _services = services;
     }
 
     [RelayCommand]
@@ -75,9 +84,9 @@ public partial class SubscriptionsViewModel : ObservableObject
 
         return new SubscriptionCardViewModel
         {
-            ClientName = _session.Email ?? $"Cliente #{_session.ClientId}",
+            ClientName = _session.Name ?? $"Cliente #{_session.ClientId}",
             SubscriptionTitle = DurationToTitle(s.Duration),
-            SubscriptionSubtitle = $"Categoría: {CategoryToText(s.Category)} · VenueId: {s.VenueId} · {s.Price:0.##}€",
+            SubscriptionSubtitle = $"Categoría: {CategoryToText(s.Category)} · Recinto: {s.VenueName}",
             ValidityText = $"Inicio: {s.StartDate:dd/MM/yyyy} · Fin: {s.EndDate:dd/MM/yyyy}",
             ReferenceText = $"Ref: SUB-{s.Id:D6}",
             IsExpired = expired,
@@ -109,4 +118,21 @@ public partial class SubscriptionsViewModel : ObservableObject
         SubscriptionDuration.Temporada => Color.FromArgb("#2563EB"),
         _ => Colors.DodgerBlue
     };
+
+    [RelayCommand]
+    private Task LogoutAsync()
+    {
+        _authService.Logout();
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            var loginPage = _services.GetRequiredService<LoginPage>();
+            App.Current.MainPage = new NavigationPage(loginPage);
+        });
+
+        return Task.CompletedTask;
+    }
+
+
+
 }

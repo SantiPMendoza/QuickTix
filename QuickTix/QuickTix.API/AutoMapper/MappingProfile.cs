@@ -48,8 +48,13 @@ namespace QuickTix.API.AutoMapper
             CreateMap<Ticket, CreateTicketDTO>().ReverseMap();
 
             // Subscription
-            CreateMap<Subscription, SubscriptionDTO>().ReverseMap();
+            CreateMap<Subscription, SubscriptionDTO>()
+                .ForMember(dest => dest.VenueName, opt => opt.MapFrom(src => src.Venue != null ? src.Venue.Name : string.Empty))
+                .ReverseMap()
+                .ForMember(dest => dest.Venue, opt => opt.Ignore());
+
             CreateMap<Subscription, CreateSubscriptionDTO>().ReverseMap();
+
 
             // Sale
             CreateMap<Sale, SaleDTO>().ReverseMap();

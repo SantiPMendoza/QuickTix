@@ -197,4 +197,11 @@
         </Grid>
 
     </Grid>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cerrar sesión"
+                 Priority="0"
+                 Order="Primary"
+                 Command="{Binding LogoutCommand}" />
+    </ContentPage.ToolbarItems>
+
 </ContentPage>

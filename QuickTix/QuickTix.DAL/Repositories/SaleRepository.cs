@@ -7,10 +7,6 @@ using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuickTix.DAL.Repositories
 {
@@ -18,13 +14,16 @@ namespace QuickTix.DAL.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _cache;
+        private readonly IPricingRepository _pricingRepository;
+
         private readonly string _cacheKey = "SaleCacheKey";
         private readonly int _cacheExpirationTime = 3600;
 
-        public SaleRepository(ApplicationDbContext context, IMemoryCache cache)
+        public SaleRepository(ApplicationDbContext context, IMemoryCache cache, IPricingRepository pricingRepository)
         {
             _context = context;
             _cache = cache;
+            _pricingRepository = pricingRepository;
         }
 
         public async Task<bool> SaveAsync()
@@ -41,7 +40,6 @@ namespace QuickTix.DAL.Repositories
             if (_cache.TryGetValue(_cacheKey, out ICollection<Sale> cachedSales))
                 return cachedSales;
 
-            // Listado ligero (sin Items)
             var sales = await _context.Sales
                 .AsNoTracking()
                 .Include(s => s.Venue)
@@ -59,7 +57,6 @@ namespace QuickTix.DAL.Repositories
             return sales;
         }
 
-        // Detalle completo (no cache)
         public async Task<Sale?> GetDetailAsync(int id)
         {
             return await _context.Sales
@@ -72,7 +69,6 @@ namespace QuickTix.DAL.Repositories
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        // Para edición (tracking)
         public async Task<Sale?> GetForUpdateAsync(int id)
         {
             return await _context.Sales
@@ -179,9 +175,9 @@ namespace QuickTix.DAL.Repositories
                 .ToList();
 
             var invitedClientId = ticketItems
-    .Where(i => i.Ticket != null && i.Ticket.Context == TicketContext.InvitadoAbonado)
-    .Select(i => i.Ticket!.ClientId)
-    .FirstOrDefault(id => id.HasValue);
+                .Where(i => i.Ticket != null && i.Ticket.Context == TicketContext.InvitadoAbonado)
+                .Select(i => i.Ticket!.ClientId)
+                .FirstOrDefault(id => id.HasValue);
 
             string? invitedByName = null;
 
@@ -193,7 +189,6 @@ namespace QuickTix.DAL.Repositories
                     .Select(c => c.Name)
                     .FirstOrDefaultAsync();
             }
-
 
             var totalQuantity = ticketItems.Sum(i => i.Quantity);
             var totalAmount = ticketItems.Sum(i => i.UnitPrice * i.Quantity);
@@ -208,7 +203,6 @@ namespace QuickTix.DAL.Repositories
 
                 InvitedByClientName = invitedByName,
 
-
                 ManagerId = sale.ManagerId,
                 ManagerName = sale.Manager.Name,
 
@@ -218,7 +212,6 @@ namespace QuickTix.DAL.Repositories
                 Lines = lines
             };
         }
-
 
         public async Task<IEnumerable<SubscriptionSaleDTO>> GetSubscriptionHistoryAsync()
         {
@@ -263,7 +256,6 @@ namespace QuickTix.DAL.Repositories
             });
         }
 
-
         public async Task<Sale> SellTicketsAsync(SellTicketDTO request)
         {
             if (request.Context == TicketContext.InvitadoAbonado && !request.ClientId.HasValue)
@@ -272,7 +264,6 @@ namespace QuickTix.DAL.Repositories
             if (request.Quantity <= 0)
                 throw new ArgumentException("Quantity debe ser mayor que cero.");
 
-            // Validaciones mínimas de integridad
             var manager = await _context.Managers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == request.ManagerId)
                           ?? throw new ArgumentException("Manager no existe.");
 
@@ -283,9 +274,7 @@ namespace QuickTix.DAL.Repositories
             if (!venueExists)
                 throw new ArgumentException("Venue no existe.");
 
-            var unitPrice = request.UnitPrice ?? CalculateTicketPrice(request.Type, request.Context);
-            if (unitPrice <= 0)
-                throw new ArgumentException("No se pudo calcular el precio del ticket. Indica UnitPrice o define lógica de precios.");
+            var unitPrice = await ResolveTicketUnitPriceAsync(request.VenueId, request.Type, request.Context);
 
             await using var tx = await _context.Database.BeginTransactionAsync();
 
@@ -311,14 +300,12 @@ namespace QuickTix.DAL.Repositories
                         PurchaseDate = DateTime.UtcNow
                     };
 
-                    var item = new SaleItem
+                    sale.Items.Add(new SaleItem
                     {
                         Ticket = ticket,
                         Quantity = 1,
                         UnitPrice = unitPrice
-                    };
-
-                    sale.Items.Add(item);
+                    });
                 }
 
                 await _context.Sales.AddAsync(sale);
@@ -371,11 +358,8 @@ namespace QuickTix.DAL.Repositories
 
                 foreach (var line in request.Lines)
                 {
-                    var unitPrice = line.UnitPrice ?? CalculateTicketPrice(line.Type, line.Context);
-                    if (unitPrice <= 0)
-                        throw new ArgumentException("No se pudo calcular el precio del ticket. Indica UnitPrice o define lógica de precios.");
+                    var unitPrice = await ResolveTicketUnitPriceAsync(request.VenueId, line.Type, line.Context);
 
-                    // ClientId solo para InvitadoAbonado
                     var ticketClientId = line.Context == TicketContext.InvitadoAbonado
                         ? request.ClientId
                         : null;
@@ -407,7 +391,6 @@ namespace QuickTix.DAL.Repositories
                 await tx.CommitAsync();
 
                 ClearCache();
-
                 return sale;
             }
             catch
@@ -416,8 +399,6 @@ namespace QuickTix.DAL.Repositories
                 throw;
             }
         }
-
-
 
         public async Task<Sale> SellSubscriptionAsync(SellSubscriptionDTO request)
         {
@@ -435,10 +416,7 @@ namespace QuickTix.DAL.Repositories
             if (!clientExists)
                 throw new ArgumentException("Client no existe.");
 
-            var price = request.Price > 0 ? request.Price : CalculateSubscriptionPrice(request.Category, request.Duration);
-            if (price <= 0)
-                throw new ArgumentException("No se pudo calcular el precio de la suscripción.");
-
+            var unitPrice = await ResolveSubscriptionUnitPriceAsync(request.VenueId, request.Category, request.Duration);
             var endDate = CalculateSubscriptionEndDate(request.StartDate, request.Duration);
 
             await using var tx = await _context.Database.BeginTransactionAsync();
@@ -451,7 +429,7 @@ namespace QuickTix.DAL.Repositories
                     ClientId = request.ClientId,
                     Category = request.Category,
                     Duration = request.Duration,
-                    Price = price,
+                    Price = unitPrice,
                     StartDate = request.StartDate,
                     EndDate = endDate
                 };
@@ -467,7 +445,7 @@ namespace QuickTix.DAL.Repositories
                         {
                             Subscription = subscription,
                             Quantity = 1,
-                            UnitPrice = price
+                            UnitPrice = unitPrice
                         }
                     }
                 };
@@ -487,6 +465,32 @@ namespace QuickTix.DAL.Repositories
             }
         }
 
+        private async Task<decimal> ResolveTicketUnitPriceAsync(int venueId, TicketType type, TicketContext context)
+        {
+            var map = await _pricingRepository.GetVenuePriceMapAsync(venueId);
+
+            var row = map.TicketPrices
+                .FirstOrDefault(x => x.VenueId == venueId && x.Type == type && x.Context == context);
+
+            if (row == null || row.Price <= 0m)
+                throw new ArgumentException($"No hay precio configurado para Ticket ({type}, {context}) en el VenueId={venueId}.");
+
+            return row.Price;
+        }
+
+        private async Task<decimal> ResolveSubscriptionUnitPriceAsync(int venueId, SubscriptionCategory category, SubscriptionDuration duration)
+        {
+            var map = await _pricingRepository.GetVenuePriceMapAsync(venueId);
+
+            var row = map.SubscriptionPrices
+                .FirstOrDefault(x => x.VenueId == venueId && x.Category == category && x.Duration == duration);
+
+            if (row == null || row.Price <= 0m)
+                throw new ArgumentException($"No hay precio configurado para Subscription ({category}, {duration}) en el VenueId={venueId}.");
+
+            return row.Price;
+        }
+
         private static DateTime CalculateSubscriptionEndDate(DateTime startDate, SubscriptionDuration duration)
         {
             return duration switch
@@ -498,32 +502,9 @@ namespace QuickTix.DAL.Repositories
             };
         }
 
-        private static decimal CalculateSubscriptionPrice(SubscriptionCategory category, SubscriptionDuration duration)
-        {
-            // Regla simple para no bloquear el flujo. Ideal: mover a PricePlan en BD.
-            var baseMonthly = category switch
-            {
-                SubscriptionCategory.Niño => 15m,
-                SubscriptionCategory.Adulto => 25m,
-                SubscriptionCategory.Jubilado => 20m,
-                SubscriptionCategory.FamiliaNumerosa => 30m,
-                _ => 25m
-            };
-
-            return duration switch
-            {
-                SubscriptionDuration.Quincenal => Math.Round(baseMonthly * 0.6m, 2),
-                SubscriptionDuration.Mensual => baseMonthly,
-                SubscriptionDuration.Temporada => Math.Round(baseMonthly * 3.0m, 2),
-                _ => baseMonthly
-            };
-        }
-
-        private static decimal CalculateTicketPrice(TicketType type, TicketContext context)
-        {
-            // Si ya tienes una lógica real, sustitúyela aquí.
-            // Por defecto, devuelve 0 para forzar a enviar UnitPrice desde UI si no quieres “inventar” precios.
-            return 0m;
-        }
+        [Obsolete]
+        private static decimal CalculateTicketPrice(TicketType type, TicketContext context) => 0m;
+        [Obsolete]
+        private static decimal CalculateSubscriptionPrice(SubscriptionCategory category, SubscriptionDuration duration) => 0m;
     }
 }

@@ -4,13 +4,15 @@
              xmlns:vm="clr-namespace:QuickTix.Mobile.ViewModels"
              x:Class="QuickTix.Mobile.Views.SubscriptionsPage"
              x:DataType="vm:SubscriptionsViewModel"
-             Title="Abonos">
+             Title="Abonos"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             Visual="Material">
 
     <ContentPage.Resources>
-        <Color x:Key="ExpiredCardColor">#BDBDBD</Color>
-        <Color x:Key="CardTextColor">White</Color>
-        <Color x:Key="CardMutedTextColor">#EDEDED</Color>
-        <Color x:Key="ChipBackgroundColor">#33000000</Color>
+        <Color x:Key="ChipOverlayColor">#33000000</Color>
+        <Color x:Key="CardMutedOnColor">#EDEDED</Color>
+
+        <Color x:Key="ExpiredCardColor">#9CA3AF</Color>
     </ContentPage.Resources>
 
     <Grid RowDefinitions="*,Auto,Auto"
@@ -29,9 +31,11 @@
                     <Border StrokeShape="RoundRectangle 24"
                             Padding="0"
                             Margin="8"
-                            BackgroundColor="{Binding CardColor}">
+                            BackgroundColor="{Binding CardColor}"
+                            Stroke="{DynamicResource CardBorderColor}">
+
                         <Border.Shadow>
-                            <Shadow Opacity="0.35"
+                            <Shadow Opacity="0.25"
                                     Radius="18"
                                     Offset="0,8" />
                         </Border.Shadow>
@@ -39,24 +43,27 @@
                         <Grid RowDefinitions="Auto,*,Auto"
                               Padding="20">
 
-                            <!-- Cabecera: estado + tipo -->
-                            <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Grid Grid.Row="0"
+                                  ColumnDefinitions="Auto,*"
+                                  ColumnSpacing="12">
+
                                 <Border StrokeShape="RoundRectangle 16"
                                         Padding="10,6"
-                                        BackgroundColor="{StaticResource ChipBackgroundColor}">
+                                        BackgroundColor="{StaticResource ChipOverlayColor}">
                                     <Label Text="{Binding StatusText}"
-                                           TextColor="{StaticResource CardTextColor}"
+                                           TextColor="{DynamicResource PrimaryOnColor}"
                                            FontAttributes="Bold"
                                            FontSize="14" />
                                 </Border>
 
                                 <Label Grid.Column="1"
                                        Text="{Binding SubscriptionTitle}"
-                                       TextColor="{StaticResource CardTextColor}"
+                                       TextColor="{DynamicResource PrimaryOnColor}"
                                        FontSize="18"
                                        FontAttributes="Bold"
                                        HorizontalOptions="End"
-                                       VerticalOptions="Center" />
+                                       VerticalOptions="Center"
+                                       LineBreakMode="TailTruncation" />
                             </Grid>
 
                             <!-- Cuerpo: cliente + datos clave -->
@@ -66,51 +73,47 @@
                                   Margin="0,18,0,18">
 
                                 <Label Text="{Binding ClientName}"
-                                       TextColor="{StaticResource CardTextColor}"
+                                       TextColor="{DynamicResource PrimaryOnColor}"
                                        FontSize="26"
                                        FontAttributes="Bold"
                                        LineBreakMode="TailTruncation" />
 
                                 <Label Grid.Row="1"
                                        Text="{Binding SubscriptionSubtitle}"
-                                       TextColor="{StaticResource CardMutedTextColor}"
+                                       TextColor="{StaticResource CardMutedOnColor}"
                                        FontSize="16"
                                        LineBreakMode="TailTruncation" />
 
                                 <Label Grid.Row="2"
                                        Text="{Binding ValidityText}"
-                                       TextColor="{StaticResource CardTextColor}"
+                                       TextColor="{DynamicResource PrimaryOnColor}"
                                        FontSize="16"
-                                       FontAttributes="Bold" />
+                                       FontAttributes="Bold"
+                                       LineBreakMode="TailTruncation" />
                             </Grid>
 
                             <!-- Footer: código / id / notas -->
-                            <Grid Grid.Row="2" ColumnDefinitions="*,Auto" VerticalOptions="End">
-                                <Label Text="{Binding ReferenceText}"
-                                       TextColor="{StaticResource CardMutedTextColor}"
-                                       FontSize="14" />
+                            <Grid Grid.Row="2"
+                                  ColumnDefinitions="*,Auto"
+                                  VerticalOptions="End">
 
-                                <!-- Watermark caducada -->
+                                <Label Text="{Binding ReferenceText}"
+                                       TextColor="{StaticResource CardMutedOnColor}"
+                                       FontSize="14"
+                                       LineBreakMode="TailTruncation" />
+
                                 <Label Grid.Column="1"
                                        Text="CADUCADA"
                                        IsVisible="{Binding IsExpired}"
-                                       TextColor="{StaticResource CardTextColor}"
+                                       TextColor="{DynamicResource PrimaryOnColor}"
                                        FontAttributes="Bold"
                                        FontSize="14"
                                        Opacity="0.85" />
                             </Grid>
 
-                            <!-- Trigger para caducada a gris (por si quieres forzarlo desde XAML) -->
-                            <Grid.Triggers>
-                                <DataTrigger TargetType="Grid"
-                                             Binding="{Binding IsExpired}"
-                                             Value="True">
-                                    <Setter Property="BackgroundColor"
-                                            Value="Transparent" />
-                                </DataTrigger>
-                            </Grid.Triggers>
                         </Grid>
 
+                        <!-- Estado caducada: forzamos un gris elegante y coherente -->
                         <Border.Triggers>
                             <DataTrigger TargetType="Border"
                                          Binding="{Binding IsExpired}"
@@ -124,18 +127,23 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
 
-        <Label Grid.Row="2"
-       Text="{Binding ErrorMessage}"
-       TextColor="Red"
-       FontSize="12"
-       Margin="0,8,0,0" />
-
-
         <IndicatorView x:Name="subscriptionsIndicator"
                        Grid.Row="1"
                        HorizontalOptions="Center"
                        IndicatorSize="8"
                        Margin="0,0,0,6" />
 
+        <Label Grid.Row="2"
+               Text="{Binding ErrorMessage}"
+               TextColor="{DynamicResource DangerColor}"
+               FontSize="12"
+               Margin="0,8,0,0" />
     </Grid>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cerrar sesión"
+                 Priority="0"
+                 Order="Primary"
+                 Command="{Binding LogoutCommand}" />
+    </ContentPage.ToolbarItems>
+
 </ContentPage>

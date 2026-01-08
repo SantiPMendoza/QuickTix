@@ -91,5 +91,35 @@ namespace QuickTix.Desktop.ViewModels
                 MessageBox.Show($"Error registrando la venta del abono: {ex.Message}");
             }
         }
+
+        public async Task<bool> TrySellAsync(SellSubscriptionDTO request)
+        {
+            try
+            {
+                ErrorMessage = null;
+
+                await _httpClient.PostAsync<SellSubscriptionDTO, SaleDTO>(
+                    "api/Sale/sell/subscription",
+                    request
+                );
+
+                // Recarga listado de abonos del cliente tras la venta
+                await LoadByClientAsync(request.ClientId);
+
+                return true;
+            }
+            catch (ApiException apiEx)
+            {
+                // Mensaje para UI (flyout). Sin MessageBox para no romper persistencia.
+                ErrorMessage = $"No se pudo registrar la venta del abono.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error local registrando la venta del abono: {ex.Message}";
+                return false;
+            }
+        }
+
     }
 }

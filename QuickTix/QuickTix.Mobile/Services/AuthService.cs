@@ -67,7 +67,12 @@ namespace QuickTix.Mobile.Services
             _tokenStore.Clear();
             _session.Clear();
             _currentUser = null;
+
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            if (_httpClient.DefaultRequestHeaders.Contains("Authorization"))
+                _httpClient.DefaultRequestHeaders.Remove("Authorization");
         }
+
 
         public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
         {
@@ -112,7 +117,6 @@ namespace QuickTix.Mobile.Services
             {
             }
 
-            // Si el servidor devolvió algo inesperado pero el HTTP fue 2xx, asumimos true.
             return true;
         }
     }

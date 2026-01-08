@@ -129,7 +129,10 @@ namespace QuickTix.DAL.Repositories
 {
     new Claim(JwtRegisteredClaimNames.Sub, user.Id),
     new Claim(ClaimTypes.NameIdentifier, user.Id),
+
+    new Claim("name", user.Name ?? string.Empty),
     new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+
     new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
 };
 

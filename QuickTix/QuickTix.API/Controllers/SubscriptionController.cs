@@ -10,14 +10,26 @@ using System.Net;
 
 namespace QuickTix.API.Controllers
 {
+    /// <summary>
+    /// Controlador API para la gestión de abonos (subscriptions).
+    /// Proporciona operaciones CRUD y consultas específicas por cliente.
+    /// </summary>
+    /// <seealso cref="QuickTix.API.Controllers.BaseController&lt;QuickTix.Core.Models.Entities.Subscription, QuickTix.Contracts.Models.DTOs.SubscriptionDTO, QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO&gt;" />
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SubscriptionController : BaseController<Subscription, SubscriptionDTO, CreateSubscriptionDTO>
     {
+
         private readonly ISubscriptionRepository _subscriptionRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="SubscriptionController"/>.
+        /// </summary>
+        /// <param name="repository">Repositorio de abonos.</param>
+        /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
+        /// <param name="logger">Logger del controlador.</param>
         public SubscriptionController(
             ISubscriptionRepository repository,
             IMapper mapper,
@@ -28,6 +40,11 @@ namespace QuickTix.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obtiene todos los abonos asociados a un cliente concreto.
+        /// </summary>
+        /// <param name="clientId">Identificador del cliente.</param>
+        /// <returns>Listado de abonos del cliente.</returns>
         [HttpGet("by-client/{clientId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByClient(int clientId)
@@ -40,6 +57,11 @@ namespace QuickTix.API.Controllers
             return Ok(ApiResponse<IEnumerable<SubscriptionDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
         }
 
+        /// <summary>
+        /// Crea un nuevo abono aplicando reglas de negocio como fechas y precio.
+        /// </summary>
+        /// <param name="dto">DTO con los datos de creación del abono.</param>
+        /// <returns>Abono creado.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,14 +99,19 @@ namespace QuickTix.API.Controllers
                 );
             }
 
-            var result = _mapper.Map<SubscriptionDTO>(subscription);
+            var createdSub = await _subscriptionRepository.GetAsync(subscription.Id);
+            var result = _mapper.Map<SubscriptionDTO>(createdSub);
 
             var response = ApiResponse<SubscriptionDTO>.Ok(result, HttpStatusCode.Created, traceId);
-
-            // Usa la acción Get(int id) heredada del BaseController
             return CreatedAtAction(nameof(Get), new { id = result.Id }, response);
         }
 
+        /// <summary>
+        /// Calcula la fecha de finalización del abono en función de su duración.
+        /// </summary>
+        /// <param name="startDate">Fecha de inicio del abono.</param>
+        /// <param name="duration">Duración contratada.</param>
+        /// <returns>Fecha de fin calculada.</returns>
         private static DateTime CalculateEndDate(DateTime startDate, SubscriptionDuration duration)
         {
             return duration switch
@@ -96,6 +123,15 @@ namespace QuickTix.API.Controllers
             };
         }
 
+        /// <summary>
+        /// Calcula el precio del abono según categoría y duración.
+        /// Lógica provisional pendiente de parametrización por recinto.
+        /// </summary>
+        /// <param name="category">Categoría del abonado.</param>
+        /// <param name="duration">Duración del abono.</param>
+        /// <param name="venueId">Identificador del recinto.</param>
+        /// <returns>Precio calculado.</returns>
+        [Obsolete]
         private static decimal CalculatePrice(SubscriptionCategory category, SubscriptionDuration duration, int venueId)
         {
             // Regla provisional “general”. Cuando definamos tipos por Venue, esto se reemplaza.
