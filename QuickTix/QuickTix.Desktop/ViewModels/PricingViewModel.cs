@@ -1,14 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QuickTix.Contracts.Models.DTOs;
+﻿
 using QuickTix.Contracts.Models.DTOs.Pricing;
-using QuickTix.Core.Models.Entities;
-using QuickTix.Desktop.Services;
 using QuickTix.Desktop.ViewModels.Base;
-using System.Collections.ObjectModel;
 
 namespace QuickTix.Desktop.ViewModels.Pricing
 {
+    /// <summary>
+    /// ViewModel de la pantalla de pricing.
+    /// Permite cargar y guardar el mapa de precios por recinto (tickets y suscripciones),
+    /// controlando el estado de carga y mostrando mensajes informativos o de error.
+    /// </summary>
     public partial class PricingViewModel : ViewModel
     {
         private readonly HttpJsonClient _httpClient;
@@ -16,8 +16,8 @@ namespace QuickTix.Desktop.ViewModels.Pricing
         [ObservableProperty] private ObservableCollection<VenueDTO> venues = [];
         [ObservableProperty] private VenueDTO? selectedVenue;
 
+        // Evita recargas innecesarias del listado de recintos durante la navegación
         private bool _venuesLoaded;
-
 
         [ObservableProperty] private ObservableCollection<VenueTicketPriceDTO> ticketPrices = [];
         [ObservableProperty] private ObservableCollection<VenueSubscriptionPriceDTO> subscriptionPrices = [];
@@ -26,11 +26,19 @@ namespace QuickTix.Desktop.ViewModels.Pricing
         [ObservableProperty] private string? errorMessage;
         [ObservableProperty] private string? infoMessage;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="PricingViewModel"/>.
+        /// </summary>
+        /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
         public PricingViewModel(HttpJsonClient httpClient)
         {
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// Hook de navegación: limpia mensajes y carga el listado de recintos (una sola vez).
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         public override async Task OnNavigatedToAsync()
         {
             await base.OnNavigatedToAsync();
@@ -41,6 +49,11 @@ namespace QuickTix.Desktop.ViewModels.Pricing
             await LoadVenuesAsync();
         }
 
+        /// <summary>
+        /// Carga el listado de recintos desde la API.
+        /// Mantiene una caché local simple mediante <c>_venuesLoaded</c>.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         public async Task LoadVenuesAsync()
         {
             if (_venuesLoaded)
@@ -51,7 +64,7 @@ namespace QuickTix.Desktop.ViewModels.Pricing
                 IsBusy = true;
 
                 Venues = new ObservableCollection<VenueDTO>(
-                    await _httpClient.GetListAsync<VenueDTO>("api/Venue"));
+                    await _httpClient.GetListAsync<VenueDTO>(ApiRoutes.Venue.GetAll));
 
                 if (SelectedVenue == null && Venues.Count > 0)
                     SelectedVenue = Venues[0];
@@ -72,6 +85,10 @@ namespace QuickTix.Desktop.ViewModels.Pricing
             }
         }
 
+        /// <summary>
+        /// Carga el mapa de precios del recinto seleccionado (tickets y suscripciones).
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task LoadPriceMapAsync()
         {
@@ -90,7 +107,9 @@ namespace QuickTix.Desktop.ViewModels.Pricing
 
                 var venueId = SelectedVenue.Id;
 
-                var map = await _httpClient.GetAsync<VenuePriceMapDTO>($"api/pricing/venue/{venueId}");
+                var map = await _httpClient.GetAsync<VenuePriceMapDTO>(
+                    ApiRoutes.Pricing.GetVenuePriceMapByVenueId(venueId));
+
                 if (map == null)
                 {
                     ErrorMessage = "El servidor no devolvió datos del mapa de precios.";
@@ -116,6 +135,11 @@ namespace QuickTix.Desktop.ViewModels.Pricing
             }
         }
 
+        /// <summary>
+        /// Guarda el mapa de precios del recinto seleccionado.
+        /// Valida precios negativos y envía un payload de upsert a la API.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task SavePriceMapAsync()
         {
@@ -163,7 +187,9 @@ namespace QuickTix.Desktop.ViewModels.Pricing
                         .ToList()
                 };
 
-                await _httpClient.PutAsync($"api/pricing/venue/{venueId}", payload);
+                await _httpClient.PutAsync(
+                    ApiRoutes.Pricing.UpsertVenuePriceMapByVenueId(venueId),
+                    payload);
 
                 InfoMessage = "Mapa de precios guardado correctamente.";
             }
@@ -181,6 +207,9 @@ namespace QuickTix.Desktop.ViewModels.Pricing
             }
         }
 
+        /// <summary>
+        /// Limpia los mensajes informativos y de error mostrados en la UI.
+        /// </summary>
         [RelayCommand]
         private void ClearMessages()
         {

@@ -1,17 +1,26 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QuickTix.Contracts.Models.DTOs;
-using QuickTix.Desktop.Services;
+﻿
 using QuickTix.Desktop.ViewModels.Base;
 
 namespace QuickTix.Desktop.ViewModels.Users
 {
+    /// <summary>
+    /// ViewModel de la pantalla de usuarios.
+    /// Coordina la gestión de administradores y managers, incluyendo formularios en flyouts
+    /// para creación y edición.
+    /// </summary>
     public partial class UsersViewModel : ViewModel
     {
+        /// <summary>
+        /// Módulo CRUD de administradores.
+        /// </summary>
         public AdminViewModel AdminsVM { get; }
+
+        /// <summary>
+        /// Módulo CRUD de managers.
+        /// </summary>
         public ManagerViewModel ManagersVM { get; }
 
-        // Flyouts
+        // Estado de flyouts (UI)
         [ObservableProperty] private bool isAdminFlyoutOpen;
         [ObservableProperty] private bool isManagerFlyoutOpen;
 
@@ -19,32 +28,38 @@ namespace QuickTix.Desktop.ViewModels.Users
         [ObservableProperty] private bool isEditingAdmin;
         [ObservableProperty] private bool isEditingManager;
 
-        // Formularios activos (crear o editar)
+        // Formularios activos (crear o editar); se tipan como object para reutilizar plantilla en UI
         [ObservableProperty] private object? activeAdminForm;
         [ObservableProperty] private object? activeManagerForm;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="UsersViewModel"/> y crea los módulos CRUD.
+        /// </summary>
+        /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
         public UsersViewModel(HttpJsonClient httpClient)
         {
             AdminsVM = new AdminViewModel(httpClient);
             ManagersVM = new ManagerViewModel(httpClient);
         }
 
-        // ============================================================
-        // ADMIN
-        // ============================================================
-
+        /// <summary>
+        /// Abre el flyout de administradores en modo creación, inicializando el formulario.
+        /// </summary>
         [RelayCommand]
         private void OpenAdminFlyout()
         {
             IsEditingAdmin = false;
             ActiveAdminForm = new CreateAdminDTO();
 
-            // Limpia errores previos para no arrastrarlos
+            // Limpia errores previos para no arrastrarlos al nuevo formulario
             AdminsVM.ErrorMessage = null;
 
             IsAdminFlyoutOpen = true;
         }
 
+        /// <summary>
+        /// Abre el flyout de administradores en modo edición, clonando el seleccionado a un formulario editable.
+        /// </summary>
         [RelayCommand]
         private void EditAdmin()
         {
@@ -63,10 +78,14 @@ namespace QuickTix.Desktop.ViewModels.Users
             };
 
             AdminsVM.ErrorMessage = null;
-
             IsAdminFlyoutOpen = true;
         }
 
+        /// <summary>
+        /// Guarda el formulario de administradores (creación o edición) usando el módulo CRUD.
+        /// Si falla, mantiene el flyout abierto y conserva los datos introducidos.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task SaveAdmin()
         {
@@ -87,7 +106,7 @@ namespace QuickTix.Desktop.ViewModels.Users
 
             if (!ok)
             {
-                // Mantener abierto, mantener datos
+                // Mantener abierto y conservar datos para corregir errores
                 IsAdminFlyoutOpen = true;
                 return;
             }
@@ -98,11 +117,12 @@ namespace QuickTix.Desktop.ViewModels.Users
             IsAdminFlyoutOpen = false;
         }
 
-
+        /// <summary>
+        /// Cierra el flyout de administradores y limpia el estado del formulario.
+        /// </summary>
         [RelayCommand]
         private void CloseAdminFlyout()
         {
-            // Cancelar: cerrar y limpiar explícitamente
             ActiveAdminForm = null;
             IsEditingAdmin = false;
             AdminsVM.ErrorMessage = null;
@@ -110,10 +130,10 @@ namespace QuickTix.Desktop.ViewModels.Users
             IsAdminFlyoutOpen = false;
         }
 
-        // ============================================================
-        // MANAGER
-        // ============================================================
-
+        /// <summary>
+        /// Abre el flyout de managers en modo creación, precargando recintos para el selector.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task OpenManagerFlyout()
         {
@@ -126,6 +146,10 @@ namespace QuickTix.Desktop.ViewModels.Users
             IsManagerFlyoutOpen = true;
         }
 
+        /// <summary>
+        /// Abre el flyout de managers en modo edición, precargando recintos y clonando el seleccionado.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task EditManager()
         {
@@ -133,7 +157,6 @@ namespace QuickTix.Desktop.ViewModels.Users
                 return;
 
             IsEditingManager = true;
-
             ManagersVM.ErrorMessage = null;
 
             await ManagersVM.LoadVenuesAsync();
@@ -151,6 +174,12 @@ namespace QuickTix.Desktop.ViewModels.Users
 
             IsManagerFlyoutOpen = true;
         }
+
+        /// <summary>
+        /// Guarda el formulario de managers (creación o edición) usando el módulo CRUD.
+        /// Si falla, mantiene el flyout abierto y conserva los datos introducidos.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task SaveManager()
         {
@@ -171,6 +200,7 @@ namespace QuickTix.Desktop.ViewModels.Users
 
             if (!ok)
             {
+                // Mantener abierto y conservar datos para corregir errores
                 IsManagerFlyoutOpen = true;
                 return;
             }
@@ -180,6 +210,9 @@ namespace QuickTix.Desktop.ViewModels.Users
             IsManagerFlyoutOpen = false;
         }
 
+        /// <summary>
+        /// Cierra el flyout de managers y limpia el estado del formulario.
+        /// </summary>
         [RelayCommand]
         private void CloseManagerFlyout()
         {

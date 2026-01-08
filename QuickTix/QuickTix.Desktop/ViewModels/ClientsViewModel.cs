@@ -1,39 +1,55 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QuickTix.Desktop.Models.Forms;
-using QuickTix.Desktop.ViewModels.Base;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using QuickTix.Contracts.Enums;
-using QuickTix.Contracts.Models.DTOs;
+﻿
 using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
+
+using QuickTix.Desktop.Models.Forms;
+
+using QuickTix.Desktop.ViewModels.Base;
+
 
 namespace QuickTix.Desktop.ViewModels
 {
+    /// <summary>
+    /// ViewModel principal de clientes.
+    /// Gestiona el CRUD de clientes y coordina la gestión/venta de suscripciones asociadas al cliente seleccionado,
+    /// utilizando formularios en flyouts para creación/edición.
+    /// </summary>
     public partial class ClientsViewModel : BaseCrudViewModel<ClientDTO, CreateClientDTO>
     {
         protected override string Endpoint => "Client";
 
+        // Id del manager en sesión (idealmente proviene del login/usuario actual)
         public int CurrentManagerId { get; set; } = 1;
 
-
-        // Flyout Cliente
+        // Estado del flyout de Cliente
         [ObservableProperty] private bool isClientFlyoutOpen;
         [ObservableProperty] private bool isEditingClient;
         [ObservableProperty] private object? activeClientForm;
 
+        /// <summary>
+        /// Módulo de suscripciones asociado a la vista de clientes.
+        /// Se sincroniza con el cliente seleccionado.
+        /// </summary>
         public SubscriptionsViewModel SubscriptionsVM { get; }
 
+        // Estado del flyout de Suscripción
         [ObservableProperty] private bool isSubscriptionFlyoutOpen;
         [ObservableProperty] private bool isEditingSubscription;
         [ObservableProperty] private object? activeSubscriptionForm;
+
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="ClientsViewModel"/>,
+        /// crea el módulo de suscripciones y carga el listado inicial de clientes.
+        /// </summary>
+        /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
         public ClientsViewModel(HttpJsonClient httpClient) : base(httpClient)
         {
             SubscriptionsVM = new SubscriptionsViewModel(httpClient);
-
             _ = LoadAsync();
         }
 
+        /// <summary>
+        /// Abre el flyout de clientes en modo creación e inicializa el formulario.
+        /// </summary>
         [RelayCommand]
         private void OpenClientFlyout()
         {
@@ -43,10 +59,14 @@ namespace QuickTix.Desktop.ViewModels
             IsClientFlyoutOpen = true;
         }
 
+        /// <summary>
+        /// Abre el flyout de clientes en modo edición clonando el elemento seleccionado.
+        /// </summary>
         [RelayCommand]
         private void EditClient()
         {
-            if (SelectedItem == null) return;
+            if (SelectedItem == null)
+                return;
 
             IsEditingClient = true;
             ErrorMessage = null;
@@ -63,11 +83,16 @@ namespace QuickTix.Desktop.ViewModels
             IsClientFlyoutOpen = true;
         }
 
-
+        /// <summary>
+        /// Guarda el formulario de cliente (alta o edición).
+        /// Si hay error, mantiene el flyout abierto y conserva los datos introducidos.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task SaveClient()
         {
-            if (ActiveClientForm == null) return;
+            if (ActiveClientForm == null)
+                return;
 
             ErrorMessage = null;
 
@@ -87,22 +112,23 @@ namespace QuickTix.Desktop.ViewModels
 
             if (!ok)
             {
-                // Mantener abierto y mantener datos
+                // Mantener abierto y conservar datos para corregir errores
                 IsClientFlyoutOpen = true;
                 return;
             }
 
-            // Éxito: re-seleccionar si aplica
+            // Tras edición, se intenta re-seleccionar el cliente actualizado en el listado
             if (idToReselect.HasValue)
                 SelectedItem = Items.FirstOrDefault(x => x.Id == idToReselect.Value);
 
-            // Limpiar y cerrar
             ActiveClientForm = null;
             IsEditingClient = false;
             IsClientFlyoutOpen = false;
         }
 
-
+        /// <summary>
+        /// Cierra el flyout de cliente y limpia el estado del formulario.
+        /// </summary>
         [RelayCommand]
         private void CloseClientFlyout()
         {
@@ -112,18 +138,23 @@ namespace QuickTix.Desktop.ViewModels
             ErrorMessage = null;
         }
 
-        // Abonos (stubs)
+        /// <summary>
+        /// Abre el flyout de suscripción en modo creación para el cliente seleccionado.
+        /// Precarga recintos y establece valores por defecto del formulario.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task OpenSubscriptionFlyout()
         {
-            if (SelectedItem == null) return;
+            if (SelectedItem == null)
+                return;
 
             IsEditingSubscription = false;
-
             SubscriptionsVM.ErrorMessage = null;
 
             await SubscriptionsVM.LoadVenuesAsync();
-            if (SubscriptionsVM.Venues.Count == 0) return;
+            if (SubscriptionsVM.Venues.Count == 0)
+                return;
 
             SubscriptionsVM.SelectedVenue = SubscriptionsVM.Venues[0];
 
@@ -138,28 +169,38 @@ namespace QuickTix.Desktop.ViewModels
             IsSubscriptionFlyoutOpen = true;
         }
 
-
+        /// <summary>
+        /// Cierra el flyout de suscripción y limpia el estado del formulario.
+        /// </summary>
         [RelayCommand]
         private void CloseSubscriptionFlyout()
         {
             IsSubscriptionFlyoutOpen = false;
             ActiveSubscriptionForm = null;
             IsEditingSubscription = false;
-
             SubscriptionsVM.ErrorMessage = null;
         }
 
-
+        /// <summary>
+        /// Registra la venta de una suscripción para el cliente seleccionado.
+        /// Construye el request de venta y delega la operación al módulo de suscripciones.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task SaveSubscription()
         {
-            if (SelectedItem == null) return;
-            if (ActiveSubscriptionForm is not SubscriptionFormModel form) return;
+            if (SelectedItem == null)
+                return;
+
+            if (ActiveSubscriptionForm is not SubscriptionFormModel form)
+                return;
 
             if (CurrentManagerId <= 0)
             {
-                // Esto también podría pasar a ErrorMessage si quieres 100% inline
-                SubscriptionsVM.ErrorMessage = "No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).";
+                // Se mantiene el patrón de error inline del módulo de suscripciones
+                SubscriptionsVM.ErrorMessage =
+                    "No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).";
+
                 IsSubscriptionFlyoutOpen = true;
                 return;
             }
@@ -183,32 +224,41 @@ namespace QuickTix.Desktop.ViewModels
 
             if (!ok)
             {
-                // Mantener flyout y datos
+                // Mantener flyout y datos para corregir errores
                 IsSubscriptionFlyoutOpen = true;
                 return;
             }
 
-            // Éxito: cerrar y limpiar
             ActiveSubscriptionForm = null;
             IsEditingSubscription = false;
             IsSubscriptionFlyoutOpen = false;
         }
 
-
-
+        /// <summary>
+        /// Cancela la suscripción seleccionada en el módulo de suscripciones.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task CancelSubscription()
         {
-            if (SelectedItem == null) return;
-            if (SubscriptionsVM.SelectedItem == null) return;
+            if (SelectedItem == null)
+                return;
+
+            if (SubscriptionsVM.SelectedItem == null)
+                return;
 
             var subId = SubscriptionsVM.SelectedItem.Id;
 
             await SubscriptionsVM.DeleteAsync(subId);
-
             SubscriptionsVM.SelectedItem = null;
         }
 
+        /// <summary>
+        /// Maneja el cambio de cliente seleccionado:
+        /// carga las suscripciones del cliente en el módulo de suscripciones o limpia la vista si no hay selección.
+        /// </summary>
+        /// <param name="value">Cliente seleccionado.</param>
+        /// <returns>Tarea asíncrona.</returns>
         protected override async Task OnSelectedItemChangedAsync(ClientDTO? value)
         {
             if (value == null)
@@ -220,9 +270,5 @@ namespace QuickTix.Desktop.ViewModels
 
             await SubscriptionsVM.LoadByClientAsync(value.Id);
         }
-
-
-
     }
-
 }

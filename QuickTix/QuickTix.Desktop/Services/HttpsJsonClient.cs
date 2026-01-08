@@ -7,25 +7,38 @@ using System.Text.Json;
 namespace QuickTix.Desktop.Services
 {
     /// <summary>
-    /// Cliente HTTP genérico para consumir la API QuickTix.
-    /// Soporta autenticación JWT y lanza ApiException con códigos HTTP.
+    /// Cliente HTTP genérico para consumir la API QuickTix desde el cliente Desktop.
+    /// Añade automáticamente el token JWT a las peticiones y procesa el contrato ApiResponse;.
+    /// Lanza <see cref="ApiException"/> con el código HTTP y un mensaje extraído de la respuesta.
     /// </summary>
     public class HttpJsonClient
     {
+        // HttpClient configurado por DI (BaseAddress, handlers, timeouts, etc.)
         private readonly HttpClient _httpClient;
+
+        // Store que contiene el token JWT que debe enviarse como Bearer en cada llamada
         private readonly TokenStore _tokenStore;
 
+        // Opciones JSON comunes para deserialización flexible (case-insensitive)
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
             PropertyNameCaseInsensitive = true
         };
 
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="HttpJsonClient"/>.
+        /// </summary>
+        /// <param name="httpClient">HttpClient inyectado.</param>
+        /// <param name="tokenStore">Store del token JWT.</param>
         public HttpJsonClient(HttpClient httpClient, TokenStore tokenStore)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _tokenStore = tokenStore ?? throw new ArgumentNullException(nameof(tokenStore));
         }
 
+        /// <summary>
+        /// Añade o limpia el header Authorization según exista un token válido en el store.
+        /// </summary>
         private void AddAuthorizationHeader()
         {
             var token = _tokenStore.GetToken();
@@ -38,6 +51,12 @@ namespace QuickTix.Desktop.Services
             }
         }
 
+        /// <summary>
+        /// Extrae un mensaje de error representativo desde la respuesta HTTP.
+        /// Intenta interpretar el contenido como JSON y recuperar campos típicos de error.
+        /// </summary>
+        /// <param name="response">Respuesta HTTP.</param>
+        /// <returns>Mensaje de error interpretado.</returns>
         private async Task<string> ExtractErrorMessage(HttpResponseMessage response)
         {
             try
@@ -51,7 +70,7 @@ namespace QuickTix.Desktop.Services
 
                 if (root.ValueKind == JsonValueKind.Object)
                 {
-                    // Nuevo contrato ApiResponse<T>
+                    // Contrato ApiResponse<T>: lista de mensajes de error
                     if (root.TryGetProperty("errorMessages", out var errors) && errors.ValueKind == JsonValueKind.Array)
                     {
                         var list = errors.EnumerateArray()
@@ -64,7 +83,7 @@ namespace QuickTix.Desktop.Services
                             return string.Join(" ", list);
                     }
 
-                    // Compatibilidad antigua
+                    // Compatibilidad con formatos antiguos o alternativos
                     if (root.TryGetProperty("message", out var msg) && msg.ValueKind == JsonValueKind.String)
                         return msg.GetString() ?? "Error desconocido.";
 
@@ -75,6 +94,7 @@ namespace QuickTix.Desktop.Services
                         return err.GetString() ?? "Error desconocido.";
                 }
 
+                // Si no es un objeto JSON reconocible, se devuelve el contenido íntegro
                 return json;
             }
             catch
@@ -83,6 +103,14 @@ namespace QuickTix.Desktop.Services
             }
         }
 
+        /// <summary>
+        /// Lee y valida el resultado bajo el contrato <see cref="ApiResponse{T}"/>.
+        /// Si el servidor devuelve un JSON plano y el status es OK, intenta un fallback a T.
+        /// </summary>
+        /// <typeparam name="T">Tipo de resultado esperado.</typeparam>
+        /// <param name="response">Respuesta HTTP.</param>
+        /// <returns>Resultado deserializado o null si el contrato lo permite.</returns>
+        /// <exception cref="ApiException">Cuando la respuesta no es exitosa o el contrato indica error.</exception>
         private async Task<T?> ReadApiResultAsync<T>(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -117,6 +145,7 @@ namespace QuickTix.Desktop.Services
             if (!response.IsSuccessStatusCode || !api.IsSuccess)
             {
                 var status = api.StatusCode != 0 ? api.StatusCode : response.StatusCode;
+
                 var message = (api.ErrorMessages != null && api.ErrorMessages.Count > 0)
                     ? string.Join(" ", api.ErrorMessages)
                     : await ExtractErrorMessage(response);
@@ -127,6 +156,12 @@ namespace QuickTix.Desktop.Services
             return api.Result;
         }
 
+        /// <summary>
+        /// Realiza una petición GET que devuelve un listado de elementos.
+        /// </summary>
+        /// <typeparam name="T">Tipo del elemento.</typeparam>
+        /// <param name="url">Ruta relativa o absoluta del endpoint.</param>
+        /// <returns>Listado (vacío si la API devuelve null).</returns>
         public async Task<List<T>> GetListAsync<T>(string url)
         {
             try
@@ -147,6 +182,12 @@ namespace QuickTix.Desktop.Services
             }
         }
 
+        /// <summary>
+        /// Realiza una petición GET que devuelve un elemento.
+        /// </summary>
+        /// <typeparam name="T">Tipo del resultado.</typeparam>
+        /// <param name="url">Ruta relativa o absoluta del endpoint.</param>
+        /// <returns>Elemento deserializado o null.</returns>
         public async Task<T?> GetAsync<T>(string url)
         {
             try
@@ -166,6 +207,14 @@ namespace QuickTix.Desktop.Services
             }
         }
 
+        /// <summary>
+        /// Realiza una petición POST enviando un cuerpo JSON y devuelve un resultado tipado.
+        /// </summary>
+        /// <typeparam name="TRequest">Tipo del request.</typeparam>
+        /// <typeparam name="TResponse">Tipo del response.</typeparam>
+        /// <param name="url">Ruta relativa o absoluta del endpoint.</param>
+        /// <param name="data">Payload del request.</param>
+        /// <returns>Resultado deserializado.</returns>
         public async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest data)
         {
             try
@@ -190,6 +239,13 @@ namespace QuickTix.Desktop.Services
             }
         }
 
+        /// <summary>
+        /// Realiza una petición PUT enviando un cuerpo JSON.
+        /// </summary>
+        /// <typeparam name="T">Tipo del payload.</typeparam>
+        /// <param name="url">Ruta relativa o absoluta del endpoint.</param>
+        /// <param name="data">Payload a enviar.</param>
+        /// <returns>Tarea asíncrona.</returns>
         public async Task PutAsync<T>(string url, T data)
         {
             try
@@ -209,6 +265,11 @@ namespace QuickTix.Desktop.Services
             }
         }
 
+        /// <summary>
+        /// Realiza una petición DELETE.
+        /// </summary>
+        /// <param name="url">Ruta relativa o absoluta del endpoint.</param>
+        /// <returns>Tarea asíncrona.</returns>
         public async Task DeleteAsync(string url)
         {
             try
