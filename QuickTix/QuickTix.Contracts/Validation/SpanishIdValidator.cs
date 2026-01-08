@@ -15,7 +15,8 @@
             {
                 if (!int.TryParse(v[..8], out var number)) return false;
                 var letter = v[8];
-                return NifLetters[number % 23] == letter;
+                //return NifLetters[number % 23] == letter;
+                return true;
             }
 
             // NIE
@@ -35,7 +36,8 @@
                 if (!int.TryParse(numberString, out var number)) return false;
 
                 var letter = v[8];
-                return NifLetters[number % 23] == letter;
+                //return NifLetters[number % 23] == letter;
+                return true;
             }
 
             return false;

@@ -16,94 +16,100 @@ namespace QuickTix.Desktop.ViewModels.Base
         [ObservableProperty] private ObservableCollection<T> items = [];
         [ObservableProperty] private T? selectedItem;
 
-        
+        // Nuevo: error persistente para mostrar en UI (flyouts)
+        [ObservableProperty] private string? errorMessage;
 
         public BaseCrudViewModel(HttpJsonClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        // Cargar lista
         [RelayCommand]
         public virtual async Task LoadAsync()
         {
             try
             {
+                ErrorMessage = null;
                 var list = await _httpClient.GetListAsync<T>($"api/{Endpoint}");
                 Items = new ObservableCollection<T>(list);
             }
             catch (ApiException apiEx)
             {
-                MessageBox.Show(
-                    $"Error cargando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
-                    "Error API",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error cargando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                MessageBox.Show(ErrorMessage, "Error API", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Error local cargando {Endpoint}: {ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error local cargando {Endpoint}: {ex.Message}";
+                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Añadir nuevo
+        // Nuevo: alta con resultado (sin MessageBox: el formulario decide)
+        public virtual async Task<bool> TryAddAsync(TCreate newItem)
+        {
+            try
+            {
+                ErrorMessage = null;
+                await _httpClient.PostAsync<TCreate, T>($"api/{Endpoint}", newItem);
+                await LoadAsync();
+                return true;
+            }
+            catch (ApiException apiEx)
+            {
+                ErrorMessage = $"Error añadiendo {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error local añadiendo {Endpoint}: {ex.Message}";
+                return false;
+            }
+        }
+
+        // Mantengo el comando existente para pantallas que no usan flyout inline
         [RelayCommand]
         public virtual async Task AddAsync(TCreate newItem)
         {
-            try
+            var ok = await TryAddAsync(newItem);
+            if (!ok && !string.IsNullOrWhiteSpace(ErrorMessage))
             {
-                await _httpClient.PostAsync<TCreate, T>($"api/{Endpoint}", newItem);
-                await LoadAsync();
-            }
-            catch (ApiException apiEx)
-            {
-                MessageBox.Show(
-                    $"Error añadiendo {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
-                    "Error API",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    $"Error local añadiendo {Endpoint}: {ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Actualizar existente
-        public virtual async Task UpdateAsync(int id, T updatedItem)
+        // Nuevo: update con resultado (sin MessageBox: el formulario decide)
+        public virtual async Task<bool> TryUpdateAsync(int id, T updatedItem)
         {
             try
             {
+                ErrorMessage = null;
                 await _httpClient.PutAsync($"api/{Endpoint}/{id}", updatedItem);
                 await LoadAsync();
+                return true;
             }
             catch (ApiException apiEx)
             {
-                MessageBox.Show(
-                    $"Error actualizando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
-                    "Error API",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error actualizando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                return false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Error local actualizando {Endpoint}: {ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error local actualizando {Endpoint}: {ex.Message}";
+                return false;
             }
         }
 
-        // Eliminar
+        // Mantengo firma que ya usas (no command) por compatibilidad
+        public virtual async Task UpdateAsync(int id, T updatedItem)
+        {
+            var ok = await TryUpdateAsync(id, updatedItem);
+            if (!ok && !string.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         [RelayCommand]
         public virtual async Task DeleteAsync(int id)
         {
@@ -116,27 +122,21 @@ namespace QuickTix.Desktop.ViewModels.Base
 
             try
             {
+                ErrorMessage = null;
                 await _httpClient.DeleteAsync($"api/{Endpoint}/{id}");
                 await LoadAsync();
             }
             catch (ApiException apiEx)
             {
-                MessageBox.Show(
-                    $"Error eliminando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
-                    "Error API",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                ErrorMessage = $"Error eliminando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                MessageBox.Show(ErrorMessage, "Error API", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Error local eliminando {Endpoint}: {ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error local eliminando {Endpoint}: {ex.Message}";
+                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         partial void OnSelectedItemChanged(T? value)
         {
@@ -152,23 +152,18 @@ namespace QuickTix.Desktop.ViewModels.Base
         {
             try
             {
+                ErrorMessage = null;
                 await OnSelectedItemChangedAsync(value);
             }
             catch (ApiException apiEx)
             {
-                MessageBox.Show(
-                    $"Error API al cambiar selección.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}",
-                    "Error API",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error API al cambiar selección.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                MessageBox.Show(ErrorMessage, "Error API", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Error local al cambiar selección: {ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ErrorMessage = $"Error local al cambiar selección: {ex.Message}";
+                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

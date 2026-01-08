@@ -8,8 +8,7 @@ using System.Net;
 
 namespace QuickTix.API.Controllers.Sales
 {
-    //[Authorize(Roles = "admin,manager")]
-    [AllowAnonymous]
+    [Authorize(Roles = "admin,manager")]
     [ApiController]
     [Route("api/[controller]")]
     public class SaleItemController : ControllerBase

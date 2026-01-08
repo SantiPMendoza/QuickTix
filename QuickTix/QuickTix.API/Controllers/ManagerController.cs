@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuickTix.Contracts.Common;
-using QuickTix.Core.Interfaces;
 using QuickTix.Contracts.Models.DTOs;
+using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
 using System.Net;
 
 namespace QuickTix.API.Controllers
 {
-    // Recomendación: evitar AllowAnonymous aquí si quieres que Authorize funcione.
-    [AllowAnonymous] //[Authorize(Roles = "admin,manager")]
+    [Authorize(Roles = "admin,manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class ManagerController : BaseController<Manager, ManagerDTO, CreateManagerDTO>
@@ -47,6 +47,23 @@ namespace QuickTix.API.Controllers
                     .ToList();
 
                 return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+            }
+
+            var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
+            var normalizedPhone = string.IsNullOrWhiteSpace(dto.PhoneNumber) ? null : dto.PhoneNumber.Trim();
+
+            if (normalizedNif != null)
+            {
+                var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif);
+                if (nifExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+            }
+
+            if (normalizedPhone != null)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone);
+                if (phoneExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
             }
 
             // 1) Crear AppUser asociado a este Manager
@@ -138,6 +155,25 @@ namespace QuickTix.API.Controllers
 
             if (manager.AppUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al gestor.");
+
+            var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
+            var normalizedPhone = string.IsNullOrWhiteSpace(dto.PhoneNumber) ? null : dto.PhoneNumber.Trim();
+
+            var currentUserId = manager.AppUser.Id;
+
+            if (normalizedNif != null)
+            {
+                var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif && u.Id != currentUserId);
+                if (nifExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+            }
+
+            if (normalizedPhone != null)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone && u.Id != currentUserId);
+                if (phoneExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+            }
 
             manager.AppUser.Name = dto.Name;
             manager.AppUser.Email = dto.Email;

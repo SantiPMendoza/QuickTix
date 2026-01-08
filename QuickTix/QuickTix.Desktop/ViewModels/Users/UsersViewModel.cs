@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QuickTix.Contracts.Models.DTOs;
+using QuickTix.Desktop.Services;
 using QuickTix.Desktop.ViewModels.Base;
-using System.Collections.ObjectModel;
 
 namespace QuickTix.Desktop.ViewModels.Users
 {
@@ -38,6 +38,10 @@ namespace QuickTix.Desktop.ViewModels.Users
         {
             IsEditingAdmin = false;
             ActiveAdminForm = new CreateAdminDTO();
+
+            // Limpia errores previos para no arrastrarlos
+            AdminsVM.ErrorMessage = null;
+
             IsAdminFlyoutOpen = true;
         }
 
@@ -58,31 +62,53 @@ namespace QuickTix.Desktop.ViewModels.Users
                 PhoneNumber = AdminsVM.SelectedItem.PhoneNumber
             };
 
+            AdminsVM.ErrorMessage = null;
+
             IsAdminFlyoutOpen = true;
         }
 
         [RelayCommand]
         private async Task SaveAdmin()
         {
+            if (ActiveAdminForm == null)
+                return;
+
+            bool ok;
+
             if (!IsEditingAdmin)
             {
-                await AdminsVM.AddAsync((CreateAdminDTO)ActiveAdminForm!);
+                ok = await AdminsVM.TryAddAsync((CreateAdminDTO)ActiveAdminForm);
             }
             else
             {
-                var dto = (AdminDTO)ActiveAdminForm!;
-                await AdminsVM.UpdateAsync(dto.Id, dto);
+                var dto = (AdminDTO)ActiveAdminForm;
+                ok = await AdminsVM.TryUpdateAsync(dto.Id, dto);
             }
 
+            if (!ok)
+            {
+                // Mantener abierto, mantener datos
+                IsAdminFlyoutOpen = true;
+                return;
+            }
+
+            // Solo si éxito: limpiar y cerrar
             ActiveAdminForm = null;
             IsEditingAdmin = false;
             IsAdminFlyoutOpen = false;
         }
 
+
         [RelayCommand]
-        private void CloseAdminFlyout() => IsAdminFlyoutOpen = false;
+        private void CloseAdminFlyout()
+        {
+            // Cancelar: cerrar y limpiar explícitamente
+            ActiveAdminForm = null;
+            IsEditingAdmin = false;
+            AdminsVM.ErrorMessage = null;
 
-
+            IsAdminFlyoutOpen = false;
+        }
 
         // ============================================================
         // MANAGER
@@ -93,6 +119,9 @@ namespace QuickTix.Desktop.ViewModels.Users
         {
             IsEditingManager = false;
             ActiveManagerForm = new CreateManagerDTO();
+
+            ManagersVM.ErrorMessage = null;
+
             await ManagersVM.LoadVenuesAsync();
             IsManagerFlyoutOpen = true;
         }
@@ -104,6 +133,8 @@ namespace QuickTix.Desktop.ViewModels.Users
                 return;
 
             IsEditingManager = true;
+
+            ManagersVM.ErrorMessage = null;
 
             await ManagersVM.LoadVenuesAsync();
 
@@ -120,18 +151,28 @@ namespace QuickTix.Desktop.ViewModels.Users
 
             IsManagerFlyoutOpen = true;
         }
-
         [RelayCommand]
         private async Task SaveManager()
         {
+            if (ActiveManagerForm == null)
+                return;
+
+            bool ok;
+
             if (!IsEditingManager)
             {
-                await ManagersVM.AddAsync((CreateManagerDTO)ActiveManagerForm!);
+                ok = await ManagersVM.TryAddAsync((CreateManagerDTO)ActiveManagerForm);
             }
             else
             {
-                var dto = (ManagerDTO)ActiveManagerForm!;
-                await ManagersVM.UpdateAsync(dto.Id, dto);
+                var dto = (ManagerDTO)ActiveManagerForm;
+                ok = await ManagersVM.TryUpdateAsync(dto.Id, dto);
+            }
+
+            if (!ok)
+            {
+                IsManagerFlyoutOpen = true;
+                return;
             }
 
             ActiveManagerForm = null;
@@ -140,6 +181,13 @@ namespace QuickTix.Desktop.ViewModels.Users
         }
 
         [RelayCommand]
-        private void CloseManagerFlyout() => IsManagerFlyoutOpen = false;
+        private void CloseManagerFlyout()
+        {
+            ActiveManagerForm = null;
+            IsEditingManager = false;
+            ManagersVM.ErrorMessage = null;
+
+            IsManagerFlyoutOpen = false;
+        }
     }
 }

@@ -2,17 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuickTix.Contracts.Common;
-using QuickTix.Core.Interfaces;
 using QuickTix.Contracts.Models.DTOs;
+using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
 using System.Net;
 
 namespace QuickTix.API.Controllers
 {
-    //[Authorize(Roles = "admin")]
-    // Recomendación: evitar AllowAnonymous aquí si quieres que Authorize funcione.
-    [AllowAnonymous]
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : BaseController<Admin, AdminDTO, CreateAdminDTO>
@@ -47,6 +46,24 @@ namespace QuickTix.API.Controllers
 
                 return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
             }
+
+            var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
+            var normalizedPhone = string.IsNullOrWhiteSpace(dto.PhoneNumber) ? null : dto.PhoneNumber.Trim();
+
+            if (normalizedNif != null)
+            {
+                var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif);
+                if (nifExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+            }
+
+            if (normalizedPhone != null)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone);
+                if (phoneExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+            }
+
 
             // 1) Crear AppUser asociado al administrador
             var appUser = new AppUser
@@ -104,7 +121,7 @@ namespace QuickTix.API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public override async Task<IActionResult> Update(int id, [FromBody] AdminDTO dto)
         {
             var traceId = HttpContext.TraceIdentifier;
@@ -131,6 +148,26 @@ namespace QuickTix.API.Controllers
 
             if (admin.AppUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al administrador.");
+
+            var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
+            var normalizedPhone = string.IsNullOrWhiteSpace(dto.PhoneNumber) ? null : dto.PhoneNumber.Trim();
+
+            var currentUserId = admin.AppUser.Id;
+
+            if (normalizedNif != null)
+            {
+                var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif && u.Id != currentUserId);
+                if (nifExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+            }
+
+            if (normalizedPhone != null)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone && u.Id != currentUserId);
+                if (phoneExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+            }
+
 
             admin.AppUser.Name = dto.Name;
             admin.AppUser.Email = dto.Email;

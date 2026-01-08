@@ -2,109 +2,199 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QuickTix.Mobile.Views.TicketsPage"
-             Title="Venta de tickets">
+             x:Name="Page"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             Visual="Material">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12">
+    <Grid RowDefinitions="Auto,*,Auto,Auto"
+          RowSpacing="12"
+          Padding="16">
 
-            <Label Text="Venta de tickets"
-                   FontSize="22"
-                   FontAttributes="Bold" />
+        <!-- Cabecera fija: sesión + nueva línea + resumen -->
+        <VerticalStackLayout Grid.Row="0" Spacing="12">
 
-            <Frame Padding="12">
+            <Frame Style="{StaticResource Card}">
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="Datos de sesión" FontAttributes="Bold" />
-                    <Label Text="{Binding SessionInfo}" FontSize="12" />
+                    <Label Text="Datos de sesión" Style="{StaticResource SectionTitle}" />
+                    <Label Text="{Binding SessionInfo}" Style="{StaticResource HintText}" />
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Nueva línea -->
-            <Frame Padding="12">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Nueva línea" FontAttributes="Bold" />
+            <Frame Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Nueva línea" Style="{StaticResource SectionTitle}" />
 
-                    <Picker Title="Tipo de ticket"
-                            ItemsSource="{Binding TicketTypes}"
-                            SelectedItem="{Binding NewLineTicketType}" />
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="Auto,Auto"
+                          ColumnSpacing="10"
+                          RowSpacing="10">
 
-                    <Picker Title="Contexto"
-                            ItemsSource="{Binding TicketContexts}"
-                            SelectedItem="{Binding NewLineTicketContext}" />
+                        <Picker Grid.Row="0" Grid.Column="0"
+                                Title="Tipo de ticket"
+                                ItemsSource="{Binding TicketTypes}"
+                                SelectedItem="{Binding NewLineTicketType}" />
 
-                    <HorizontalStackLayout Spacing="12">
-                        <Label Text="Cantidad" VerticalOptions="Center" />
-                        <Entry Text="{Binding NewLineQuantityText}"
-                               Keyboard="Numeric"
-                               WidthRequest="120" />
-                    </HorizontalStackLayout>
+                        <Picker Grid.Row="0" Grid.Column="1"
+                                Title="Contexto"
+                                ItemsSource="{Binding TicketContexts}"
+                                SelectedItem="{Binding NewLineTicketContext}" />
 
-                    <HorizontalStackLayout Spacing="12">
-                        <Label Text="Precio unitario (opcional)" VerticalOptions="Center" />
-                        <Entry Text="{Binding NewLineUnitPriceText}"
-                               Keyboard="Numeric"
-                               WidthRequest="160"
-                               Placeholder="Ej: 12,50" />
-                    </HorizontalStackLayout>
+                        <Grid Grid.Row="1" Grid.Column="0"
+                              ColumnDefinitions="Auto,*"
+                              ColumnSpacing="10">
+                            <Label Text="Cantidad"
+                                   VerticalOptions="Center"
+                                   Style="{StaticResource HintText}" />
+                            <Entry Grid.Column="1"
+                                   Text="{Binding NewLineQuantityText}"
+                                   Keyboard="Numeric"
+                                   Placeholder="Ej: 1"
+                                   HorizontalOptions="Fill" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="1"
+                              ColumnDefinitions="Auto,*"
+                              ColumnSpacing="10">
+                            <Label Text="Precio"
+                                   VerticalOptions="Center"
+                                   Style="{StaticResource HintText}" />
+                            <Entry Grid.Column="1"
+                                   Text="{Binding NewLineUnitPriceText}"
+                                   Keyboard="Numeric"
+                                   Placeholder="Opcional (Ej: 12,50)"
+                                   HorizontalOptions="Fill" />
+                        </Grid>
+                    </Grid>
 
                     <Button Text="Añadir línea"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding AddLineCommand}"
                             IsEnabled="{Binding CanAddLine}" />
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Líneas añadidas -->
-            <Frame Padding="12">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Líneas de la venta" FontAttributes="Bold" />
-                    <Label Text="{Binding LinesSummary}" FontSize="12" TextColor="Gray" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <Label Grid.Column="0"
+                       Text="Líneas de la venta"
+                       Style="{StaticResource SectionTitle}" />
+                <Label Grid.Column="1"
+                       Text="{Binding LinesSummary}"
+                       Style="{StaticResource HintText}"
+                       HorizontalTextAlignment="End"
+                       VerticalTextAlignment="Center" />
+            </Grid>
 
-                    <CollectionView ItemsSource="{Binding Lines}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" Padding="6">
-                                    <Label Grid.Row="0" Grid.Column="0"
-                                           Text="{Binding DisplayTitle}" FontAttributes="Bold" />
-                                    <Button Grid.Row="0" Grid.Column="1"
-                                            Text="Quitar"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveLineCommand}"
-                                            CommandParameter="{Binding .}" />
+        </VerticalStackLayout>
 
-                                    <Label Grid.Row="1" Grid.Column="0"
-                                           Text="{Binding DisplayInfo}" FontSize="12" TextColor="Gray" />
+        <!-- Lista (solo líneas) -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Lines}"
+                        SelectionMode="None">
 
-                                    <Label Grid.Row="2" Grid.Column="0"
-                                           Text="{Binding DisplayTotal}" FontSize="12" TextColor="Gray" />
+            <CollectionView.EmptyView>
+                <Frame Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Aún no hay líneas añadidas." FontAttributes="Bold" />
+                        <Label Text="Añade una línea para verla aquí." Style="{StaticResource HintText}" />
+                    </VerticalStackLayout>
+                </Frame>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem Text="Quitar"
+                                           BackgroundColor="{DynamicResource DangerColor}"
+                                           Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveLineCommand}"
+                                           CommandParameter="{Binding}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Frame Padding="10"
+                               CornerRadius="12"
+                               HasShadow="False"
+                               BorderColor="{DynamicResource CardBorderColor}"
+                               BackgroundColor="{DynamicResource SurfaceColor}"
+                               Margin="0,6">
+
+                            <VerticalStackLayout Spacing="6">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <Label Text="{Binding DisplayTitle}"
+                                           FontAttributes="Bold"
+                                           LineBreakMode="TailTruncation"
+                                           TextColor="{DynamicResource TextPrimaryColor}" />
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding DisplayTotal}"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="End"
+                                           TextColor="{DynamicResource TextPrimaryColor}" />
                                 </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </Frame>
 
-            <!-- ClientId: obligatorio si alguna línea es InvitadoAbonado -->
-            <Frame Padding="12" IsVisible="{Binding RequiresClientId}">
+                                <Label Text="{Binding DisplayInfo}"
+                                       Style="{StaticResource HintText}" />
+
+                                <!-- Botón visible (fallback) para no depender del swipe -->
+                                <Button Text="Quitar"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{DynamicResource DangerColor}"
+                                        Padding="0"
+                                        HorizontalOptions="End"
+                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveLineCommand}"
+                                        CommandParameter="{Binding}" />
+                            </VerticalStackLayout>
+
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bloque fijo inferior: clientId + estado -->
+        <VerticalStackLayout Grid.Row="2" Spacing="12">
+
+            <Frame Style="{StaticResource Card}"
+                   IsVisible="{Binding RequiresClientId}">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Invitado abonado" FontAttributes="Bold" />
-                    <Entry Placeholder="ClientId (obligatorio si alguna línea es InvitadoAbonado)"
+                    <Label Text="Invitado abonado" Style="{StaticResource SectionTitle}" />
+                    <Label Text="Indica el ClientId del abonado que invita."
+                           Style="{StaticResource HintText}" />
+                    <Entry Placeholder="ClientId"
                            Text="{Binding ClientIdText}"
                            Keyboard="Numeric" />
                 </VerticalStackLayout>
             </Frame>
 
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding StatusMessage}"
+                       Style="{StaticResource HintText}"
+                       VerticalTextAlignment="Center" />
+            </Grid>
+
+        </VerticalStackLayout>
+
+        <!-- Barra inferior fija -->
+        <Grid Grid.Row="3"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="10"
+              Padding="0,6,0,0">
+
             <Button Text="Vender (batch)"
+                    Style="{StaticResource PrimaryButton}"
                     Command="{Binding SellBatchCommand}"
                     IsEnabled="{Binding CanSell}" />
 
-            <Button Text="Limpiar"
+            <Button Grid.Column="1"
+                    Text="Limpiar"
+                    Style="{StaticResource SecondaryButton}"
                     Command="{Binding ResetCommand}" />
+        </Grid>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}"
-                               IsVisible="{Binding IsBusy}" />
-
-            <Label Text="{Binding StatusMessage}"
-                   FontSize="12"
-                   TextColor="Gray" />
-
-        </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentPage>

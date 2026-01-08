@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuickTix.Contracts.Common;
 using QuickTix.Contracts.Models.DTOs;
 using QuickTix.Core.Interfaces;
@@ -10,9 +11,7 @@ using System.Net;
 
 namespace QuickTix.API.Controllers
 {
-    //[Authorize]
-    // Recomendación: evitar AllowAnonymous aquí si quieres que Authorize funcione.
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientController : BaseController<Client, ClientDTO, CreateClientDTO>
@@ -48,14 +47,32 @@ namespace QuickTix.API.Controllers
                 return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
             }
 
+            var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
+            var normalizedPhone = string.IsNullOrWhiteSpace(dto.PhoneNumber) ? null : dto.PhoneNumber.Trim();
+
+            if (normalizedNif != null)
+            {
+                var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif);
+                if (nifExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+            }
+
+            if (normalizedPhone != null)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone);
+                if (phoneExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+            }
+
+
             // 1) Crear AppUser asociado al cliente
             var appUser = new AppUser
             {
                 UserName = dto.Email,
                 Email = dto.Email,
                 Name = dto.Name,
-                Nif = dto.Nif,
-                PhoneNumber = dto.PhoneNumber,
+                Nif = normalizedNif,
+                PhoneNumber = normalizedPhone,
                 MustChangePassword = true
             };
 
@@ -116,6 +133,8 @@ namespace QuickTix.API.Controllers
                 return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
             }
 
+
+
             var client = await _repository.GetForUpdateAsync(id);
             if (client == null)
             {
@@ -129,11 +148,32 @@ namespace QuickTix.API.Controllers
             if (client.AppUser == null)
                 throw new InvalidOperationException("No se encontró el usuario asociado al cliente.");
 
+            var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
+            var normalizedPhone = string.IsNullOrWhiteSpace(dto.PhoneNumber) ? null : dto.PhoneNumber.Trim();
+
+            var currentUserId = client.AppUser.Id;
+
+            if (normalizedNif != null)
+            {
+                var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif && u.Id != currentUserId);
+                if (nifExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+            }
+
+            if (normalizedPhone != null)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone && u.Id != currentUserId);
+                if (phoneExists)
+                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+            }
+
+
             client.AppUser.Name = dto.Name;
             client.AppUser.Email = dto.Email;
             client.AppUser.UserName = dto.Email;
-            client.AppUser.Nif = dto.Nif;
-            client.AppUser.PhoneNumber = dto.PhoneNumber;
+            client.AppUser.Nif = normalizedNif;
+            client.AppUser.PhoneNumber = normalizedPhone;
+
 
             var userUpdateResult = await _userManager.UpdateAsync(client.AppUser);
             if (!userUpdateResult.Succeeded)

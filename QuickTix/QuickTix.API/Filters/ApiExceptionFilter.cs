@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QuickTix.Contracts.Common;
 using System.Diagnostics;
@@ -43,12 +44,39 @@ namespace QuickTix.API.Filters
                     break;
 
                 case DbUpdateException dbEx:
-                    statusCode = HttpStatusCode.Conflict;
-                    if (dbEx.InnerException?.Message.Contains("REFERENCE constraint", StringComparison.OrdinalIgnoreCase) == true)
-                        message = "No se puede eliminar este registro porque tiene elementos relacionados (por ejemplo, ventas asociadas).";
-                    else
+                    {
+                        // 1) FK restrict / referencias
+                        if (dbEx.InnerException?.Message.Contains("REFERENCE constraint", StringComparison.OrdinalIgnoreCase) == true)
+                        {
+                            statusCode = HttpStatusCode.Conflict;
+                            message = "No se puede eliminar este registro porque tiene elementos relacionados (por ejemplo, ventas asociadas).";
+                            break;
+                        }
+
+                        // 2) Duplicados por índices únicos (2601/2627)
+                        var sqlEx = FindSqlException(dbEx);
+                        if (sqlEx != null && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+                        {
+                            statusCode = HttpStatusCode.Conflict;
+
+                            var sqlMessage = sqlEx.Message ?? string.Empty;
+
+                            if (sqlMessage.Contains("IX_AspNetUsers_Nif", StringComparison.OrdinalIgnoreCase))
+                                message = "Ya existe un usuario con ese NIF/NIE.";
+                            else if (sqlMessage.Contains("IX_AspNetUsers_PhoneNumber", StringComparison.OrdinalIgnoreCase))
+                                message = "Ya existe un usuario con ese número de teléfono.";
+                            else
+                                message = "Ya existe un registro con los mismos datos únicos.";
+
+                            break;
+                        }
+
+                        // 3) Resto de DbUpdateException
+                        statusCode = HttpStatusCode.Conflict;
                         message = "Error al actualizar o eliminar datos en la base de datos.";
-                    break;
+                        break;
+                    }
+
 
                 default:
                     statusCode = HttpStatusCode.InternalServerError;
@@ -67,5 +95,20 @@ namespace QuickTix.API.Filters
 
             context.ExceptionHandled = true;
         }
+
+        private static SqlException? FindSqlException(Exception ex)
+        {
+            var current = ex;
+            while (current != null)
+            {
+                if (current is SqlException sqlEx)
+                    return sqlEx;
+
+                current = current.InnerException;
+            }
+
+            return null;
+        }
+
     }
 }

@@ -25,8 +25,9 @@ namespace QuickTix.Contracts.Models.DTOs
         [PhoneNumber]
         public string? PhoneNumber { get; set; } = null;
 
+        [Required]
         [NifNie]
-        public string? Nif { get; set; } = null;
+        public string Nif { get; set; } = null;
     }
 }
 

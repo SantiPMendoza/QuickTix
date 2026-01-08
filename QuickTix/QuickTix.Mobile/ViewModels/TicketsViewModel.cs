@@ -43,20 +43,15 @@ public partial class TicketsViewModel : ObservableObject
     [ObservableProperty] private string statusMessage;
 
     [ObservableProperty] private string sessionInfo;
-
-    // Líneas añadidas
     public ObservableCollection<TicketBatchLineVM> Lines { get; }
 
     [ObservableProperty] private string linesSummary;
-
-    // Inputs de “nueva línea”
     [ObservableProperty] private TicketType newLineTicketType;
     [ObservableProperty] private TicketContext newLineTicketContext;
 
     [ObservableProperty] private string newLineQuantityText;
     [ObservableProperty] private string newLineUnitPriceText;
 
-    // ClientId (solo si se requiere)
     [ObservableProperty] private string clientIdText;
 
     public bool RequiresClientId => Lines.Any(l => l.Context == TicketContext.InvitadoAbonado) ||
@@ -200,7 +195,6 @@ public partial class TicketsViewModel : ObservableObject
             unitPrice: unitPrice
         ));
 
-        // Reset parcial para facilitar añadir varias líneas
         NewLineQuantityText = "1";
         NewLineUnitPriceText = string.Empty;
 
@@ -290,7 +284,7 @@ public partial class TicketsViewModel : ObservableObject
     {
         var totalQty = Lines.Sum(l => l.Quantity);
 
-        // Total “estimado” en UI: solo suma líneas con UnitPrice informado (si es null, contribuye 0)
+        // Total estimado solo si se pone
         var totalAmount = Lines.Sum(l => (l.UnitPrice ?? 0m) * l.Quantity);
 
         LinesSummary = $"Líneas: {Lines.Count} | Entradas: {totalQty} | Total (si hay precios): {totalAmount}";
@@ -304,7 +298,6 @@ public partial class TicketsViewModel : ObservableObject
     }
 }
 
-// ViewModel simple para mostrar línea en CollectionView (no editable)
 public sealed class TicketBatchLineVM
 {
     public TicketBatchLineVM(TicketType type, TicketContext context, int quantity, decimal? unitPrice)
@@ -313,6 +306,16 @@ public sealed class TicketBatchLineVM
         Context = context;
         Quantity = quantity;
         UnitPrice = unitPrice;
+
+        var culture = CultureInfo.CurrentCulture;
+
+        DisplayTitle = $"{quantity} x {Type} ({Context})";
+
+        var priceText = unitPrice.HasValue ? unitPrice.Value.ToString("C", culture) : "Auto";
+        DisplayInfo = $"Precio unitario: {priceText}";
+
+        var totalText = unitPrice.HasValue ? (unitPrice.Value * quantity).ToString("C", culture) : "Auto";
+        DisplayTotal = $"Total: {totalText}";
     }
 
     public TicketType Type { get; }
@@ -320,7 +323,7 @@ public sealed class TicketBatchLineVM
     public int Quantity { get; }
     public decimal? UnitPrice { get; }
 
-    public string DisplayTitle => $"{Type} | {Context}";
-    public string DisplayInfo => $"Cantidad: {Quantity} | Precio: {(UnitPrice.HasValue ? UnitPrice.Value.ToString(CultureInfo.CurrentCulture) : "Auto")}";
-    public string DisplayTotal => $"Total línea: {(UnitPrice.HasValue ? (UnitPrice.Value * Quantity).ToString(CultureInfo.CurrentCulture) : "Auto")}";
+    public string DisplayTitle { get; }
+    public string DisplayInfo { get; }
+    public string DisplayTotal { get; }
 }

@@ -11,9 +11,7 @@ using System.Net;
 
 namespace QuickTix.API.Controllers.Sales
 {
-    //[Authorize(Roles = "admin,manager")]
-    // Recomendación: elimina AllowAnonymous si esto debe estar protegido.
-    [AllowAnonymous]
+    [Authorize(Roles = "admin,manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class SaleController : BaseController<Sale, SaleDTO, CreateSaleDTO>
@@ -55,7 +53,7 @@ namespace QuickTix.API.Controllers.Sales
         {
             var traceId = HttpContext.TraceIdentifier;
 
-            var result = await _saleRepository.GetSubscriptionHistoryAsync(); // debe devolver List<SubscriptionSaleDTO>
+            var result = await _saleRepository.GetSubscriptionHistoryAsync();
             return Ok(ApiResponse<List<SubscriptionSaleDTO>>.Ok(result.ToList(), HttpStatusCode.OK, traceId));
         }
 
@@ -76,7 +74,6 @@ namespace QuickTix.API.Controllers.Sales
                 return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
             }
 
-            // Si el repo lanza ArgumentException, ApiExceptionFilter la convertirá a 400 automáticamente.
             var sale = await _saleRepository.SellTicketsAsync(request);
 
             _logger.LogInformation("Venta de tickets registrada. SaleId={SaleId}", sale.Id);
