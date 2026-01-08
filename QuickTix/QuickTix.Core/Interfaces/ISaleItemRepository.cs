@@ -2,7 +2,7 @@
 
 namespace QuickTix.Core.Interfaces
 {
-    public interface ISaleItemRepository : IRepository<SaleItem>
+    public interface ISaleItemRepository
     {
         Task<ICollection<SaleItem>> GetAllAsync();
         Task<SaleItem?> GetAsync(int id);

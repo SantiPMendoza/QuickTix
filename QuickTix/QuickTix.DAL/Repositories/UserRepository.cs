@@ -13,8 +13,13 @@ using System.Text;
 namespace QuickTix.DAL.Repositories
 {
     /// <summary>
-    /// Repositorio de usuarios: registro, login y gestión básica de roles.
+    /// Repositorio de usuarios: registro, login y gestión básica de credenciales.
     /// Implementación basada en ASP.NET Identity.
+    ///
+    /// Este repositorio:
+    /// - Crea usuarios y asigna roles por defecto en registro.
+    /// - Valida credenciales en login y genera JWT con claims necesarias para la app.
+    /// - Expone consultas simples de usuarios proyectadas a DTO.
     /// </summary>
     public class UserRepository : IUserRepository
     {
@@ -23,9 +28,20 @@ namespace QuickTix.DAL.Repositories
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        // Tiempo de vida del token JWT en días.
+        /// <summary>
+        /// Tiempo de vida del token JWT en días.
+        /// </summary>
         private const int TokenExpirationDays = 7;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="UserRepository"/>.
+        /// </summary>
+        /// <param name="context">DbContext de la aplicación.</param>
+        /// <param name="config">Configuración para obtener la clave JWT.</param>
+        /// <param name="userManager">Gestor de usuarios Identity.</param>
+        /// <param name="roleManager">Gestor de roles Identity.</param>
+        /// <exception cref="ArgumentNullException">Si la clave de configuración no existe.</exception>
+        /// <exception cref="ArgumentException">Si la clave es demasiado corta.</exception>
         public UserRepository(
             ApplicationDbContext context,
             IConfiguration config,
@@ -38,24 +54,26 @@ namespace QuickTix.DAL.Repositories
             _userManager = userManager;
             _roleManager = roleManager;
 
-            // Validación sencilla para evitar claves demasiado cortas en producción.
+            // Validación para evitar claves demasiado cortas.
             if (_secretKey.Length < 32)
             {
                 throw new ArgumentException("ApiSettings:SecretKey debe tener al menos 32 caracteres.");
             }
         }
 
-        // ============================================================
-        // REGISTRO
-        // ============================================================
+        /// <summary>
+        /// Registra un usuario en Identity y asigna por defecto el rol "client".
+        /// No genera token en el registro (mantiene el comportamiento actual).
+        /// </summary>
+        /// <param name="dto">Datos de registro del usuario.</param>
+        /// <returns>DTO de usuario registrado; null si el usuario ya existe o falla el alta.</returns>
         public async Task<UserLoginResponseDTO?> RegisterAsync(UserRegistrationDTO dto)
         {
-            // Comprobamos si el nombre de usuario ya existe.
+            // Comprobación simple de existencia de username.
             var exists = await _context.Users.AnyAsync(u => u.UserName == dto.UserName);
             if (exists)
                 return null;
 
-            // Creamos la entidad de Identity que se va a persistir.
             var user = new AppUser
             {
                 UserName = dto.UserName,
@@ -63,12 +81,11 @@ namespace QuickTix.DAL.Repositories
                 Name = dto.Name
             };
 
-            // Alta en Identity con contraseña.
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded)
                 return null;
 
-            // Nos aseguramos de que existan los roles básicos en la tabla AspNetRoles.
+            // Asegura roles básicos.
             string[] defaultRoles = { "admin", "manager", "client" };
             foreach (var role in defaultRoles)
             {
@@ -78,14 +95,12 @@ namespace QuickTix.DAL.Repositories
                 }
             }
 
-            // Por defecto asignamos el rol "client".
+            // Por defecto, rol client.
             await _userManager.AddToRoleAsync(user, "client");
 
-            // Obtenemos el rol efectivo del usuario recién creado.
             var roles = await _userManager.GetRolesAsync(user);
             var roleName = roles.FirstOrDefault() ?? string.Empty;
 
-            // Construimos el DTO externo que se enviará al cliente.
             var userDto = new UserDTO
             {
                 Id = user.Id,
@@ -93,11 +108,9 @@ namespace QuickTix.DAL.Repositories
                 UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
                 Role = roleName,
-
                 MustChangePassword = user.MustChangePassword
             };
 
-            // En el registro no generamos token (se mantiene el comportamiento original).
             return new UserLoginResponseDTO
             {
                 User = userDto,
@@ -105,56 +118,54 @@ namespace QuickTix.DAL.Repositories
             };
         }
 
-        // ============================================================
-        // LOGIN + JWT
-        // ============================================================
+        /// <summary>
+        /// Valida credenciales con Identity y genera un JWT con roles y claims adicionales
+        /// según el tipo de usuario (manager/client).
+        /// </summary>
+        /// <param name="dto">Credenciales de login.</param>
+        /// <returns>DTO de usuario y token; null si falla autenticación.</returns>
         public async Task<UserLoginResponseDTO?> LoginAsync(UserLoginDTO dto)
         {
-            // Localizamos el usuario a través de Identity.
             var user = await _userManager.FindByNameAsync(dto.UserName);
             if (user == null)
                 return null;
 
-            // Validamos la contraseña usando Identity (gestiona hashing y seguridad).
             bool valid = await _userManager.CheckPasswordAsync(user, dto.Password);
             if (!valid)
                 return null;
 
-            // Roles actuales del usuario.
             var roles = await _userManager.GetRolesAsync(user);
 
-            // Lista de claims que se incluirán dentro del JWT.
-            // Estas claims son la "identidad" que luego leerán las APIs protegidas.
+            // Claims base incluidas en el JWT.
             var claims = new List<Claim>
-{
-    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-    new Claim(ClaimTypes.NameIdentifier, user.Id),
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
 
-    new Claim("name", user.Name ?? string.Empty),
-    new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+                new Claim("name", user.Name ?? string.Empty),
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
 
-    new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-};
-
+                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+            };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            // Si es manager, añadir venueId y managerId
-            if (roles.Any(r => r.Equals("Manager", StringComparison.OrdinalIgnoreCase)))
+            // Ajuste mínimo por seguridad funcional:
+            // En el sistema los roles se crean como "manager" (minúsculas),
+            // pero aquí se validaba "Manager", lo que impedía añadir claims.
+            if (roles.Any(r => r.Equals("manager", StringComparison.OrdinalIgnoreCase)))
             {
-                // Ajusta _context.Managers y campos a tu modelo real
                 var manager = await _context.Managers
                     .AsNoTracking()
                     .FirstOrDefaultAsync(m => m.AppUserId == user.Id);
 
                 if (manager == null)
-                    throw new InvalidOperationException("El usuario tiene rol Manager pero no existe registro Manager asociado.");
+                    throw new InvalidOperationException("El usuario tiene rol manager pero no existe registro Manager asociado.");
 
                 claims.Add(new Claim("managerId", manager.Id.ToString()));
                 claims.Add(new Claim("venueId", manager.VenueId.ToString()));
             }
 
-            // Si es client, añadir clientId y venueId
             if (roles.Any(r => r.Equals("client", StringComparison.OrdinalIgnoreCase)))
             {
                 var client = await _context.Clients
@@ -162,17 +173,14 @@ namespace QuickTix.DAL.Repositories
                     .FirstOrDefaultAsync(c => c.AppUserId == user.Id);
 
                 if (client == null)
-                    throw new InvalidOperationException("El usuario tiene rol Client pero no existe registro Client asociado.");
+                    throw new InvalidOperationException("El usuario tiene rol client pero no existe registro Client asociado.");
 
                 claims.Add(new Claim("clientId", client.Id.ToString()));
             }
 
-
-            // Clave simétrica para firmar el token.
             var keyBytes = Encoding.UTF8.GetBytes(_secretKey);
             var signingKey = new SymmetricSecurityKey(keyBytes);
 
-            // Credenciales de firma con algoritmo HMAC SHA256.
             var signingCredentials = new SigningCredentials(
                 signingKey,
                 SecurityAlgorithms.HmacSha256Signature);
@@ -186,12 +194,10 @@ namespace QuickTix.DAL.Repositories
                 SigningCredentials = signingCredentials
             };
 
-            // Creación y serialización del JWT.
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            // Proyectamos AppUser a UserDTO de forma explícita.
             var roleName = roles.FirstOrDefault() ?? string.Empty;
 
             var userDto = new UserDTO
@@ -201,13 +207,9 @@ namespace QuickTix.DAL.Repositories
                 UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
                 Role = roleName,
-
                 MustChangePassword = user.MustChangePassword
             };
 
-
-
-            // Devolvemos el DTO de usuario consumible por Desktop/Mobile más el token.
             return new UserLoginResponseDTO
             {
                 Token = tokenString,
@@ -215,12 +217,13 @@ namespace QuickTix.DAL.Repositories
             };
         }
 
-        // ============================================================
-        // LISTADO DE USUARIOS COMO DTO
-        // ============================================================
+        /// <summary>
+        /// Obtiene el listado de usuarios proyectado a <see cref="UserDTO"/>.
+        /// Incluye la lectura del rol actual por usuario.
+        /// </summary>
+        /// <returns>Listado de usuarios como DTO.</returns>
         public async Task<List<UserDTO>> GetUserDTOsAsync()
         {
-            // Obtenemos todos los usuarios de Identity.
             var users = await _context.Users.ToListAsync();
             var dtos = new List<UserDTO>();
 
@@ -235,17 +238,18 @@ namespace QuickTix.DAL.Repositories
                     UserName = u.UserName ?? string.Empty,
                     Email = u.Email ?? string.Empty,
                     Role = roles.FirstOrDefault() ?? string.Empty,
-
-                    MustChangePassword= u.MustChangePassword
+                    MustChangePassword = u.MustChangePassword
                 });
             }
 
             return dtos;
         }
 
-        // ============================================================
-        // USUARIO INDIVIDUAL COMO DTO
-        // ============================================================
+        /// <summary>
+        /// Obtiene un usuario por id proyectado a <see cref="UserDTO"/>.
+        /// </summary>
+        /// <param name="id">Identificador Identity del usuario.</param>
+        /// <returns>Usuario como DTO si existe; en caso contrario, null.</returns>
         public async Task<UserDTO?> GetUserAsync(string id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -261,11 +265,19 @@ namespace QuickTix.DAL.Repositories
                 UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
                 Role = roles.FirstOrDefault() ?? string.Empty,
-
                 MustChangePassword = user.MustChangePassword
             };
         }
 
+        /// <summary>
+        /// Cambia la contraseña del usuario validando la contraseña actual.
+        /// Si el usuario tenía <see cref="AppUser.MustChangePassword"/> en true, lo desactiva tras el cambio.
+        /// </summary>
+        /// <param name="userId">Identificador Identity del usuario.</param>
+        /// <param name="currentPassword">Contraseña actual.</param>
+        /// <param name="newPassword">Nueva contraseña.</param>
+        /// <exception cref="KeyNotFoundException">Si el usuario no existe.</exception>
+        /// <exception cref="InvalidOperationException">Si Identity rechaza el cambio o la actualización.</exception>
         public async Task ChangePasswordAsync(string userId, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId)
@@ -292,11 +304,11 @@ namespace QuickTix.DAL.Repositories
             }
         }
 
-
-
-        // ============================================================
-        // UTILIDADES
-        // ============================================================
+        /// <summary>
+        /// Comprueba si un nombre de usuario es único.
+        /// </summary>
+        /// <param name="userName">Nombre de usuario (Identity UserName).</param>
+        /// <returns>True si no existe; en caso contrario, false.</returns>
         public async Task<bool> IsUniqueUserAsync(string userName)
         {
             return !await _context.Users.AnyAsync(u => u.UserName == userName);

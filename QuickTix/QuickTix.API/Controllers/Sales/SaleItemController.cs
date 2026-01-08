@@ -4,33 +4,43 @@ using Microsoft.AspNetCore.Mvc;
 using QuickTix.Contracts.Common;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Interfaces;
-using QuickTix.Core.Models.Entities;
 using System.Net;
 
 namespace QuickTix.API.Controllers.Sales
 {
     /// <summary>
     /// Controlador API para consultar ítems de venta asociados a tickets y suscripciones.
-    /// Expone endpoints de lectura para listados y consultas filtradas por venta.
+    ///
+    /// Este controlador no hereda de BaseController porque:
+    /// - No representa un CRUD genérico sobre una entidad independiente.
+    /// - Los ítems de venta forman parte del agregado de una venta (Sale) y se gestionan en ese contexto.
+    /// - Expone únicamente endpoints de lectura (listados y consultas filtradas).
+    ///
+    /// Todas las respuestas siguen el contrato <see cref="ApiResponse{T}"/>.
     /// </summary>
     [Authorize(Roles = "admin,manager")]
     [ApiController]
     [Route("api/[controller]")]
-    public class SaleItemController : BaseController<SaleItem, SaleItemDTO, CreateSaleItemDTO>
+    public class SaleItemController : ControllerBase
     {
-        // Repositorio específico de ítems de venta para consultas de tickets/suscripciones y filtros por venta
         private readonly ISaleItemRepository _saleItemRepository;
+        private readonly IMapper _mapper;
+        private readonly ILogger<SaleItemController> _logger;
 
         /// <summary>
         /// Inicializa una nueva instancia del <see cref="SaleItemController"/>.
         /// </summary>
-        /// <param name="repository">Repositorio específico de ítems de venta.</param>
+        /// <param name="saleItemRepository">Repositorio específico de ítems de venta.</param>
         /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
         /// <param name="logger">Logger del controlador.</param>
-        public SaleItemController(ISaleItemRepository repository, IMapper mapper, ILogger<SaleItemController> logger)
-            : base(repository, mapper, logger)
+        public SaleItemController(
+            ISaleItemRepository saleItemRepository,
+            IMapper mapper,
+            ILogger<SaleItemController> logger)
         {
-            _saleItemRepository = repository;
+            _saleItemRepository = saleItemRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -39,12 +49,14 @@ namespace QuickTix.API.Controllers.Sales
         /// <returns>Listado de ítems de venta.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public override async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll()
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var entities = await _saleItemRepository.GetAllAsync();
             var dtos = _mapper.Map<IEnumerable<SaleItemDTO>>(entities);
 
-            return Ok(BuildOk(dtos, HttpStatusCode.OK));
+            return Ok(ApiResponse<IEnumerable<SaleItemDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
         }
 
         /// <summary>
@@ -55,30 +67,23 @@ namespace QuickTix.API.Controllers.Sales
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public override async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var entity = await _saleItemRepository.GetAsync(id);
             if (entity == null)
             {
-                return NotFound(BuildFail(
+                return NotFound(ApiResponse<object>.Fail(
                     HttpStatusCode.NotFound,
-                    new[] { "Registro no encontrado." }
+                    new[] { "Registro no encontrado." },
+                    traceId
                 ));
             }
 
             var dto = _mapper.Map<SaleItemDTO>(entity);
-            if (dto == null)
-            {
-                return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    BuildFail(
-                        HttpStatusCode.InternalServerError,
-                        new[] { "No se pudo generar el DTO del ítem de venta." }
-                    )
-                );
-            }
 
-            return Ok(BuildOk(dto, HttpStatusCode.OK));
+            return Ok(ApiResponse<SaleItemDTO>.Ok(dto, HttpStatusCode.OK, traceId));
         }
 
         /// <summary>
@@ -89,10 +94,12 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTickets()
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var entities = await _saleItemRepository.GetTicketsAsync();
             var dtos = _mapper.Map<IEnumerable<SaleItemDTO>>(entities);
 
-            return Ok(BuildOk(dtos, HttpStatusCode.OK));
+            return Ok(ApiResponse<IEnumerable<SaleItemDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
         }
 
         /// <summary>
@@ -103,10 +110,12 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSubscriptions()
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var entities = await _saleItemRepository.GetSubscriptionsAsync();
             var dtos = _mapper.Map<IEnumerable<SaleItemDTO>>(entities);
 
-            return Ok(BuildOk(dtos, HttpStatusCode.OK));
+            return Ok(ApiResponse<IEnumerable<SaleItemDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
         }
 
         /// <summary>
@@ -119,19 +128,23 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetBySale(int saleId)
         {
+            var traceId = HttpContext.TraceIdentifier;
+
             var entities = await _saleItemRepository.GetBySaleAsync(saleId);
+
+            // Mantengo tu comportamiento: si no hay ítems, 404.
             if (entities == null || !entities.Any())
             {
-                return NotFound(BuildFail(
+                return NotFound(ApiResponse<object>.Fail(
                     HttpStatusCode.NotFound,
-                    new[] { $"No se encontraron ítems para la venta con ID {saleId}." }
+                    new[] { $"No se encontraron ítems para la venta con ID {saleId}." },
+                    traceId
                 ));
             }
 
             var dtos = _mapper.Map<IEnumerable<SaleItemDTO>>(entities);
 
-            return Ok(BuildOk(dtos, HttpStatusCode.OK));
+            return Ok(ApiResponse<IEnumerable<SaleItemDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
         }
-
     }
 }

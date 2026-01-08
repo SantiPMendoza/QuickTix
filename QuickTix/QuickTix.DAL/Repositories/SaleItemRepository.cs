@@ -6,22 +6,54 @@ using QuickTix.DAL.Data;
 
 namespace QuickTix.DAL.Repositories
 {
+    /// <summary>
+    /// Repositorio de solo lectura para <see cref="SaleItem"/>.
+    /// 
+    /// Este repositorio está orientado a consultas ricas (con múltiples Includes)
+    /// y no expone operaciones de creación, actualización o borrado, ya que
+    /// <see cref="SaleItem"/> forma parte del agregado de una venta (<see cref="Sale"/>).
+    /// </summary>
     public class SaleItemRepository : ISaleItemRepository
     {
+        // Contexto EF Core de la aplicación
         private readonly ApplicationDbContext _context;
-        private readonly IMemoryCache _cache;
-        private readonly string _cacheKey = "SaleItemCacheKey";
-        private readonly int _cacheExpirationTime = 3600; // seconds
 
+        // Caché en memoria para acelerar lecturas de ítems de venta
+        private readonly IMemoryCache _cache;
+
+        // Clave de caché para el listado completo de SaleItems
+        private readonly string _cacheKey = "SaleItemCacheKey";
+
+        // Tiempo de expiración de la caché (en segundos)
+        private readonly int _cacheExpirationTime = 3600;
+
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="SaleItemRepository"/>.
+        /// </summary>
+        /// <param name="context">DbContext de la aplicación.</param>
+        /// <param name="cache">Caché en memoria.</param>
         public SaleItemRepository(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
             _cache = cache;
         }
 
+        /// <summary>
+        /// Invalida la caché de ítems de venta.
+        /// Uso interno; este repositorio no expone operaciones de escritura.
+        /// </summary>
         private void ClearCache() => _cache.Remove(_cacheKey);
 
-        // 🔹 Carga base (para evitar repetir Includes)
+        /// <summary>
+        /// Consulta base reutilizable para <see cref="SaleItem"/>.
+        /// Incluye todas las relaciones necesarias para vistas de consulta:
+        /// - Venta, gestor y recinto
+        /// - Ticket y su recinto
+        /// - Suscripción, su recinto y cliente
+        /// 
+        /// Se ejecuta siempre en modo no-tracking al ser un repositorio de lectura.
+        /// </summary>
+        /// <returns>Consulta IQueryable de <see cref="SaleItem"/>.</returns>
         private IQueryable<SaleItem> BaseQuery() =>
             _context.SaleItems
                 .Include(i => i.Sale)
@@ -36,7 +68,11 @@ namespace QuickTix.DAL.Repositories
                     .ThenInclude(s => s.Client)
                 .AsNoTracking();
 
-        // 🔹 Obtener todos los ítems (tickets + suscripciones)
+        /// <summary>
+        /// Obtiene el listado completo de ítems de venta (tickets y suscripciones).
+        /// El resultado se cachea para mejorar el rendimiento en listados frecuentes.
+        /// </summary>
+        /// <returns>Colección de ítems de venta.</returns>
         public async Task<ICollection<SaleItem>> GetAllAsync()
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<SaleItem> cachedItems))
@@ -50,10 +86,16 @@ namespace QuickTix.DAL.Repositories
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpirationTime));
 
             _cache.Set(_cacheKey, saleItems, cacheOptions);
+
             return saleItems;
         }
 
-        // 🔹 Obtener un ítem por Id
+        /// <summary>
+        /// Obtiene un ítem de venta por su identificador.
+        /// Primero intenta resolverlo desde caché; si no existe, consulta base de datos.
+        /// </summary>
+        /// <param name="id">Identificador del ítem de venta.</param>
+        /// <returns>Ítem de venta si existe; en caso contrario, null.</returns>
         public async Task<SaleItem?> GetAsync(int id)
         {
             if (_cache.TryGetValue(_cacheKey, out ICollection<SaleItem> cachedItems))
@@ -63,16 +105,25 @@ namespace QuickTix.DAL.Repositories
                     return item;
             }
 
-            return await BaseQuery().FirstOrDefaultAsync(i => i.Id == id);
+            return await BaseQuery()
+                .FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        // 🔹 Comprobar existencia
+        /// <summary>
+        /// Indica si existe un ítem de venta con el identificador especificado.
+        /// </summary>
+        /// <param name="id">Identificador del ítem de venta.</param>
+        /// <returns>True si existe; en caso contrario, false.</returns>
         public async Task<bool> ExistsAsync(int id)
         {
-            return await _context.SaleItems.AnyAsync(i => i.Id == id);
+            return await _context.SaleItems
+                .AnyAsync(i => i.Id == id);
         }
 
-        // 🔹 Obtener solo los ítems de tipo Ticket
+        /// <summary>
+        /// Obtiene únicamente los ítems de venta correspondientes a tickets.
+        /// </summary>
+        /// <returns>Colección de ítems de venta de tipo ticket.</returns>
         public async Task<ICollection<SaleItem>> GetTicketsAsync()
         {
             return await BaseQuery()
@@ -81,7 +132,10 @@ namespace QuickTix.DAL.Repositories
                 .ToListAsync();
         }
 
-        // 🔹 Obtener solo los ítems de tipo Subscription
+        /// <summary>
+        /// Obtiene únicamente los ítems de venta correspondientes a suscripciones.
+        /// </summary>
+        /// <returns>Colección de ítems de venta de tipo suscripción.</returns>
         public async Task<ICollection<SaleItem>> GetSubscriptionsAsync()
         {
             return await BaseQuery()
@@ -90,7 +144,11 @@ namespace QuickTix.DAL.Repositories
                 .ToListAsync();
         }
 
-        // 🔹 Obtener ítems de una venta específica
+        /// <summary>
+        /// Obtiene los ítems de venta asociados a una venta concreta.
+        /// </summary>
+        /// <param name="saleId">Identificador de la venta.</param>
+        /// <returns>Colección de ítems asociados a la venta.</returns>
         public async Task<ICollection<SaleItem>> GetBySaleAsync(int saleId)
         {
             return await BaseQuery()

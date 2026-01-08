@@ -8,6 +8,12 @@ using System.Collections.Concurrent;
 
 namespace QuickTix.DAL.Repositories
 {
+    /// <summary>
+    /// Repositorio de precios por venue.
+    /// Expone operaciones para obtener y actualizar el mapa completo de precios
+    /// (tickets y suscripciones) combinando valores persistidos y combinaciones faltantes
+    /// con precio por defecto.
+    /// </summary>
     public class PricingRepository : IPricingRepository
     {
         private readonly ApplicationDbContext _db;
@@ -16,18 +22,33 @@ namespace QuickTix.DAL.Repositories
         private const int CacheSeconds = 3600;
         private const string CachePrefix = "Pricing:Venue:";
 
-        // Mantiene qué venues han sido cacheados para poder limpiar sin enumerar la cache
+        /// <summary>
+        /// Registra qué venues han sido cacheados para poder invalidarlos
+        /// sin enumerar todas las claves del <see cref="IMemoryCache"/>.
+        /// </summary>
         private static readonly ConcurrentDictionary<int, byte> CachedVenueIds = new();
 
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="PricingRepository"/>.
+        /// </summary>
+        /// <param name="db">DbContext de la aplicación.</param>
+        /// <param name="cache">Caché en memoria.</param>
         public PricingRepository(ApplicationDbContext db, IMemoryCache cache)
         {
             _db = db;
             _cache = cache;
         }
 
+        /// <summary>
+        /// Invalida la caché de todos los venues que este repositorio haya cacheado.
+        /// </summary>
         public void ClearCache()
         {
-            foreach (var venueId in CachedVenueIds.Keys)
+            // Ajuste mínimo: evitar enumerar Keys mientras se modifica el diccionario.
+            // Tomar snapshot de claves para evitar problemas de concurrencia.
+            var venueIds = CachedVenueIds.Keys.ToArray();
+
+            foreach (var venueId in venueIds)
             {
                 _cache.Remove($"{CachePrefix}{venueId}");
             }
@@ -35,6 +56,14 @@ namespace QuickTix.DAL.Repositories
             CachedVenueIds.Clear();
         }
 
+        /// <summary>
+        /// Obtiene el mapa de precios del venue indicado.
+        /// Si faltan combinaciones en base de datos, se completan con precio 0.
+        /// El resultado se cachea por venue.
+        /// </summary>
+        /// <param name="venueId">Identificador del venue.</param>
+        /// <returns>Mapa de precios del venue.</returns>
+        /// <exception cref="ArgumentException">Si <paramref name="venueId"/> es inválido.</exception>
         public async Task<VenuePriceMap> GetVenuePriceMapAsync(int venueId)
         {
             if (venueId <= 0)
@@ -55,13 +84,15 @@ namespace QuickTix.DAL.Repositories
                 .Where(x => x.VenueId == venueId)
                 .ToListAsync();
 
-            var ticketDict = ticketsDb.ToDictionary(
-                x => (x.Type, x.Context),
-                x => x);
+            // ToDictionary lanza si hay claves duplicadas.
+            // Si por datos inconsistentes existieran duplicados, preferimos quedarnos con el más reciente.
+            var ticketDict = ticketsDb
+                .GroupBy(x => (x.Type, x.Context))
+                .ToDictionary(g => g.Key, g => g.OrderByDescending(v => v.UpdatedAtUtc).First());
 
-            var subsDict = subsDb.ToDictionary(
-                x => (x.Category, x.Duration),
-                x => x);
+            var subsDict = subsDb
+                .GroupBy(x => (x.Category, x.Duration))
+                .ToDictionary(g => g.Key, g => g.OrderByDescending(v => v.UpdatedAtUtc).First());
 
             var allTicketTypes = Enum.GetValues<TicketType>();
             var allTicketContexts = Enum.GetValues<TicketContext>();
@@ -124,12 +155,21 @@ namespace QuickTix.DAL.Repositories
             _cache.Set(cacheKey, map, new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheSeconds)));
 
-            // Registrar venue cacheado
             CachedVenueIds.TryAdd(venueId, 0);
 
             return map;
         }
 
+        /// <summary>
+        /// Inserta o actualiza el mapa completo de precios para un venue.
+        /// Estrategia: reemplazo total (remove + add) dentro de transacción.
+        /// Tras persistir, invalida caché del venue y devuelve el mapa recalculado.
+        /// </summary>
+        /// <param name="map">Mapa de precios a guardar.</param>
+        /// <returns>Mapa de precios persistido y completado.</returns>
+        /// <exception cref="ArgumentNullException">Si <paramref name="map"/> es null.</exception>
+        /// <exception cref="ArgumentException">Si el VenueId es inválido.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Si alguno de los precios es negativo.</exception>
         public async Task<VenuePriceMap> UpsertVenuePriceMapAsync(VenuePriceMap map)
         {
             if (map == null)
@@ -183,6 +223,7 @@ namespace QuickTix.DAL.Repositories
                 await _db.SaveChangesAsync();
                 await tx.CommitAsync();
 
+                // Invalida caché del venue para servir el dato persistido.
                 _cache.Remove($"{CachePrefix}{venueId}");
                 CachedVenueIds.TryAdd(venueId, 0);
 
