@@ -10,19 +10,35 @@ using System.Security.Claims;
 
 namespace QuickTix.API.Controllers
 {
+    /// <summary>
+    /// Controlador API para operaciones de usuarios e identidad.
+    /// Gestiona consulta de usuarios, registro, login y cambio de contraseña.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
+        // Repositorio de usuarios con operaciones de autenticación y gestión de credenciales
         private readonly IUserRepository _userRepository;
+
+        // Mapper para convertir entidades de usuario a DTOs de salida
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="UserController"/>.
+        /// </summary>
+        /// <param name="userRepository">Repositorio de usuarios.</param>
+        /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
         public UserController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obtiene el listado de usuarios en formato DTO.
+        /// </summary>
+        /// <returns>Listado de usuarios.</returns>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -35,6 +51,11 @@ namespace QuickTix.API.Controllers
             return Ok(ApiResponse<List<UserDTO>>.Ok(userListDto, HttpStatusCode.OK, traceId));
         }
 
+        /// <summary>
+        /// Obtiene un usuario por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del usuario.</param>
+        /// <returns>Usuario solicitado.</returns>
         [HttpGet("{id}", Name = "GetUser")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -51,6 +72,11 @@ namespace QuickTix.API.Controllers
             return Ok(ApiResponse<UserDTO>.Ok(userDto, HttpStatusCode.OK, traceId));
         }
 
+        /// <summary>
+        /// Registra un nuevo usuario en el sistema.
+        /// </summary>
+        /// <param name="registrationDto">Datos de registro.</param>
+        /// <returns>Resultado del registro.</returns>
         [AllowAnonymous]
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -80,6 +106,11 @@ namespace QuickTix.API.Controllers
             return Ok(ApiResponse<object>.Ok(newUser, HttpStatusCode.OK, traceId));
         }
 
+        /// <summary>
+        /// Autentica un usuario y devuelve el token de acceso.
+        /// </summary>
+        /// <param name="loginDto">Credenciales de acceso.</param>
+        /// <returns>Usuario autenticado y token.</returns>
         [AllowAnonymous]
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -96,6 +127,11 @@ namespace QuickTix.API.Controllers
             return Ok(ApiResponse<UserLoginResponseDTO>.Ok(responseLogin, HttpStatusCode.OK, traceId));
         }
 
+        /// <summary>
+        /// Cambia la contraseña del usuario autenticado.
+        /// </summary>
+        /// <param name="dto">Contraseña actual y nueva contraseña.</param>
+        /// <returns>Resultado de la operación.</returns>
         [Authorize]
         [HttpPost("change-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]

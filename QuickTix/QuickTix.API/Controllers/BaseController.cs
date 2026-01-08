@@ -9,24 +9,29 @@ using System.Net;
 namespace QuickTix.API.Controllers
 {
     /// <summary>
-    /// Controlador base genérico para endpoints CRUD de QuickTix.
-    ///
-    /// Este controlador:
-    /// - Define operaciones CRUD comunes (GET, GET by ID, POST, PUT, DELETE).
-    /// - Utiliza IRepository y AutoMapper.
-    /// - No maneja excepciones con try/catch: se delega en ApiExceptionFilter para respuestas consistentes.
-    ///
-    /// Todas las respuestas (éxito y error) siguen el contrato ApiResponse{T}.
+    /// Controlador base genérico para exponer endpoints CRUD reutilizables.
+    /// Centraliza el uso de IRepository, AutoMapper y el contrato ApiResponse para respuestas consistentes.
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public abstract class BaseController<TEntity, TDto, TCreateDto> : ControllerBase
         where TEntity : class
     {
+        // Repositorio genérico para operaciones CRUD de la entidad
         protected readonly IRepository<TEntity> _repository;
+
+        // Mapper para conversión entre entidad y DTOs
         protected readonly IMapper _mapper;
+
+        // Logger del controlador derivado
         protected readonly ILogger _logger;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="BaseController{TEntity, TDto, TCreateDto}"/>.
+        /// </summary>
+        /// <param name="repository">Repositorio genérico de la entidad.</param>
+        /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
+        /// <param name="logger">Logger del controlador derivado.</param>
         protected BaseController(IRepository<TEntity> repository, IMapper mapper, ILogger logger)
         {
             _repository = repository;
@@ -34,14 +39,33 @@ namespace QuickTix.API.Controllers
             _logger = logger;
         }
 
+        // Identificador de trazabilidad por petición, propagado en ApiResponse
         protected string TraceId => HttpContext.TraceIdentifier;
 
+        /// <summary>
+        /// Construye una respuesta ApiResponse de éxito con el resultado y el TraceId de la petición.
+        /// </summary>
+        /// <typeparam name="T">Tipo del payload de salida.</typeparam>
+        /// <param name="result">Resultado a devolver.</param>
+        /// <param name="statusCode">Código HTTP lógico asociado al éxito.</param>
+        /// <returns>ApiResponse de éxito.</returns>
         protected ApiResponse<T> BuildOk<T>(T result, HttpStatusCode statusCode = HttpStatusCode.OK)
             => ApiResponse<T>.Ok(result, statusCode, TraceId);
 
+        /// <summary>
+        /// Construye una respuesta ApiResponse de error con los mensajes y el TraceId de la petición.
+        /// </summary>
+        /// <param name="statusCode">Código HTTP del error.</param>
+        /// <param name="errors">Listado de errores a exponer.</param>
+        /// <returns>ApiResponse de error.</returns>
         protected ApiResponse<object> BuildFail(HttpStatusCode statusCode, IEnumerable<string> errors)
             => ApiResponse<object>.Fail(statusCode, errors, TraceId);
 
+        /// <summary>
+        /// Extrae y normaliza los errores de validación del ModelState.
+        /// </summary>
+        /// <param name="modelState">Estado del modelo recibido en la petición.</param>
+        /// <returns>Listado de mensajes de error.</returns>
         protected static List<string> ExtractModelStateErrors(ModelStateDictionary modelState)
         {
             var errors = modelState.Values
@@ -52,7 +76,10 @@ namespace QuickTix.API.Controllers
             return errors.Count == 0 ? new List<string> { "Error de validación." } : errors;
         }
 
-        // GET: Obtener todos los registros
+        /// <summary>
+        /// Obtiene el listado completo de registros de la entidad.
+        /// </summary>
+        /// <returns>Listado de DTOs.</returns>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -64,7 +91,11 @@ namespace QuickTix.API.Controllers
             return Ok(BuildOk(dtos));
         }
 
-        // GET: Obtener un registro por ID
+        /// <summary>
+        /// Obtiene un registro por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del registro.</param>
+        /// <returns>DTO del registro solicitado.</returns>
         [HttpGet("{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -84,7 +115,11 @@ namespace QuickTix.API.Controllers
             return Ok(BuildOk(dto));
         }
 
-        // POST: Crear nuevo registro
+        /// <summary>
+        /// Crea un nuevo registro a partir del DTO de creación.
+        /// </summary>
+        /// <param name="createDto">DTO con los datos de creación.</param>
+        /// <returns>DTO del registro creado.</returns>
         [HttpPost]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -104,7 +139,7 @@ namespace QuickTix.API.Controllers
 
             var dto = _mapper.Map<TDto>(entity);
 
-            var createdResponse = ApiResponse<TDto>.Ok(dto, HttpStatusCode.Created, TraceId);
+            var createdResponse = BuildOk(dto, HttpStatusCode.Created);
 
             var idValue = dto?.GetType().GetProperty("Id")?.GetValue(dto);
             if (idValue == null)
@@ -115,7 +150,12 @@ namespace QuickTix.API.Controllers
             return CreatedAtAction(nameof(Get), new { id = idValue }, createdResponse);
         }
 
-        // PUT: Actualizar registro existente
+        /// <summary>
+        /// Actualiza un registro existente a partir de su identificador y DTO.
+        /// </summary>
+        /// <param name="id">Identificador del registro.</param>
+        /// <param name="dto">DTO con los datos actualizados.</param>
+        /// <returns>DTO del registro actualizado.</returns>
         [HttpPut("{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -147,7 +187,11 @@ namespace QuickTix.API.Controllers
             return Ok(BuildOk(updatedDto));
         }
 
-        // DELETE: Eliminar registro
+        /// <summary>
+        /// Elimina un registro por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del registro.</param>
+        /// <returns>Respuesta de éxito sin payload.</returns>
         [HttpDelete("{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]

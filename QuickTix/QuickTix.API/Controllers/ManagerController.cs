@@ -11,14 +11,29 @@ using System.Net;
 
 namespace QuickTix.API.Controllers
 {
+    /// <summary>
+    /// Controlador API para la gestión de managers y su vinculación con Identity.
+    /// Incluye creación/actualización del AppUser asociado, asignación del rol "manager" y asociación a un Venue.
+    /// </summary>
     [Authorize(Roles = "admin,manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class ManagerController : BaseController<Manager, ManagerDTO, CreateManagerDTO>
     {
+        // Gestor de usuarios Identity para crear/actualizar el AppUser asociado al Manager
         private readonly UserManager<AppUser> _userManager;
+
+        // Gestor de roles Identity para asegurar y asignar el rol "manager"
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del <see cref="ManagerController"/>.
+        /// </summary>
+        /// <param name="repository">Repositorio de managers.</param>
+        /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
+        /// <param name="logger">Logger del controlador.</param>
+        /// <param name="userManager">Gestor de usuarios Identity.</param>
+        /// <param name="roleManager">Gestor de roles Identity.</param>
         public ManagerController(
             IManagerRepository repository,
             IMapper mapper,
@@ -31,22 +46,24 @@ namespace QuickTix.API.Controllers
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// Crea un manager y su AppUser asociado en Identity, asignándole el rol "manager".
+        /// Valida duplicados por NIF/NIE y teléfono antes de persistir.
+        /// </summary>
+        /// <param name="dto">Datos de creación del manager.</param>
+        /// <returns>Manager creado.</returns>
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public override async Task<IActionResult> Create([FromBody] CreateManagerDTO dto)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
             }
 
             var normalizedNif = string.IsNullOrWhiteSpace(dto.Nif) ? null : dto.Nif.Trim().ToUpperInvariant();
@@ -56,14 +73,24 @@ namespace QuickTix.API.Controllers
             {
                 var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif);
                 if (nifExists)
-                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+                {
+                    return Conflict(BuildFail(
+                        HttpStatusCode.Conflict,
+                        new[] { "Ya existe un usuario con ese NIF/NIE." }
+                    ));
+                }
             }
 
             if (normalizedPhone != null)
             {
                 var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone);
                 if (phoneExists)
-                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+                {
+                    return Conflict(BuildFail(
+                        HttpStatusCode.Conflict,
+                        new[] { "Ya existe un usuario con ese número de teléfono." }
+                    ));
+                }
             }
 
             // 1) Crear AppUser asociado a este Manager
@@ -72,8 +99,8 @@ namespace QuickTix.API.Controllers
                 UserName = dto.Email,
                 Email = dto.Email,
                 Name = dto.Name,
-                Nif = dto.Nif,
-                PhoneNumber = dto.PhoneNumber,
+                Nif = normalizedNif,
+                PhoneNumber = normalizedPhone,
                 MustChangePassword = true
             };
 
@@ -118,12 +145,18 @@ namespace QuickTix.API.Controllers
             // 5) Mapear a DTO para respuesta
             var responseDto = _mapper.Map<ManagerDTO>(manager);
 
-            var createdResponse = ApiResponse<ManagerDTO>.Ok(responseDto, HttpStatusCode.Created, traceId);
+            var createdResponse = BuildOk(responseDto, HttpStatusCode.Created);
 
-            // Usa la acción Get(int id) heredada del BaseController
             return CreatedAtAction(nameof(Get), new { id = responseDto.Id }, createdResponse);
         }
 
+        /// <summary>
+        /// Actualiza un manager y su AppUser asociado en Identity.
+        /// Valida duplicados por NIF/NIE y teléfono excluyendo el usuario actual.
+        /// </summary>
+        /// <param name="id">Identificador del manager.</param>
+        /// <param name="dto">Datos actualizados del manager.</param>
+        /// <returns>Manager actualizado.</returns>
         [HttpPut("{id:int}")]
         [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -131,25 +164,20 @@ namespace QuickTix.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public override async Task<IActionResult> Update(int id, [FromBody] ManagerDTO dto)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
             }
 
             var manager = await _repository.GetForUpdateAsync(id);
             if (manager == null)
             {
-                return NotFound(ApiResponse<object>.Fail(
+                return NotFound(BuildFail(
                     HttpStatusCode.NotFound,
-                    new[] { "Registro no encontrado." },
-                    traceId
+                    new[] { "Registro no encontrado." }
                 ));
             }
 
@@ -165,21 +193,31 @@ namespace QuickTix.API.Controllers
             {
                 var nifExists = await _userManager.Users.AnyAsync(u => u.Nif == normalizedNif && u.Id != currentUserId);
                 if (nifExists)
-                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese NIF/NIE." }, traceId));
+                {
+                    return Conflict(BuildFail(
+                        HttpStatusCode.Conflict,
+                        new[] { "Ya existe un usuario con ese NIF/NIE." }
+                    ));
+                }
             }
 
             if (normalizedPhone != null)
             {
                 var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == normalizedPhone && u.Id != currentUserId);
                 if (phoneExists)
-                    return Conflict(ApiResponse<object>.Fail(HttpStatusCode.Conflict, new[] { "Ya existe un usuario con ese número de teléfono." }, traceId));
+                {
+                    return Conflict(BuildFail(
+                        HttpStatusCode.Conflict,
+                        new[] { "Ya existe un usuario con ese número de teléfono." }
+                    ));
+                }
             }
 
             manager.AppUser.Name = dto.Name;
             manager.AppUser.Email = dto.Email;
             manager.AppUser.UserName = dto.Email;
-            manager.AppUser.Nif = dto.Nif;
-            manager.AppUser.PhoneNumber = dto.PhoneNumber;
+            manager.AppUser.Nif = normalizedNif;
+            manager.AppUser.PhoneNumber = normalizedPhone;
 
             var userUpdateResult = await _userManager.UpdateAsync(manager.AppUser);
             if (!userUpdateResult.Succeeded)
@@ -195,7 +233,7 @@ namespace QuickTix.API.Controllers
 
             var updatedDto = _mapper.Map<ManagerDTO>(manager);
 
-            return Ok(ApiResponse<ManagerDTO>.Ok(updatedDto, HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(updatedDto, HttpStatusCode.OK));
         }
     }
 }

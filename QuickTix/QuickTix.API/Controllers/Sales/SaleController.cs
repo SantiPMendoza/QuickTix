@@ -23,20 +23,16 @@ namespace QuickTix.API.Controllers.Sales
         // Repositorio específico de ventas con lógica de consulta y registro
         private readonly ISaleRepository _saleRepository;
 
-        // Mapper para transformar entidades de dominio en DTOs
-        private readonly IMapper _mapper;
-
         /// <summary>
         /// Inicializa una nueva instancia del <see cref="SaleController"/>.
         /// </summary>
         /// <param name="repository">Repositorio de ventas.</param>
-        /// <param name="mapper">Servicio de mapeo de entidades.</param>
+        /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
         /// <param name="logger">Logger del controlador.</param>
         public SaleController(ISaleRepository repository, IMapper mapper, ILogger<SaleController> logger)
             : base(repository, mapper, logger)
         {
             _saleRepository = repository;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -47,10 +43,8 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTicketHistory()
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             var result = await _saleRepository.GetTicketHistoryAsync();
-            return Ok(ApiResponse<List<TicketSaleDTO>>.Ok(result.ToList(), HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(result.ToList(), HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -61,10 +55,8 @@ namespace QuickTix.API.Controllers.Sales
         [HttpGet("history/tickets/{saleId:int}/detail")]
         public async Task<IActionResult> GetTicketHistoryDetail(int saleId)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             var data = await _saleRepository.GetTicketHistoryDetailAsync(saleId);
-            return Ok(ApiResponse<TicketSaleDetailDTO>.Ok(data, HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(data, HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -75,10 +67,8 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSubscriptionHistory()
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             var result = await _saleRepository.GetSubscriptionHistoryAsync();
-            return Ok(ApiResponse<List<SubscriptionSaleDTO>>.Ok(result.ToList(), HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(result.ToList(), HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -91,16 +81,12 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SellTickets([FromBody] SellTicketDTO request)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
             }
 
             var sale = await _saleRepository.SellTicketsAsync(request);
@@ -112,15 +98,14 @@ namespace QuickTix.API.Controllers.Sales
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    ApiResponse<object>.Fail(
+                    BuildFail(
                         HttpStatusCode.InternalServerError,
-                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." },
-                        traceId
+                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." }
                     )
                 );
             }
 
-            return Ok(ApiResponse<SaleDTO>.Ok(dto, HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(dto, HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -133,16 +118,12 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SellTicketsBatch([FromBody] SellTicketsBatchDTO request)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
             }
 
             var sale = await _saleRepository.SellTicketsBatchAsync(request);
@@ -154,15 +135,14 @@ namespace QuickTix.API.Controllers.Sales
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    ApiResponse<object>.Fail(
+                    BuildFail(
                         HttpStatusCode.InternalServerError,
-                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." },
-                        traceId
+                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." }
                     )
                 );
             }
 
-            return Ok(ApiResponse<SaleDTO>.Ok(dto, HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(dto, HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -175,16 +155,12 @@ namespace QuickTix.API.Controllers.Sales
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SellSubscription([FromBody] SellSubscriptionDTO request)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
             }
 
             var sale = await _saleRepository.SellSubscriptionAsync(request);
@@ -196,15 +172,14 @@ namespace QuickTix.API.Controllers.Sales
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    ApiResponse<object>.Fail(
+                    BuildFail(
                         HttpStatusCode.InternalServerError,
-                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." },
-                        traceId
+                        new[] { "La venta se registró pero no se pudo generar el DTO de respuesta." }
                     )
                 );
             }
 
-            return Ok(ApiResponse<SaleDTO>.Ok(dto, HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(dto, HttpStatusCode.OK));
         }
     }
 }

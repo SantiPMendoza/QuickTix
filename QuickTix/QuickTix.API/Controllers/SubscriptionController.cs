@@ -12,7 +12,7 @@ namespace QuickTix.API.Controllers
 {
     /// <summary>
     /// Controlador API para la gestión de abonos (subscriptions).
-    /// Proporciona operaciones CRUD y consultas específicas por cliente.
+    /// Incluye operaciones CRUD y consultas específicas por cliente.
     /// </summary>
     /// <seealso cref="QuickTix.API.Controllers.BaseController&lt;QuickTix.Core.Models.Entities.Subscription, QuickTix.Contracts.Models.DTOs.SubscriptionDTO, QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO&gt;" />
     [Authorize]
@@ -20,14 +20,13 @@ namespace QuickTix.API.Controllers
     [ApiController]
     public class SubscriptionController : BaseController<Subscription, SubscriptionDTO, CreateSubscriptionDTO>
     {
-
+        // Repositorio específico de abonos para consultas por cliente y lecturas por Id
         private readonly ISubscriptionRepository _subscriptionRepository;
-        private readonly IMapper _mapper;
 
         /// <summary>
         /// Inicializa una nueva instancia del <see cref="SubscriptionController"/>.
         /// </summary>
-        /// <param name="repository">Repositorio de abonos.</param>
+        /// <param name="repository">Repositorio específico de abonos.</param>
         /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
         /// <param name="logger">Logger del controlador.</param>
         public SubscriptionController(
@@ -37,7 +36,6 @@ namespace QuickTix.API.Controllers
             : base(repository, mapper, logger)
         {
             _subscriptionRepository = repository;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -49,12 +47,10 @@ namespace QuickTix.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByClient(int clientId)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             var subs = await _subscriptionRepository.GetByClientAsync(clientId);
             var dtos = _mapper.Map<IEnumerable<SubscriptionDTO>>(subs);
 
-            return Ok(ApiResponse<IEnumerable<SubscriptionDTO>>.Ok(dtos, HttpStatusCode.OK, traceId));
+            return Ok(BuildOk(dtos, HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -68,16 +64,12 @@ namespace QuickTix.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public override async Task<IActionResult> Create([FromBody] CreateSubscriptionDTO dto)
         {
-            var traceId = HttpContext.TraceIdentifier;
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(ApiResponse<object>.Fail(HttpStatusCode.BadRequest, errors, traceId));
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
             }
 
             var subscription = _mapper.Map<Subscription>(dto);
@@ -91,10 +83,9 @@ namespace QuickTix.API.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    ApiResponse<object>.Fail(
+                    BuildFail(
                         HttpStatusCode.InternalServerError,
-                        new[] { "No se pudo crear el abono." },
-                        traceId
+                        new[] { "No se pudo crear el abono." }
                     )
                 );
             }
@@ -102,7 +93,7 @@ namespace QuickTix.API.Controllers
             var createdSub = await _subscriptionRepository.GetAsync(subscription.Id);
             var result = _mapper.Map<SubscriptionDTO>(createdSub);
 
-            var response = ApiResponse<SubscriptionDTO>.Ok(result, HttpStatusCode.Created, traceId);
+            var response = BuildOk(result, HttpStatusCode.Created);
             return CreatedAtAction(nameof(Get), new { id = result.Id }, response);
         }
 
