@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Core.Services
+  commentId: N:QuickTix.Core.Services
+  id: QuickTix.Core.Services
+  children:
+  - QuickTix.Core.Services.PriceMapValidator
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Core.Services
+  nameWithType: QuickTix.Core.Services
+  fullName: QuickTix.Core.Services
+  type: Namespace
+  assemblies:
+  - QuickTix.Core
+references:
+- uid: QuickTix.Core.Services.PriceMapValidator
+  commentId: T:QuickTix.Core.Services.PriceMapValidator
+  href: QuickTix.Core.Services.PriceMapValidator.html
+  name: PriceMapValidator
+  nameWithType: PriceMapValidator
+  fullName: QuickTix.Core.Services.PriceMapValidator

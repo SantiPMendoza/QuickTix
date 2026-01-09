@@ -65,7 +65,6 @@ namespace QuickTix.Desktop
                 _ = services.AddTransient<PricingView>();
                 _ = services.AddSingleton<LoginView>();
                 _ = services.AddSingleton<UsersView>();
-                _ = services.AddSingleton<SubscriptionsView>();
                 _ = services.AddSingleton<ClientsView>();
                 _ = services.AddSingleton<SalesView>();
 

@@ -1,0 +1,44 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  commentId: N:QuickTix.Contracts.Models.DTOs.SaleDTOs
+  id: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  children:
+  - QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+  - QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleItemDTO
+  - QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleDTO
+  - QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleItemDTO
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  nameWithType: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  fullName: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  type: Namespace
+  assemblies:
+  - QuickTix.Contracts
+references:
+- uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleDTO
+  href: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleDTO.html
+  name: SaleDTO
+  nameWithType: SaleDTO
+  fullName: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleDTO
+- uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+  href: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO.html
+  name: CreateSaleDTO
+  nameWithType: CreateSaleDTO
+  fullName: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+- uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleItemDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleItemDTO
+  href: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleItemDTO.html
+  name: SaleItemDTO
+  nameWithType: SaleItemDTO
+  fullName: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleItemDTO
+- uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleItemDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleItemDTO
+  href: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleItemDTO.html
+  name: CreateSaleItemDTO
+  nameWithType: CreateSaleItemDTO
+  fullName: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleItemDTO

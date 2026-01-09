@@ -1,0 +1,61 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.DAL.Data
+  commentId: N:QuickTix.DAL.Data
+  id: QuickTix.DAL.Data
+  children:
+  - QuickTix.DAL.Data.AppDbSeeder
+  - QuickTix.DAL.Data.ApplicationDbContext
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.DAL.Data
+  nameWithType: QuickTix.DAL.Data
+  fullName: QuickTix.DAL.Data
+  type: Namespace
+  assemblies:
+  - QuickTix.DAL
+references:
+- uid: QuickTix.DAL.Data.AppDbSeeder
+  commentId: T:QuickTix.DAL.Data.AppDbSeeder
+  href: QuickTix.DAL.Data.AppDbSeeder.html
+  name: AppDbSeeder
+  nameWithType: AppDbSeeder
+  fullName: QuickTix.DAL.Data.AppDbSeeder
+- uid: QuickTix.DAL.Data.ApplicationDbContext
+  commentId: T:QuickTix.DAL.Data.ApplicationDbContext
+  parent: QuickTix.DAL.Data
+  href: QuickTix.DAL.Data.ApplicationDbContext.html
+  name: ApplicationDbContext
+  nameWithType: ApplicationDbContext
+  fullName: QuickTix.DAL.Data.ApplicationDbContext
+- uid: QuickTix.DAL.Data
+  commentId: N:QuickTix.DAL.Data
+  href: QuickTix.html
+  name: QuickTix.DAL.Data
+  nameWithType: QuickTix.DAL.Data
+  fullName: QuickTix.DAL.Data
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.DAL
+    name: DAL
+    href: QuickTix.DAL.html
+  - name: .
+  - uid: QuickTix.DAL.Data
+    name: Data
+    href: QuickTix.DAL.Data.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.DAL
+    name: DAL
+    href: QuickTix.DAL.html
+  - name: .
+  - uid: QuickTix.DAL.Data
+    name: Data
+    href: QuickTix.DAL.Data.html

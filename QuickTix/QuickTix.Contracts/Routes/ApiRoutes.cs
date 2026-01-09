@@ -112,6 +112,8 @@
             /// </summary>
             /// <param name="clientId">Identificador del cliente.</param>
             public static string ByClientId(int clientId) => Base + $"/by-client/{clientId}";
+
+            public static string DeleteById(int id) => Base + $"/{id}";
         }
 
         public static class Pricing
@@ -180,6 +182,9 @@
             /// </summary>
             /// <param name="saleId">Identificador de la venta.</param>
             public static string BySaleId(int saleId) => Base + $"/by-sale/{saleId}";
+
+            
+
         }
     }
 }

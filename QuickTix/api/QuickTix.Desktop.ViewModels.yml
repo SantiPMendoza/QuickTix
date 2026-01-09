@@ -1,0 +1,78 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Desktop.ViewModels
+  commentId: N:QuickTix.Desktop.ViewModels
+  id: QuickTix.Desktop.ViewModels
+  children:
+  - QuickTix.Desktop.ViewModels.ClientsViewModel
+  - QuickTix.Desktop.ViewModels.LoginViewModel
+  - QuickTix.Desktop.ViewModels.MainViewModel
+  - QuickTix.Desktop.ViewModels.SubscriptionsViewModel
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Desktop.ViewModels
+  nameWithType: QuickTix.Desktop.ViewModels
+  fullName: QuickTix.Desktop.ViewModels
+  type: Namespace
+  assemblies:
+  - QuickTix.Desktop
+references:
+- uid: QuickTix.Desktop.ViewModels.ClientsViewModel
+  commentId: T:QuickTix.Desktop.ViewModels.ClientsViewModel
+  parent: QuickTix.Desktop.ViewModels
+  href: QuickTix.Desktop.ViewModels.ClientsViewModel.html
+  name: ClientsViewModel
+  nameWithType: ClientsViewModel
+  fullName: QuickTix.Desktop.ViewModels.ClientsViewModel
+- uid: QuickTix.Desktop.ViewModels.LoginViewModel
+  commentId: T:QuickTix.Desktop.ViewModels.LoginViewModel
+  parent: QuickTix.Desktop.ViewModels
+  href: QuickTix.Desktop.ViewModels.LoginViewModel.html
+  name: LoginViewModel
+  nameWithType: LoginViewModel
+  fullName: QuickTix.Desktop.ViewModels.LoginViewModel
+- uid: QuickTix.Desktop.ViewModels.MainViewModel
+  commentId: T:QuickTix.Desktop.ViewModels.MainViewModel
+  parent: QuickTix.Desktop.ViewModels
+  href: QuickTix.Desktop.ViewModels.MainViewModel.html
+  name: MainViewModel
+  nameWithType: MainViewModel
+  fullName: QuickTix.Desktop.ViewModels.MainViewModel
+- uid: QuickTix.Desktop.ViewModels.SubscriptionsViewModel
+  commentId: T:QuickTix.Desktop.ViewModels.SubscriptionsViewModel
+  parent: QuickTix.Desktop.ViewModels
+  href: QuickTix.Desktop.ViewModels.SubscriptionsViewModel.html
+  name: SubscriptionsViewModel
+  nameWithType: SubscriptionsViewModel
+  fullName: QuickTix.Desktop.ViewModels.SubscriptionsViewModel
+- uid: QuickTix.Desktop.ViewModels
+  commentId: N:QuickTix.Desktop.ViewModels
+  href: QuickTix.html
+  name: QuickTix.Desktop.ViewModels
+  nameWithType: QuickTix.Desktop.ViewModels
+  fullName: QuickTix.Desktop.ViewModels
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels
+    name: ViewModels
+    href: QuickTix.Desktop.ViewModels.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels
+    name: ViewModels
+    href: QuickTix.Desktop.ViewModels.html

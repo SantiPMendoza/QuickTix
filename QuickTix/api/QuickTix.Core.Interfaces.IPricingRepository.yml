@@ -1,0 +1,340 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Core.Interfaces.IPricingRepository
+  commentId: T:QuickTix.Core.Interfaces.IPricingRepository
+  id: IPricingRepository
+  parent: QuickTix.Core.Interfaces
+  children:
+  - QuickTix.Core.Interfaces.IPricingRepository.ClearCache
+  - QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync(System.Int32)
+  - QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync(QuickTix.Core.Models.Entities.Price.VenuePriceMap)
+  langs:
+  - csharp
+  - vb
+  name: IPricingRepository
+  nameWithType: IPricingRepository
+  fullName: QuickTix.Core.Interfaces.IPricingRepository
+  type: Interface
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Interfaces/IPricingRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: IPricingRepository
+    path: QuickTix.Core/Interfaces/IPricingRepository.cs
+    startLine: 4
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Interfaces
+  syntax:
+    content: public interface IPricingRepository
+    content.vb: Public Interface IPricingRepository
+- uid: QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync(System.Int32)
+  id: GetVenuePriceMapAsync(System.Int32)
+  parent: QuickTix.Core.Interfaces.IPricingRepository
+  langs:
+  - csharp
+  - vb
+  name: GetVenuePriceMapAsync(int)
+  nameWithType: IPricingRepository.GetVenuePriceMapAsync(int)
+  fullName: QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync(int)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Interfaces/IPricingRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: GetVenuePriceMapAsync
+    path: QuickTix.Core/Interfaces/IPricingRepository.cs
+    startLine: 6
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Interfaces
+  syntax:
+    content: Task<VenuePriceMap> GetVenuePriceMapAsync(int venueId)
+    parameters:
+    - id: venueId
+      type: System.Int32
+    return:
+      type: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Price.VenuePriceMap}
+    content.vb: Function GetVenuePriceMapAsync(venueId As Integer) As Task(Of VenuePriceMap)
+  overload: QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync*
+  nameWithType.vb: IPricingRepository.GetVenuePriceMapAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync(Integer)
+  name.vb: GetVenuePriceMapAsync(Integer)
+- uid: QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync(QuickTix.Core.Models.Entities.Price.VenuePriceMap)
+  commentId: M:QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync(QuickTix.Core.Models.Entities.Price.VenuePriceMap)
+  id: UpsertVenuePriceMapAsync(QuickTix.Core.Models.Entities.Price.VenuePriceMap)
+  parent: QuickTix.Core.Interfaces.IPricingRepository
+  langs:
+  - csharp
+  - vb
+  name: UpsertVenuePriceMapAsync(VenuePriceMap)
+  nameWithType: IPricingRepository.UpsertVenuePriceMapAsync(VenuePriceMap)
+  fullName: QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync(QuickTix.Core.Models.Entities.Price.VenuePriceMap)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Interfaces/IPricingRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UpsertVenuePriceMapAsync
+    path: QuickTix.Core/Interfaces/IPricingRepository.cs
+    startLine: 7
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Interfaces
+  syntax:
+    content: Task<VenuePriceMap> UpsertVenuePriceMapAsync(VenuePriceMap map)
+    parameters:
+    - id: map
+      type: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+    return:
+      type: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Price.VenuePriceMap}
+    content.vb: Function UpsertVenuePriceMapAsync(map As VenuePriceMap) As Task(Of VenuePriceMap)
+  overload: QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync*
+- uid: QuickTix.Core.Interfaces.IPricingRepository.ClearCache
+  commentId: M:QuickTix.Core.Interfaces.IPricingRepository.ClearCache
+  id: ClearCache
+  parent: QuickTix.Core.Interfaces.IPricingRepository
+  langs:
+  - csharp
+  - vb
+  name: ClearCache()
+  nameWithType: IPricingRepository.ClearCache()
+  fullName: QuickTix.Core.Interfaces.IPricingRepository.ClearCache()
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Interfaces/IPricingRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ClearCache
+    path: QuickTix.Core/Interfaces/IPricingRepository.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Interfaces
+  syntax:
+    content: void ClearCache()
+    content.vb: Sub ClearCache()
+  overload: QuickTix.Core.Interfaces.IPricingRepository.ClearCache*
+references:
+- uid: QuickTix.Core.Interfaces
+  commentId: N:QuickTix.Core.Interfaces
+  href: QuickTix.html
+  name: QuickTix.Core.Interfaces
+  nameWithType: QuickTix.Core.Interfaces
+  fullName: QuickTix.Core.Interfaces
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Interfaces
+    name: Interfaces
+    href: QuickTix.Core.Interfaces.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Interfaces
+    name: Interfaces
+    href: QuickTix.Core.Interfaces.html
+- uid: QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync*
+  commentId: Overload:QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync
+  href: QuickTix.Core.Interfaces.IPricingRepository.html#QuickTix_Core_Interfaces_IPricingRepository_GetVenuePriceMapAsync_System_Int32_
+  name: GetVenuePriceMapAsync
+  nameWithType: IPricingRepository.GetVenuePriceMapAsync
+  fullName: QuickTix.Core.Interfaces.IPricingRepository.GetVenuePriceMapAsync
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Price.VenuePriceMap}
+  commentId: T:System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Price.VenuePriceMap}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<VenuePriceMap>
+  nameWithType: Task<VenuePriceMap>
+  fullName: System.Threading.Tasks.Task<QuickTix.Core.Models.Entities.Price.VenuePriceMap>
+  nameWithType.vb: Task(Of VenuePriceMap)
+  fullName.vb: System.Threading.Tasks.Task(Of QuickTix.Core.Models.Entities.Price.VenuePriceMap)
+  name.vb: Task(Of VenuePriceMap)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+    name: VenuePriceMap
+    href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+    name: VenuePriceMap
+    href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync*
+  commentId: Overload:QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync
+  href: QuickTix.Core.Interfaces.IPricingRepository.html#QuickTix_Core_Interfaces_IPricingRepository_UpsertVenuePriceMapAsync_QuickTix_Core_Models_Entities_Price_VenuePriceMap_
+  name: UpsertVenuePriceMapAsync
+  nameWithType: IPricingRepository.UpsertVenuePriceMapAsync
+  fullName: QuickTix.Core.Interfaces.IPricingRepository.UpsertVenuePriceMapAsync
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  commentId: T:QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  parent: QuickTix.Core.Models.Entities.Price
+  href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html
+  name: VenuePriceMap
+  nameWithType: VenuePriceMap
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+- uid: QuickTix.Core.Models.Entities.Price
+  commentId: N:QuickTix.Core.Models.Entities.Price
+  href: QuickTix.html
+  name: QuickTix.Core.Models.Entities.Price
+  nameWithType: QuickTix.Core.Models.Entities.Price
+  fullName: QuickTix.Core.Models.Entities.Price
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities.Price
+    name: Price
+    href: QuickTix.Core.Models.Entities.Price.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities.Price
+    name: Price
+    href: QuickTix.Core.Models.Entities.Price.html
+- uid: QuickTix.Core.Interfaces.IPricingRepository.ClearCache*
+  commentId: Overload:QuickTix.Core.Interfaces.IPricingRepository.ClearCache
+  href: QuickTix.Core.Interfaces.IPricingRepository.html#QuickTix_Core_Interfaces_IPricingRepository_ClearCache
+  name: ClearCache
+  nameWithType: IPricingRepository.ClearCache
+  fullName: QuickTix.Core.Interfaces.IPricingRepository.ClearCache

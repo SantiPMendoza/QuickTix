@@ -1,0 +1,93 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Mobile.ViewModels
+  commentId: N:QuickTix.Mobile.ViewModels
+  id: QuickTix.Mobile.ViewModels
+  children:
+  - QuickTix.Mobile.ViewModels.ChangePasswordViewModel
+  - QuickTix.Mobile.ViewModels.LoginViewModel
+  - QuickTix.Mobile.ViewModels.SubscriptionCardViewModel
+  - QuickTix.Mobile.ViewModels.SubscriptionsViewModel
+  - QuickTix.Mobile.ViewModels.TicketBatchLineVM
+  - QuickTix.Mobile.ViewModels.TicketsViewModel
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Mobile.ViewModels
+  nameWithType: QuickTix.Mobile.ViewModels
+  fullName: QuickTix.Mobile.ViewModels
+  type: Namespace
+  assemblies:
+  - QuickTix.Mobile
+references:
+- uid: QuickTix.Mobile.ViewModels.ChangePasswordViewModel
+  commentId: T:QuickTix.Mobile.ViewModels.ChangePasswordViewModel
+  parent: QuickTix.Mobile.ViewModels
+  href: QuickTix.Mobile.ViewModels.ChangePasswordViewModel.html
+  name: ChangePasswordViewModel
+  nameWithType: ChangePasswordViewModel
+  fullName: QuickTix.Mobile.ViewModels.ChangePasswordViewModel
+- uid: QuickTix.Mobile.ViewModels.LoginViewModel
+  commentId: T:QuickTix.Mobile.ViewModels.LoginViewModel
+  parent: QuickTix.Mobile.ViewModels
+  href: QuickTix.Mobile.ViewModels.LoginViewModel.html
+  name: LoginViewModel
+  nameWithType: LoginViewModel
+  fullName: QuickTix.Mobile.ViewModels.LoginViewModel
+- uid: QuickTix.Mobile.ViewModels.SubscriptionCardViewModel
+  commentId: T:QuickTix.Mobile.ViewModels.SubscriptionCardViewModel
+  parent: QuickTix.Mobile.ViewModels
+  href: QuickTix.Mobile.ViewModels.SubscriptionCardViewModel.html
+  name: SubscriptionCardViewModel
+  nameWithType: SubscriptionCardViewModel
+  fullName: QuickTix.Mobile.ViewModels.SubscriptionCardViewModel
+- uid: QuickTix.Mobile.ViewModels.SubscriptionsViewModel
+  commentId: T:QuickTix.Mobile.ViewModels.SubscriptionsViewModel
+  parent: QuickTix.Mobile.ViewModels
+  href: QuickTix.Mobile.ViewModels.SubscriptionsViewModel.html
+  name: SubscriptionsViewModel
+  nameWithType: SubscriptionsViewModel
+  fullName: QuickTix.Mobile.ViewModels.SubscriptionsViewModel
+- uid: QuickTix.Mobile.ViewModels.TicketsViewModel
+  commentId: T:QuickTix.Mobile.ViewModels.TicketsViewModel
+  parent: QuickTix.Mobile.ViewModels
+  href: QuickTix.Mobile.ViewModels.TicketsViewModel.html
+  name: TicketsViewModel
+  nameWithType: TicketsViewModel
+  fullName: QuickTix.Mobile.ViewModels.TicketsViewModel
+- uid: QuickTix.Mobile.ViewModels.TicketBatchLineVM
+  commentId: T:QuickTix.Mobile.ViewModels.TicketBatchLineVM
+  href: QuickTix.Mobile.ViewModels.TicketBatchLineVM.html
+  name: TicketBatchLineVM
+  nameWithType: TicketBatchLineVM
+  fullName: QuickTix.Mobile.ViewModels.TicketBatchLineVM
+- uid: QuickTix.Mobile.ViewModels
+  commentId: N:QuickTix.Mobile.ViewModels
+  href: QuickTix.html
+  name: QuickTix.Mobile.ViewModels
+  nameWithType: QuickTix.Mobile.ViewModels
+  fullName: QuickTix.Mobile.ViewModels
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.ViewModels
+    name: ViewModels
+    href: QuickTix.Mobile.ViewModels.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.ViewModels
+    name: ViewModels
+    href: QuickTix.Mobile.ViewModels.html

@@ -1,0 +1,460 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Mobile.Helpers.IAppSession
+  commentId: T:QuickTix.Mobile.Helpers.IAppSession
+  id: IAppSession
+  parent: QuickTix.Mobile.Helpers
+  children:
+  - QuickTix.Mobile.Helpers.IAppSession.Clear
+  - QuickTix.Mobile.Helpers.IAppSession.ClientId
+  - QuickTix.Mobile.Helpers.IAppSession.Email
+  - QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+  - QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  - QuickTix.Mobile.Helpers.IAppSession.Name
+  - QuickTix.Mobile.Helpers.IAppSession.Role
+  - QuickTix.Mobile.Helpers.IAppSession.UserId
+  - QuickTix.Mobile.Helpers.IAppSession.VenueId
+  - QuickTix.Mobile.Helpers.IAppSession.VenueName
+  langs:
+  - csharp
+  - vb
+  name: IAppSession
+  nameWithType: IAppSession
+  fullName: QuickTix.Mobile.Helpers.IAppSession
+  type: Interface
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: IAppSession
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 7
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  summary: >-
+    Define el contrato de sesión de la aplicación para el cliente móvil.
+
+    Centraliza los datos del usuario autenticado (ids y claims relevantes) y expone operaciones
+
+    para inicializar la sesión a partir de un JWT y para limpiar el estado.
+  example: []
+  syntax:
+    content: public interface IAppSession
+    content.vb: Public Interface IAppSession
+- uid: QuickTix.Mobile.Helpers.IAppSession.VenueId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.VenueId
+  id: VenueId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: VenueId
+  nameWithType: IAppSession.VenueId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.VenueId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 9
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: int VenueId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: ReadOnly Property VenueId As Integer
+  overload: QuickTix.Mobile.Helpers.IAppSession.VenueId*
+- uid: QuickTix.Mobile.Helpers.IAppSession.VenueName
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.VenueName
+  id: VenueName
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: VenueName
+  nameWithType: IAppSession.VenueName
+  fullName: QuickTix.Mobile.Helpers.IAppSession.VenueName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueName
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: string VenueName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property VenueName As String
+  overload: QuickTix.Mobile.Helpers.IAppSession.VenueName*
+- uid: QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  id: ManagerId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: ManagerId
+  nameWithType: IAppSession.ManagerId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ManagerId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 11
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: int ManagerId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: ReadOnly Property ManagerId As Integer
+  overload: QuickTix.Mobile.Helpers.IAppSession.ManagerId*
+- uid: QuickTix.Mobile.Helpers.IAppSession.ClientId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.ClientId
+  id: ClientId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: ClientId
+  nameWithType: IAppSession.ClientId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.ClientId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ClientId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 12
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: int ClientId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: ReadOnly Property ClientId As Integer
+  overload: QuickTix.Mobile.Helpers.IAppSession.ClientId*
+- uid: QuickTix.Mobile.Helpers.IAppSession.UserId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.UserId
+  id: UserId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: UserId
+  nameWithType: IAppSession.UserId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.UserId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UserId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 13
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: string? UserId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property UserId As String
+  overload: QuickTix.Mobile.Helpers.IAppSession.UserId*
+- uid: QuickTix.Mobile.Helpers.IAppSession.Email
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.Email
+  id: Email
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: Email
+  nameWithType: IAppSession.Email
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Email
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Email
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 14
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: string? Email { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Email As String
+  overload: QuickTix.Mobile.Helpers.IAppSession.Email*
+- uid: QuickTix.Mobile.Helpers.IAppSession.Role
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.Role
+  id: Role
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: Role
+  nameWithType: IAppSession.Role
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Role
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Role
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 15
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: string? Role { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Role As String
+  overload: QuickTix.Mobile.Helpers.IAppSession.Role*
+- uid: QuickTix.Mobile.Helpers.IAppSession.Name
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.Name
+  id: Name
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: IAppSession.Name
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Name
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Name
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 16
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  syntax:
+    content: string? Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Name As String
+  overload: QuickTix.Mobile.Helpers.IAppSession.Name*
+- uid: QuickTix.Mobile.Helpers.IAppSession.Clear
+  commentId: M:QuickTix.Mobile.Helpers.IAppSession.Clear
+  id: Clear
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: IAppSession.Clear()
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Clear()
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Clear
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 21
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  summary: Limpia el estado de sesión actual.
+  example: []
+  syntax:
+    content: void Clear()
+    content.vb: Sub Clear()
+  overload: QuickTix.Mobile.Helpers.IAppSession.Clear*
+- uid: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+  commentId: M:QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+  id: LoadFromToken(System.String)
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  langs:
+  - csharp
+  - vb
+  name: LoadFromToken(string)
+  nameWithType: IAppSession.LoadFromToken(string)
+  fullName: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(string)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: LoadFromToken
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 27
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  summary: Carga los datos de sesión a partir de un token JWT (claims).
+  example: []
+  syntax:
+    content: void LoadFromToken(string jwt)
+    parameters:
+    - id: jwt
+      type: System.String
+      description: Token JWT devuelto por la API.
+    content.vb: Sub LoadFromToken(jwt As String)
+  overload: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken*
+  nameWithType.vb: IAppSession.LoadFromToken(String)
+  fullName.vb: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(String)
+  name.vb: LoadFromToken(String)
+references:
+- uid: QuickTix.Mobile.Helpers
+  commentId: N:QuickTix.Mobile.Helpers
+  href: QuickTix.html
+  name: QuickTix.Mobile.Helpers
+  nameWithType: QuickTix.Mobile.Helpers
+  fullName: QuickTix.Mobile.Helpers
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Helpers
+    name: Helpers
+    href: QuickTix.Mobile.Helpers.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Helpers
+    name: Helpers
+    href: QuickTix.Mobile.Helpers.html
+- uid: QuickTix.Mobile.Helpers.IAppSession.VenueId*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.VenueId
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_VenueId
+  name: VenueId
+  nameWithType: IAppSession.VenueId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.VenueId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Mobile.Helpers.IAppSession.VenueName*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.VenueName
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_VenueName
+  name: VenueName
+  nameWithType: IAppSession.VenueName
+  fullName: QuickTix.Mobile.Helpers.IAppSession.VenueName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Mobile.Helpers.IAppSession.ManagerId*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_ManagerId
+  name: ManagerId
+  nameWithType: IAppSession.ManagerId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.ManagerId
+- uid: QuickTix.Mobile.Helpers.IAppSession.ClientId*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.ClientId
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_ClientId
+  name: ClientId
+  nameWithType: IAppSession.ClientId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.ClientId
+- uid: QuickTix.Mobile.Helpers.IAppSession.UserId*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.UserId
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_UserId
+  name: UserId
+  nameWithType: IAppSession.UserId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.UserId
+- uid: QuickTix.Mobile.Helpers.IAppSession.Email*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.Email
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Email
+  name: Email
+  nameWithType: IAppSession.Email
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Email
+- uid: QuickTix.Mobile.Helpers.IAppSession.Role*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.Role
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Role
+  name: Role
+  nameWithType: IAppSession.Role
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Role
+- uid: QuickTix.Mobile.Helpers.IAppSession.Name*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.Name
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Name
+  name: Name
+  nameWithType: IAppSession.Name
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Name
+- uid: QuickTix.Mobile.Helpers.IAppSession.Clear*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.Clear
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Clear
+  name: Clear
+  nameWithType: IAppSession.Clear
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Clear
+- uid: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken*
+  commentId: Overload:QuickTix.Mobile.Helpers.IAppSession.LoadFromToken
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_LoadFromToken_System_String_
+  name: LoadFromToken
+  nameWithType: IAppSession.LoadFromToken
+  fullName: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken

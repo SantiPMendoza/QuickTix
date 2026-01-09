@@ -13,6 +13,7 @@ namespace QuickTix.Desktop.ViewModels
     {
         protected override string Endpoint => "Subscription";
 
+
         [ObservableProperty] private ObservableCollection<VenueDTO> venues = [];
         [ObservableProperty] private VenueDTO? selectedVenue;
 
@@ -101,11 +102,44 @@ namespace QuickTix.Desktop.ViewModels
         /// <returns>Tarea asíncrona.</returns>
         public override async Task DeleteAsync(int id)
         {
-            await base.DeleteAsync(id);
+            try
+            {
+                ErrorMessage = null;
 
-            if (CurrentClientId.HasValue)
-                await LoadByClientAsync(CurrentClientId.Value);
+                // 1) Intento normal
+                await _httpClient.DeleteAsync(ApiRoutes.Subscription.DeleteById(id));
+
+                if (CurrentClientId.HasValue)
+                    await LoadByClientAsync(CurrentClientId.Value);
+            }
+            catch (ApiException apiEx) when (apiEx.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                // 2) La API avisa de dependencias: el usuario debe confirmar
+                var confirm = MessageBox.Show(
+                    $"{apiEx.Message}\n\nSi pulsas Aceptar, se eliminará el abono y también los ítems de venta asociados.\n¿Deseas continuar?",
+                    "Confirmar eliminación",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Warning);
+
+                if (confirm != MessageBoxResult.OK)
+                    return;
+
+                // 3) Reintento con force=true
+                await _httpClient.DeleteAsync(ApiRoutes.Subscription.DeleteById(id) + "?force=true");
+
+                if (CurrentClientId.HasValue)
+                    await LoadByClientAsync(CurrentClientId.Value);
+            }
+            catch (ApiException apiEx)
+            {
+                ErrorMessage = $"No se pudo eliminar el abono.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error local eliminando el abono: {ex.Message}";
+            }
         }
+
 
         /// <summary>
         /// Registra la venta de una suscripción y recarga el listado del cliente asociado.
@@ -162,5 +196,8 @@ namespace QuickTix.Desktop.ViewModels
                 return false;
             }
         }
+
+
+
     }
 }

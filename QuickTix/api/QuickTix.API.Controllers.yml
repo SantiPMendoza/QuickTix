@@ -1,0 +1,103 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.API.Controllers
+  commentId: N:QuickTix.API.Controllers
+  id: QuickTix.API.Controllers
+  children:
+  - QuickTix.API.Controllers.AdminController
+  - QuickTix.API.Controllers.BaseController`3
+  - QuickTix.API.Controllers.ClientController
+  - QuickTix.API.Controllers.ManagerController
+  - QuickTix.API.Controllers.SubscriptionController
+  - QuickTix.API.Controllers.TicketController
+  - QuickTix.API.Controllers.UserController
+  - QuickTix.API.Controllers.VenueController
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.API.Controllers
+  nameWithType: QuickTix.API.Controllers
+  fullName: QuickTix.API.Controllers
+  type: Namespace
+  assemblies:
+  - QuickTix.API
+references:
+- uid: QuickTix.API.Controllers.AdminController
+  commentId: T:QuickTix.API.Controllers.AdminController
+  href: QuickTix.API.Controllers.AdminController.html
+  name: AdminController
+  nameWithType: AdminController
+  fullName: QuickTix.API.Controllers.AdminController
+- uid: QuickTix.API.Controllers.BaseController`3
+  commentId: T:QuickTix.API.Controllers.BaseController`3
+  href: QuickTix.API.Controllers.BaseController-3.html
+  name: BaseController<TEntity, TDto, TCreateDto>
+  nameWithType: BaseController<TEntity, TDto, TCreateDto>
+  fullName: QuickTix.API.Controllers.BaseController<TEntity, TDto, TCreateDto>
+  nameWithType.vb: BaseController(Of TEntity, TDto, TCreateDto)
+  fullName.vb: QuickTix.API.Controllers.BaseController(Of TEntity, TDto, TCreateDto)
+  name.vb: BaseController(Of TEntity, TDto, TCreateDto)
+  spec.csharp:
+  - uid: QuickTix.API.Controllers.BaseController`3
+    name: BaseController
+    href: QuickTix.API.Controllers.BaseController-3.html
+  - name: <
+  - name: TEntity
+  - name: ','
+  - name: " "
+  - name: TDto
+  - name: ','
+  - name: " "
+  - name: TCreateDto
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.API.Controllers.BaseController`3
+    name: BaseController
+    href: QuickTix.API.Controllers.BaseController-3.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEntity
+  - name: ','
+  - name: " "
+  - name: TDto
+  - name: ','
+  - name: " "
+  - name: TCreateDto
+  - name: )
+- uid: QuickTix.API.Controllers.ClientController
+  commentId: T:QuickTix.API.Controllers.ClientController
+  href: QuickTix.API.Controllers.ClientController.html
+  name: ClientController
+  nameWithType: ClientController
+  fullName: QuickTix.API.Controllers.ClientController
+- uid: QuickTix.API.Controllers.ManagerController
+  commentId: T:QuickTix.API.Controllers.ManagerController
+  href: QuickTix.API.Controllers.ManagerController.html
+  name: ManagerController
+  nameWithType: ManagerController
+  fullName: QuickTix.API.Controllers.ManagerController
+- uid: QuickTix.API.Controllers.SubscriptionController
+  commentId: T:QuickTix.API.Controllers.SubscriptionController
+  href: QuickTix.API.Controllers.SubscriptionController.html
+  name: SubscriptionController
+  nameWithType: SubscriptionController
+  fullName: QuickTix.API.Controllers.SubscriptionController
+- uid: QuickTix.API.Controllers.TicketController
+  commentId: T:QuickTix.API.Controllers.TicketController
+  href: QuickTix.API.Controllers.TicketController.html
+  name: TicketController
+  nameWithType: TicketController
+  fullName: QuickTix.API.Controllers.TicketController
+- uid: QuickTix.API.Controllers.UserController
+  commentId: T:QuickTix.API.Controllers.UserController
+  href: QuickTix.API.Controllers.UserController.html
+  name: UserController
+  nameWithType: UserController
+  fullName: QuickTix.API.Controllers.UserController
+- uid: QuickTix.API.Controllers.VenueController
+  commentId: T:QuickTix.API.Controllers.VenueController
+  href: QuickTix.API.Controllers.VenueController.html
+  name: VenueController
+  nameWithType: VenueController
+  fullName: QuickTix.API.Controllers.VenueController

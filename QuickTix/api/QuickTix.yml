@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix
+  commentId: N:QuickTix
+  id: QuickTix
+  children:
+  - QuickTix.MainWindow
+  langs:
+  - csharp
+  - vb
+  name: QuickTix
+  nameWithType: QuickTix
+  fullName: QuickTix
+  type: Namespace
+  assemblies:
+  - QuickTix.Desktop
+references:
+- uid: QuickTix.MainWindow
+  commentId: T:QuickTix.MainWindow
+  href: QuickTix.MainWindow.html
+  name: MainWindow
+  nameWithType: MainWindow
+  fullName: QuickTix.MainWindow

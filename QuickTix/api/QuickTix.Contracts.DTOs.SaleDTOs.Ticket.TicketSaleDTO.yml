@@ -1,0 +1,690 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  id: TicketSaleDTO
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  children:
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName
+  langs:
+  - csharp
+  - vb
+  name: TicketSaleDTO
+  nameWithType: TicketSaleDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: TicketSaleDTO
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 2
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public class TicketSaleDTO
+    content.vb: Public Class TicketSaleDTO
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id
+  id: Id
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: TicketSaleDTO.Id
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Id
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 4
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date
+  id: Date
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: Date
+  nameWithType: TicketSaleDTO.Date
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Date
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 5
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public DateTime Date { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property [Date] As Date
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId
+  id: VenueId
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: VenueId
+  nameWithType: TicketSaleDTO.VenueId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueId
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 7
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public int VenueId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property VenueId As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName
+  id: VenueName
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: VenueName
+  nameWithType: TicketSaleDTO.VenueName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueName
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public string VenueName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property VenueName As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId
+  id: ManagerId
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: ManagerId
+  nameWithType: TicketSaleDTO.ManagerId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ManagerId
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public int ManagerId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ManagerId As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName
+  id: ManagerName
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: ManagerName
+  nameWithType: TicketSaleDTO.ManagerName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ManagerName
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 11
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public string ManagerName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ManagerName As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity
+  id: Quantity
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: Quantity
+  nameWithType: TicketSaleDTO.Quantity
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Quantity
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 13
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public int Quantity { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Quantity As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount
+  id: TotalAmount
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: TotalAmount
+  nameWithType: TicketSaleDTO.TotalAmount
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: TotalAmount
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 16
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public decimal TotalAmount { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property TotalAmount As Decimal
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString
+  id: DiaSemanaString
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: DiaSemanaString
+  nameWithType: TicketSaleDTO.DiaSemanaString
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: DiaSemanaString
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Ticket/TicketSaleDTO.cs
+    startLine: 18
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  syntax:
+    content: public string DiaSemanaString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property DiaSemanaString As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString*
+references:
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  commentId: N:QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  href: QuickTix.html
+  name: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  nameWithType: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs
+    name: SaleDTOs
+    href: QuickTix.Contracts.DTOs.SaleDTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+    name: Ticket
+    href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs
+    name: SaleDTOs
+    href: QuickTix.Contracts.DTOs.SaleDTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+    name: Ticket
+    href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_Id
+  name: Id
+  nameWithType: TicketSaleDTO.Id
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_Date
+  name: Date
+  nameWithType: TicketSaleDTO.Date
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Date
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_VenueId
+  name: VenueId
+  nameWithType: TicketSaleDTO.VenueId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueId
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_VenueName
+  name: VenueName
+  nameWithType: TicketSaleDTO.VenueName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.VenueName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_ManagerId
+  name: ManagerId
+  nameWithType: TicketSaleDTO.ManagerId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerId
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_ManagerName
+  name: ManagerName
+  nameWithType: TicketSaleDTO.ManagerName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.ManagerName
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_Quantity
+  name: Quantity
+  nameWithType: TicketSaleDTO.Quantity
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.Quantity
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_TotalAmount
+  name: TotalAmount
+  nameWithType: TicketSaleDTO.TotalAmount
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.TotalAmount
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.decimal
+  name: decimal
+  nameWithType: decimal
+  fullName: decimal
+  nameWithType.vb: Decimal
+  fullName.vb: Decimal
+  name.vb: Decimal
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Ticket_TicketSaleDTO_DiaSemanaString
+  name: DiaSemanaString
+  nameWithType: TicketSaleDTO.DiaSemanaString
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.DiaSemanaString

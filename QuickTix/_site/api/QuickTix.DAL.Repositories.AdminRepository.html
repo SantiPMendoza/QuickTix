@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class AdminRepository </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class AdminRepository ">
+      
+      <meta name="description" content="Repositorio de acceso a datos para . Incluye cach&#233; en lecturas de listado para reducir carga de consultas.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/SantiPMendoza/QuickTix/new/main/apiSpec/new?filename=QuickTix_DAL_Repositories_AdminRepository.md&amp;value=---%0Auid%3A%20QuickTix.DAL.Repositories.AdminRepository%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="QuickTix.DAL.Repositories.AdminRepository">
+
+
+
+  <h1 id="QuickTix_DAL_Repositories_AdminRepository" data-uid="QuickTix.DAL.Repositories.AdminRepository" class="text-break">
+Class AdminRepository  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="QuickTix.html">QuickTix</a>.<a class="xref" href="QuickTix.DAL.html">DAL</a>.<a class="xref" href="QuickTix.DAL.Repositories.html">Repositories</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>QuickTix.DAL.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Repositorio de acceso a datos para <a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a>.
+Incluye caché en lecturas de listado para reducir carga de consultas.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AdminRepository : IAdminRepository, IRepository&lt;Admin&gt;</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">AdminRepository</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="QuickTix.Core.Interfaces.IAdminRepository.html">IAdminRepository</a></div>
+      <div><a class="xref" href="QuickTix.Core.Interfaces.IRepository-1.html">IRepository</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository__ctor_" data-uid="QuickTix.DAL.Repositories.AdminRepository.#ctor*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository__ctor_QuickTix_DAL_Data_ApplicationDbContext_Microsoft_Extensions_Caching_Memory_IMemoryCache_" data-uid="QuickTix.DAL.Repositories.AdminRepository.#ctor(QuickTix.DAL.Data.ApplicationDbContext,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+  AdminRepository(ApplicationDbContext, IMemoryCache)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Inicializa una nueva instancia del <a class="xref" href="QuickTix.DAL.Repositories.AdminRepository.html">AdminRepository</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AdminRepository(ApplicationDbContext context, IMemoryCache cache)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="QuickTix.DAL.Data.ApplicationDbContext.html">ApplicationDbContext</a></dt>
+    <dd><p>DbContext de la aplicación.</p>
+</dd>
+    <dt><code>cache</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory.imemorycache">IMemoryCache</a></dt>
+    <dd><p>Caché en memoria.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_ClearCache_" data-uid="QuickTix.DAL.Repositories.AdminRepository.ClearCache*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_ClearCache" data-uid="QuickTix.DAL.Repositories.AdminRepository.ClearCache">
+  ClearCache()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Invalida la caché de administradores.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearCache()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_CreateAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.CreateAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_CreateAsync_QuickTix_Core_Models_Entities_Admin_" data-uid="QuickTix.DAL.Repositories.AdminRepository.CreateAsync(QuickTix.Core.Models.Entities.Admin)">
+  CreateAsync(Admin)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L150"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Crea un administrador y persiste cambios.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; CreateAsync(Admin admin)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>admin</code> <a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a></dt>
+    <dd><p>Entidad administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si se guarda correctamente; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_DeleteAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.DeleteAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_DeleteAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.AdminRepository.DeleteAsync(System.Int32)">
+  DeleteAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L173"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Elimina un administrador por id y persiste cambios.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; DeleteAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador del administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si se elimina; false si no existe.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_ExistsAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.ExistsAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_ExistsAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.AdminRepository.ExistsAsync(System.Int32)">
+  ExistsAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indica si existe un administrador con el id especificado.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ExistsAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador del administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si existe; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_GetAllAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetAllAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_GetAllAsync" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetAllAsync">
+  GetAllAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene el listado de administradores.
+Usa caché para evitar consultas repetitivas.
+Se proyectan campos mínimos del <a class="xref" href="QuickTix.Core.Models.Entities.AppUser.html">AppUser</a> asociado.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ICollection&lt;Admin&gt;&gt; GetAllAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a>&gt;&gt;</dt>
+    <dd><p>Colección de administradores.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_GetAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_GetAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetAsync(System.Int32)">
+  GetAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene un administrador por id para lectura.
+Si existe caché de listado, se reutiliza para evitar consulta a BD.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Admin?&gt; GetAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador del administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a>&gt;</dt>
+    <dd><p>Administrador si existe; en caso contrario, null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_GetDetailAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetDetailAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_GetDetailAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetDetailAsync(System.Int32)">
+  GetDetailAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L130"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene el detalle de un administrador.
+Si el &quot;detalle&quot; no requiere información adicional, reutiliza <a class="xref" href="QuickTix.DAL.Repositories.AdminRepository.html#QuickTix_DAL_Repositories_AdminRepository_GetAsync_System_Int32_">GetAsync(int)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Admin?&gt; GetDetailAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador del administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a>&gt;</dt>
+    <dd><p>Administrador si existe; en caso contrario, null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_GetForUpdateAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetForUpdateAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_GetForUpdateAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.AdminRepository.GetForUpdateAsync(System.Int32)">
+  GetForUpdateAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene un administrador por id para actualización/borrado.
+La entidad se devuelve con tracking y con el <a class="xref" href="QuickTix.Core.Models.Entities.AppUser.html">AppUser</a> incluido.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Admin?&gt; GetForUpdateAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador del administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a>&gt;</dt>
+    <dd><p>Administrador si existe; en caso contrario, null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_SaveAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.SaveAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_SaveAsync" data-uid="QuickTix.DAL.Repositories.AdminRepository.SaveAsync">
+  SaveAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Persiste los cambios en base de datos.
+Si se guarda correctamente, invalida la caché asociada.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; SaveAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si el guardado se realiza correctamente; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_AdminRepository_UpdateAsync_" data-uid="QuickTix.DAL.Repositories.AdminRepository.UpdateAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_AdminRepository_UpdateAsync_QuickTix_Core_Models_Entities_Admin_" data-uid="QuickTix.DAL.Repositories.AdminRepository.UpdateAsync(QuickTix.Core.Models.Entities.Admin)">
+  UpdateAsync(Admin)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L162"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Persiste una actualización de administrador.
+Convención habitual: la entidad se obtiene previamente con tracking mediante <a class="xref" href="QuickTix.DAL.Repositories.AdminRepository.html#QuickTix_DAL_Repositories_AdminRepository_GetForUpdateAsync_System_Int32_">GetForUpdateAsync(int)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; UpdateAsync(Admin admin)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>admin</code> <a class="xref" href="QuickTix.Core.Models.Entities.Admin.html">Admin</a></dt>
+    <dd><p>Entidad administrador.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si se guarda correctamente; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/AdminRepository.cs/#L13" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

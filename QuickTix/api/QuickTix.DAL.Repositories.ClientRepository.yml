@@ -1,0 +1,1824 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.DAL.Repositories.ClientRepository
+  commentId: T:QuickTix.DAL.Repositories.ClientRepository
+  id: ClientRepository
+  parent: QuickTix.DAL.Repositories
+  children:
+  - QuickTix.DAL.Repositories.ClientRepository.#ctor(QuickTix.DAL.Data.ApplicationDbContext,Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  - QuickTix.DAL.Repositories.ClientRepository.ClearCache
+  - QuickTix.DAL.Repositories.ClientRepository.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  - QuickTix.DAL.Repositories.ClientRepository.DeleteAsync(System.Int32)
+  - QuickTix.DAL.Repositories.ClientRepository.ExistsAsync(System.Int32)
+  - QuickTix.DAL.Repositories.ClientRepository.GetAllAsync
+  - QuickTix.DAL.Repositories.ClientRepository.GetAsync(System.Int32)
+  - QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync(System.Int32)
+  - QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+  - QuickTix.DAL.Repositories.ClientRepository.SaveAsync
+  - QuickTix.DAL.Repositories.ClientRepository.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  langs:
+  - csharp
+  - vb
+  name: ClientRepository
+  nameWithType: ClientRepository
+  fullName: QuickTix.DAL.Repositories.ClientRepository
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ClientRepository
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 13
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Repositorio de acceso a datos para <xref href="QuickTix.Core.Models.Entities.Client" data-throw-if-not-resolved="false"></xref>.
+
+    Incluye caché en lecturas de listado para reducir carga de consultas.
+  example: []
+  syntax:
+    content: 'public class ClientRepository : IClientRepository, IRepository<Client>'
+    content.vb: Public Class ClientRepository Implements IClientRepository, IRepository(Of Client)
+  inheritance:
+  - System.Object
+  implements:
+  - QuickTix.Core.Interfaces.IClientRepository
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.DAL.Repositories.ClientRepository.#ctor(QuickTix.DAL.Data.ApplicationDbContext,Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.#ctor(QuickTix.DAL.Data.ApplicationDbContext,Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  id: '#ctor(QuickTix.DAL.Data.ApplicationDbContext,Microsoft.Extensions.Caching.Memory.IMemoryCache)'
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: ClientRepository(ApplicationDbContext, IMemoryCache)
+  nameWithType: ClientRepository.ClientRepository(ApplicationDbContext, IMemoryCache)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.ClientRepository(QuickTix.DAL.Data.ApplicationDbContext, Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  type: Constructor
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: .ctor
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 32
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: Inicializa una nueva instancia del <xref href="QuickTix.DAL.Repositories.ClientRepository" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public ClientRepository(ApplicationDbContext context, IMemoryCache cache)
+    parameters:
+    - id: context
+      type: QuickTix.DAL.Data.ApplicationDbContext
+      description: DbContext de la aplicación.
+    - id: cache
+      type: Microsoft.Extensions.Caching.Memory.IMemoryCache
+      description: Caché en memoria.
+    content.vb: Public Sub New(context As ApplicationDbContext, cache As IMemoryCache)
+  overload: QuickTix.DAL.Repositories.ClientRepository.#ctor*
+  nameWithType.vb: ClientRepository.New(ApplicationDbContext, IMemoryCache)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.New(QuickTix.DAL.Data.ApplicationDbContext, Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  name.vb: New(ApplicationDbContext, IMemoryCache)
+- uid: QuickTix.DAL.Repositories.ClientRepository.SaveAsync
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.SaveAsync
+  id: SaveAsync
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: SaveAsync()
+  nameWithType: ClientRepository.SaveAsync()
+  fullName: QuickTix.DAL.Repositories.ClientRepository.SaveAsync()
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SaveAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 43
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Persiste los cambios en base de datos.
+
+    Si se guarda correctamente, invalida la caché asociada.
+  example: []
+  syntax:
+    content: public Task<bool> SaveAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True si el guardado se realiza correctamente; en caso contrario, false.
+    content.vb: Public Function SaveAsync() As Task(Of Boolean)
+  overload: QuickTix.DAL.Repositories.ClientRepository.SaveAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.SaveAsync
+- uid: QuickTix.DAL.Repositories.ClientRepository.ClearCache
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.ClearCache
+  id: ClearCache
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: ClearCache()
+  nameWithType: ClientRepository.ClearCache()
+  fullName: QuickTix.DAL.Repositories.ClientRepository.ClearCache()
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ClearCache
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 53
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: Invalida la caché de clientes.
+  example: []
+  syntax:
+    content: public void ClearCache()
+    content.vb: Public Sub ClearCache()
+  overload: QuickTix.DAL.Repositories.ClientRepository.ClearCache*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ClearCache
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetAllAsync
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.GetAllAsync
+  id: GetAllAsync
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: GetAllAsync()
+  nameWithType: ClientRepository.GetAllAsync()
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetAllAsync()
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: GetAllAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 61
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Obtiene el listado de clientes.
+
+    Usa caché para evitar consultas repetitivas.
+
+    Se proyectan campos mínimos del <xref href="QuickTix.Core.Models.Entities.AppUser" data-throw-if-not-resolved="false"></xref> asociado.
+  example: []
+  syntax:
+    content: public Task<ICollection<Client>> GetAllAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.ICollection{QuickTix.Core.Models.Entities.Client}}
+      description: Colección de clientes.
+    content.vb: Public Function GetAllAsync() As Task(Of ICollection(Of Client))
+  overload: QuickTix.DAL.Repositories.ClientRepository.GetAllAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAllAsync
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync(System.Int32)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync(System.Int32)
+  id: GetDetailAsync(System.Int32)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: GetDetailAsync(int)
+  nameWithType: ClientRepository.GetDetailAsync(int)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync(int)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: GetDetailAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 96
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Obtiene el detalle completo de un cliente para mostrar en UI (panel derecho).
+
+    Incluye el usuario asociado y colecciones relacionadas (suscripciones y tickets).
+
+    Se ejecuta como split query para reducir el riesgo de explosión cartesiana.
+  example: []
+  syntax:
+    content: public Task<Client?> GetDetailAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: Identificador del cliente.
+    return:
+      type: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Client}
+      description: Cliente con detalle si existe; en caso contrario, null.
+    content.vb: Public Function GetDetailAsync(id As Integer) As Task(Of Client)
+  overload: QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetDetailAsync(System.Int32)
+  nameWithType.vb: ClientRepository.GetDetailAsync(Integer)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync(Integer)
+  name.vb: GetDetailAsync(Integer)
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+  id: GetForUpdateAsync(System.Int32)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: GetForUpdateAsync(int)
+  nameWithType: ClientRepository.GetForUpdateAsync(int)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(int)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: GetForUpdateAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 114
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Obtiene un cliente por id para actualización/borrado.
+
+    La entidad se devuelve con tracking e incluye el <xref href="QuickTix.Core.Models.Entities.AppUser" data-throw-if-not-resolved="false"></xref> asociado.
+
+    No incluye colecciones para evitar carga innecesaria en operaciones de escritura.
+  example: []
+  syntax:
+    content: public Task<Client?> GetForUpdateAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: Identificador del cliente.
+    return:
+      type: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Client}
+      description: Cliente si existe; en caso contrario, null.
+    content.vb: Public Function GetForUpdateAsync(id As Integer) As Task(Of Client)
+  overload: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetForUpdateAsync(System.Int32)
+  nameWithType.vb: ClientRepository.GetForUpdateAsync(Integer)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(Integer)
+  name.vb: GetForUpdateAsync(Integer)
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetAsync(System.Int32)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.GetAsync(System.Int32)
+  id: GetAsync(System.Int32)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: GetAsync(int)
+  nameWithType: ClientRepository.GetAsync(int)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetAsync(int)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: GetAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 128
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Obtiene un cliente por id para lectura.
+
+    Si existe caché del listado, se reutiliza para evitar consulta a BD.
+
+    Si no hay caché, realiza una lectura ligera (sin colecciones).
+  example: []
+  syntax:
+    content: public Task<Client?> GetAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: Identificador del cliente.
+    return:
+      type: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Client}
+      description: Cliente si existe; en caso contrario, null.
+    content.vb: Public Function GetAsync(id As Integer) As Task(Of Client)
+  overload: QuickTix.DAL.Repositories.ClientRepository.GetAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAsync(System.Int32)
+  nameWithType.vb: ClientRepository.GetAsync(Integer)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.GetAsync(Integer)
+  name.vb: GetAsync(Integer)
+- uid: QuickTix.DAL.Repositories.ClientRepository.ExistsAsync(System.Int32)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.ExistsAsync(System.Int32)
+  id: ExistsAsync(System.Int32)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: ExistsAsync(int)
+  nameWithType: ClientRepository.ExistsAsync(int)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.ExistsAsync(int)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ExistsAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 144
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: Indica si existe un cliente con el id especificado.
+  example: []
+  syntax:
+    content: public Task<bool> ExistsAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: Identificador del cliente.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True si existe; en caso contrario, false.
+    content.vb: Public Function ExistsAsync(id As Integer) As Task(Of Boolean)
+  overload: QuickTix.DAL.Repositories.ClientRepository.ExistsAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ExistsAsync(System.Int32)
+  nameWithType.vb: ClientRepository.ExistsAsync(Integer)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.ExistsAsync(Integer)
+  name.vb: ExistsAsync(Integer)
+- uid: QuickTix.DAL.Repositories.ClientRepository.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  id: CreateAsync(QuickTix.Core.Models.Entities.Client)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: CreateAsync(Client)
+  nameWithType: ClientRepository.CreateAsync(Client)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: CreateAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 152
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: Crea un cliente y persiste cambios.
+  example: []
+  syntax:
+    content: public Task<bool> CreateAsync(Client client)
+    parameters:
+    - id: client
+      type: QuickTix.Core.Models.Entities.Client
+      description: Entidad cliente.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True si se guarda correctamente; en caso contrario, false.
+    content.vb: Public Function CreateAsync(client As Client) As Task(Of Boolean)
+  overload: QuickTix.DAL.Repositories.ClientRepository.CreateAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.CreateAsync(QuickTix.Core.Models.Entities.Client)
+- uid: QuickTix.DAL.Repositories.ClientRepository.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  id: UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: UpdateAsync(Client)
+  nameWithType: ClientRepository.UpdateAsync(Client)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UpdateAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 164
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Persiste una actualización de cliente.
+
+    Convención habitual: la entidad se obtiene previamente con tracking mediante <xref href="QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public Task<bool> UpdateAsync(Client client)
+    parameters:
+    - id: client
+      type: QuickTix.Core.Models.Entities.Client
+      description: Entidad cliente.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True si se guarda correctamente; en caso contrario, false.
+    content.vb: Public Function UpdateAsync(client As Client) As Task(Of Boolean)
+  overload: QuickTix.DAL.Repositories.ClientRepository.UpdateAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+- uid: QuickTix.DAL.Repositories.ClientRepository.DeleteAsync(System.Int32)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.DeleteAsync(System.Int32)
+  id: DeleteAsync(System.Int32)
+  parent: QuickTix.DAL.Repositories.ClientRepository
+  langs:
+  - csharp
+  - vb
+  name: DeleteAsync(int)
+  nameWithType: ClientRepository.DeleteAsync(int)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.DeleteAsync(int)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.DAL/Repositories/ClientRepository.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: DeleteAsync
+    path: QuickTix.DAL/Repositories/ClientRepository.cs
+    startLine: 177
+  assemblies:
+  - QuickTix.DAL
+  namespace: QuickTix.DAL.Repositories
+  summary: >-
+    Elimina un cliente por id y persiste cambios.
+
+    Importante: para evitar problemas con entidades proyectadas desde caché,
+
+    la eliminación se realiza siempre sobre una entidad cargada con tracking.
+  example: []
+  syntax:
+    content: public Task<bool> DeleteAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: Identificador del cliente.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True si se elimina; false si no existe.
+    content.vb: Public Function DeleteAsync(id As Integer) As Task(Of Boolean)
+  overload: QuickTix.DAL.Repositories.ClientRepository.DeleteAsync*
+  implements:
+  - QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.DeleteAsync(System.Int32)
+  nameWithType.vb: ClientRepository.DeleteAsync(Integer)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.DeleteAsync(Integer)
+  name.vb: DeleteAsync(Integer)
+references:
+- uid: QuickTix.Core.Models.Entities.Client
+  commentId: T:QuickTix.Core.Models.Entities.Client
+  parent: QuickTix.Core.Models.Entities
+  href: QuickTix.Core.Models.Entities.Client.html
+  name: Client
+  nameWithType: Client
+  fullName: QuickTix.Core.Models.Entities.Client
+- uid: QuickTix.DAL.Repositories
+  commentId: N:QuickTix.DAL.Repositories
+  href: QuickTix.html
+  name: QuickTix.DAL.Repositories
+  nameWithType: QuickTix.DAL.Repositories
+  fullName: QuickTix.DAL.Repositories
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.DAL
+    name: DAL
+    href: QuickTix.DAL.html
+  - name: .
+  - uid: QuickTix.DAL.Repositories
+    name: Repositories
+    href: QuickTix.DAL.Repositories.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.DAL
+    name: DAL
+    href: QuickTix.DAL.html
+  - name: .
+  - uid: QuickTix.DAL.Repositories
+    name: Repositories
+    href: QuickTix.DAL.Repositories.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: QuickTix.Core.Interfaces.IClientRepository
+  commentId: T:QuickTix.Core.Interfaces.IClientRepository
+  parent: QuickTix.Core.Interfaces
+  href: QuickTix.Core.Interfaces.IClientRepository.html
+  name: IClientRepository
+  nameWithType: IClientRepository
+  fullName: QuickTix.Core.Interfaces.IClientRepository
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  commentId: T:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  parent: QuickTix.Core.Interfaces
+  definition: QuickTix.Core.Interfaces.IRepository`1
+  href: QuickTix.Core.Interfaces.IRepository-1.html
+  name: IRepository<Client>
+  nameWithType: IRepository<Client>
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>
+  nameWithType.vb: IRepository(Of Client)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client)
+  name.vb: IRepository(Of Client)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1
+    name: IRepository
+    href: QuickTix.Core.Interfaces.IRepository-1.html
+  - name: <
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    href: QuickTix.Core.Models.Entities.Client.html
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1
+    name: IRepository
+    href: QuickTix.Core.Interfaces.IRepository-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    href: QuickTix.Core.Models.Entities.Client.html
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: QuickTix.Core.Models.Entities
+  commentId: N:QuickTix.Core.Models.Entities
+  href: QuickTix.html
+  name: QuickTix.Core.Models.Entities
+  nameWithType: QuickTix.Core.Models.Entities
+  fullName: QuickTix.Core.Models.Entities
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Core.Interfaces
+  commentId: N:QuickTix.Core.Interfaces
+  href: QuickTix.html
+  name: QuickTix.Core.Interfaces
+  nameWithType: QuickTix.Core.Interfaces
+  fullName: QuickTix.Core.Interfaces
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Interfaces
+    name: Interfaces
+    href: QuickTix.Core.Interfaces.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Interfaces
+    name: Interfaces
+    href: QuickTix.Core.Interfaces.html
+- uid: QuickTix.Core.Interfaces.IRepository`1
+  commentId: T:QuickTix.Core.Interfaces.IRepository`1
+  href: QuickTix.Core.Interfaces.IRepository-1.html
+  name: IRepository<TEntity>
+  nameWithType: IRepository<TEntity>
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>
+  nameWithType.vb: IRepository(Of TEntity)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity)
+  name.vb: IRepository(Of TEntity)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1
+    name: IRepository
+    href: QuickTix.Core.Interfaces.IRepository-1.html
+  - name: <
+  - name: TEntity
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1
+    name: IRepository
+    href: QuickTix.Core.Interfaces.IRepository-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEntity
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository
+  commentId: T:QuickTix.DAL.Repositories.ClientRepository
+  href: QuickTix.DAL.Repositories.ClientRepository.html
+  name: ClientRepository
+  nameWithType: ClientRepository
+  fullName: QuickTix.DAL.Repositories.ClientRepository
+- uid: QuickTix.DAL.Repositories.ClientRepository.#ctor*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.#ctor
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository__ctor_QuickTix_DAL_Data_ApplicationDbContext_Microsoft_Extensions_Caching_Memory_IMemoryCache_
+  name: ClientRepository
+  nameWithType: ClientRepository.ClientRepository
+  fullName: QuickTix.DAL.Repositories.ClientRepository.ClientRepository
+  nameWithType.vb: ClientRepository.New
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.New
+  name.vb: New
+- uid: QuickTix.DAL.Data.ApplicationDbContext
+  commentId: T:QuickTix.DAL.Data.ApplicationDbContext
+  parent: QuickTix.DAL.Data
+  href: QuickTix.DAL.Data.ApplicationDbContext.html
+  name: ApplicationDbContext
+  nameWithType: ApplicationDbContext
+  fullName: QuickTix.DAL.Data.ApplicationDbContext
+- uid: Microsoft.Extensions.Caching.Memory.IMemoryCache
+  commentId: T:Microsoft.Extensions.Caching.Memory.IMemoryCache
+  parent: Microsoft.Extensions.Caching.Memory
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory.imemorycache
+  name: IMemoryCache
+  nameWithType: IMemoryCache
+  fullName: Microsoft.Extensions.Caching.Memory.IMemoryCache
+- uid: QuickTix.DAL.Data
+  commentId: N:QuickTix.DAL.Data
+  href: QuickTix.html
+  name: QuickTix.DAL.Data
+  nameWithType: QuickTix.DAL.Data
+  fullName: QuickTix.DAL.Data
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.DAL
+    name: DAL
+    href: QuickTix.DAL.html
+  - name: .
+  - uid: QuickTix.DAL.Data
+    name: Data
+    href: QuickTix.DAL.Data.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.DAL
+    name: DAL
+    href: QuickTix.DAL.html
+  - name: .
+  - uid: QuickTix.DAL.Data
+    name: Data
+    href: QuickTix.DAL.Data.html
+- uid: Microsoft.Extensions.Caching.Memory
+  commentId: N:Microsoft.Extensions.Caching.Memory
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.Caching.Memory
+  nameWithType: Microsoft.Extensions.Caching.Memory
+  fullName: Microsoft.Extensions.Caching.Memory
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Caching
+    name: Caching
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching
+  - name: .
+  - uid: Microsoft.Extensions.Caching.Memory
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Caching
+    name: Caching
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching
+  - name: .
+  - uid: Microsoft.Extensions.Caching.Memory
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory
+- uid: QuickTix.DAL.Repositories.ClientRepository.SaveAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.SaveAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_SaveAsync
+  name: SaveAsync
+  nameWithType: ClientRepository.SaveAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.SaveAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.SaveAsync
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.SaveAsync
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.SaveAsync
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_SaveAsync
+  name: SaveAsync()
+  nameWithType: IRepository<Client>.SaveAsync()
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.SaveAsync()
+  nameWithType.vb: IRepository(Of Client).SaveAsync()
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).SaveAsync()
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.SaveAsync
+    name: SaveAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_SaveAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.SaveAsync
+    name: SaveAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_SaveAsync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.SaveAsync
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.SaveAsync
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_SaveAsync
+  name: SaveAsync()
+  nameWithType: IRepository<TEntity>.SaveAsync()
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.SaveAsync()
+  nameWithType.vb: IRepository(Of TEntity).SaveAsync()
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).SaveAsync()
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.SaveAsync
+    name: SaveAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_SaveAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.SaveAsync
+    name: SaveAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_SaveAsync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: QuickTix.DAL.Repositories.ClientRepository.ClearCache*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.ClearCache
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_ClearCache
+  name: ClearCache
+  nameWithType: ClientRepository.ClearCache
+  fullName: QuickTix.DAL.Repositories.ClientRepository.ClearCache
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ClearCache
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ClearCache
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.ClearCache
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ClearCache
+  name: ClearCache()
+  nameWithType: IRepository<Client>.ClearCache()
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.ClearCache()
+  nameWithType.vb: IRepository(Of Client).ClearCache()
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).ClearCache()
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ClearCache
+    name: ClearCache
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ClearCache
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ClearCache
+    name: ClearCache
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ClearCache
+  - name: (
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.ClearCache
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.ClearCache
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ClearCache
+  name: ClearCache()
+  nameWithType: IRepository<TEntity>.ClearCache()
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.ClearCache()
+  nameWithType.vb: IRepository(Of TEntity).ClearCache()
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).ClearCache()
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.ClearCache
+    name: ClearCache
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ClearCache
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.ClearCache
+    name: ClearCache
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ClearCache
+  - name: (
+  - name: )
+- uid: QuickTix.Core.Models.Entities.AppUser
+  commentId: T:QuickTix.Core.Models.Entities.AppUser
+  parent: QuickTix.Core.Models.Entities
+  href: QuickTix.Core.Models.Entities.AppUser.html
+  name: AppUser
+  nameWithType: AppUser
+  fullName: QuickTix.Core.Models.Entities.AppUser
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetAllAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.GetAllAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetAllAsync
+  name: GetAllAsync
+  nameWithType: ClientRepository.GetAllAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetAllAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAllAsync
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAllAsync
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.GetAllAsync
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAllAsync
+  name: GetAllAsync()
+  nameWithType: IRepository<Client>.GetAllAsync()
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.GetAllAsync()
+  nameWithType.vb: IRepository(Of Client).GetAllAsync()
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).GetAllAsync()
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAllAsync
+    name: GetAllAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAllAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAllAsync
+    name: GetAllAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAllAsync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.ICollection{QuickTix.Core.Models.Entities.Client}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.ICollection{QuickTix.Core.Models.Entities.Client}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ICollection<Client>>
+  nameWithType: Task<ICollection<Client>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuickTix.Core.Models.Entities.Client>>
+  nameWithType.vb: Task(Of ICollection(Of Client))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.ICollection(Of QuickTix.Core.Models.Entities.Client))
+  name.vb: Task(Of ICollection(Of Client))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+  - name: )
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.GetAllAsync
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.GetAllAsync
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAllAsync
+  name: GetAllAsync()
+  nameWithType: IRepository<TEntity>.GetAllAsync()
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.GetAllAsync()
+  nameWithType.vb: IRepository(Of TEntity).GetAllAsync()
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).GetAllAsync()
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetAllAsync
+    name: GetAllAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAllAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetAllAsync
+    name: GetAllAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAllAsync
+  - name: (
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetDetailAsync_System_Int32_
+  name: GetDetailAsync
+  nameWithType: ClientRepository.GetDetailAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetDetailAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetDetailAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetDetailAsync(System.Int32)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.GetDetailAsync(System.Int32)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetDetailAsync_System_Int32_
+  name: GetDetailAsync(int)
+  nameWithType: IRepository<Client>.GetDetailAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.GetDetailAsync(int)
+  nameWithType.vb: IRepository(Of Client).GetDetailAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).GetDetailAsync(Integer)
+  name.vb: GetDetailAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetDetailAsync(System.Int32)
+    name: GetDetailAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetDetailAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetDetailAsync(System.Int32)
+    name: GetDetailAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetDetailAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Client}
+  commentId: T:System.Threading.Tasks.Task{QuickTix.Core.Models.Entities.Client}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Client>
+  nameWithType: Task<Client>
+  fullName: System.Threading.Tasks.Task<QuickTix.Core.Models.Entities.Client>
+  nameWithType.vb: Task(Of Client)
+  fullName.vb: System.Threading.Tasks.Task(Of QuickTix.Core.Models.Entities.Client)
+  name.vb: Task(Of Client)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.GetDetailAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.GetDetailAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetDetailAsync_System_Int32_
+  name: GetDetailAsync(int)
+  nameWithType: IRepository<TEntity>.GetDetailAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.GetDetailAsync(int)
+  nameWithType.vb: IRepository(Of TEntity).GetDetailAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).GetDetailAsync(Integer)
+  name.vb: GetDetailAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetDetailAsync(System.Int32)
+    name: GetDetailAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetDetailAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetDetailAsync(System.Int32)
+    name: GetDetailAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetDetailAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetForUpdateAsync_System_Int32_
+  name: GetForUpdateAsync
+  nameWithType: ClientRepository.GetForUpdateAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetForUpdateAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetForUpdateAsync(System.Int32)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.GetForUpdateAsync(System.Int32)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetForUpdateAsync_System_Int32_
+  name: GetForUpdateAsync(int)
+  nameWithType: IRepository<Client>.GetForUpdateAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.GetForUpdateAsync(int)
+  nameWithType.vb: IRepository(Of Client).GetForUpdateAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).GetForUpdateAsync(Integer)
+  name.vb: GetForUpdateAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetForUpdateAsync(System.Int32)
+    name: GetForUpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetForUpdateAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetForUpdateAsync(System.Int32)
+    name: GetForUpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetForUpdateAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.GetForUpdateAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.GetForUpdateAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetForUpdateAsync_System_Int32_
+  name: GetForUpdateAsync(int)
+  nameWithType: IRepository<TEntity>.GetForUpdateAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.GetForUpdateAsync(int)
+  nameWithType.vb: IRepository(Of TEntity).GetForUpdateAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).GetForUpdateAsync(Integer)
+  name.vb: GetForUpdateAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetForUpdateAsync(System.Int32)
+    name: GetForUpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetForUpdateAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetForUpdateAsync(System.Int32)
+    name: GetForUpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetForUpdateAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.GetAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetAsync_System_Int32_
+  name: GetAsync
+  nameWithType: ClientRepository.GetAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAsync(System.Int32)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.GetAsync(System.Int32)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAsync_System_Int32_
+  name: GetAsync(int)
+  nameWithType: IRepository<Client>.GetAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.GetAsync(int)
+  nameWithType.vb: IRepository(Of Client).GetAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).GetAsync(Integer)
+  name.vb: GetAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAsync(System.Int32)
+    name: GetAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.GetAsync(System.Int32)
+    name: GetAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.GetAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.GetAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAsync_System_Int32_
+  name: GetAsync(int)
+  nameWithType: IRepository<TEntity>.GetAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.GetAsync(int)
+  nameWithType.vb: IRepository(Of TEntity).GetAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).GetAsync(Integer)
+  name.vb: GetAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetAsync(System.Int32)
+    name: GetAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.GetAsync(System.Int32)
+    name: GetAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_GetAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.ExistsAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.ExistsAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_ExistsAsync_System_Int32_
+  name: ExistsAsync
+  nameWithType: ClientRepository.ExistsAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.ExistsAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ExistsAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ExistsAsync(System.Int32)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.ExistsAsync(System.Int32)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ExistsAsync_System_Int32_
+  name: ExistsAsync(int)
+  nameWithType: IRepository<Client>.ExistsAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.ExistsAsync(int)
+  nameWithType.vb: IRepository(Of Client).ExistsAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).ExistsAsync(Integer)
+  name.vb: ExistsAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ExistsAsync(System.Int32)
+    name: ExistsAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ExistsAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.ExistsAsync(System.Int32)
+    name: ExistsAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ExistsAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.ExistsAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.ExistsAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ExistsAsync_System_Int32_
+  name: ExistsAsync(int)
+  nameWithType: IRepository<TEntity>.ExistsAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.ExistsAsync(int)
+  nameWithType.vb: IRepository(Of TEntity).ExistsAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).ExistsAsync(Integer)
+  name.vb: ExistsAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.ExistsAsync(System.Int32)
+    name: ExistsAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ExistsAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.ExistsAsync(System.Int32)
+    name: ExistsAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_ExistsAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.CreateAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.CreateAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_CreateAsync_QuickTix_Core_Models_Entities_Client_
+  name: CreateAsync
+  nameWithType: ClientRepository.CreateAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.CreateAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.CreateAsync(`0)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_CreateAsync__0_
+  name: CreateAsync(Client)
+  nameWithType: IRepository<Client>.CreateAsync(Client)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.CreateAsync(QuickTix.Core.Models.Entities.Client)
+  nameWithType.vb: IRepository(Of Client).CreateAsync(Client)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).CreateAsync(QuickTix.Core.Models.Entities.Client)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.CreateAsync(QuickTix.Core.Models.Entities.Client)
+    name: CreateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_CreateAsync__0_
+  - name: (
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    href: QuickTix.Core.Models.Entities.Client.html
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.CreateAsync(QuickTix.Core.Models.Entities.Client)
+    name: CreateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_CreateAsync__0_
+  - name: (
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    href: QuickTix.Core.Models.Entities.Client.html
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.CreateAsync(`0)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.CreateAsync(`0)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_CreateAsync__0_
+  name: CreateAsync(TEntity)
+  nameWithType: IRepository<TEntity>.CreateAsync(TEntity)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.CreateAsync(TEntity)
+  nameWithType.vb: IRepository(Of TEntity).CreateAsync(TEntity)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).CreateAsync(TEntity)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.CreateAsync(`0)
+    name: CreateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_CreateAsync__0_
+  - name: (
+  - name: TEntity
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.CreateAsync(`0)
+    name: CreateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_CreateAsync__0_
+  - name: (
+  - name: TEntity
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+  commentId: M:QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetForUpdateAsync_System_Int32_
+  name: GetForUpdateAsync(int)
+  nameWithType: ClientRepository.GetForUpdateAsync(int)
+  fullName: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(int)
+  nameWithType.vb: ClientRepository.GetForUpdateAsync(Integer)
+  fullName.vb: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(Integer)
+  name.vb: GetForUpdateAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+    name: GetForUpdateAsync
+    href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetForUpdateAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.DAL.Repositories.ClientRepository.GetForUpdateAsync(System.Int32)
+    name: GetForUpdateAsync
+    href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_GetForUpdateAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.UpdateAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.UpdateAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_UpdateAsync_QuickTix_Core_Models_Entities_Client_
+  name: UpdateAsync
+  nameWithType: ClientRepository.UpdateAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.UpdateAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.UpdateAsync(`0)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_UpdateAsync__0_
+  name: UpdateAsync(Client)
+  nameWithType: IRepository<Client>.UpdateAsync(Client)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  nameWithType.vb: IRepository(Of Client).UpdateAsync(Client)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).UpdateAsync(QuickTix.Core.Models.Entities.Client)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+    name: UpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_UpdateAsync__0_
+  - name: (
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    href: QuickTix.Core.Models.Entities.Client.html
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.UpdateAsync(QuickTix.Core.Models.Entities.Client)
+    name: UpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_UpdateAsync__0_
+  - name: (
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    href: QuickTix.Core.Models.Entities.Client.html
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.UpdateAsync(`0)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.UpdateAsync(`0)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_UpdateAsync__0_
+  name: UpdateAsync(TEntity)
+  nameWithType: IRepository<TEntity>.UpdateAsync(TEntity)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.UpdateAsync(TEntity)
+  nameWithType.vb: IRepository(Of TEntity).UpdateAsync(TEntity)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).UpdateAsync(TEntity)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.UpdateAsync(`0)
+    name: UpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_UpdateAsync__0_
+  - name: (
+  - name: TEntity
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.UpdateAsync(`0)
+    name: UpdateAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_UpdateAsync__0_
+  - name: (
+  - name: TEntity
+  - name: )
+- uid: QuickTix.DAL.Repositories.ClientRepository.DeleteAsync*
+  commentId: Overload:QuickTix.DAL.Repositories.ClientRepository.DeleteAsync
+  href: QuickTix.DAL.Repositories.ClientRepository.html#QuickTix_DAL_Repositories_ClientRepository_DeleteAsync_System_Int32_
+  name: DeleteAsync
+  nameWithType: ClientRepository.DeleteAsync
+  fullName: QuickTix.DAL.Repositories.ClientRepository.DeleteAsync
+- uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.DeleteAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.DeleteAsync(System.Int32)
+  parent: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}
+  definition: QuickTix.Core.Interfaces.IRepository`1.DeleteAsync(System.Int32)
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_DeleteAsync_System_Int32_
+  name: DeleteAsync(int)
+  nameWithType: IRepository<Client>.DeleteAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<QuickTix.Core.Models.Entities.Client>.DeleteAsync(int)
+  nameWithType.vb: IRepository(Of Client).DeleteAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of QuickTix.Core.Models.Entities.Client).DeleteAsync(Integer)
+  name.vb: DeleteAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository{QuickTix.Core.Models.Entities.Client}.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Core.Interfaces.IRepository`1.DeleteAsync(System.Int32)
+  commentId: M:QuickTix.Core.Interfaces.IRepository`1.DeleteAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_DeleteAsync_System_Int32_
+  name: DeleteAsync(int)
+  nameWithType: IRepository<TEntity>.DeleteAsync(int)
+  fullName: QuickTix.Core.Interfaces.IRepository<TEntity>.DeleteAsync(int)
+  nameWithType.vb: IRepository(Of TEntity).DeleteAsync(Integer)
+  fullName.vb: QuickTix.Core.Interfaces.IRepository(Of TEntity).DeleteAsync(Integer)
+  name.vb: DeleteAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Core.Interfaces.IRepository`1.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Core.Interfaces.IRepository-1.html#QuickTix_Core_Interfaces_IRepository_1_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )

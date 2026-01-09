@@ -1,0 +1,708 @@
+### YamlMime:TableOfContent
+items:
+- uid: QuickTix
+  name: QuickTix
+  type: Namespace
+  items:
+  - uid: QuickTix.MainWindow
+    name: MainWindow
+    type: Class
+- uid: QuickTix.API.AutoMapper
+  name: QuickTix.API.AutoMapper
+  type: Namespace
+  items:
+  - uid: QuickTix.API.AutoMapper.MappingProfile
+    name: MappingProfile
+    type: Class
+- uid: QuickTix.API.Controllers
+  name: QuickTix.API.Controllers
+  type: Namespace
+  items:
+  - uid: QuickTix.API.Controllers.AdminController
+    name: AdminController
+    type: Class
+  - uid: QuickTix.API.Controllers.BaseController`3
+    name: BaseController<TEntity, TDto, TCreateDto>
+    type: Class
+  - uid: QuickTix.API.Controllers.ClientController
+    name: ClientController
+    type: Class
+  - uid: QuickTix.API.Controllers.ManagerController
+    name: ManagerController
+    type: Class
+  - uid: QuickTix.API.Controllers.SubscriptionController
+    name: SubscriptionController
+    type: Class
+  - uid: QuickTix.API.Controllers.TicketController
+    name: TicketController
+    type: Class
+  - uid: QuickTix.API.Controllers.UserController
+    name: UserController
+    type: Class
+  - uid: QuickTix.API.Controllers.VenueController
+    name: VenueController
+    type: Class
+- uid: QuickTix.API.Controllers.Pricing
+  name: QuickTix.API.Controllers.Pricing
+  type: Namespace
+  items:
+  - uid: QuickTix.API.Controllers.Pricing.PricingController
+    name: PricingController
+    type: Class
+- uid: QuickTix.API.Controllers.Sales
+  name: QuickTix.API.Controllers.Sales
+  type: Namespace
+  items:
+  - uid: QuickTix.API.Controllers.Sales.SaleController
+    name: SaleController
+    type: Class
+  - uid: QuickTix.API.Controllers.Sales.SaleItemController
+    name: SaleItemController
+    type: Class
+- uid: QuickTix.API.Extensions
+  name: QuickTix.API.Extensions
+  type: Namespace
+  items:
+  - uid: QuickTix.API.Extensions.AuthenticationExtensions
+    name: AuthenticationExtensions
+    type: Class
+  - uid: QuickTix.API.Extensions.CorsExtensions
+    name: CorsExtensions
+    type: Class
+  - uid: QuickTix.API.Extensions.SwaggerExtensions
+    name: SwaggerExtensions
+    type: Class
+- uid: QuickTix.API.Filters
+  name: QuickTix.API.Filters
+  type: Namespace
+  items:
+  - uid: QuickTix.API.Filters.ApiExceptionFilter
+    name: ApiExceptionFilter
+    type: Class
+- uid: QuickTix.Contracts.Common
+  name: QuickTix.Contracts.Common
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Common.ApiErrorResponse
+    name: ApiErrorResponse
+    type: Class
+  - uid: QuickTix.Contracts.Common.ApiResponse`1
+    name: ApiResponse<T>
+    type: Class
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  name: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SellSubscriptionDTO
+    name: SellSubscriptionDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+    type: Class
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  name: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketDTO
+    name: SellTicketDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketLineDTO
+    name: SellTicketLineDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketsBatchDTO
+    name: SellTicketsBatchDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+    name: TicketSaleDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailDTO
+    name: TicketSaleDetailDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailLineDTO
+    name: TicketSaleDetailLineDTO
+    type: Class
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO
+  name: QuickTix.Contracts.DTOs.UserAuthDTO
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO.ChangePasswordRequestDTO
+    name: ChangePasswordRequestDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserDTO
+    name: UserDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserLoginDTO
+    name: UserLoginDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserLoginResponseDTO
+    name: UserLoginResponseDTO
+    type: Class
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+    name: UserRegistrationDTO
+    type: Class
+- uid: QuickTix.Contracts.Enums
+  name: QuickTix.Contracts.Enums
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Enums.SubscriptionCategory
+    name: SubscriptionCategory
+    type: Enum
+  - uid: QuickTix.Contracts.Enums.SubscriptionDuration
+    name: SubscriptionDuration
+    type: Enum
+  - uid: QuickTix.Contracts.Enums.TicketContext
+    name: TicketContext
+    type: Enum
+  - uid: QuickTix.Contracts.Enums.TicketType
+    name: TicketType
+    type: Enum
+- uid: QuickTix.Contracts.Models.DTOs
+  name: QuickTix.Contracts.Models.DTOs
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Models.DTOs.AdminDTO
+    name: AdminDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.ClientDTO
+    name: ClientDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.CreateAdminDTO
+    name: CreateAdminDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.CreateClientDTO
+    name: CreateClientDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.CreateManagerDTO
+    name: CreateManagerDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO
+    name: CreateSubscriptionDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.CreateTicketDTO
+    name: CreateTicketDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.CreateVenueDTO
+    name: CreateVenueDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.ManagerDTO
+    name: ManagerDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+    name: SubscriptionDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.TicketDTO
+    name: TicketDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.VenueDTO
+    name: VenueDTO
+    type: Class
+- uid: QuickTix.Contracts.Models.DTOs.Pricing
+  name: QuickTix.Contracts.Models.DTOs.Pricing
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Models.DTOs.Pricing.UpsertVenuePriceMapDTO
+    name: UpsertVenuePriceMapDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.Pricing.VenuePriceMapDTO
+    name: VenuePriceMapDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.Pricing.VenueSubscriptionPriceDTO
+    name: VenueSubscriptionPriceDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.Pricing.VenueTicketPriceDTO
+    name: VenueTicketPriceDTO
+    type: Class
+- uid: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  name: QuickTix.Contracts.Models.DTOs.SaleDTOs
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleItemDTO
+    name: CreateSaleItemDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleDTO
+    name: SaleDTO
+    type: Class
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.SaleItemDTO
+    name: SaleItemDTO
+    type: Class
+- uid: QuickTix.Contracts.Routes
+  name: QuickTix.Contracts.Routes
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Routes.ApiRoutes
+    name: ApiRoutes
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Admin
+    name: ApiRoutes.Admin
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Client
+    name: ApiRoutes.Client
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Crud
+    name: ApiRoutes.Crud
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Manager
+    name: ApiRoutes.Manager
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Pricing
+    name: ApiRoutes.Pricing
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Sale
+    name: ApiRoutes.Sale
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.SaleItem
+    name: ApiRoutes.SaleItem
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Subscription
+    name: ApiRoutes.Subscription
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Ticket
+    name: ApiRoutes.Ticket
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.User
+    name: ApiRoutes.User
+    type: Class
+  - uid: QuickTix.Contracts.Routes.ApiRoutes.Venue
+    name: ApiRoutes.Venue
+    type: Class
+- uid: QuickTix.Contracts.Validation
+  name: QuickTix.Contracts.Validation
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Validation.RegexCatalog
+    name: RegexCatalog
+    type: Class
+  - uid: QuickTix.Contracts.Validation.SpanishIdValidator
+    name: SpanishIdValidator
+    type: Class
+- uid: QuickTix.Contracts.Validation.Attributes
+  name: QuickTix.Contracts.Validation.Attributes
+  type: Namespace
+  items:
+  - uid: QuickTix.Contracts.Validation.Attributes.NifNieAttribute
+    name: NifNieAttribute
+    type: Class
+  - uid: QuickTix.Contracts.Validation.Attributes.PasswordValidationAttribute
+    name: PasswordValidationAttribute
+    type: Class
+  - uid: QuickTix.Contracts.Validation.Attributes.PhoneNumberAttribute
+    name: PhoneNumberAttribute
+    type: Class
+- uid: QuickTix.Core.Interfaces
+  name: QuickTix.Core.Interfaces
+  type: Namespace
+  items:
+  - uid: QuickTix.Core.Interfaces.IAdminRepository
+    name: IAdminRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.IClientRepository
+    name: IClientRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.IManagerRepository
+    name: IManagerRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.IPricingRepository
+    name: IPricingRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.IRepository`1
+    name: IRepository<TEntity>
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.ISaleItemRepository
+    name: ISaleItemRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.ISaleRepository
+    name: ISaleRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.ISubscriptionRepository
+    name: ISubscriptionRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.ITicketRepository
+    name: ITicketRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.IUserRepository
+    name: IUserRepository
+    type: Interface
+  - uid: QuickTix.Core.Interfaces.IVenueRepository
+    name: IVenueRepository
+    type: Interface
+- uid: QuickTix.Core.Models.Entities
+  name: QuickTix.Core.Models.Entities
+  type: Namespace
+  items:
+  - uid: QuickTix.Core.Models.Entities.Admin
+    name: Admin
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.AppUser
+    name: AppUser
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Client
+    name: Client
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Manager
+    name: Manager
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Sale
+    name: Sale
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.SaleItem
+    name: SaleItem
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Subscription
+    name: Subscription
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Ticket
+    name: Ticket
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Venue
+    name: Venue
+    type: Class
+- uid: QuickTix.Core.Models.Entities.Price
+  name: QuickTix.Core.Models.Entities.Price
+  type: Namespace
+  items:
+  - uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+    name: VenuePriceMap
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+    name: VenueSubscriptionPrice
+    type: Class
+  - uid: QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+    name: VenueTicketPrice
+    type: Class
+- uid: QuickTix.Core.Services
+  name: QuickTix.Core.Services
+  type: Namespace
+  items:
+  - uid: QuickTix.Core.Services.PriceMapValidator
+    name: PriceMapValidator
+    type: Class
+- uid: QuickTix.DAL.Data
+  name: QuickTix.DAL.Data
+  type: Namespace
+  items:
+  - uid: QuickTix.DAL.Data.AppDbSeeder
+    name: AppDbSeeder
+    type: Class
+  - uid: QuickTix.DAL.Data.ApplicationDbContext
+    name: ApplicationDbContext
+    type: Class
+- uid: QuickTix.DAL.Migrations
+  name: QuickTix.DAL.Migrations
+  type: Namespace
+  items:
+  - uid: QuickTix.DAL.Migrations.AddFieldsAppUser
+    name: AddFieldsAppUser
+    type: Class
+  - uid: QuickTix.DAL.Migrations.AddFullDomainModel
+    name: AddFullDomainModel
+    type: Class
+  - uid: QuickTix.DAL.Migrations.AddSaleItem
+    name: AddSaleItem
+    type: Class
+  - uid: QuickTix.DAL.Migrations.AddVenuePriceMaps
+    name: AddVenuePriceMaps
+    type: Class
+  - uid: QuickTix.DAL.Migrations.CreateVenuePriceTables
+    name: CreateVenuePriceTables
+    type: Class
+  - uid: QuickTix.DAL.Migrations.InitialCreate
+    name: InitialCreate
+    type: Class
+  - uid: QuickTix.DAL.Migrations.UniqueNIF_PhoneNumber
+    name: UniqueNIF_PhoneNumber
+    type: Class
+- uid: QuickTix.DAL.Repositories
+  name: QuickTix.DAL.Repositories
+  type: Namespace
+  items:
+  - uid: QuickTix.DAL.Repositories.AdminRepository
+    name: AdminRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.ClientRepository
+    name: ClientRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.ManagerRepository
+    name: ManagerRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.PricingRepository
+    name: PricingRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.SaleItemRepository
+    name: SaleItemRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.SaleRepository
+    name: SaleRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.SubscriptionRepository
+    name: SubscriptionRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.TicketRepository
+    name: TicketRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.UserRepository
+    name: UserRepository
+    type: Class
+  - uid: QuickTix.DAL.Repositories.VenueRepository
+    name: VenueRepository
+    type: Class
+- uid: QuickTix.Desktop
+  name: QuickTix.Desktop
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.App
+    name: App
+    type: Class
+- uid: QuickTix.Desktop.Converters
+  name: QuickTix.Desktop.Converters
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.Converters.BoolToTextConverter
+    name: BoolToTextConverter
+    type: Class
+  - uid: QuickTix.Desktop.Converters.NullToBoolConverter
+    name: NullToBoolConverter
+    type: Class
+  - uid: QuickTix.Desktop.Converters.NullToCollapsedVisibilityConverter
+    name: NullToCollapsedVisibilityConverter
+    type: Class
+  - uid: QuickTix.Desktop.Converters.NullToVisibilityConverter
+    name: NullToVisibilityConverter
+    type: Class
+- uid: QuickTix.Desktop.Models.Forms
+  name: QuickTix.Desktop.Models.Forms
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.Models.Forms.SubscriptionFormModel
+    name: SubscriptionFormModel
+    type: Class
+- uid: QuickTix.Desktop.Services
+  name: QuickTix.Desktop.Services
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.Services.ApiException
+    name: ApiException
+    type: Class
+  - uid: QuickTix.Desktop.Services.ApplicationHostService
+    name: ApplicationHostService
+    type: Class
+  - uid: QuickTix.Desktop.Services.AuthService
+    name: AuthService
+    type: Class
+  - uid: QuickTix.Desktop.Services.HttpJsonClient
+    name: HttpJsonClient
+    type: Class
+  - uid: QuickTix.Desktop.Services.IAuthService
+    name: IAuthService
+    type: Interface
+  - uid: QuickTix.Desktop.Services.ITokenStore
+    name: ITokenStore
+    type: Interface
+  - uid: QuickTix.Desktop.Services.TokenStore
+    name: TokenStore
+    type: Class
+- uid: QuickTix.Desktop.ViewModels
+  name: QuickTix.Desktop.ViewModels
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.ViewModels.ClientsViewModel
+    name: ClientsViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.LoginViewModel
+    name: LoginViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.MainViewModel
+    name: MainViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.SubscriptionsViewModel
+    name: SubscriptionsViewModel
+    type: Class
+- uid: QuickTix.Desktop.ViewModels.Base
+  name: QuickTix.Desktop.ViewModels.Base
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+    name: BaseCrudViewModel<T, TCreate>
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.Base.ViewModel
+    name: ViewModel
+    type: Class
+- uid: QuickTix.Desktop.ViewModels.Pricing
+  name: QuickTix.Desktop.ViewModels.Pricing
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.ViewModels.Pricing.PricingViewModel
+    name: PricingViewModel
+    type: Class
+- uid: QuickTix.Desktop.ViewModels.Sales
+  name: QuickTix.Desktop.ViewModels.Sales
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.ViewModels.Sales.SalesViewModel
+    name: SalesViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+    name: SubscriptionSalesViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.Sales.TicketSalesViewModel
+    name: TicketSalesViewModel
+    type: Class
+- uid: QuickTix.Desktop.ViewModels.Users
+  name: QuickTix.Desktop.ViewModels.Users
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.ViewModels.Users.AdminViewModel
+    name: AdminViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.Users.ManagerViewModel
+    name: ManagerViewModel
+    type: Class
+  - uid: QuickTix.Desktop.ViewModels.Users.UsersViewModel
+    name: UsersViewModel
+    type: Class
+- uid: QuickTix.Desktop.Views
+  name: QuickTix.Desktop.Views
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.Views.MainWindow
+    name: MainWindow
+    type: Class
+- uid: QuickTix.Desktop.Views.Pages
+  name: QuickTix.Desktop.Views.Pages
+  type: Namespace
+  items:
+  - uid: QuickTix.Desktop.Views.Pages.ClientsView
+    name: ClientsView
+    type: Class
+  - uid: QuickTix.Desktop.Views.Pages.LoginView
+    name: LoginView
+    type: Class
+  - uid: QuickTix.Desktop.Views.Pages.PricingView
+    name: PricingView
+    type: Class
+  - uid: QuickTix.Desktop.Views.Pages.SalesView
+    name: SalesView
+    type: Class
+  - uid: QuickTix.Desktop.Views.Pages.UsersView
+    name: UsersView
+    type: Class
+- uid: QuickTix.Mobile
+  name: QuickTix.Mobile
+  type: Namespace
+  items:
+  - uid: QuickTix.Mobile.ApiConfig
+    name: ApiConfig
+    type: Class
+  - uid: QuickTix.Mobile.App
+    name: App
+    type: Class
+  - uid: QuickTix.Mobile.AppShell
+    name: AppShell
+    type: Class
+  - uid: QuickTix.Mobile.AppShell_Client
+    name: AppShell_Client
+    type: Class
+  - uid: QuickTix.Mobile.AppShell_Manager
+    name: AppShell_Manager
+    type: Class
+  - uid: QuickTix.Mobile.MainActivity
+    name: MainActivity
+    type: Class
+  - uid: QuickTix.Mobile.MainApplication
+    name: MainApplication
+    type: Class
+  - uid: QuickTix.Mobile.MainPage
+    name: MainPage
+    type: Class
+  - uid: QuickTix.Mobile.Resource
+    name: Resource
+    type: Class
+- uid: QuickTix.Mobile.Helpers
+  name: QuickTix.Mobile.Helpers
+  type: Namespace
+  items:
+  - uid: QuickTix.Mobile.Helpers.AppSession
+    name: AppSession
+    type: Class
+  - uid: QuickTix.Mobile.Helpers.IAppSession
+    name: IAppSession
+    type: Interface
+  - uid: QuickTix.Mobile.Helpers.ITokenStore
+    name: ITokenStore
+    type: Interface
+  - uid: QuickTix.Mobile.Helpers.JwtClaimReader
+    name: JwtClaimReader
+    type: Class
+  - uid: QuickTix.Mobile.Helpers.TokenStore
+    name: TokenStore
+    type: Class
+- uid: QuickTix.Mobile.Services
+  name: QuickTix.Mobile.Services
+  type: Namespace
+  items:
+  - uid: QuickTix.Mobile.Services.ApiException
+    name: ApiException
+    type: Class
+  - uid: QuickTix.Mobile.Services.AuthService
+    name: AuthService
+    type: Class
+  - uid: QuickTix.Mobile.Services.HttpJsonClient
+    name: HttpJsonClient
+    type: Class
+  - uid: QuickTix.Mobile.Services.IAuthService
+    name: IAuthService
+    type: Interface
+  - uid: QuickTix.Mobile.Services.ISubscriptionService
+    name: ISubscriptionService
+    type: Interface
+  - uid: QuickTix.Mobile.Services.SubscriptionService
+    name: SubscriptionService
+    type: Class
+- uid: QuickTix.Mobile.ViewModels
+  name: QuickTix.Mobile.ViewModels
+  type: Namespace
+  items:
+  - uid: QuickTix.Mobile.ViewModels.ChangePasswordViewModel
+    name: ChangePasswordViewModel
+    type: Class
+  - uid: QuickTix.Mobile.ViewModels.LoginViewModel
+    name: LoginViewModel
+    type: Class
+  - uid: QuickTix.Mobile.ViewModels.SubscriptionCardViewModel
+    name: SubscriptionCardViewModel
+    type: Class
+  - uid: QuickTix.Mobile.ViewModels.SubscriptionsViewModel
+    name: SubscriptionsViewModel
+    type: Class
+  - uid: QuickTix.Mobile.ViewModels.TicketBatchLineVM
+    name: TicketBatchLineVM
+    type: Class
+  - uid: QuickTix.Mobile.ViewModels.TicketsViewModel
+    name: TicketsViewModel
+    type: Class
+- uid: QuickTix.Mobile.Views
+  name: QuickTix.Mobile.Views
+  type: Namespace
+  items:
+  - uid: QuickTix.Mobile.Views.ChangePasswordPage
+    name: ChangePasswordPage
+    type: Class
+  - uid: QuickTix.Mobile.Views.LoginPage
+    name: LoginPage
+    type: Class
+  - uid: QuickTix.Mobile.Views.SubscriptionsPage
+    name: SubscriptionsPage
+    type: Class
+  - uid: QuickTix.Mobile.Views.TicketsPage
+    name: TicketsPage
+    type: Class
+- uid: QuickTix.Tests
+  name: QuickTix.Tests
+  type: Namespace
+  items:
+  - uid: QuickTix.Tests.UnitTest1
+    name: UnitTest1
+    type: Class
+memberLayout: SamePage

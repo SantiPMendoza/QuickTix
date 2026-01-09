@@ -1,0 +1,819 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Mobile.Helpers.AppSession
+  commentId: T:QuickTix.Mobile.Helpers.AppSession
+  id: AppSession
+  parent: QuickTix.Mobile.Helpers
+  children:
+  - QuickTix.Mobile.Helpers.AppSession.Clear
+  - QuickTix.Mobile.Helpers.AppSession.ClientId
+  - QuickTix.Mobile.Helpers.AppSession.Email
+  - QuickTix.Mobile.Helpers.AppSession.LoadFromToken(System.String)
+  - QuickTix.Mobile.Helpers.AppSession.ManagerId
+  - QuickTix.Mobile.Helpers.AppSession.Name
+  - QuickTix.Mobile.Helpers.AppSession.Role
+  - QuickTix.Mobile.Helpers.AppSession.UserId
+  - QuickTix.Mobile.Helpers.AppSession.VenueId
+  - QuickTix.Mobile.Helpers.AppSession.VenueName
+  langs:
+  - csharp
+  - vb
+  name: AppSession
+  nameWithType: AppSession
+  fullName: QuickTix.Mobile.Helpers.AppSession
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: AppSession
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 34
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  summary: >-
+    Implementación de sesión de aplicación basada en claims extraídas de un JWT.
+
+    Mantiene el estado en memoria para su consumo por ViewModels y servicios del cliente móvil.
+  example: []
+  syntax:
+    content: 'public sealed class AppSession : IAppSession'
+    content.vb: Public NotInheritable Class AppSession Implements IAppSession
+  inheritance:
+  - System.Object
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Mobile.Helpers.AppSession.VenueId
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.VenueId
+  id: VenueId
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: VenueId
+  nameWithType: AppSession.VenueId
+  fullName: QuickTix.Mobile.Helpers.AppSession.VenueId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 36
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public int VenueId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property VenueId As Integer
+  overload: QuickTix.Mobile.Helpers.AppSession.VenueId*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.VenueId
+- uid: QuickTix.Mobile.Helpers.AppSession.VenueName
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.VenueName
+  id: VenueName
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: VenueName
+  nameWithType: AppSession.VenueName
+  fullName: QuickTix.Mobile.Helpers.AppSession.VenueName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueName
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 37
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public string VenueName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property VenueName As String
+  overload: QuickTix.Mobile.Helpers.AppSession.VenueName*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.VenueName
+- uid: QuickTix.Mobile.Helpers.AppSession.ManagerId
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.ManagerId
+  id: ManagerId
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: ManagerId
+  nameWithType: AppSession.ManagerId
+  fullName: QuickTix.Mobile.Helpers.AppSession.ManagerId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ManagerId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 38
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public int ManagerId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ManagerId As Integer
+  overload: QuickTix.Mobile.Helpers.AppSession.ManagerId*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.ManagerId
+- uid: QuickTix.Mobile.Helpers.AppSession.ClientId
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.ClientId
+  id: ClientId
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: ClientId
+  nameWithType: AppSession.ClientId
+  fullName: QuickTix.Mobile.Helpers.AppSession.ClientId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ClientId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 39
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public int ClientId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClientId As Integer
+  overload: QuickTix.Mobile.Helpers.AppSession.ClientId*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.ClientId
+- uid: QuickTix.Mobile.Helpers.AppSession.UserId
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.UserId
+  id: UserId
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: UserId
+  nameWithType: AppSession.UserId
+  fullName: QuickTix.Mobile.Helpers.AppSession.UserId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UserId
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 40
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public string? UserId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property UserId As String
+  overload: QuickTix.Mobile.Helpers.AppSession.UserId*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.UserId
+- uid: QuickTix.Mobile.Helpers.AppSession.Email
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.Email
+  id: Email
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: Email
+  nameWithType: AppSession.Email
+  fullName: QuickTix.Mobile.Helpers.AppSession.Email
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Email
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 41
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public string? Email { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Email As String
+  overload: QuickTix.Mobile.Helpers.AppSession.Email*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.Email
+- uid: QuickTix.Mobile.Helpers.AppSession.Role
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.Role
+  id: Role
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: Role
+  nameWithType: AppSession.Role
+  fullName: QuickTix.Mobile.Helpers.AppSession.Role
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Role
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 42
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public string? Role { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Role As String
+  overload: QuickTix.Mobile.Helpers.AppSession.Role*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.Role
+- uid: QuickTix.Mobile.Helpers.AppSession.Name
+  commentId: P:QuickTix.Mobile.Helpers.AppSession.Name
+  id: Name
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: AppSession.Name
+  fullName: QuickTix.Mobile.Helpers.AppSession.Name
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Name
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 43
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  example: []
+  syntax:
+    content: public string? Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: QuickTix.Mobile.Helpers.AppSession.Name*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.Name
+- uid: QuickTix.Mobile.Helpers.AppSession.LoadFromToken(System.String)
+  commentId: M:QuickTix.Mobile.Helpers.AppSession.LoadFromToken(System.String)
+  id: LoadFromToken(System.String)
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: LoadFromToken(string)
+  nameWithType: AppSession.LoadFromToken(string)
+  fullName: QuickTix.Mobile.Helpers.AppSession.LoadFromToken(string)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: LoadFromToken
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 50
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  summary: >-
+    Carga los valores de sesión extrayendo claims del JWT.
+
+    Busca claves alternativas para compatibilidad con diferentes emisores de claims.
+  example: []
+  syntax:
+    content: public void LoadFromToken(string jwt)
+    parameters:
+    - id: jwt
+      type: System.String
+      description: Token JWT devuelto por la API.
+    content.vb: Public Sub LoadFromToken(jwt As String)
+  overload: QuickTix.Mobile.Helpers.AppSession.LoadFromToken*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+  nameWithType.vb: AppSession.LoadFromToken(String)
+  fullName.vb: QuickTix.Mobile.Helpers.AppSession.LoadFromToken(String)
+  name.vb: LoadFromToken(String)
+- uid: QuickTix.Mobile.Helpers.AppSession.Clear
+  commentId: M:QuickTix.Mobile.Helpers.AppSession.Clear
+  id: Clear
+  parent: QuickTix.Mobile.Helpers.AppSession
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: AppSession.Clear()
+  fullName: QuickTix.Mobile.Helpers.AppSession.Clear()
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Helpers/AppSession.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Clear
+    path: QuickTix.Mobile/Helpers/AppSession.cs
+    startLine: 81
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Helpers
+  summary: Reinicia la sesión y elimina los datos del usuario actual.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: QuickTix.Mobile.Helpers.AppSession.Clear*
+  implements:
+  - QuickTix.Mobile.Helpers.IAppSession.Clear
+references:
+- uid: QuickTix.Mobile.Helpers
+  commentId: N:QuickTix.Mobile.Helpers
+  href: QuickTix.html
+  name: QuickTix.Mobile.Helpers
+  nameWithType: QuickTix.Mobile.Helpers
+  fullName: QuickTix.Mobile.Helpers
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Helpers
+    name: Helpers
+    href: QuickTix.Mobile.Helpers.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Helpers
+    name: Helpers
+    href: QuickTix.Mobile.Helpers.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: QuickTix.Mobile.Helpers.IAppSession
+  commentId: T:QuickTix.Mobile.Helpers.IAppSession
+  parent: QuickTix.Mobile.Helpers
+  href: QuickTix.Mobile.Helpers.IAppSession.html
+  name: IAppSession
+  nameWithType: IAppSession
+  fullName: QuickTix.Mobile.Helpers.IAppSession
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Mobile.Helpers.AppSession.VenueId*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.VenueId
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_VenueId
+  name: VenueId
+  nameWithType: AppSession.VenueId
+  fullName: QuickTix.Mobile.Helpers.AppSession.VenueId
+- uid: QuickTix.Mobile.Helpers.IAppSession.VenueId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.VenueId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_VenueId
+  name: VenueId
+  nameWithType: IAppSession.VenueId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.VenueId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: QuickTix.Mobile.Helpers.AppSession.VenueName*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.VenueName
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_VenueName
+  name: VenueName
+  nameWithType: AppSession.VenueName
+  fullName: QuickTix.Mobile.Helpers.AppSession.VenueName
+- uid: QuickTix.Mobile.Helpers.IAppSession.VenueName
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.VenueName
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_VenueName
+  name: VenueName
+  nameWithType: IAppSession.VenueName
+  fullName: QuickTix.Mobile.Helpers.IAppSession.VenueName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Mobile.Helpers.AppSession.ManagerId*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.ManagerId
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_ManagerId
+  name: ManagerId
+  nameWithType: AppSession.ManagerId
+  fullName: QuickTix.Mobile.Helpers.AppSession.ManagerId
+- uid: QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.ManagerId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_ManagerId
+  name: ManagerId
+  nameWithType: IAppSession.ManagerId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.ManagerId
+- uid: QuickTix.Mobile.Helpers.AppSession.ClientId*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.ClientId
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_ClientId
+  name: ClientId
+  nameWithType: AppSession.ClientId
+  fullName: QuickTix.Mobile.Helpers.AppSession.ClientId
+- uid: QuickTix.Mobile.Helpers.IAppSession.ClientId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.ClientId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_ClientId
+  name: ClientId
+  nameWithType: IAppSession.ClientId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.ClientId
+- uid: QuickTix.Mobile.Helpers.AppSession.UserId*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.UserId
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_UserId
+  name: UserId
+  nameWithType: AppSession.UserId
+  fullName: QuickTix.Mobile.Helpers.AppSession.UserId
+- uid: QuickTix.Mobile.Helpers.IAppSession.UserId
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.UserId
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_UserId
+  name: UserId
+  nameWithType: IAppSession.UserId
+  fullName: QuickTix.Mobile.Helpers.IAppSession.UserId
+- uid: QuickTix.Mobile.Helpers.AppSession.Email*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.Email
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_Email
+  name: Email
+  nameWithType: AppSession.Email
+  fullName: QuickTix.Mobile.Helpers.AppSession.Email
+- uid: QuickTix.Mobile.Helpers.IAppSession.Email
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.Email
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Email
+  name: Email
+  nameWithType: IAppSession.Email
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Email
+- uid: QuickTix.Mobile.Helpers.AppSession.Role*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.Role
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_Role
+  name: Role
+  nameWithType: AppSession.Role
+  fullName: QuickTix.Mobile.Helpers.AppSession.Role
+- uid: QuickTix.Mobile.Helpers.IAppSession.Role
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.Role
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Role
+  name: Role
+  nameWithType: IAppSession.Role
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Role
+- uid: QuickTix.Mobile.Helpers.AppSession.Name*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.Name
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_Name
+  name: Name
+  nameWithType: AppSession.Name
+  fullName: QuickTix.Mobile.Helpers.AppSession.Name
+- uid: QuickTix.Mobile.Helpers.IAppSession.Name
+  commentId: P:QuickTix.Mobile.Helpers.IAppSession.Name
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Name
+  name: Name
+  nameWithType: IAppSession.Name
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Name
+- uid: QuickTix.Mobile.Helpers.AppSession.LoadFromToken*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.LoadFromToken
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_LoadFromToken_System_String_
+  name: LoadFromToken
+  nameWithType: AppSession.LoadFromToken
+  fullName: QuickTix.Mobile.Helpers.AppSession.LoadFromToken
+- uid: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+  commentId: M:QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  isExternal: true
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_LoadFromToken_System_String_
+  name: LoadFromToken(string)
+  nameWithType: IAppSession.LoadFromToken(string)
+  fullName: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(string)
+  nameWithType.vb: IAppSession.LoadFromToken(String)
+  fullName.vb: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(String)
+  name.vb: LoadFromToken(String)
+  spec.csharp:
+  - uid: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+    name: LoadFromToken
+    href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_LoadFromToken_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Mobile.Helpers.IAppSession.LoadFromToken(System.String)
+    name: LoadFromToken
+    href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_LoadFromToken_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: QuickTix.Mobile.Helpers.AppSession.Clear*
+  commentId: Overload:QuickTix.Mobile.Helpers.AppSession.Clear
+  href: QuickTix.Mobile.Helpers.AppSession.html#QuickTix_Mobile_Helpers_AppSession_Clear
+  name: Clear
+  nameWithType: AppSession.Clear
+  fullName: QuickTix.Mobile.Helpers.AppSession.Clear
+- uid: QuickTix.Mobile.Helpers.IAppSession.Clear
+  commentId: M:QuickTix.Mobile.Helpers.IAppSession.Clear
+  parent: QuickTix.Mobile.Helpers.IAppSession
+  href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Clear
+  name: Clear()
+  nameWithType: IAppSession.Clear()
+  fullName: QuickTix.Mobile.Helpers.IAppSession.Clear()
+  spec.csharp:
+  - uid: QuickTix.Mobile.Helpers.IAppSession.Clear
+    name: Clear
+    href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Mobile.Helpers.IAppSession.Clear
+    name: Clear
+    href: QuickTix.Mobile.Helpers.IAppSession.html#QuickTix_Mobile_Helpers_IAppSession_Clear
+  - name: (
+  - name: )

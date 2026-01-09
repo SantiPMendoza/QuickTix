@@ -1,0 +1,99 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Desktop.Services
+  commentId: N:QuickTix.Desktop.Services
+  id: QuickTix.Desktop.Services
+  children:
+  - QuickTix.Desktop.Services.ApiException
+  - QuickTix.Desktop.Services.ApplicationHostService
+  - QuickTix.Desktop.Services.AuthService
+  - QuickTix.Desktop.Services.HttpJsonClient
+  - QuickTix.Desktop.Services.IAuthService
+  - QuickTix.Desktop.Services.ITokenStore
+  - QuickTix.Desktop.Services.TokenStore
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Desktop.Services
+  nameWithType: QuickTix.Desktop.Services
+  fullName: QuickTix.Desktop.Services
+  type: Namespace
+  assemblies:
+  - QuickTix.Desktop
+references:
+- uid: QuickTix.Desktop.Services.ApiException
+  commentId: T:QuickTix.Desktop.Services.ApiException
+  href: QuickTix.Desktop.Services.ApiException.html
+  name: ApiException
+  nameWithType: ApiException
+  fullName: QuickTix.Desktop.Services.ApiException
+- uid: QuickTix.Desktop.Services.ApplicationHostService
+  commentId: T:QuickTix.Desktop.Services.ApplicationHostService
+  href: QuickTix.Desktop.Services.ApplicationHostService.html
+  name: ApplicationHostService
+  nameWithType: ApplicationHostService
+  fullName: QuickTix.Desktop.Services.ApplicationHostService
+- uid: QuickTix.Desktop.Services.IAuthService
+  commentId: T:QuickTix.Desktop.Services.IAuthService
+  parent: QuickTix.Desktop.Services
+  href: QuickTix.Desktop.Services.IAuthService.html
+  name: IAuthService
+  nameWithType: IAuthService
+  fullName: QuickTix.Desktop.Services.IAuthService
+- uid: QuickTix.Desktop.Services.AuthService
+  commentId: T:QuickTix.Desktop.Services.AuthService
+  href: QuickTix.Desktop.Services.AuthService.html
+  name: AuthService
+  nameWithType: AuthService
+  fullName: QuickTix.Desktop.Services.AuthService
+- uid: QuickTix.Desktop.Services.HttpJsonClient
+  commentId: T:QuickTix.Desktop.Services.HttpJsonClient
+  parent: QuickTix.Desktop.Services
+  href: QuickTix.Desktop.Services.HttpJsonClient.html
+  name: HttpJsonClient
+  nameWithType: HttpJsonClient
+  fullName: QuickTix.Desktop.Services.HttpJsonClient
+- uid: QuickTix.Desktop.Services.ITokenStore
+  commentId: T:QuickTix.Desktop.Services.ITokenStore
+  parent: QuickTix.Desktop.Services
+  href: QuickTix.Desktop.Services.ITokenStore.html
+  name: ITokenStore
+  nameWithType: ITokenStore
+  fullName: QuickTix.Desktop.Services.ITokenStore
+- uid: QuickTix.Desktop.Services.TokenStore
+  commentId: T:QuickTix.Desktop.Services.TokenStore
+  parent: QuickTix.Desktop.Services
+  href: QuickTix.Desktop.Services.TokenStore.html
+  name: TokenStore
+  nameWithType: TokenStore
+  fullName: QuickTix.Desktop.Services.TokenStore
+- uid: QuickTix.Desktop.Services
+  commentId: N:QuickTix.Desktop.Services
+  href: QuickTix.html
+  name: QuickTix.Desktop.Services
+  nameWithType: QuickTix.Desktop.Services
+  fullName: QuickTix.Desktop.Services
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.Services
+    name: Services
+    href: QuickTix.Desktop.Services.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.Services
+    name: Services
+    href: QuickTix.Desktop.Services.html

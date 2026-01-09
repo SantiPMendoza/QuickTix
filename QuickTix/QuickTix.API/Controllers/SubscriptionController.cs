@@ -23,6 +23,8 @@ namespace QuickTix.API.Controllers
         // Repositorio específico de abonos para consultas por cliente y lecturas por Id
         private readonly ISubscriptionRepository _subscriptionRepository;
 
+        private readonly ISaleItemRepository _saleItemRepository;
+
         /// <summary>
         /// Inicializa una nueva instancia del <see cref="SubscriptionController"/>.
         /// </summary>
@@ -31,11 +33,13 @@ namespace QuickTix.API.Controllers
         /// <param name="logger">Logger del controlador.</param>
         public SubscriptionController(
             ISubscriptionRepository repository,
+            ISaleItemRepository saleItemRepository,
             IMapper mapper,
             ILogger<SubscriptionController> logger)
             : base(repository, mapper, logger)
         {
             _subscriptionRepository = repository;
+            _saleItemRepository = saleItemRepository;
         }
 
         /// <summary>
@@ -97,6 +101,42 @@ namespace QuickTix.API.Controllers
             return CreatedAtAction(nameof(Get), new { id = result.Id }, response);
         }
 
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public override async Task<IActionResult> Delete(int id)
+        {
+            var traceId = HttpContext.TraceIdentifier;
+            var force = string.Equals(Request.Query["force"], "true", StringComparison.OrdinalIgnoreCase);
+
+            var entity = await _repository.GetAsync(id);
+            if (entity == null)
+                return NotFound(BuildFail(HttpStatusCode.NotFound, new[] { "Registro no encontrado." }));
+
+            var count = await _saleItemRepository.CountBySubscriptionAsync(id);
+            if (count > 0 && !force)
+            {
+                return Conflict(ApiResponse<object>.Fail(
+                    HttpStatusCode.Conflict,
+                    new[]
+                    {
+                $"Este abono tiene {count} ítems de venta asociados.",
+                "Si continúas, se eliminarán también esos ítems de venta.",
+                "Repite la operación con ?force=true para confirmar."
+                    },
+                    traceId
+                ));
+            }
+
+            var ok = await _repository.DeleteAsync(id);
+            if (!ok)
+                return NotFound(BuildFail(HttpStatusCode.NotFound, new[] { "Registro no encontrado." }));
+
+            return Ok(ApiResponse<object>.Ok(new { Message = "Abono eliminado correctamente." }, HttpStatusCode.OK, traceId));
+        }
+
         /// <summary>
         /// Calcula la fecha de finalización del abono en función de su duración.
         /// </summary>
@@ -125,7 +165,6 @@ namespace QuickTix.API.Controllers
         [Obsolete]
         private static decimal CalculatePrice(SubscriptionCategory category, SubscriptionDuration duration, int venueId)
         {
-            // Regla provisional “general”. Cuando definamos tipos por Venue, esto se reemplaza.
             return (category, duration) switch
             {
                 (SubscriptionCategory.Niño, SubscriptionDuration.Quincenal) => 15m,

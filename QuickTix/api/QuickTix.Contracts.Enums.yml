@@ -1,0 +1,78 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.Enums
+  commentId: N:QuickTix.Contracts.Enums
+  id: QuickTix.Contracts.Enums
+  children:
+  - QuickTix.Contracts.Enums.SubscriptionCategory
+  - QuickTix.Contracts.Enums.SubscriptionDuration
+  - QuickTix.Contracts.Enums.TicketContext
+  - QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Contracts.Enums
+  nameWithType: QuickTix.Contracts.Enums
+  fullName: QuickTix.Contracts.Enums
+  type: Namespace
+  assemblies:
+  - QuickTix.Contracts
+references:
+- uid: QuickTix.Contracts.Enums.TicketType
+  commentId: T:QuickTix.Contracts.Enums.TicketType
+  parent: QuickTix.Contracts.Enums
+  href: QuickTix.Contracts.Enums.TicketType.html
+  name: TicketType
+  nameWithType: TicketType
+  fullName: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketContext
+  commentId: T:QuickTix.Contracts.Enums.TicketContext
+  parent: QuickTix.Contracts.Enums
+  href: QuickTix.Contracts.Enums.TicketContext.html
+  name: TicketContext
+  nameWithType: TicketContext
+  fullName: QuickTix.Contracts.Enums.TicketContext
+- uid: QuickTix.Contracts.Enums.SubscriptionCategory
+  commentId: T:QuickTix.Contracts.Enums.SubscriptionCategory
+  parent: QuickTix.Contracts.Enums
+  href: QuickTix.Contracts.Enums.SubscriptionCategory.html
+  name: SubscriptionCategory
+  nameWithType: SubscriptionCategory
+  fullName: QuickTix.Contracts.Enums.SubscriptionCategory
+- uid: QuickTix.Contracts.Enums.SubscriptionDuration
+  commentId: T:QuickTix.Contracts.Enums.SubscriptionDuration
+  parent: QuickTix.Contracts.Enums
+  href: QuickTix.Contracts.Enums.SubscriptionDuration.html
+  name: SubscriptionDuration
+  nameWithType: SubscriptionDuration
+  fullName: QuickTix.Contracts.Enums.SubscriptionDuration
+- uid: QuickTix.Contracts.Enums
+  commentId: N:QuickTix.Contracts.Enums
+  href: QuickTix.html
+  name: QuickTix.Contracts.Enums
+  nameWithType: QuickTix.Contracts.Enums
+  fullName: QuickTix.Contracts.Enums
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Enums
+    name: Enums
+    href: QuickTix.Contracts.Enums.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Enums
+    name: Enums
+    href: QuickTix.Contracts.Enums.html

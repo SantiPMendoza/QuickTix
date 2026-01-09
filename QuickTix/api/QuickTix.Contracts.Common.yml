@@ -1,0 +1,80 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.Common
+  commentId: N:QuickTix.Contracts.Common
+  id: QuickTix.Contracts.Common
+  children:
+  - QuickTix.Contracts.Common.ApiErrorResponse
+  - QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Contracts.Common
+  nameWithType: QuickTix.Contracts.Common
+  fullName: QuickTix.Contracts.Common
+  type: Namespace
+  assemblies:
+  - QuickTix.Contracts
+references:
+- uid: QuickTix.Contracts.Common.ApiErrorResponse
+  commentId: T:QuickTix.Contracts.Common.ApiErrorResponse
+  href: QuickTix.Contracts.Common.ApiErrorResponse.html
+  name: ApiErrorResponse
+  nameWithType: ApiErrorResponse
+  fullName: QuickTix.Contracts.Common.ApiErrorResponse
+- uid: QuickTix.Contracts.Common.ApiResponse`1
+  commentId: T:QuickTix.Contracts.Common.ApiResponse`1
+  parent: QuickTix.Contracts.Common
+  href: QuickTix.Contracts.Common.ApiResponse-1.html
+  name: ApiResponse<T>
+  nameWithType: ApiResponse<T>
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>
+  nameWithType.vb: ApiResponse(Of T)
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T)
+  name.vb: ApiResponse(Of T)
+  spec.csharp:
+  - uid: QuickTix.Contracts.Common.ApiResponse`1
+    name: ApiResponse
+    href: QuickTix.Contracts.Common.ApiResponse-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.Contracts.Common.ApiResponse`1
+    name: ApiResponse
+    href: QuickTix.Contracts.Common.ApiResponse-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: QuickTix.Contracts.Common
+  commentId: N:QuickTix.Contracts.Common
+  href: QuickTix.html
+  name: QuickTix.Contracts.Common
+  nameWithType: QuickTix.Contracts.Common
+  fullName: QuickTix.Contracts.Common
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Common
+    name: Common
+    href: QuickTix.Contracts.Common.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Common
+    name: Common
+    href: QuickTix.Contracts.Common.html

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SubscriptionRepository </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SubscriptionRepository ">
+      
+      <meta name="description" content="Repositorio de acceso a datos para . Incluye cach&#233; para el listado general y expone operaciones CRUD b&#225;sicas, adem&#225;s de consultas filtradas por cliente.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/SantiPMendoza/QuickTix/new/main/apiSpec/new?filename=QuickTix_DAL_Repositories_SubscriptionRepository.md&amp;value=---%0Auid%3A%20QuickTix.DAL.Repositories.SubscriptionRepository%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="QuickTix.DAL.Repositories.SubscriptionRepository">
+
+
+
+  <h1 id="QuickTix_DAL_Repositories_SubscriptionRepository" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository" class="text-break">
+Class SubscriptionRepository  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="QuickTix.html">QuickTix</a>.<a class="xref" href="QuickTix.DAL.html">DAL</a>.<a class="xref" href="QuickTix.DAL.Repositories.html">Repositories</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>QuickTix.DAL.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Repositorio de acceso a datos para <a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>.
+Incluye caché para el listado general y expone operaciones CRUD básicas,
+además de consultas filtradas por cliente.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SubscriptionRepository : ISubscriptionRepository, IRepository&lt;Subscription&gt;</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">SubscriptionRepository</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="QuickTix.Core.Interfaces.ISubscriptionRepository.html">ISubscriptionRepository</a></div>
+      <div><a class="xref" href="QuickTix.Core.Interfaces.IRepository-1.html">IRepository</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository__ctor_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.#ctor*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository__ctor_QuickTix_DAL_Data_ApplicationDbContext_Microsoft_Extensions_Caching_Memory_IMemoryCache_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.#ctor(QuickTix.DAL.Data.ApplicationDbContext,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+  SubscriptionRepository(ApplicationDbContext, IMemoryCache)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Inicializa una nueva instancia del <a class="xref" href="QuickTix.DAL.Repositories.SubscriptionRepository.html">SubscriptionRepository</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SubscriptionRepository(ApplicationDbContext context, IMemoryCache cache)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="QuickTix.DAL.Data.ApplicationDbContext.html">ApplicationDbContext</a></dt>
+    <dd><p>DbContext de la aplicación.</p>
+</dd>
+    <dt><code>cache</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory.imemorycache">IMemoryCache</a></dt>
+    <dd><p>Caché en memoria.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_ClearCache_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.ClearCache*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_ClearCache" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.ClearCache">
+  ClearCache()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Invalida la caché de suscripciones.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearCache()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_CreateAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.CreateAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_CreateAsync_QuickTix_Core_Models_Entities_Subscription_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.CreateAsync(QuickTix.Core.Models.Entities.Subscription)">
+  CreateAsync(Subscription)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L171"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Crea una suscripción y persiste cambios.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; CreateAsync(Subscription subscription)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>subscription</code> <a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a></dt>
+    <dd><p>Entidad suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si se guarda correctamente; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_DeleteAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.DeleteAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_DeleteAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.DeleteAsync(System.Int32)">
+  DeleteAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L185"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Elimina una suscripción por id y persiste cambios.
+Para evitar problemas con entidades proyectadas desde caché, la eliminación se realiza
+sobre una entidad cargada con tracking. Si la suscripción tiene elementos de venta asociados,
+se eliminan también para que no queden huérfanos.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; DeleteAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador de la suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si se elimina; false si no existe.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_ExistsAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.ExistsAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_ExistsAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.ExistsAsync(System.Int32)">
+  ExistsAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L163"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indica si existe una suscripción con el id especificado.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ExistsAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador de la suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si existe; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_GetAllAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetAllAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_GetAllAsync" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetAllAsync">
+  GetAllAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene el listado general de suscripciones.
+Usa caché para evitar consultas repetitivas.
+Se proyectan datos básicos y referencias mínimas de <a class="xref" href="QuickTix.Core.Models.Entities.Venue.html">Venue</a> y <a class="xref" href="QuickTix.Core.Models.Entities.Client.html">Client</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ICollection&lt;Subscription&gt;&gt; GetAllAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>&gt;&gt;</dt>
+    <dd><p>Colección de suscripciones.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_GetAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_GetAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetAsync(System.Int32)">
+  GetAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene una suscripción por id para consulta.
+Si existe caché del listado, se reutiliza para evitar consulta a BD.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Subscription?&gt; GetAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador de la suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>&gt;</dt>
+    <dd><p>Suscripción si existe; en caso contrario, null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_GetByClientAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetByClientAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_GetByClientAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetByClientAsync(System.Int32)">
+  GetByClientAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L224"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene las suscripciones asociadas a un cliente.
+Proyecta datos básicos e incluye información mínima del recinto (<a class="xref" href="QuickTix.Core.Models.Entities.Venue.html">Venue</a>).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ICollection&lt;Subscription&gt;&gt; GetByClientAsync(int clientId)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>clientId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador del cliente.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>&gt;&gt;</dt>
+    <dd><p>Colección de suscripciones del cliente.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_GetDetailAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetDetailAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_GetDetailAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetDetailAsync(System.Int32)">
+  GetDetailAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene el detalle de una suscripción incluyendo sus relaciones principales.
+Se usa cuando alguna vista requiere el grafo completo.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Subscription?&gt; GetDetailAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador de la suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>&gt;</dt>
+    <dd><p>Suscripción con detalle si existe; en caso contrario, null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_GetForUpdateAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetForUpdateAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_GetForUpdateAsync_System_Int32_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.GetForUpdateAsync(System.Int32)">
+  GetForUpdateAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L125"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtiene una suscripción por id para actualización/borrado.
+Se devuelve entidad con tracking.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Subscription?&gt; GetForUpdateAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Identificador de la suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a>&gt;</dt>
+    <dd><p>Suscripción si existe; en caso contrario, null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_SaveAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.SaveAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_SaveAsync" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.SaveAsync">
+  SaveAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Persiste los cambios en base de datos.
+Si se guarda correctamente, invalida la caché asociada.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; SaveAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si el guardado se realiza correctamente; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="QuickTix_DAL_Repositories_SubscriptionRepository_UpdateAsync_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.UpdateAsync*"></a>
+
+  <h3 id="QuickTix_DAL_Repositories_SubscriptionRepository_UpdateAsync_QuickTix_Core_Models_Entities_Subscription_" data-uid="QuickTix.DAL.Repositories.SubscriptionRepository.UpdateAsync(QuickTix.Core.Models.Entities.Subscription)">
+  UpdateAsync(Subscription)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Persiste una actualización de suscripción.
+Convención habitual: la entidad se obtiene previamente con tracking mediante <a class="xref" href="QuickTix.DAL.Repositories.SubscriptionRepository.html#QuickTix_DAL_Repositories_SubscriptionRepository_GetForUpdateAsync_System_Int32_">GetForUpdateAsync(int)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; UpdateAsync(Subscription subscription)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>subscription</code> <a class="xref" href="QuickTix.Core.Models.Entities.Subscription.html">Subscription</a></dt>
+    <dd><p>Entidad suscripción.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>True si se guarda correctamente; en caso contrario, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/SantiPMendoza/QuickTix/blob/main/QuickTix/QuickTix.DAL/Repositories/SubscriptionRepository.cs/#L14" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

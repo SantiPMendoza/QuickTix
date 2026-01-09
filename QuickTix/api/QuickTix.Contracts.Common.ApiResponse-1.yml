@@ -1,0 +1,861 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.Common.ApiResponse`1
+  commentId: T:QuickTix.Contracts.Common.ApiResponse`1
+  id: ApiResponse`1
+  parent: QuickTix.Contracts.Common
+  children:
+  - QuickTix.Contracts.Common.ApiResponse`1.ErrorMessages
+  - QuickTix.Contracts.Common.ApiResponse`1.Fail(System.Net.HttpStatusCode,System.Collections.Generic.IEnumerable{System.String},System.String)
+  - QuickTix.Contracts.Common.ApiResponse`1.IsSuccess
+  - QuickTix.Contracts.Common.ApiResponse`1.Ok(`0,System.Net.HttpStatusCode,System.String)
+  - QuickTix.Contracts.Common.ApiResponse`1.Result
+  - QuickTix.Contracts.Common.ApiResponse`1.StatusCode
+  - QuickTix.Contracts.Common.ApiResponse`1.TraceId
+  langs:
+  - csharp
+  - vb
+  name: ApiResponse<T>
+  nameWithType: ApiResponse<T>
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ApiResponse
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 4
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public class ApiResponse<T>
+    typeParameters:
+    - id: T
+    content.vb: Public Class ApiResponse(Of T)
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: ApiResponse(Of T)
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T)
+  name.vb: ApiResponse(Of T)
+- uid: QuickTix.Contracts.Common.ApiResponse`1.StatusCode
+  commentId: P:QuickTix.Contracts.Common.ApiResponse`1.StatusCode
+  id: StatusCode
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: StatusCode
+  nameWithType: ApiResponse<T>.StatusCode
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.StatusCode
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: StatusCode
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 6
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public HttpStatusCode StatusCode { get; set; }
+    parameters: []
+    return:
+      type: System.Net.HttpStatusCode
+    content.vb: Public Property StatusCode As HttpStatusCode
+  overload: QuickTix.Contracts.Common.ApiResponse`1.StatusCode*
+  nameWithType.vb: ApiResponse(Of T).StatusCode
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).StatusCode
+- uid: QuickTix.Contracts.Common.ApiResponse`1.IsSuccess
+  commentId: P:QuickTix.Contracts.Common.ApiResponse`1.IsSuccess
+  id: IsSuccess
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: IsSuccess
+  nameWithType: ApiResponse<T>.IsSuccess
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.IsSuccess
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: IsSuccess
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 7
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public bool IsSuccess { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsSuccess As Boolean
+  overload: QuickTix.Contracts.Common.ApiResponse`1.IsSuccess*
+  nameWithType.vb: ApiResponse(Of T).IsSuccess
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).IsSuccess
+- uid: QuickTix.Contracts.Common.ApiResponse`1.ErrorMessages
+  commentId: P:QuickTix.Contracts.Common.ApiResponse`1.ErrorMessages
+  id: ErrorMessages
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: ErrorMessages
+  nameWithType: ApiResponse<T>.ErrorMessages
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.ErrorMessages
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ErrorMessages
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public List<string> ErrorMessages { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public Property ErrorMessages As List(Of String)
+  overload: QuickTix.Contracts.Common.ApiResponse`1.ErrorMessages*
+  nameWithType.vb: ApiResponse(Of T).ErrorMessages
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).ErrorMessages
+- uid: QuickTix.Contracts.Common.ApiResponse`1.Result
+  commentId: P:QuickTix.Contracts.Common.ApiResponse`1.Result
+  id: Result
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: Result
+  nameWithType: ApiResponse<T>.Result
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.Result
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Result
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 9
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public T? Result { get; set; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: Public Property Result As T
+  overload: QuickTix.Contracts.Common.ApiResponse`1.Result*
+  nameWithType.vb: ApiResponse(Of T).Result
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).Result
+- uid: QuickTix.Contracts.Common.ApiResponse`1.TraceId
+  commentId: P:QuickTix.Contracts.Common.ApiResponse`1.TraceId
+  id: TraceId
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: TraceId
+  nameWithType: ApiResponse<T>.TraceId
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.TraceId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: TraceId
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public string? TraceId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TraceId As String
+  overload: QuickTix.Contracts.Common.ApiResponse`1.TraceId*
+  nameWithType.vb: ApiResponse(Of T).TraceId
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).TraceId
+- uid: QuickTix.Contracts.Common.ApiResponse`1.Ok(`0,System.Net.HttpStatusCode,System.String)
+  commentId: M:QuickTix.Contracts.Common.ApiResponse`1.Ok(`0,System.Net.HttpStatusCode,System.String)
+  id: Ok(`0,System.Net.HttpStatusCode,System.String)
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: Ok(T, HttpStatusCode, string?)
+  nameWithType: ApiResponse<T>.Ok(T, HttpStatusCode, string?)
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.Ok(T, System.Net.HttpStatusCode, string?)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Ok
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 12
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public static ApiResponse<T> Ok(T result, HttpStatusCode statusCode = HttpStatusCode.OK, string? traceId = null)
+    parameters:
+    - id: result
+      type: '{T}'
+    - id: statusCode
+      type: System.Net.HttpStatusCode
+    - id: traceId
+      type: System.String
+    return:
+      type: QuickTix.Contracts.Common.ApiResponse`1
+    content.vb: Public Shared Function Ok(result As T, statusCode As HttpStatusCode = HttpStatusCode.OK, traceId As String = Nothing) As ApiResponse(Of T)
+  overload: QuickTix.Contracts.Common.ApiResponse`1.Ok*
+  nameWithType.vb: ApiResponse(Of T).Ok(T, HttpStatusCode, String)
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).Ok(T, System.Net.HttpStatusCode, String)
+  name.vb: Ok(T, HttpStatusCode, String)
+- uid: QuickTix.Contracts.Common.ApiResponse`1.Fail(System.Net.HttpStatusCode,System.Collections.Generic.IEnumerable{System.String},System.String)
+  commentId: M:QuickTix.Contracts.Common.ApiResponse`1.Fail(System.Net.HttpStatusCode,System.Collections.Generic.IEnumerable{System.String},System.String)
+  id: Fail(System.Net.HttpStatusCode,System.Collections.Generic.IEnumerable{System.String},System.String)
+  parent: QuickTix.Contracts.Common.ApiResponse`1
+  langs:
+  - csharp
+  - vb
+  name: Fail(HttpStatusCode, IEnumerable<string>, string?)
+  nameWithType: ApiResponse<T>.Fail(HttpStatusCode, IEnumerable<string>, string?)
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.Fail(System.Net.HttpStatusCode, System.Collections.Generic.IEnumerable<string>, string?)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Common/ApiResponse.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Fail
+    path: QuickTix.Contracts/Common/ApiResponse.cs
+    startLine: 21
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Common
+  syntax:
+    content: public static ApiResponse<T> Fail(HttpStatusCode statusCode, IEnumerable<string> errors, string? traceId = null)
+    parameters:
+    - id: statusCode
+      type: System.Net.HttpStatusCode
+    - id: errors
+      type: System.Collections.Generic.IEnumerable{System.String}
+    - id: traceId
+      type: System.String
+    return:
+      type: QuickTix.Contracts.Common.ApiResponse`1
+    content.vb: Public Shared Function Fail(statusCode As HttpStatusCode, errors As IEnumerable(Of String), traceId As String = Nothing) As ApiResponse(Of T)
+  overload: QuickTix.Contracts.Common.ApiResponse`1.Fail*
+  nameWithType.vb: ApiResponse(Of T).Fail(HttpStatusCode, IEnumerable(Of String), String)
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).Fail(System.Net.HttpStatusCode, System.Collections.Generic.IEnumerable(Of String), String)
+  name.vb: Fail(HttpStatusCode, IEnumerable(Of String), String)
+references:
+- uid: QuickTix.Contracts.Common
+  commentId: N:QuickTix.Contracts.Common
+  href: QuickTix.html
+  name: QuickTix.Contracts.Common
+  nameWithType: QuickTix.Contracts.Common
+  fullName: QuickTix.Contracts.Common
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Common
+    name: Common
+    href: QuickTix.Contracts.Common.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Common
+    name: Common
+    href: QuickTix.Contracts.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Contracts.Common.ApiResponse`1.StatusCode*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.StatusCode
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_StatusCode
+  name: StatusCode
+  nameWithType: ApiResponse<T>.StatusCode
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.StatusCode
+  nameWithType.vb: ApiResponse(Of T).StatusCode
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).StatusCode
+- uid: System.Net.HttpStatusCode
+  commentId: T:System.Net.HttpStatusCode
+  parent: System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.httpstatuscode
+  name: HttpStatusCode
+  nameWithType: HttpStatusCode
+  fullName: System.Net.HttpStatusCode
+- uid: System.Net
+  commentId: N:System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net
+  nameWithType: System.Net
+  fullName: System.Net
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+- uid: QuickTix.Contracts.Common.ApiResponse`1.IsSuccess*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.IsSuccess
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_IsSuccess
+  name: IsSuccess
+  nameWithType: ApiResponse<T>.IsSuccess
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.IsSuccess
+  nameWithType.vb: ApiResponse(Of T).IsSuccess
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).IsSuccess
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: QuickTix.Contracts.Common.ApiResponse`1.ErrorMessages*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.ErrorMessages
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_ErrorMessages
+  name: ErrorMessages
+  nameWithType: ApiResponse<T>.ErrorMessages
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.ErrorMessages
+  nameWithType.vb: ApiResponse(Of T).ErrorMessages
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).ErrorMessages
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: QuickTix.Contracts.Common.ApiResponse`1.Result*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.Result
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_Result
+  name: Result
+  nameWithType: ApiResponse<T>.Result
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.Result
+  nameWithType.vb: ApiResponse(Of T).Result
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).Result
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: QuickTix.Contracts.Common.ApiResponse`1.TraceId*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.TraceId
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_TraceId
+  name: TraceId
+  nameWithType: ApiResponse<T>.TraceId
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.TraceId
+  nameWithType.vb: ApiResponse(Of T).TraceId
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).TraceId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Contracts.Common.ApiResponse`1.Ok*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.Ok
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_Ok__0_System_Net_HttpStatusCode_System_String_
+  name: Ok
+  nameWithType: ApiResponse<T>.Ok
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.Ok
+  nameWithType.vb: ApiResponse(Of T).Ok
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).Ok
+- uid: QuickTix.Contracts.Common.ApiResponse`1
+  commentId: T:QuickTix.Contracts.Common.ApiResponse`1
+  parent: QuickTix.Contracts.Common
+  href: QuickTix.Contracts.Common.ApiResponse-1.html
+  name: ApiResponse<T>
+  nameWithType: ApiResponse<T>
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>
+  nameWithType.vb: ApiResponse(Of T)
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T)
+  name.vb: ApiResponse(Of T)
+  spec.csharp:
+  - uid: QuickTix.Contracts.Common.ApiResponse`1
+    name: ApiResponse
+    href: QuickTix.Contracts.Common.ApiResponse-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.Contracts.Common.ApiResponse`1
+    name: ApiResponse
+    href: QuickTix.Contracts.Common.ApiResponse-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: QuickTix.Contracts.Common.ApiResponse`1.Fail*
+  commentId: Overload:QuickTix.Contracts.Common.ApiResponse`1.Fail
+  href: QuickTix.Contracts.Common.ApiResponse-1.html#QuickTix_Contracts_Common_ApiResponse_1_Fail_System_Net_HttpStatusCode_System_Collections_Generic_IEnumerable_System_String__System_String_
+  name: Fail
+  nameWithType: ApiResponse<T>.Fail
+  fullName: QuickTix.Contracts.Common.ApiResponse<T>.Fail
+  nameWithType.vb: ApiResponse(Of T).Fail
+  fullName.vb: QuickTix.Contracts.Common.ApiResponse(Of T).Fail
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<string>
+  nameWithType: IEnumerable<string>
+  fullName: System.Collections.Generic.IEnumerable<string>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

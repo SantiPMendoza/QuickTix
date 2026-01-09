@@ -1,0 +1,282 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.Enums.TicketType
+  commentId: T:QuickTix.Contracts.Enums.TicketType
+  id: TicketType
+  parent: QuickTix.Contracts.Enums
+  children:
+  - QuickTix.Contracts.Enums.TicketType.AdultoFestivo
+  - QuickTix.Contracts.Enums.TicketType.AdultoLaboral
+  - QuickTix.Contracts.Enums.TicketType.Familiar
+  - QuickTix.Contracts.Enums.TicketType.Grupo
+  - QuickTix.Contracts.Enums.TicketType.JubiladoFestivo
+  - QuickTix.Contracts.Enums.TicketType.JubiladoLaboral
+  - QuickTix.Contracts.Enums.TicketType.NiñoFestivo
+  - QuickTix.Contracts.Enums.TicketType.NiñoLaboral
+  langs:
+  - csharp
+  - vb
+  name: TicketType
+  nameWithType: TicketType
+  fullName: QuickTix.Contracts.Enums.TicketType
+  type: Enum
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: TicketType
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: public enum TicketType
+    content.vb: Public Enum TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.NiñoLaboral
+  commentId: F:QuickTix.Contracts.Enums.TicketType.NiñoLaboral
+  id: NiñoLaboral
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: NiñoLaboral
+  nameWithType: TicketType.NiñoLaboral
+  fullName: QuickTix.Contracts.Enums.TicketType.NiñoLaboral
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: NiñoLaboral
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: NiñoLaboral = 0
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.NiñoFestivo
+  commentId: F:QuickTix.Contracts.Enums.TicketType.NiñoFestivo
+  id: NiñoFestivo
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: NiñoFestivo
+  nameWithType: TicketType.NiñoFestivo
+  fullName: QuickTix.Contracts.Enums.TicketType.NiñoFestivo
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: NiñoFestivo
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 11
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: NiñoFestivo = 1
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.AdultoLaboral
+  commentId: F:QuickTix.Contracts.Enums.TicketType.AdultoLaboral
+  id: AdultoLaboral
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: AdultoLaboral
+  nameWithType: TicketType.AdultoLaboral
+  fullName: QuickTix.Contracts.Enums.TicketType.AdultoLaboral
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: AdultoLaboral
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 12
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: AdultoLaboral = 2
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.AdultoFestivo
+  commentId: F:QuickTix.Contracts.Enums.TicketType.AdultoFestivo
+  id: AdultoFestivo
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: AdultoFestivo
+  nameWithType: TicketType.AdultoFestivo
+  fullName: QuickTix.Contracts.Enums.TicketType.AdultoFestivo
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: AdultoFestivo
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 13
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: AdultoFestivo = 3
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.JubiladoLaboral
+  commentId: F:QuickTix.Contracts.Enums.TicketType.JubiladoLaboral
+  id: JubiladoLaboral
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: JubiladoLaboral
+  nameWithType: TicketType.JubiladoLaboral
+  fullName: QuickTix.Contracts.Enums.TicketType.JubiladoLaboral
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: JubiladoLaboral
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 14
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: JubiladoLaboral = 4
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.JubiladoFestivo
+  commentId: F:QuickTix.Contracts.Enums.TicketType.JubiladoFestivo
+  id: JubiladoFestivo
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: JubiladoFestivo
+  nameWithType: TicketType.JubiladoFestivo
+  fullName: QuickTix.Contracts.Enums.TicketType.JubiladoFestivo
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: JubiladoFestivo
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 15
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: JubiladoFestivo = 5
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.Familiar
+  commentId: F:QuickTix.Contracts.Enums.TicketType.Familiar
+  id: Familiar
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: Familiar
+  nameWithType: TicketType.Familiar
+  fullName: QuickTix.Contracts.Enums.TicketType.Familiar
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Familiar
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 16
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: Familiar = 6
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+- uid: QuickTix.Contracts.Enums.TicketType.Grupo
+  commentId: F:QuickTix.Contracts.Enums.TicketType.Grupo
+  id: Grupo
+  parent: QuickTix.Contracts.Enums.TicketType
+  langs:
+  - csharp
+  - vb
+  name: Grupo
+  nameWithType: TicketType.Grupo
+  fullName: QuickTix.Contracts.Enums.TicketType.Grupo
+  type: Field
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/Enums/Enums.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Grupo
+    path: QuickTix.Contracts/Enums/Enums.cs
+    startLine: 17
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.Enums
+  syntax:
+    content: Grupo = 7
+    return:
+      type: QuickTix.Contracts.Enums.TicketType
+references:
+- uid: QuickTix.Contracts.Enums
+  commentId: N:QuickTix.Contracts.Enums
+  href: QuickTix.html
+  name: QuickTix.Contracts.Enums
+  nameWithType: QuickTix.Contracts.Enums
+  fullName: QuickTix.Contracts.Enums
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Enums
+    name: Enums
+    href: QuickTix.Contracts.Enums.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Enums
+    name: Enums
+    href: QuickTix.Contracts.Enums.html
+- uid: QuickTix.Contracts.Enums.TicketType
+  commentId: T:QuickTix.Contracts.Enums.TicketType
+  parent: QuickTix.Contracts.Enums
+  href: QuickTix.Contracts.Enums.TicketType.html
+  name: TicketType
+  nameWithType: TicketType
+  fullName: QuickTix.Contracts.Enums.TicketType

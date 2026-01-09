@@ -10,5 +10,7 @@ namespace QuickTix.Core.Interfaces
         Task<ICollection<SaleItem>> GetTicketsAsync();
         Task<ICollection<SaleItem>> GetSubscriptionsAsync();
         Task<ICollection<SaleItem>> GetBySaleAsync(int saleId);
+        Task<int> CountBySubscriptionAsync(int subscriptionId);
+        Task<int> CountByTicketAsync(int ticketId);
     }
 }

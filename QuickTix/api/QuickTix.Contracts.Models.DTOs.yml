@@ -1,0 +1,148 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.Models.DTOs
+  commentId: N:QuickTix.Contracts.Models.DTOs
+  id: QuickTix.Contracts.Models.DTOs
+  children:
+  - QuickTix.Contracts.Models.DTOs.AdminDTO
+  - QuickTix.Contracts.Models.DTOs.ClientDTO
+  - QuickTix.Contracts.Models.DTOs.CreateAdminDTO
+  - QuickTix.Contracts.Models.DTOs.CreateClientDTO
+  - QuickTix.Contracts.Models.DTOs.CreateManagerDTO
+  - QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO
+  - QuickTix.Contracts.Models.DTOs.CreateTicketDTO
+  - QuickTix.Contracts.Models.DTOs.CreateVenueDTO
+  - QuickTix.Contracts.Models.DTOs.ManagerDTO
+  - QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+  - QuickTix.Contracts.Models.DTOs.TicketDTO
+  - QuickTix.Contracts.Models.DTOs.VenueDTO
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Contracts.Models.DTOs
+  nameWithType: QuickTix.Contracts.Models.DTOs
+  fullName: QuickTix.Contracts.Models.DTOs
+  type: Namespace
+  assemblies:
+  - QuickTix.Contracts
+references:
+- uid: QuickTix.Contracts.Models.DTOs.AdminDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.AdminDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.AdminDTO.html
+  name: AdminDTO
+  nameWithType: AdminDTO
+  fullName: QuickTix.Contracts.Models.DTOs.AdminDTO
+- uid: QuickTix.Contracts.Models.DTOs.CreateAdminDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.CreateAdminDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.CreateAdminDTO.html
+  name: CreateAdminDTO
+  nameWithType: CreateAdminDTO
+  fullName: QuickTix.Contracts.Models.DTOs.CreateAdminDTO
+- uid: QuickTix.Contracts.Models.DTOs.ClientDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.ClientDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.ClientDTO.html
+  name: ClientDTO
+  nameWithType: ClientDTO
+  fullName: QuickTix.Contracts.Models.DTOs.ClientDTO
+- uid: QuickTix.Contracts.Models.DTOs.CreateClientDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.CreateClientDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.CreateClientDTO.html
+  name: CreateClientDTO
+  nameWithType: CreateClientDTO
+  fullName: QuickTix.Contracts.Models.DTOs.CreateClientDTO
+- uid: QuickTix.Contracts.Models.DTOs.ManagerDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.ManagerDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.ManagerDTO.html
+  name: ManagerDTO
+  nameWithType: ManagerDTO
+  fullName: QuickTix.Contracts.Models.DTOs.ManagerDTO
+- uid: QuickTix.Contracts.Models.DTOs.CreateManagerDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.CreateManagerDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.CreateManagerDTO.html
+  name: CreateManagerDTO
+  nameWithType: CreateManagerDTO
+  fullName: QuickTix.Contracts.Models.DTOs.CreateManagerDTO
+- uid: QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+  href: QuickTix.Contracts.Models.DTOs.SubscriptionDTO.html
+  name: SubscriptionDTO
+  nameWithType: SubscriptionDTO
+  fullName: QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+- uid: QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO.html
+  name: CreateSubscriptionDTO
+  nameWithType: CreateSubscriptionDTO
+  fullName: QuickTix.Contracts.Models.DTOs.CreateSubscriptionDTO
+- uid: QuickTix.Contracts.Models.DTOs.TicketDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.TicketDTO
+  href: QuickTix.Contracts.Models.DTOs.TicketDTO.html
+  name: TicketDTO
+  nameWithType: TicketDTO
+  fullName: QuickTix.Contracts.Models.DTOs.TicketDTO
+- uid: QuickTix.Contracts.Models.DTOs.CreateTicketDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.CreateTicketDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.CreateTicketDTO.html
+  name: CreateTicketDTO
+  nameWithType: CreateTicketDTO
+  fullName: QuickTix.Contracts.Models.DTOs.CreateTicketDTO
+- uid: QuickTix.Contracts.Models.DTOs.VenueDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.VenueDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.VenueDTO.html
+  name: VenueDTO
+  nameWithType: VenueDTO
+  fullName: QuickTix.Contracts.Models.DTOs.VenueDTO
+- uid: QuickTix.Contracts.Models.DTOs.CreateVenueDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.CreateVenueDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.CreateVenueDTO.html
+  name: CreateVenueDTO
+  nameWithType: CreateVenueDTO
+  fullName: QuickTix.Contracts.Models.DTOs.CreateVenueDTO
+- uid: QuickTix.Contracts.Models.DTOs
+  commentId: N:QuickTix.Contracts.Models.DTOs
+  href: QuickTix.html
+  name: QuickTix.Contracts.Models.DTOs
+  nameWithType: QuickTix.Contracts.Models.DTOs
+  fullName: QuickTix.Contracts.Models.DTOs
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Models
+    name: Models
+    href: QuickTix.Contracts.Models.html
+  - name: .
+  - uid: QuickTix.Contracts.Models.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.Models.DTOs.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Models
+    name: Models
+    href: QuickTix.Contracts.Models.html
+  - name: .
+  - uid: QuickTix.Contracts.Models.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.Models.DTOs.html

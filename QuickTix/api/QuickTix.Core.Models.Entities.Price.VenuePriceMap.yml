@@ -1,0 +1,572 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  commentId: T:QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  id: VenuePriceMap
+  parent: QuickTix.Core.Models.Entities.Price
+  children:
+  - QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices
+  - QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices
+  - QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId
+  langs:
+  - csharp
+  - vb
+  name: VenuePriceMap
+  nameWithType: VenuePriceMap
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenuePriceMap
+    path: QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities.Price
+  syntax:
+    content: public class VenuePriceMap
+    content.vb: Public Class VenuePriceMap
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId
+  commentId: P:QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId
+  id: VenueId
+  parent: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  langs:
+  - csharp
+  - vb
+  name: VenueId
+  nameWithType: VenuePriceMap.VenueId
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueId
+    path: QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities.Price
+  syntax:
+    content: public int VenueId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property VenueId As Integer
+  overload: QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId*
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices
+  commentId: P:QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices
+  id: TicketPrices
+  parent: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  langs:
+  - csharp
+  - vb
+  name: TicketPrices
+  nameWithType: VenuePriceMap.TicketPrices
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: TicketPrices
+    path: QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+    startLine: 11
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities.Price
+  syntax:
+    content: public List<VenueTicketPrice> TicketPrices { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{QuickTix.Core.Models.Entities.Price.VenueTicketPrice}
+    content.vb: Public Property TicketPrices As List(Of VenueTicketPrice)
+  overload: QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices*
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices
+  commentId: P:QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices
+  id: SubscriptionPrices
+  parent: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionPrices
+  nameWithType: VenuePriceMap.SubscriptionPrices
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SubscriptionPrices
+    path: QuickTix.Core/Models/Entities/Price/VenuePriceMap.cs
+    startLine: 12
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities.Price
+  syntax:
+    content: public List<VenueSubscriptionPrice> SubscriptionPrices { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice}
+    content.vb: Public Property SubscriptionPrices As List(Of VenueSubscriptionPrice)
+  overload: QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices*
+references:
+- uid: QuickTix.Core.Models.Entities.Price
+  commentId: N:QuickTix.Core.Models.Entities.Price
+  href: QuickTix.html
+  name: QuickTix.Core.Models.Entities.Price
+  nameWithType: QuickTix.Core.Models.Entities.Price
+  fullName: QuickTix.Core.Models.Entities.Price
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities.Price
+    name: Price
+    href: QuickTix.Core.Models.Entities.Price.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities.Price
+    name: Price
+    href: QuickTix.Core.Models.Entities.Price.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId*
+  commentId: Overload:QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId
+  href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html#QuickTix_Core_Models_Entities_Price_VenuePriceMap_VenueId
+  name: VenueId
+  nameWithType: VenuePriceMap.VenueId
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap.VenueId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices*
+  commentId: Overload:QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices
+  href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html#QuickTix_Core_Models_Entities_Price_VenuePriceMap_TicketPrices
+  name: TicketPrices
+  nameWithType: VenuePriceMap.TicketPrices
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap.TicketPrices
+- uid: System.Collections.Generic.List{QuickTix.Core.Models.Entities.Price.VenueTicketPrice}
+  commentId: T:System.Collections.Generic.List{QuickTix.Core.Models.Entities.Price.VenueTicketPrice}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<VenueTicketPrice>
+  nameWithType: List<VenueTicketPrice>
+  fullName: System.Collections.Generic.List<QuickTix.Core.Models.Entities.Price.VenueTicketPrice>
+  nameWithType.vb: List(Of VenueTicketPrice)
+  fullName.vb: System.Collections.Generic.List(Of QuickTix.Core.Models.Entities.Price.VenueTicketPrice)
+  name.vb: List(Of VenueTicketPrice)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+    name: VenueTicketPrice
+    href: QuickTix.Core.Models.Entities.Price.VenueTicketPrice.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+    name: VenueTicketPrice
+    href: QuickTix.Core.Models.Entities.Price.VenueTicketPrice.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices*
+  commentId: Overload:QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices
+  href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html#QuickTix_Core_Models_Entities_Price_VenuePriceMap_SubscriptionPrices
+  name: SubscriptionPrices
+  nameWithType: VenuePriceMap.SubscriptionPrices
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap.SubscriptionPrices
+- uid: System.Collections.Generic.List{QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice}
+  commentId: T:System.Collections.Generic.List{QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<VenueSubscriptionPrice>
+  nameWithType: List<VenueSubscriptionPrice>
+  fullName: System.Collections.Generic.List<QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice>
+  nameWithType.vb: List(Of VenueSubscriptionPrice)
+  fullName.vb: System.Collections.Generic.List(Of QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice)
+  name.vb: List(Of VenueSubscriptionPrice)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+    name: VenueSubscriptionPrice
+    href: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+    name: VenueSubscriptionPrice
+    href: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice.html
+  - name: )

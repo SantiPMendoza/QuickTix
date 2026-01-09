@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Tests
+  commentId: N:QuickTix.Tests
+  id: QuickTix.Tests
+  children:
+  - QuickTix.Tests.UnitTest1
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Tests
+  nameWithType: QuickTix.Tests
+  fullName: QuickTix.Tests
+  type: Namespace
+  assemblies:
+  - QuickTix.Tests
+references:
+- uid: QuickTix.Tests.UnitTest1
+  commentId: T:QuickTix.Tests.UnitTest1
+  href: QuickTix.Tests.UnitTest1.html
+  name: UnitTest1
+  nameWithType: UnitTest1
+  fullName: QuickTix.Tests.UnitTest1

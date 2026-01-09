@@ -174,7 +174,8 @@ namespace QuickTix.DAL.Repositories
         /// <summary>
         /// Elimina un ticket por id y persiste cambios.
         /// Para evitar problemas con entidades proyectadas desde caché, la eliminación se realiza
-        /// sobre una entidad cargada con tracking.
+        /// sobre una entidad cargada con tracking. Si la entidad tiene elementos de venta asociados,
+        /// se eliminan también para que no queden huérfanos.
         /// </summary>
         /// <param name="id">Identificador del ticket.</param>
         /// <returns>True si se elimina; false si no existe.</returns>
@@ -183,8 +184,32 @@ namespace QuickTix.DAL.Repositories
             var ticket = await GetForUpdateAsync(id);
             if (ticket == null) return false;
 
-            _context.Tickets.Remove(ticket);
-            return await SaveAsync();
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var items = await _context.SaleItems
+                    .Where(i => i.TicketId == id)
+                    .ToListAsync();
+
+                if (items.Count > 0)
+                    _context.SaleItems.RemoveRange(items);
+
+                _context.Tickets.Remove(ticket);
+
+                await _context.SaveChangesAsync();
+                await tx.CommitAsync();
+
+                ClearCache();
+                return true;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
         }
+
+
     }
 }

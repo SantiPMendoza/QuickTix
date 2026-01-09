@@ -1,0 +1,277 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Mobile.Services.ISubscriptionService
+  commentId: T:QuickTix.Mobile.Services.ISubscriptionService
+  id: ISubscriptionService
+  parent: QuickTix.Mobile.Services
+  children:
+  - QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync(System.Int32,System.Threading.CancellationToken)
+  langs:
+  - csharp
+  - vb
+  name: ISubscriptionService
+  nameWithType: ISubscriptionService
+  fullName: QuickTix.Mobile.Services.ISubscriptionService
+  type: Interface
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Services/Application/SubscriptionService.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ISubscriptionService
+    path: QuickTix.Mobile/Services/Application/SubscriptionService.cs
+    startLine: 14
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Services
+  summary: >-
+    Contrato del servicio de suscripciones para el cliente móvil.
+
+    Permite consultar suscripciones asociadas a un cliente autenticado.
+  example: []
+  syntax:
+    content: public interface ISubscriptionService
+    content.vb: Public Interface ISubscriptionService
+- uid: QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync(System.Int32,System.Threading.CancellationToken)
+  commentId: M:QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync(System.Int32,System.Threading.CancellationToken)
+  id: GetByClientAsync(System.Int32,System.Threading.CancellationToken)
+  parent: QuickTix.Mobile.Services.ISubscriptionService
+  langs:
+  - csharp
+  - vb
+  name: GetByClientAsync(int, CancellationToken)
+  nameWithType: ISubscriptionService.GetByClientAsync(int, CancellationToken)
+  fullName: QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync(int, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: QuickTix/QuickTix.Mobile/Services/Application/SubscriptionService.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: GetByClientAsync
+    path: QuickTix.Mobile/Services/Application/SubscriptionService.cs
+    startLine: 22
+  assemblies:
+  - QuickTix.Mobile
+  namespace: QuickTix.Mobile.Services
+  summary: Obtiene las suscripciones asociadas a un cliente.
+  example: []
+  syntax:
+    content: Task<List<SubscriptionDTO>> GetByClientAsync(int clientId, CancellationToken ct = default)
+    parameters:
+    - id: clientId
+      type: System.Int32
+      description: Identificador del cliente.
+    - id: ct
+      type: System.Threading.CancellationToken
+      description: Token de cancelación.
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{QuickTix.Contracts.Models.DTOs.SubscriptionDTO}}
+      description: Listado de suscripciones.
+    content.vb: Function GetByClientAsync(clientId As Integer, ct As CancellationToken = Nothing) As Task(Of List(Of SubscriptionDTO))
+  overload: QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync*
+  nameWithType.vb: ISubscriptionService.GetByClientAsync(Integer, CancellationToken)
+  fullName.vb: QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync(Integer, System.Threading.CancellationToken)
+  name.vb: GetByClientAsync(Integer, CancellationToken)
+references:
+- uid: QuickTix.Mobile.Services
+  commentId: N:QuickTix.Mobile.Services
+  href: QuickTix.html
+  name: QuickTix.Mobile.Services
+  nameWithType: QuickTix.Mobile.Services
+  fullName: QuickTix.Mobile.Services
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Services
+    name: Services
+    href: QuickTix.Mobile.Services.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Services
+    name: Services
+    href: QuickTix.Mobile.Services.html
+- uid: QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync*
+  commentId: Overload:QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync
+  href: QuickTix.Mobile.Services.ISubscriptionService.html#QuickTix_Mobile_Services_ISubscriptionService_GetByClientAsync_System_Int32_System_Threading_CancellationToken_
+  name: GetByClientAsync
+  nameWithType: ISubscriptionService.GetByClientAsync
+  fullName: QuickTix.Mobile.Services.ISubscriptionService.GetByClientAsync
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{QuickTix.Contracts.Models.DTOs.SubscriptionDTO}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{QuickTix.Contracts.Models.DTOs.SubscriptionDTO}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<SubscriptionDTO>>
+  nameWithType: Task<List<SubscriptionDTO>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<QuickTix.Contracts.Models.DTOs.SubscriptionDTO>>
+  nameWithType.vb: Task(Of List(Of SubscriptionDTO))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of QuickTix.Contracts.Models.DTOs.SubscriptionDTO))
+  name.vb: Task(Of List(Of SubscriptionDTO))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+    name: SubscriptionDTO
+    href: QuickTix.Contracts.Models.DTOs.SubscriptionDTO.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Contracts.Models.DTOs.SubscriptionDTO
+    name: SubscriptionDTO
+    href: QuickTix.Contracts.Models.DTOs.SubscriptionDTO.html
+  - name: )
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

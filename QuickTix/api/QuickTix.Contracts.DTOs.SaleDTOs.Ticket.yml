@@ -1,0 +1,106 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  commentId: N:QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  id: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  children:
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketDTO
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketLineDTO
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketsBatchDTO
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailDTO
+  - QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailLineDTO
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  nameWithType: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  type: Namespace
+  assemblies:
+  - QuickTix.Contracts
+references:
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketDTO
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketDTO.html
+  name: SellTicketDTO
+  nameWithType: SellTicketDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketDTO
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketLineDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketLineDTO
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketLineDTO.html
+  name: SellTicketLineDTO
+  nameWithType: SellTicketLineDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketLineDTO
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketsBatchDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketsBatchDTO
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketsBatchDTO.html
+  name: SellTicketsBatchDTO
+  nameWithType: SellTicketsBatchDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.SellTicketsBatchDTO
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailDTO
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailDTO.html
+  name: TicketSaleDetailDTO
+  nameWithType: TicketSaleDetailDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailDTO
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailLineDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailLineDTO
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailLineDTO.html
+  name: TicketSaleDetailLineDTO
+  nameWithType: TicketSaleDetailLineDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDetailLineDTO
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO.html
+  name: TicketSaleDTO
+  nameWithType: TicketSaleDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.TicketSaleDTO
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  commentId: N:QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  href: QuickTix.html
+  name: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  nameWithType: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs
+    name: SaleDTOs
+    href: QuickTix.Contracts.DTOs.SaleDTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+    name: Ticket
+    href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs
+    name: SaleDTOs
+    href: QuickTix.Contracts.DTOs.SaleDTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Ticket
+    name: Ticket
+    href: QuickTix.Contracts.DTOs.SaleDTOs.Ticket.html

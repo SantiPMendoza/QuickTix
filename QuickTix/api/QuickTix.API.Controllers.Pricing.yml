@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.API.Controllers.Pricing
+  commentId: N:QuickTix.API.Controllers.Pricing
+  id: QuickTix.API.Controllers.Pricing
+  children:
+  - QuickTix.API.Controllers.Pricing.PricingController
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.API.Controllers.Pricing
+  nameWithType: QuickTix.API.Controllers.Pricing
+  fullName: QuickTix.API.Controllers.Pricing
+  type: Namespace
+  assemblies:
+  - QuickTix.API
+references:
+- uid: QuickTix.API.Controllers.Pricing.PricingController
+  commentId: T:QuickTix.API.Controllers.Pricing.PricingController
+  href: QuickTix.API.Controllers.Pricing.PricingController.html
+  name: PricingController
+  nameWithType: PricingController
+  fullName: QuickTix.API.Controllers.Pricing.PricingController

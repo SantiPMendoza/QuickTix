@@ -1,0 +1,768 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Core.Models.Entities.SaleItem
+  commentId: T:QuickTix.Core.Models.Entities.SaleItem
+  id: SaleItem
+  parent: QuickTix.Core.Models.Entities
+  children:
+  - QuickTix.Core.Models.Entities.SaleItem.Id
+  - QuickTix.Core.Models.Entities.SaleItem.Quantity
+  - QuickTix.Core.Models.Entities.SaleItem.Sale
+  - QuickTix.Core.Models.Entities.SaleItem.SaleId
+  - QuickTix.Core.Models.Entities.SaleItem.Subscription
+  - QuickTix.Core.Models.Entities.SaleItem.SubscriptionId
+  - QuickTix.Core.Models.Entities.SaleItem.Subtotal
+  - QuickTix.Core.Models.Entities.SaleItem.Ticket
+  - QuickTix.Core.Models.Entities.SaleItem.TicketId
+  - QuickTix.Core.Models.Entities.SaleItem.UnitPrice
+  langs:
+  - csharp
+  - vb
+  name: SaleItem
+  nameWithType: SaleItem
+  fullName: QuickTix.Core.Models.Entities.SaleItem
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SaleItem
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public class SaleItem
+    content.vb: Public Class SaleItem
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Core.Models.Entities.SaleItem.Id
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.Id
+  id: Id
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: SaleItem.Id
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Id
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Id
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: QuickTix.Core.Models.Entities.SaleItem.Id*
+- uid: QuickTix.Core.Models.Entities.SaleItem.SaleId
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.SaleId
+  id: SaleId
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: SaleId
+  nameWithType: SaleItem.SaleId
+  fullName: QuickTix.Core.Models.Entities.SaleItem.SaleId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SaleId
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 12
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public int SaleId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property SaleId As Integer
+  overload: QuickTix.Core.Models.Entities.SaleItem.SaleId*
+- uid: QuickTix.Core.Models.Entities.SaleItem.Sale
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.Sale
+  id: Sale
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: Sale
+  nameWithType: SaleItem.Sale
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Sale
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Sale
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 13
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public Sale Sale { get; set; }
+    parameters: []
+    return:
+      type: QuickTix.Core.Models.Entities.Sale
+    content.vb: Public Property Sale As Sale
+  overload: QuickTix.Core.Models.Entities.SaleItem.Sale*
+- uid: QuickTix.Core.Models.Entities.SaleItem.TicketId
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.TicketId
+  id: TicketId
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: TicketId
+  nameWithType: SaleItem.TicketId
+  fullName: QuickTix.Core.Models.Entities.SaleItem.TicketId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: TicketId
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 16
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public int? TicketId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property TicketId As Integer?
+  overload: QuickTix.Core.Models.Entities.SaleItem.TicketId*
+- uid: QuickTix.Core.Models.Entities.SaleItem.Ticket
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.Ticket
+  id: Ticket
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: Ticket
+  nameWithType: SaleItem.Ticket
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Ticket
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Ticket
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 17
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public Ticket? Ticket { get; set; }
+    parameters: []
+    return:
+      type: QuickTix.Core.Models.Entities.Ticket
+    content.vb: Public Property Ticket As Ticket
+  overload: QuickTix.Core.Models.Entities.SaleItem.Ticket*
+- uid: QuickTix.Core.Models.Entities.SaleItem.SubscriptionId
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.SubscriptionId
+  id: SubscriptionId
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionId
+  nameWithType: SaleItem.SubscriptionId
+  fullName: QuickTix.Core.Models.Entities.SaleItem.SubscriptionId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SubscriptionId
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 19
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public int? SubscriptionId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property SubscriptionId As Integer?
+  overload: QuickTix.Core.Models.Entities.SaleItem.SubscriptionId*
+- uid: QuickTix.Core.Models.Entities.SaleItem.Subscription
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.Subscription
+  id: Subscription
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: Subscription
+  nameWithType: SaleItem.Subscription
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Subscription
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Subscription
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 20
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public Subscription? Subscription { get; set; }
+    parameters: []
+    return:
+      type: QuickTix.Core.Models.Entities.Subscription
+    content.vb: Public Property Subscription As Subscription
+  overload: QuickTix.Core.Models.Entities.SaleItem.Subscription*
+- uid: QuickTix.Core.Models.Entities.SaleItem.Quantity
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.Quantity
+  id: Quantity
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: Quantity
+  nameWithType: SaleItem.Quantity
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Quantity
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Quantity
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 22
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public int Quantity { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Quantity As Integer
+  overload: QuickTix.Core.Models.Entities.SaleItem.Quantity*
+- uid: QuickTix.Core.Models.Entities.SaleItem.UnitPrice
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.UnitPrice
+  id: UnitPrice
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: UnitPrice
+  nameWithType: SaleItem.UnitPrice
+  fullName: QuickTix.Core.Models.Entities.SaleItem.UnitPrice
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UnitPrice
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 23
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public decimal UnitPrice { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property UnitPrice As Decimal
+  overload: QuickTix.Core.Models.Entities.SaleItem.UnitPrice*
+- uid: QuickTix.Core.Models.Entities.SaleItem.Subtotal
+  commentId: P:QuickTix.Core.Models.Entities.SaleItem.Subtotal
+  id: Subtotal
+  parent: QuickTix.Core.Models.Entities.SaleItem
+  langs:
+  - csharp
+  - vb
+  name: Subtotal
+  nameWithType: SaleItem.Subtotal
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Subtotal
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Core/Models/Entities/SaleItem.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Subtotal
+    path: QuickTix.Core/Models/Entities/SaleItem.cs
+    startLine: 25
+  assemblies:
+  - QuickTix.Core
+  namespace: QuickTix.Core.Models.Entities
+  syntax:
+    content: public decimal Subtotal { get; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public ReadOnly Property Subtotal As Decimal
+  overload: QuickTix.Core.Models.Entities.SaleItem.Subtotal*
+references:
+- uid: QuickTix.Core.Models.Entities
+  commentId: N:QuickTix.Core.Models.Entities
+  href: QuickTix.html
+  name: QuickTix.Core.Models.Entities
+  nameWithType: QuickTix.Core.Models.Entities
+  fullName: QuickTix.Core.Models.Entities
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Core.Models.Entities.SaleItem.Id*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.Id
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_Id
+  name: Id
+  nameWithType: SaleItem.Id
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: QuickTix.Core.Models.Entities.SaleItem.SaleId*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.SaleId
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_SaleId
+  name: SaleId
+  nameWithType: SaleItem.SaleId
+  fullName: QuickTix.Core.Models.Entities.SaleItem.SaleId
+- uid: QuickTix.Core.Models.Entities.SaleItem.Sale*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.Sale
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_Sale
+  name: Sale
+  nameWithType: SaleItem.Sale
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Sale
+- uid: QuickTix.Core.Models.Entities.Sale
+  commentId: T:QuickTix.Core.Models.Entities.Sale
+  parent: QuickTix.Core.Models.Entities
+  href: QuickTix.Core.Models.Entities.Sale.html
+  name: Sale
+  nameWithType: Sale
+  fullName: QuickTix.Core.Models.Entities.Sale
+- uid: QuickTix.Core.Models.Entities.SaleItem.TicketId*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.TicketId
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_TicketId
+  name: TicketId
+  nameWithType: SaleItem.TicketId
+  fullName: QuickTix.Core.Models.Entities.SaleItem.TicketId
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: QuickTix.Core.Models.Entities.SaleItem.Ticket*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.Ticket
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_Ticket
+  name: Ticket
+  nameWithType: SaleItem.Ticket
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Ticket
+- uid: QuickTix.Core.Models.Entities.Ticket
+  commentId: T:QuickTix.Core.Models.Entities.Ticket
+  parent: QuickTix.Core.Models.Entities
+  href: QuickTix.Core.Models.Entities.Ticket.html
+  name: Ticket
+  nameWithType: Ticket
+  fullName: QuickTix.Core.Models.Entities.Ticket
+- uid: QuickTix.Core.Models.Entities.SaleItem.SubscriptionId*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.SubscriptionId
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_SubscriptionId
+  name: SubscriptionId
+  nameWithType: SaleItem.SubscriptionId
+  fullName: QuickTix.Core.Models.Entities.SaleItem.SubscriptionId
+- uid: QuickTix.Core.Models.Entities.SaleItem.Subscription*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.Subscription
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_Subscription
+  name: Subscription
+  nameWithType: SaleItem.Subscription
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Subscription
+- uid: QuickTix.Core.Models.Entities.Subscription
+  commentId: T:QuickTix.Core.Models.Entities.Subscription
+  parent: QuickTix.Core.Models.Entities
+  href: QuickTix.Core.Models.Entities.Subscription.html
+  name: Subscription
+  nameWithType: Subscription
+  fullName: QuickTix.Core.Models.Entities.Subscription
+- uid: QuickTix.Core.Models.Entities.SaleItem.Quantity*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.Quantity
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_Quantity
+  name: Quantity
+  nameWithType: SaleItem.Quantity
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Quantity
+- uid: QuickTix.Core.Models.Entities.SaleItem.UnitPrice*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.UnitPrice
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_UnitPrice
+  name: UnitPrice
+  nameWithType: SaleItem.UnitPrice
+  fullName: QuickTix.Core.Models.Entities.SaleItem.UnitPrice
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.decimal
+  name: decimal
+  nameWithType: decimal
+  fullName: decimal
+  nameWithType.vb: Decimal
+  fullName.vb: Decimal
+  name.vb: Decimal
+- uid: QuickTix.Core.Models.Entities.SaleItem.Subtotal*
+  commentId: Overload:QuickTix.Core.Models.Entities.SaleItem.Subtotal
+  href: QuickTix.Core.Models.Entities.SaleItem.html#QuickTix_Core_Models_Entities_SaleItem_Subtotal
+  name: Subtotal
+  nameWithType: SaleItem.Subtotal
+  fullName: QuickTix.Core.Models.Entities.SaleItem.Subtotal

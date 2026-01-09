@@ -1,0 +1,84 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Core.Models.Entities.Price
+  commentId: N:QuickTix.Core.Models.Entities.Price
+  id: QuickTix.Core.Models.Entities.Price
+  children:
+  - QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  - QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+  - QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Core.Models.Entities.Price
+  nameWithType: QuickTix.Core.Models.Entities.Price
+  fullName: QuickTix.Core.Models.Entities.Price
+  type: Namespace
+  assemblies:
+  - QuickTix.Core
+references:
+- uid: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  commentId: T:QuickTix.Core.Models.Entities.Price.VenuePriceMap
+  parent: QuickTix.Core.Models.Entities.Price
+  href: QuickTix.Core.Models.Entities.Price.VenuePriceMap.html
+  name: VenuePriceMap
+  nameWithType: VenuePriceMap
+  fullName: QuickTix.Core.Models.Entities.Price.VenuePriceMap
+- uid: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+  commentId: T:QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+  href: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice.html
+  name: VenueSubscriptionPrice
+  nameWithType: VenueSubscriptionPrice
+  fullName: QuickTix.Core.Models.Entities.Price.VenueSubscriptionPrice
+- uid: QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+  commentId: T:QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+  href: QuickTix.Core.Models.Entities.Price.VenueTicketPrice.html
+  name: VenueTicketPrice
+  nameWithType: VenueTicketPrice
+  fullName: QuickTix.Core.Models.Entities.Price.VenueTicketPrice
+- uid: QuickTix.Core.Models.Entities.Price
+  commentId: N:QuickTix.Core.Models.Entities.Price
+  href: QuickTix.html
+  name: QuickTix.Core.Models.Entities.Price
+  nameWithType: QuickTix.Core.Models.Entities.Price
+  fullName: QuickTix.Core.Models.Entities.Price
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities.Price
+    name: Price
+    href: QuickTix.Core.Models.Entities.Price.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Core
+    name: Core
+    href: QuickTix.Core.html
+  - name: .
+  - uid: QuickTix.Core.Models
+    name: Models
+    href: QuickTix.Core.Models.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities
+    name: Entities
+    href: QuickTix.Core.Models.Entities.html
+  - name: .
+  - uid: QuickTix.Core.Models.Entities.Price
+    name: Price
+    href: QuickTix.Core.Models.Entities.Price.html

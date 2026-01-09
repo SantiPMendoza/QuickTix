@@ -1,0 +1,726 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  commentId: T:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  id: SubscriptionSaleDTO
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  children:
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId
+  - QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionSaleDTO
+  nameWithType: SubscriptionSaleDTO
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SubscriptionSaleDTO
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 2
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public class SubscriptionSaleDTO
+    content.vb: Public Class SubscriptionSaleDTO
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id
+  id: Id
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: SubscriptionSaleDTO.Id
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Id
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 4
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date
+  id: Date
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: Date
+  nameWithType: SubscriptionSaleDTO.Date
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Date
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 5
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public DateTime Date { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property [Date] As Date
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId
+  id: VenueId
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: VenueId
+  nameWithType: SubscriptionSaleDTO.VenueId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueId
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 7
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public int VenueId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property VenueId As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName
+  id: VenueName
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: VenueName
+  nameWithType: SubscriptionSaleDTO.VenueName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: VenueName
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public string VenueName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property VenueName As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId
+  id: ManagerId
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: ManagerId
+  nameWithType: SubscriptionSaleDTO.ManagerId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ManagerId
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 10
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public int ManagerId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ManagerId As Integer
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName
+  id: ManagerName
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: ManagerName
+  nameWithType: SubscriptionSaleDTO.ManagerName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ManagerName
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 11
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public string ManagerName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ManagerName As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory
+  id: SubscriptionCategory
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionCategory
+  nameWithType: SubscriptionSaleDTO.SubscriptionCategory
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SubscriptionCategory
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 13
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public string SubscriptionCategory { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SubscriptionCategory As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price
+  id: Price
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: Price
+  nameWithType: SubscriptionSaleDTO.Price
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Price
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 14
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public decimal Price { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property Price As Decimal
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName
+  id: ClientName
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: ClientName
+  nameWithType: SubscriptionSaleDTO.ClientName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ClientName
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 16
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public string ClientName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ClientName As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName*
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString
+  commentId: P:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString
+  id: DiaSemanaString
+  parent: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+  langs:
+  - csharp
+  - vb
+  name: DiaSemanaString
+  nameWithType: SubscriptionSaleDTO.DiaSemanaString
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: DiaSemanaString
+    path: QuickTix.Contracts/DTOs/SaleDTOs/Subscription/SubscriptionSaleDTO.cs
+    startLine: 18
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  syntax:
+    content: public string DiaSemanaString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property DiaSemanaString As String
+  overload: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString*
+references:
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  commentId: N:QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  href: QuickTix.html
+  name: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  nameWithType: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs
+    name: SaleDTOs
+    href: QuickTix.Contracts.DTOs.SaleDTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+    name: Subscription
+    href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs
+    name: SaleDTOs
+    href: QuickTix.Contracts.DTOs.SaleDTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+    name: Subscription
+    href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_Id
+  name: Id
+  nameWithType: SubscriptionSaleDTO.Id
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_Date
+  name: Date
+  nameWithType: SubscriptionSaleDTO.Date
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Date
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_VenueId
+  name: VenueId
+  nameWithType: SubscriptionSaleDTO.VenueId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueId
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_VenueName
+  name: VenueName
+  nameWithType: SubscriptionSaleDTO.VenueName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.VenueName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_ManagerId
+  name: ManagerId
+  nameWithType: SubscriptionSaleDTO.ManagerId
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerId
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_ManagerName
+  name: ManagerName
+  nameWithType: SubscriptionSaleDTO.ManagerName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ManagerName
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_SubscriptionCategory
+  name: SubscriptionCategory
+  nameWithType: SubscriptionSaleDTO.SubscriptionCategory
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.SubscriptionCategory
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_Price
+  name: Price
+  nameWithType: SubscriptionSaleDTO.Price
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.Price
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.decimal
+  name: decimal
+  nameWithType: decimal
+  fullName: decimal
+  nameWithType.vb: Decimal
+  fullName.vb: Decimal
+  name.vb: Decimal
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_ClientName
+  name: ClientName
+  nameWithType: SubscriptionSaleDTO.ClientName
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.ClientName
+- uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString*
+  commentId: Overload:QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString
+  href: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.html#QuickTix_Contracts_DTOs_SaleDTOs_Subscription_SubscriptionSaleDTO_DiaSemanaString
+  name: DiaSemanaString
+  nameWithType: SubscriptionSaleDTO.DiaSemanaString
+  fullName: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO.DiaSemanaString

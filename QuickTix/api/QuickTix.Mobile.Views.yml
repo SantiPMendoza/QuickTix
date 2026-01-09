@@ -1,0 +1,75 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Mobile.Views
+  commentId: N:QuickTix.Mobile.Views
+  id: QuickTix.Mobile.Views
+  children:
+  - QuickTix.Mobile.Views.ChangePasswordPage
+  - QuickTix.Mobile.Views.LoginPage
+  - QuickTix.Mobile.Views.SubscriptionsPage
+  - QuickTix.Mobile.Views.TicketsPage
+  langs:
+  - csharp
+  - vb
+  name: QuickTix.Mobile.Views
+  nameWithType: QuickTix.Mobile.Views
+  fullName: QuickTix.Mobile.Views
+  type: Namespace
+  assemblies:
+  - QuickTix.Mobile
+references:
+- uid: QuickTix.Mobile.Views.ChangePasswordPage
+  commentId: T:QuickTix.Mobile.Views.ChangePasswordPage
+  href: QuickTix.Mobile.Views.ChangePasswordPage.html
+  name: ChangePasswordPage
+  nameWithType: ChangePasswordPage
+  fullName: QuickTix.Mobile.Views.ChangePasswordPage
+- uid: QuickTix.Mobile.Views.SubscriptionsPage
+  commentId: T:QuickTix.Mobile.Views.SubscriptionsPage
+  href: QuickTix.Mobile.Views.SubscriptionsPage.html
+  name: SubscriptionsPage
+  nameWithType: SubscriptionsPage
+  fullName: QuickTix.Mobile.Views.SubscriptionsPage
+- uid: QuickTix.Mobile.Views.LoginPage
+  commentId: T:QuickTix.Mobile.Views.LoginPage
+  parent: QuickTix.Mobile.Views
+  href: QuickTix.Mobile.Views.LoginPage.html
+  name: LoginPage
+  nameWithType: LoginPage
+  fullName: QuickTix.Mobile.Views.LoginPage
+- uid: QuickTix.Mobile.Views.TicketsPage
+  commentId: T:QuickTix.Mobile.Views.TicketsPage
+  href: QuickTix.Mobile.Views.TicketsPage.html
+  name: TicketsPage
+  nameWithType: TicketsPage
+  fullName: QuickTix.Mobile.Views.TicketsPage
+- uid: QuickTix.Mobile.Views
+  commentId: N:QuickTix.Mobile.Views
+  href: QuickTix.html
+  name: QuickTix.Mobile.Views
+  nameWithType: QuickTix.Mobile.Views
+  fullName: QuickTix.Mobile.Views
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Views
+    name: Views
+    href: QuickTix.Mobile.Views.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Mobile
+    name: Mobile
+    href: QuickTix.Mobile.html
+  - name: .
+  - uid: QuickTix.Mobile.Views
+    name: Views
+    href: QuickTix.Mobile.Views.html

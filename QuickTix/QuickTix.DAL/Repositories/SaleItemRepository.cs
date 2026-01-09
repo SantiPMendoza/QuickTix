@@ -156,5 +156,21 @@ namespace QuickTix.DAL.Repositories
                 .OrderByDescending(i => i.Sale.Date)
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Counts the by subscription asynchronous.
+        /// </summary>
+        /// <param name="subscriptionId">The subscription identifier.</param>
+        /// <returns></returns>
+        public Task<int> CountBySubscriptionAsync(int subscriptionId)
+            => _context.SaleItems.CountAsync(i => i.SubscriptionId == subscriptionId);
+
+        /// <summary>
+        /// Counts the by ticket asynchronous.
+        /// </summary>
+        /// <param name="ticketId">The ticket identifier.</param>
+        /// <returns></returns>
+        public Task<int> CountByTicketAsync(int ticketId)
+            => _context.SaleItems.CountAsync(i => i.TicketId == ticketId);
     }
 }

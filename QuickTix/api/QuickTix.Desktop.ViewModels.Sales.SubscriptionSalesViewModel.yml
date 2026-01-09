@@ -1,0 +1,3350 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  commentId: T:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  id: SubscriptionSalesViewModel
+  parent: QuickTix.Desktop.ViewModels.Sales
+  children:
+  - QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.#ctor(QuickTix.Desktop.Services.HttpJsonClient)
+  - QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint
+  - QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute
+  - QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers
+  - QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionSalesViewModel
+  nameWithType: SubscriptionSalesViewModel
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Desktop/obj/Release/net8.0-windows/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.g.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SubscriptionSalesViewModel
+    path: QuickTix.Desktop/obj/Release/net8.0-windows/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.g.cs
+    startLine: 6
+  assemblies:
+  - QuickTix.Desktop
+  namespace: QuickTix.Desktop.ViewModels.Sales
+  summary: >-
+    ViewModel responsable del histórico de ventas de suscripciones.
+
+    Consume endpoints específicos de consulta (no CRUD estándar).
+  example: []
+  syntax:
+    content: 'public class SubscriptionSalesViewModel : BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>, INotifyPropertyChanged, INotifyPropertyChanging'
+    content.vb: Public Class SubscriptionSalesViewModel Inherits BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO) Implements INotifyPropertyChanged, INotifyPropertyChanging
+  inheritance:
+  - System.Object
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  implements:
+  - System.ComponentModel.INotifyPropertyChanged
+  - System.ComponentModel.INotifyPropertyChanging
+  inheritedMembers:
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}._httpClient
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Endpoint
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ListRoute
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.CreateRoute
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateRoute(System.Int32)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteRoute(System.Int32)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadAsync
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryUpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteAsync(System.Int32)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Items
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.SelectedItem
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ErrorMessage
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadCommand
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddCommand
+  - QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteCommand
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T}@,{T},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T}@,{T},System.Collections.Generic.IEqualityComparer{{T}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T},{T},System.Action{{T}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T},{T},System.Collections.Generic.IEqualityComparer{{T}},System.Action{{T}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2({T},{T},{TModel},System.Action{{TModel},{T}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2({T},{T},System.Collections.Generic.IEqualityComparer{{T}},{TModel},System.Action{{TModel},{T}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.Action{System.Threading.Tasks.Task},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{{T}}@,System.Threading.Tasks.Task{{T}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{{T}}@,System.Threading.Tasks.Task{{T}},System.Action{System.Threading.Tasks.Task{{T}}},System.String)
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanged
+  - CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanging
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint
+  commentId: P:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint
+  id: Endpoint
+  parent: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  langs:
+  - csharp
+  - vb
+  name: Endpoint
+  nameWithType: SubscriptionSalesViewModel.Endpoint
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Desktop/ViewModels/Sales/SubscriptionSalesViewModel.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Endpoint
+    path: QuickTix.Desktop/ViewModels/Sales/SubscriptionSalesViewModel.cs
+    startLine: 30
+  assemblies:
+  - QuickTix.Desktop
+  namespace: QuickTix.Desktop.ViewModels.Sales
+  summary: >-
+    Recurso lógico asociado a este ViewModel.
+
+    Se mantiene por coherencia aunque no se use CRUD base.
+  example: []
+  syntax:
+    content: protected override string Endpoint { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Protected Overrides ReadOnly Property Endpoint As String
+  overridden: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Endpoint
+  overload: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint*
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute
+  commentId: P:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute
+  id: ListRoute
+  parent: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  langs:
+  - csharp
+  - vb
+  name: ListRoute
+  nameWithType: SubscriptionSalesViewModel.ListRoute
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Desktop/ViewModels/Sales/SubscriptionSalesViewModel.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: ListRoute
+    path: QuickTix.Desktop/ViewModels/Sales/SubscriptionSalesViewModel.cs
+    startLine: 36
+  assemblies:
+  - QuickTix.Desktop
+  namespace: QuickTix.Desktop.ViewModels.Sales
+  summary: >-
+    Ruta del listado del histórico de suscripciones.
+
+    Sobrescribe el comportamiento CRUD por defecto.
+  example: []
+  syntax:
+    content: protected override string ListRoute { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Protected Overrides ReadOnly Property ListRoute As String
+  overridden: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ListRoute
+  overload: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute*
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.#ctor(QuickTix.Desktop.Services.HttpJsonClient)
+  commentId: M:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.#ctor(QuickTix.Desktop.Services.HttpJsonClient)
+  id: '#ctor(QuickTix.Desktop.Services.HttpJsonClient)'
+  parent: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionSalesViewModel(HttpJsonClient)
+  nameWithType: SubscriptionSalesViewModel.SubscriptionSalesViewModel(HttpJsonClient)
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SubscriptionSalesViewModel(QuickTix.Desktop.Services.HttpJsonClient)
+  type: Constructor
+  source:
+    remote:
+      path: QuickTix/QuickTix.Desktop/ViewModels/Sales/SubscriptionSalesViewModel.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: .ctor
+    path: QuickTix.Desktop/ViewModels/Sales/SubscriptionSalesViewModel.cs
+    startLine: 42
+  assemblies:
+  - QuickTix.Desktop
+  namespace: QuickTix.Desktop.ViewModels.Sales
+  summary: Inicializa una nueva instancia de <xref href="QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public SubscriptionSalesViewModel(HttpJsonClient httpClient)
+    parameters:
+    - id: httpClient
+      type: QuickTix.Desktop.Services.HttpJsonClient
+      description: Cliente HTTP para consumo de la API.
+    content.vb: Public Sub New(httpClient As HttpJsonClient)
+  overload: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.#ctor*
+  nameWithType.vb: SubscriptionSalesViewModel.New(HttpJsonClient)
+  fullName.vb: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.New(QuickTix.Desktop.Services.HttpJsonClient)
+  name.vb: New(HttpJsonClient)
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers
+  commentId: P:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers
+  id: Managers
+  parent: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  langs:
+  - csharp
+  - vb
+  name: Managers
+  nameWithType: SubscriptionSalesViewModel.Managers
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Desktop/obj/Release/net8.0-windows/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.g.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Managers
+    path: QuickTix.Desktop/obj/Release/net8.0-windows/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.g.cs
+    startLine: 9
+  assemblies:
+  - QuickTix.Desktop
+  namespace: QuickTix.Desktop.ViewModels.Sales
+  summary: >-
+    Listado de managers disponible para la vista
+
+    (filtros, contexto o visualización).
+  example: []
+  syntax:
+    content: >-
+      [ExcludeFromCodeCoverage]
+
+      public ObservableCollection<ManagerDTO> Managers { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.ObjectModel.ObservableCollection{QuickTix.Contracts.Models.DTOs.ManagerDTO}
+    content.vb: >-
+      <ExcludeFromCodeCoverage>
+
+      Public Property Managers As ObservableCollection(Of ManagerDTO)
+  overload: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers*
+  attributes:
+  - type: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
+    ctor: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute.#ctor
+    arguments: []
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager
+  commentId: P:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager
+  id: SelectedManager
+  parent: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  langs:
+  - csharp
+  - vb
+  name: SelectedManager
+  nameWithType: SubscriptionSalesViewModel.SelectedManager
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Desktop/obj/Release/net8.0-windows/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.g.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: SelectedManager
+    path: QuickTix.Desktop/obj/Release/net8.0-windows/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.g.cs
+    startLine: 31
+  assemblies:
+  - QuickTix.Desktop
+  namespace: QuickTix.Desktop.ViewModels.Sales
+  summary: Manager actualmente seleccionado en la UI.
+  example: []
+  syntax:
+    content: >-
+      [ExcludeFromCodeCoverage]
+
+      public ManagerDTO? SelectedManager { get; set; }
+    parameters: []
+    return:
+      type: QuickTix.Contracts.Models.DTOs.ManagerDTO
+    content.vb: >-
+      <ExcludeFromCodeCoverage>
+
+      Public Property SelectedManager As ManagerDTO
+  overload: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager*
+  attributes:
+  - type: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
+    ctor: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute.#ctor
+    arguments: []
+references:
+- uid: QuickTix.Desktop.ViewModels.Sales
+  commentId: N:QuickTix.Desktop.ViewModels.Sales
+  href: QuickTix.html
+  name: QuickTix.Desktop.ViewModels.Sales
+  nameWithType: QuickTix.Desktop.ViewModels.Sales
+  fullName: QuickTix.Desktop.ViewModels.Sales
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels
+    name: ViewModels
+    href: QuickTix.Desktop.ViewModels.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels.Sales
+    name: Sales
+    href: QuickTix.Desktop.ViewModels.Sales.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels
+    name: ViewModels
+    href: QuickTix.Desktop.ViewModels.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels.Sales
+    name: Sales
+    href: QuickTix.Desktop.ViewModels.Sales.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  commentId: T:CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  parent: CommunityToolkit.Mvvm.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject
+  name: ObservableObject
+  nameWithType: ObservableObject
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  commentId: T:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  parent: QuickTix.Desktop.ViewModels.Base
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html
+  name: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  name.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+    name: BaseCrudViewModel
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html
+  - name: <
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: ','
+  - name: " "
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+    name: BaseCrudViewModel
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: ','
+  - name: " "
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+  - name: )
+- uid: System.ComponentModel.INotifyPropertyChanged
+  commentId: T:System.ComponentModel.INotifyPropertyChanged
+  parent: System.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged
+  name: INotifyPropertyChanged
+  nameWithType: INotifyPropertyChanged
+  fullName: System.ComponentModel.INotifyPropertyChanged
+- uid: System.ComponentModel.INotifyPropertyChanging
+  commentId: T:System.ComponentModel.INotifyPropertyChanging
+  parent: System.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanging
+  name: INotifyPropertyChanging
+  nameWithType: INotifyPropertyChanging
+  fullName: System.ComponentModel.INotifyPropertyChanging
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}._httpClient
+  commentId: F:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}._httpClient
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2._httpClient
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2__httpClient
+  name: _httpClient
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>._httpClient
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>._httpClient
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO)._httpClient
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)._httpClient
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Endpoint
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Endpoint
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.Endpoint
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_Endpoint
+  name: Endpoint
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.Endpoint
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.Endpoint
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).Endpoint
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).Endpoint
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ListRoute
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ListRoute
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.ListRoute
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_ListRoute
+  name: ListRoute
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.ListRoute
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.ListRoute
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).ListRoute
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).ListRoute
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.CreateRoute
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.CreateRoute
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.CreateRoute
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_CreateRoute
+  name: CreateRoute
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.CreateRoute
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.CreateRoute
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).CreateRoute
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).CreateRoute
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateRoute(System.Int32)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateRoute(System.Int32)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateRoute(System.Int32)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateRoute_System_Int32_
+  name: UpdateRoute(int)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.UpdateRoute(int)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.UpdateRoute(int)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).UpdateRoute(Integer)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).UpdateRoute(Integer)
+  name.vb: UpdateRoute(Integer)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateRoute(System.Int32)
+    name: UpdateRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateRoute(System.Int32)
+    name: UpdateRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteRoute(System.Int32)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteRoute(System.Int32)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteRoute(System.Int32)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteRoute_System_Int32_
+  name: DeleteRoute(int)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.DeleteRoute(int)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.DeleteRoute(int)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).DeleteRoute(Integer)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).DeleteRoute(Integer)
+  name.vb: DeleteRoute(Integer)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteRoute(System.Int32)
+    name: DeleteRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteRoute(System.Int32)
+    name: DeleteRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadAsync
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadAsync
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadAsync
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadAsync
+  name: LoadAsync()
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.LoadAsync()
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.LoadAsync()
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).LoadAsync()
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).LoadAsync()
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadAsync
+    name: LoadAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadAsync
+    name: LoadAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadAsync
+  - name: (
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryAddAsync(`1)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryAddAsync__1_
+  name: TryAddAsync(CreateSaleDTO)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.TryAddAsync(CreateSaleDTO)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).TryAddAsync(CreateSaleDTO)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+    name: TryAddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryAddAsync__1_
+  - name: (
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryAddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+    name: TryAddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryAddAsync__1_
+  - name: (
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddAsync(`1)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddAsync__1_
+  name: AddAsync(CreateSaleDTO)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.AddAsync(CreateSaleDTO)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).AddAsync(CreateSaleDTO)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+    name: AddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddAsync__1_
+  - name: (
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddAsync(QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO)
+    name: AddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddAsync__1_
+  - name: (
+  - uid: QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO
+    name: CreateSaleDTO
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryUpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryUpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryUpdateAsync(System.Int32,`0)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryUpdateAsync_System_Int32__0_
+  name: TryUpdateAsync(int, SubscriptionSaleDTO)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.TryUpdateAsync(int, SubscriptionSaleDTO)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.TryUpdateAsync(int, QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).TryUpdateAsync(Integer, SubscriptionSaleDTO)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).TryUpdateAsync(Integer, QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  name.vb: TryUpdateAsync(Integer, SubscriptionSaleDTO)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryUpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+    name: TryUpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryUpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.TryUpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+    name: TryUpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryUpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateAsync(System.Int32,`0)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateAsync_System_Int32__0_
+  name: UpdateAsync(int, SubscriptionSaleDTO)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.UpdateAsync(int, SubscriptionSaleDTO)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.UpdateAsync(int, QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).UpdateAsync(Integer, SubscriptionSaleDTO)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).UpdateAsync(Integer, QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  name.vb: UpdateAsync(Integer, SubscriptionSaleDTO)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+    name: UpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.UpdateAsync(System.Int32,QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+    name: UpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteAsync(System.Int32)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteAsync(System.Int32)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteAsync(System.Int32)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteAsync_System_Int32_
+  name: DeleteAsync(int)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.DeleteAsync(int)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.DeleteAsync(int)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).DeleteAsync(Integer)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).DeleteAsync(Integer)
+  name.vb: DeleteAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.OnSelectedItemChangedAsync(`0)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_OnSelectedItemChangedAsync__0_
+  name: OnSelectedItemChangedAsync(SubscriptionSaleDTO)
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.OnSelectedItemChangedAsync(SubscriptionSaleDTO)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).OnSelectedItemChangedAsync(SubscriptionSaleDTO)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+    name: OnSelectedItemChangedAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_OnSelectedItemChangedAsync__0_
+  - name: (
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.OnSelectedItemChangedAsync(QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO)
+    name: OnSelectedItemChangedAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_OnSelectedItemChangedAsync__0_
+  - name: (
+  - uid: QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO
+    name: SubscriptionSaleDTO
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Items
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.Items
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.Items
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_Items
+  name: Items
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.Items
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.Items
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).Items
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).Items
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.SelectedItem
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.SelectedItem
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.SelectedItem
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_SelectedItem
+  name: SelectedItem
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.SelectedItem
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.SelectedItem
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).SelectedItem
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).SelectedItem
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ErrorMessage
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.ErrorMessage
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.ErrorMessage
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_ErrorMessage
+  name: ErrorMessage
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.ErrorMessage
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.ErrorMessage
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).ErrorMessage
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).ErrorMessage
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadCommand
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.LoadCommand
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadCommand
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadCommand
+  name: LoadCommand
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.LoadCommand
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.LoadCommand
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).LoadCommand
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).LoadCommand
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddCommand
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.AddCommand
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddCommand
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddCommand
+  name: AddCommand
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.AddCommand
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.AddCommand
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).AddCommand
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).AddCommand
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteCommand
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}.DeleteCommand
+  parent: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel{QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO,QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO}
+  definition: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteCommand
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteCommand
+  name: DeleteCommand
+  nameWithType: BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>.DeleteCommand
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO>.DeleteCommand
+  nameWithType.vb: BaseCrudViewModel(Of SubscriptionSaleDTO, CreateSaleDTO).DeleteCommand
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of QuickTix.Contracts.DTOs.SaleDTOs.Subscription.SubscriptionSaleDTO, QuickTix.Contracts.Models.DTOs.SaleDTOs.CreateSaleDTO).DeleteCommand
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanged#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanged(system-componentmodel-propertychangedeventargs)
+  name: OnPropertyChanged(PropertyChangedEventArgs)
+  nameWithType: ObservableObject.OnPropertyChanged(PropertyChangedEventArgs)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)
+    name: OnPropertyChanged
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanged#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanged(system-componentmodel-propertychangedeventargs)
+  - name: (
+  - uid: System.ComponentModel.PropertyChangedEventArgs
+    name: PropertyChangedEventArgs
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangedeventargs
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)
+    name: OnPropertyChanged
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanged#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanged(system-componentmodel-propertychangedeventargs)
+  - name: (
+  - uid: System.ComponentModel.PropertyChangedEventArgs
+    name: PropertyChangedEventArgs
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangedeventargs
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanging#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanging(system-componentmodel-propertychangingeventargs)
+  name: OnPropertyChanging(PropertyChangingEventArgs)
+  nameWithType: ObservableObject.OnPropertyChanging(PropertyChangingEventArgs)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)
+    name: OnPropertyChanging
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanging#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanging(system-componentmodel-propertychangingeventargs)
+  - name: (
+  - uid: System.ComponentModel.PropertyChangingEventArgs
+    name: PropertyChangingEventArgs
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangingeventargs
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)
+    name: OnPropertyChanging
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanging#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanging(system-componentmodel-propertychangingeventargs)
+  - name: (
+  - uid: System.ComponentModel.PropertyChangingEventArgs
+    name: PropertyChangingEventArgs
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangingeventargs
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanged#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanged(system-string)
+  name: OnPropertyChanged(string)
+  nameWithType: ObservableObject.OnPropertyChanged(string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(string)
+  nameWithType.vb: ObservableObject.OnPropertyChanged(String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(String)
+  name.vb: OnPropertyChanged(String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.String)
+    name: OnPropertyChanged
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanged#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanged(system-string)
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanged(System.String)
+    name: OnPropertyChanged
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanged#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanged(system-string)
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanging#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanging(system-string)
+  name: OnPropertyChanging(string)
+  nameWithType: ObservableObject.OnPropertyChanging(string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(string)
+  nameWithType.vb: ObservableObject.OnPropertyChanging(String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(String)
+  name.vb: OnPropertyChanging(String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.String)
+    name: OnPropertyChanging
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanging#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanging(system-string)
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.OnPropertyChanging(System.String)
+    name: OnPropertyChanging
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.onpropertychanging#communitytoolkit-mvvm-componentmodel-observableobject-onpropertychanging(system-string)
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T}@,{T},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-string)
+  name: SetProperty<T>(ref T, T, string)
+  nameWithType: ObservableObject.SetProperty<T>(ref T, T, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(ref T, T, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, String)
+  name.vb: SetProperty(Of T)(T, T, String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T}@,{T},System.Collections.Generic.IEqualityComparer{{T}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-collections-generic-iequalitycomparer((-0))-system-string)
+  name: SetProperty<T>(ref T, T, IEqualityComparer<T>, string)
+  nameWithType: ObservableObject.SetProperty<T>(ref T, T, IEqualityComparer<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(ref T, T, System.Collections.Generic.IEqualityComparer<T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, IEqualityComparer(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, System.Collections.Generic.IEqualityComparer(Of T), String)
+  name.vb: SetProperty(Of T)(T, T, IEqualityComparer(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-collections-generic-iequalitycomparer((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-collections-generic-iequalitycomparer((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T},{T},System.Action{{T}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-action((-0))-system-string)
+  name: SetProperty<T>(T, T, Action<T>, string)
+  nameWithType: ObservableObject.SetProperty<T>(T, T, Action<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(T, T, System.Action<T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, Action(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, System.Action(Of T), String)
+  name.vb: SetProperty(Of T)(T, T, Action(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-action((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-action((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1({T},{T},System.Collections.Generic.IEqualityComparer{{T}},System.Action{{T}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-collections-generic-iequalitycomparer((-0))-system-action((-0))-system-string)
+  name: SetProperty<T>(T, T, IEqualityComparer<T>, Action<T>, string)
+  nameWithType: ObservableObject.SetProperty<T>(T, T, IEqualityComparer<T>, Action<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(T, T, System.Collections.Generic.IEqualityComparer<T>, System.Action<T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, IEqualityComparer(Of T), Action(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, System.Collections.Generic.IEqualityComparer(Of T), System.Action(Of T), String)
+  name.vb: SetProperty(Of T)(T, T, IEqualityComparer(Of T), Action(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-collections-generic-iequalitycomparer((-0))-system-action((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-collections-generic-iequalitycomparer((-0))-system-action((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2({T},{T},{TModel},System.Action{{TModel},{T}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-0-system-action((-0-1))-system-string)
+  name: SetProperty<TModel, T>(T, T, TModel, Action<TModel, T>, string)
+  nameWithType: ObservableObject.SetProperty<TModel, T>(T, T, TModel, Action<TModel, T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<TModel, T>(T, T, TModel, System.Action<TModel, T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of TModel, T)(T, T, TModel, Action(Of TModel, T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of TModel, T)(T, T, TModel, System.Action(Of TModel, T), String)
+  name.vb: SetProperty(Of TModel, T)(T, T, TModel, Action(Of TModel, T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-0-system-action((-0-1))-system-string)
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-0-system-action((-0-1))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2({T},{T},System.Collections.Generic.IEqualityComparer{{T}},{TModel},System.Action{{TModel},{T}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-system-collections-generic-iequalitycomparer((-1))-0-system-action((-0-1))-system-string)
+  name: SetProperty<TModel, T>(T, T, IEqualityComparer<T>, TModel, Action<TModel, T>, string)
+  nameWithType: ObservableObject.SetProperty<TModel, T>(T, T, IEqualityComparer<T>, TModel, Action<TModel, T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<TModel, T>(T, T, System.Collections.Generic.IEqualityComparer<T>, TModel, System.Action<TModel, T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of TModel, T)(T, T, IEqualityComparer(Of T), TModel, Action(Of TModel, T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of TModel, T)(T, T, System.Collections.Generic.IEqualityComparer(Of T), TModel, System.Action(Of TModel, T), String)
+  name.vb: SetProperty(Of TModel, T)(T, T, IEqualityComparer(Of T), TModel, Action(Of TModel, T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-system-collections-generic-iequalitycomparer((-1))-0-system-action((-0-1))-system-string)
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-system-collections-generic-iequalitycomparer((-1))-0-system-action((-0-1))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier@-system-threading-tasks-task-system-string)
+  name: SetPropertyAndNotifyOnCompletion(ref TaskNotifier, Task, string)
+  nameWithType: ObservableObject.SetPropertyAndNotifyOnCompletion(ref ObservableObject.TaskNotifier, Task, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(ref CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier, System.Threading.Tasks.Task, string)
+  nameWithType.vb: ObservableObject.SetPropertyAndNotifyOnCompletion(ObservableObject.TaskNotifier, Task, String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier, System.Threading.Tasks.Task, String)
+  name.vb: SetPropertyAndNotifyOnCompletion(TaskNotifier, Task, String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier@-system-threading-tasks-task-system-string)
+  - name: (
+  - name: ref
+  - name: " "
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier@-system-threading-tasks-task-system-string)
+  - name: (
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.Action{System.Threading.Tasks.Task},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.Action{System.Threading.Tasks.Task},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier@-system-threading-tasks-task-system-action((system-threading-tasks-task))-system-string)
+  name: SetPropertyAndNotifyOnCompletion(ref TaskNotifier, Task, Action<Task>, string)
+  nameWithType: ObservableObject.SetPropertyAndNotifyOnCompletion(ref ObservableObject.TaskNotifier, Task, Action<Task>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(ref CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier, System.Threading.Tasks.Task, System.Action<System.Threading.Tasks.Task>, string)
+  nameWithType.vb: ObservableObject.SetPropertyAndNotifyOnCompletion(ObservableObject.TaskNotifier, Task, Action(Of Task), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier, System.Threading.Tasks.Task, System.Action(Of System.Threading.Tasks.Task), String)
+  name.vb: SetPropertyAndNotifyOnCompletion(TaskNotifier, Task, Action(Of Task), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.Action{System.Threading.Tasks.Task},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier@-system-threading-tasks-task-system-action((system-threading-tasks-task))-system-string)
+  - name: (
+  - name: ref
+  - name: " "
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier@,System.Threading.Tasks.Task,System.Action{System.Threading.Tasks.Task},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier@-system-threading-tasks-task-system-action((system-threading-tasks-task))-system-string)
+  - name: (
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{{T}}@,System.Threading.Tasks.Task{{T}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-string)
+  name: SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>, Task<T>, string)
+  nameWithType: ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref ObservableObject.TaskNotifier<T>, Task<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier<T>, System.Threading.Tasks.Task<T>, string)
+  nameWithType.vb: ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(ObservableObject.TaskNotifier(Of T), Task(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier(Of T), System.Threading.Tasks.Task(Of T), String)
+  name.vb: SetPropertyAndNotifyOnCompletion(Of T)(TaskNotifier(Of T), Task(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{{T}}@,System.Threading.Tasks.Task{{T}},System.Action{System.Threading.Tasks.Task{{T}}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  definition: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-action((system-threading-tasks-task((-0))))-system-string)
+  name: SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>, Task<T>, Action<Task<T>>, string)
+  nameWithType: ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref ObservableObject.TaskNotifier<T>, Task<T>, Action<Task<T>>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier<T>, System.Threading.Tasks.Task<T>, System.Action<System.Threading.Tasks.Task<T>>, string)
+  nameWithType.vb: ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(ObservableObject.TaskNotifier(Of T), Task(Of T), Action(Of Task(Of T)), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier(Of T), System.Threading.Tasks.Task(Of T), System.Action(Of System.Threading.Tasks.Task(Of T)), String)
+  name.vb: SetPropertyAndNotifyOnCompletion(Of T)(TaskNotifier(Of T), Task(Of T), Action(Of Task(Of T)), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-action((system-threading-tasks-task((-0))))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-action((system-threading-tasks-task((-0))))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanged
+  commentId: E:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanged
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.propertychanged
+  name: PropertyChanged
+  nameWithType: ObservableObject.PropertyChanged
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanged
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanging
+  commentId: E:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanging
+  parent: CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.propertychanging
+  name: PropertyChanging
+  nameWithType: ObservableObject.PropertyChanging
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.PropertyChanging
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: CommunityToolkit.Mvvm.ComponentModel
+  commentId: N:CommunityToolkit.Mvvm.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit
+  name: CommunityToolkit.Mvvm.ComponentModel
+  nameWithType: CommunityToolkit.Mvvm.ComponentModel
+  fullName: CommunityToolkit.Mvvm.ComponentModel
+  spec.csharp:
+  - uid: CommunityToolkit
+    name: CommunityToolkit
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit
+  - name: .
+  - uid: CommunityToolkit.Mvvm
+    name: Mvvm
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm
+  - name: .
+  - uid: CommunityToolkit.Mvvm.ComponentModel
+    name: ComponentModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel
+  spec.vb:
+  - uid: CommunityToolkit
+    name: CommunityToolkit
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit
+  - name: .
+  - uid: CommunityToolkit.Mvvm
+    name: Mvvm
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm
+  - name: .
+  - uid: CommunityToolkit.Mvvm.ComponentModel
+    name: ComponentModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+  commentId: T:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html
+  name: BaseCrudViewModel<T, TCreate>
+  nameWithType: BaseCrudViewModel<T, TCreate>
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate)
+  name.vb: BaseCrudViewModel(Of T, TCreate)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+    name: BaseCrudViewModel
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TCreate
+  - name: '>'
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2
+    name: BaseCrudViewModel
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TCreate
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base
+  commentId: N:QuickTix.Desktop.ViewModels.Base
+  href: QuickTix.html
+  name: QuickTix.Desktop.ViewModels.Base
+  nameWithType: QuickTix.Desktop.ViewModels.Base
+  fullName: QuickTix.Desktop.ViewModels.Base
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels
+    name: ViewModels
+    href: QuickTix.Desktop.ViewModels.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels.Base
+    name: Base
+    href: QuickTix.Desktop.ViewModels.Base.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels
+    name: ViewModels
+    href: QuickTix.Desktop.ViewModels.html
+  - name: .
+  - uid: QuickTix.Desktop.ViewModels.Base
+    name: Base
+    href: QuickTix.Desktop.ViewModels.Base.html
+- uid: System.ComponentModel
+  commentId: N:System.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.ComponentModel
+  nameWithType: System.ComponentModel
+  fullName: System.ComponentModel
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.ComponentModel
+    name: ComponentModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.ComponentModel
+    name: ComponentModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2._httpClient
+  commentId: F:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2._httpClient
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2__httpClient
+  name: _httpClient
+  nameWithType: BaseCrudViewModel<T, TCreate>._httpClient
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>._httpClient
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate)._httpClient
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate)._httpClient
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.Endpoint
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.Endpoint
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_Endpoint
+  name: Endpoint
+  nameWithType: BaseCrudViewModel<T, TCreate>.Endpoint
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.Endpoint
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).Endpoint
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).Endpoint
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.ListRoute
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.ListRoute
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_ListRoute
+  name: ListRoute
+  nameWithType: BaseCrudViewModel<T, TCreate>.ListRoute
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.ListRoute
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).ListRoute
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).ListRoute
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.CreateRoute
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.CreateRoute
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_CreateRoute
+  name: CreateRoute
+  nameWithType: BaseCrudViewModel<T, TCreate>.CreateRoute
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.CreateRoute
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).CreateRoute
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).CreateRoute
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateRoute(System.Int32)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateRoute(System.Int32)
+  isExternal: true
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateRoute_System_Int32_
+  name: UpdateRoute(int)
+  nameWithType: BaseCrudViewModel<T, TCreate>.UpdateRoute(int)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.UpdateRoute(int)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).UpdateRoute(Integer)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).UpdateRoute(Integer)
+  name.vb: UpdateRoute(Integer)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateRoute(System.Int32)
+    name: UpdateRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateRoute(System.Int32)
+    name: UpdateRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteRoute(System.Int32)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteRoute(System.Int32)
+  isExternal: true
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteRoute_System_Int32_
+  name: DeleteRoute(int)
+  nameWithType: BaseCrudViewModel<T, TCreate>.DeleteRoute(int)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.DeleteRoute(int)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).DeleteRoute(Integer)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).DeleteRoute(Integer)
+  name.vb: DeleteRoute(Integer)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteRoute(System.Int32)
+    name: DeleteRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteRoute(System.Int32)
+    name: DeleteRoute
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteRoute_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadAsync
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadAsync
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadAsync
+  name: LoadAsync()
+  nameWithType: BaseCrudViewModel<T, TCreate>.LoadAsync()
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.LoadAsync()
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).LoadAsync()
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).LoadAsync()
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadAsync
+    name: LoadAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadAsync
+    name: LoadAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadAsync
+  - name: (
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryAddAsync(`1)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryAddAsync(`1)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryAddAsync__1_
+  name: TryAddAsync(TCreate)
+  nameWithType: BaseCrudViewModel<T, TCreate>.TryAddAsync(TCreate)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.TryAddAsync(TCreate)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).TryAddAsync(TCreate)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).TryAddAsync(TCreate)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryAddAsync(`1)
+    name: TryAddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryAddAsync__1_
+  - name: (
+  - name: TCreate
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryAddAsync(`1)
+    name: TryAddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryAddAsync__1_
+  - name: (
+  - name: TCreate
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddAsync(`1)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddAsync(`1)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddAsync__1_
+  name: AddAsync(TCreate)
+  nameWithType: BaseCrudViewModel<T, TCreate>.AddAsync(TCreate)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.AddAsync(TCreate)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).AddAsync(TCreate)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).AddAsync(TCreate)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddAsync(`1)
+    name: AddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddAsync__1_
+  - name: (
+  - name: TCreate
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddAsync(`1)
+    name: AddAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddAsync__1_
+  - name: (
+  - name: TCreate
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryUpdateAsync(System.Int32,`0)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryUpdateAsync(System.Int32,`0)
+  isExternal: true
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryUpdateAsync_System_Int32__0_
+  name: TryUpdateAsync(int, T)
+  nameWithType: BaseCrudViewModel<T, TCreate>.TryUpdateAsync(int, T)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.TryUpdateAsync(int, T)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).TryUpdateAsync(Integer, T)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).TryUpdateAsync(Integer, T)
+  name.vb: TryUpdateAsync(Integer, T)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryUpdateAsync(System.Int32,`0)
+    name: TryUpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryUpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.TryUpdateAsync(System.Int32,`0)
+    name: TryUpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_TryUpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateAsync(System.Int32,`0)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateAsync(System.Int32,`0)
+  isExternal: true
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateAsync_System_Int32__0_
+  name: UpdateAsync(int, T)
+  nameWithType: BaseCrudViewModel<T, TCreate>.UpdateAsync(int, T)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.UpdateAsync(int, T)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).UpdateAsync(Integer, T)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).UpdateAsync(Integer, T)
+  name.vb: UpdateAsync(Integer, T)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateAsync(System.Int32,`0)
+    name: UpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.UpdateAsync(System.Int32,`0)
+    name: UpdateAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_UpdateAsync_System_Int32__0_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteAsync(System.Int32)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteAsync(System.Int32)
+  isExternal: true
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteAsync_System_Int32_
+  name: DeleteAsync(int)
+  nameWithType: BaseCrudViewModel<T, TCreate>.DeleteAsync(int)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.DeleteAsync(int)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).DeleteAsync(Integer)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).DeleteAsync(Integer)
+  name.vb: DeleteAsync(Integer)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteAsync(System.Int32)
+    name: DeleteAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteAsync_System_Int32_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.OnSelectedItemChangedAsync(`0)
+  commentId: M:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.OnSelectedItemChangedAsync(`0)
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_OnSelectedItemChangedAsync__0_
+  name: OnSelectedItemChangedAsync(T)
+  nameWithType: BaseCrudViewModel<T, TCreate>.OnSelectedItemChangedAsync(T)
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.OnSelectedItemChangedAsync(T)
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).OnSelectedItemChangedAsync(T)
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).OnSelectedItemChangedAsync(T)
+  spec.csharp:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.OnSelectedItemChangedAsync(`0)
+    name: OnSelectedItemChangedAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_OnSelectedItemChangedAsync__0_
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.OnSelectedItemChangedAsync(`0)
+    name: OnSelectedItemChangedAsync
+    href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_OnSelectedItemChangedAsync__0_
+  - name: (
+  - name: T
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.Items
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.Items
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_Items
+  name: Items
+  nameWithType: BaseCrudViewModel<T, TCreate>.Items
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.Items
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).Items
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).Items
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.SelectedItem
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.SelectedItem
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_SelectedItem
+  name: SelectedItem
+  nameWithType: BaseCrudViewModel<T, TCreate>.SelectedItem
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.SelectedItem
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).SelectedItem
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).SelectedItem
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.ErrorMessage
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.ErrorMessage
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_ErrorMessage
+  name: ErrorMessage
+  nameWithType: BaseCrudViewModel<T, TCreate>.ErrorMessage
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.ErrorMessage
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).ErrorMessage
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).ErrorMessage
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadCommand
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.LoadCommand
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_LoadCommand
+  name: LoadCommand
+  nameWithType: BaseCrudViewModel<T, TCreate>.LoadCommand
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.LoadCommand
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).LoadCommand
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).LoadCommand
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddCommand
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.AddCommand
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_AddCommand
+  name: AddCommand
+  nameWithType: BaseCrudViewModel<T, TCreate>.AddCommand
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.AddCommand
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).AddCommand
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).AddCommand
+- uid: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteCommand
+  commentId: P:QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel`2.DeleteCommand
+  href: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel-2.html#QuickTix_Desktop_ViewModels_Base_BaseCrudViewModel_2_DeleteCommand
+  name: DeleteCommand
+  nameWithType: BaseCrudViewModel<T, TCreate>.DeleteCommand
+  fullName: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel<T, TCreate>.DeleteCommand
+  nameWithType.vb: BaseCrudViewModel(Of T, TCreate).DeleteCommand
+  fullName.vb: QuickTix.Desktop.ViewModels.Base.BaseCrudViewModel(Of T, TCreate).DeleteCommand
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-string)
+  name: SetProperty<T>(ref T, T, string)
+  nameWithType: ObservableObject.SetProperty<T>(ref T, T, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(ref T, T, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, String)
+  name.vb: SetProperty(Of T)(T, T, String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-collections-generic-iequalitycomparer((-0))-system-string)
+  name: SetProperty<T>(ref T, T, IEqualityComparer<T>, string)
+  nameWithType: ObservableObject.SetProperty<T>(ref T, T, IEqualityComparer<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(ref T, T, System.Collections.Generic.IEqualityComparer<T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, IEqualityComparer(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, System.Collections.Generic.IEqualityComparer(Of T), String)
+  name.vb: SetProperty(Of T)(T, T, IEqualityComparer(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-collections-generic-iequalitycomparer((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0@,``0,System.Collections.Generic.IEqualityComparer{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0@-0-system-collections-generic-iequalitycomparer((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-action((-0))-system-string)
+  name: SetProperty<T>(T, T, Action<T>, string)
+  nameWithType: ObservableObject.SetProperty<T>(T, T, Action<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(T, T, System.Action<T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, Action(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, System.Action(Of T), String)
+  name.vb: SetProperty(Of T)(T, T, Action(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-action((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-action((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-collections-generic-iequalitycomparer((-0))-system-action((-0))-system-string)
+  name: SetProperty<T>(T, T, IEqualityComparer<T>, Action<T>, string)
+  nameWithType: ObservableObject.SetProperty<T>(T, T, IEqualityComparer<T>, Action<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<T>(T, T, System.Collections.Generic.IEqualityComparer<T>, System.Action<T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of T)(T, T, IEqualityComparer(Of T), Action(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of T)(T, T, System.Collections.Generic.IEqualityComparer(Of T), System.Action(Of T), String)
+  name.vb: SetProperty(Of T)(T, T, IEqualityComparer(Of T), Action(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-collections-generic-iequalitycomparer((-0))-system-action((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``1(``0,``0,System.Collections.Generic.IEqualityComparer{``0},System.Action{``0},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-1(-0-0-system-collections-generic-iequalitycomparer((-0))-system-action((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-0-system-action((-0-1))-system-string)
+  name: SetProperty<TModel, T>(T, T, TModel, Action<TModel, T>, string)
+  nameWithType: ObservableObject.SetProperty<TModel, T>(T, T, TModel, Action<TModel, T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<TModel, T>(T, T, TModel, System.Action<TModel, T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of TModel, T)(T, T, TModel, Action(Of TModel, T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of TModel, T)(T, T, TModel, System.Action(Of TModel, T), String)
+  name.vb: SetProperty(Of TModel, T)(T, T, TModel, Action(Of TModel, T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-0-system-action((-0-1))-system-string)
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-0-system-action((-0-1))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-system-collections-generic-iequalitycomparer((-1))-0-system-action((-0-1))-system-string)
+  name: SetProperty<TModel, T>(T, T, IEqualityComparer<T>, TModel, Action<TModel, T>, string)
+  nameWithType: ObservableObject.SetProperty<TModel, T>(T, T, IEqualityComparer<T>, TModel, Action<TModel, T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty<TModel, T>(T, T, System.Collections.Generic.IEqualityComparer<T>, TModel, System.Action<TModel, T>, string)
+  nameWithType.vb: ObservableObject.SetProperty(Of TModel, T)(T, T, IEqualityComparer(Of T), TModel, Action(Of TModel, T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty(Of TModel, T)(T, T, System.Collections.Generic.IEqualityComparer(Of T), TModel, System.Action(Of TModel, T), String)
+  name.vb: SetProperty(Of TModel, T)(T, T, IEqualityComparer(Of T), TModel, Action(Of TModel, T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-system-collections-generic-iequalitycomparer((-1))-0-system-action((-0-1))-system-string)
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetProperty``2(``1,``1,System.Collections.Generic.IEqualityComparer{``1},``0,System.Action{``0,``1},System.String)
+    name: SetProperty
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setproperty#communitytoolkit-mvvm-componentmodel-observableobject-setproperty-2(-1-1-system-collections-generic-iequalitycomparer((-1))-0-system-action((-0-1))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TModel
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-string)
+  name: SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>, Task<T>, string)
+  nameWithType: ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref ObservableObject.TaskNotifier<T>, Task<T>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier<T>, System.Threading.Tasks.Task<T>, string)
+  nameWithType.vb: ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(ObservableObject.TaskNotifier(Of T), Task(Of T), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier(Of T), System.Threading.Tasks.Task(Of T), String)
+  name.vb: SetPropertyAndNotifyOnCompletion(Of T)(TaskNotifier(Of T), Task(Of T), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+  commentId: M:CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-action((system-threading-tasks-task((-0))))-system-string)
+  name: SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>, Task<T>, Action<Task<T>>, string)
+  nameWithType: ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref ObservableObject.TaskNotifier<T>, Task<T>, Action<Task<T>>, string)
+  fullName: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion<T>(ref CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier<T>, System.Threading.Tasks.Task<T>, System.Action<System.Threading.Tasks.Task<T>>, string)
+  nameWithType.vb: ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(ObservableObject.TaskNotifier(Of T), Task(Of T), Action(Of Task(Of T)), String)
+  fullName.vb: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion(Of T)(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier(Of T), System.Threading.Tasks.Task(Of T), System.Action(Of System.Threading.Tasks.Task(Of T)), String)
+  name.vb: SetPropertyAndNotifyOnCompletion(Of T)(TaskNotifier(Of T), Task(Of T), Action(Of Task(Of T)), String)
+  spec.csharp:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-action((system-threading-tasks-task((-0))))-system-string)
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: ref
+  - name: " "
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.SetPropertyAndNotifyOnCompletion``1(CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier{``0}@,System.Threading.Tasks.Task{``0},System.Action{System.Threading.Tasks.Task{``0}},System.String)
+    name: SetPropertyAndNotifyOnCompletion
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.setpropertyandnotifyoncompletion#communitytoolkit-mvvm-componentmodel-observableobject-setpropertyandnotifyoncompletion-1(communitytoolkit-mvvm-componentmodel-observableobject-tasknotifier((-0))@-system-threading-tasks-task((-0))-system-action((system-threading-tasks-task((-0))))-system-string)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: CommunityToolkit.Mvvm.ComponentModel.ObservableObject.TaskNotifier`1
+    name: TaskNotifier
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/communitytoolkit.mvvm.componentmodel.observableobject.tasknotifier-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint*
+  commentId: Overload:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint
+  href: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.html#QuickTix_Desktop_ViewModels_Sales_SubscriptionSalesViewModel_Endpoint
+  name: Endpoint
+  nameWithType: SubscriptionSalesViewModel.Endpoint
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Endpoint
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute*
+  commentId: Overload:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute
+  href: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.html#QuickTix_Desktop_ViewModels_Sales_SubscriptionSalesViewModel_ListRoute
+  name: ListRoute
+  nameWithType: SubscriptionSalesViewModel.ListRoute
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.ListRoute
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  commentId: T:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+  parent: QuickTix.Desktop.ViewModels.Sales
+  href: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.html
+  name: SubscriptionSalesViewModel
+  nameWithType: SubscriptionSalesViewModel
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.#ctor*
+  commentId: Overload:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.#ctor
+  href: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.html#QuickTix_Desktop_ViewModels_Sales_SubscriptionSalesViewModel__ctor_QuickTix_Desktop_Services_HttpJsonClient_
+  name: SubscriptionSalesViewModel
+  nameWithType: SubscriptionSalesViewModel.SubscriptionSalesViewModel
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SubscriptionSalesViewModel
+  nameWithType.vb: SubscriptionSalesViewModel.New
+  fullName.vb: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.New
+  name.vb: New
+- uid: QuickTix.Desktop.Services.HttpJsonClient
+  commentId: T:QuickTix.Desktop.Services.HttpJsonClient
+  parent: QuickTix.Desktop.Services
+  href: QuickTix.Desktop.Services.HttpJsonClient.html
+  name: HttpJsonClient
+  nameWithType: HttpJsonClient
+  fullName: QuickTix.Desktop.Services.HttpJsonClient
+- uid: QuickTix.Desktop.Services
+  commentId: N:QuickTix.Desktop.Services
+  href: QuickTix.html
+  name: QuickTix.Desktop.Services
+  nameWithType: QuickTix.Desktop.Services
+  fullName: QuickTix.Desktop.Services
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.Services
+    name: Services
+    href: QuickTix.Desktop.Services.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Desktop
+    name: Desktop
+    href: QuickTix.Desktop.html
+  - name: .
+  - uid: QuickTix.Desktop.Services
+    name: Services
+    href: QuickTix.Desktop.Services.html
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers*
+  commentId: Overload:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers
+  href: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.html#QuickTix_Desktop_ViewModels_Sales_SubscriptionSalesViewModel_Managers
+  name: Managers
+  nameWithType: SubscriptionSalesViewModel.Managers
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.Managers
+- uid: System.Collections.ObjectModel.ObservableCollection{QuickTix.Contracts.Models.DTOs.ManagerDTO}
+  commentId: T:System.Collections.ObjectModel.ObservableCollection{QuickTix.Contracts.Models.DTOs.ManagerDTO}
+  parent: System.Collections.ObjectModel
+  definition: System.Collections.ObjectModel.ObservableCollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1
+  name: ObservableCollection<ManagerDTO>
+  nameWithType: ObservableCollection<ManagerDTO>
+  fullName: System.Collections.ObjectModel.ObservableCollection<QuickTix.Contracts.Models.DTOs.ManagerDTO>
+  nameWithType.vb: ObservableCollection(Of ManagerDTO)
+  fullName.vb: System.Collections.ObjectModel.ObservableCollection(Of QuickTix.Contracts.Models.DTOs.ManagerDTO)
+  name.vb: ObservableCollection(Of ManagerDTO)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ObservableCollection`1
+    name: ObservableCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1
+  - name: <
+  - uid: QuickTix.Contracts.Models.DTOs.ManagerDTO
+    name: ManagerDTO
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ObservableCollection`1
+    name: ObservableCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: QuickTix.Contracts.Models.DTOs.ManagerDTO
+    name: ManagerDTO
+  - name: )
+- uid: System.Collections.ObjectModel.ObservableCollection`1
+  commentId: T:System.Collections.ObjectModel.ObservableCollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1
+  name: ObservableCollection<T>
+  nameWithType: ObservableCollection<T>
+  fullName: System.Collections.ObjectModel.ObservableCollection<T>
+  nameWithType.vb: ObservableCollection(Of T)
+  fullName.vb: System.Collections.ObjectModel.ObservableCollection(Of T)
+  name.vb: ObservableCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ObservableCollection`1
+    name: ObservableCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ObservableCollection`1
+    name: ObservableCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.ObjectModel
+  commentId: N:System.Collections.ObjectModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.ObjectModel
+  nameWithType: System.Collections.ObjectModel
+  fullName: System.Collections.ObjectModel
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.ObjectModel
+    name: ObjectModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.ObjectModel
+    name: ObjectModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel
+- uid: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager*
+  commentId: Overload:QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager
+  href: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.html#QuickTix_Desktop_ViewModels_Sales_SubscriptionSalesViewModel_SelectedManager
+  name: SelectedManager
+  nameWithType: SubscriptionSalesViewModel.SelectedManager
+  fullName: QuickTix.Desktop.ViewModels.Sales.SubscriptionSalesViewModel.SelectedManager
+- uid: QuickTix.Contracts.Models.DTOs.ManagerDTO
+  commentId: T:QuickTix.Contracts.Models.DTOs.ManagerDTO
+  parent: QuickTix.Contracts.Models.DTOs
+  href: QuickTix.Contracts.Models.DTOs.ManagerDTO.html
+  name: ManagerDTO
+  nameWithType: ManagerDTO
+  fullName: QuickTix.Contracts.Models.DTOs.ManagerDTO
+- uid: QuickTix.Contracts.Models.DTOs
+  commentId: N:QuickTix.Contracts.Models.DTOs
+  href: QuickTix.html
+  name: QuickTix.Contracts.Models.DTOs
+  nameWithType: QuickTix.Contracts.Models.DTOs
+  fullName: QuickTix.Contracts.Models.DTOs
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Models
+    name: Models
+    href: QuickTix.Contracts.Models.html
+  - name: .
+  - uid: QuickTix.Contracts.Models.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.Models.DTOs.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.Models
+    name: Models
+    href: QuickTix.Contracts.Models.html
+  - name: .
+  - uid: QuickTix.Contracts.Models.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.Models.DTOs.html

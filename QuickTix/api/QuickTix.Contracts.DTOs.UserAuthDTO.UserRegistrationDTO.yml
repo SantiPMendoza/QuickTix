@@ -1,0 +1,586 @@
+### YamlMime:ManagedReference
+items:
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  commentId: T:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  id: UserRegistrationDTO
+  parent: QuickTix.Contracts.DTOs.UserAuthDTO
+  children:
+  - QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email
+  - QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name
+  - QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password
+  - QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role
+  - QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName
+  langs:
+  - csharp
+  - vb
+  name: UserRegistrationDTO
+  nameWithType: UserRegistrationDTO
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  type: Class
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UserRegistrationDTO
+    path: QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+    startLine: 6
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.UserAuthDTO
+  syntax:
+    content: public class UserRegistrationDTO
+    content.vb: Public Class UserRegistrationDTO
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name
+  commentId: P:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name
+  id: Name
+  parent: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: UserRegistrationDTO.Name
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Name
+    path: QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+    startLine: 8
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.UserAuthDTO
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Field required: Name")]
+
+      public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Field required: Name")>
+
+      Public Property Name As String
+  overload: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: 'Field required: Name'
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName
+  commentId: P:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName
+  id: UserName
+  parent: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  langs:
+  - csharp
+  - vb
+  name: UserName
+  nameWithType: UserRegistrationDTO.UserName
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: UserName
+    path: QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+    startLine: 11
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.UserAuthDTO
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Field required: UserName")]
+
+      public string UserName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Field required: UserName")>
+
+      Public Property UserName As String
+  overload: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: 'Field required: UserName'
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email
+  commentId: P:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email
+  id: Email
+  parent: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  langs:
+  - csharp
+  - vb
+  name: Email
+  nameWithType: UserRegistrationDTO.Email
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Email
+    path: QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+    startLine: 14
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.UserAuthDTO
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Field required: Email")]
+
+      [EmailAddress(ErrorMessage = "Invalid Email Address")]
+
+      public string Email { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Field required: Email")>
+
+      <EmailAddress(ErrorMessage:="Invalid Email Address")>
+
+      Public Property Email As String
+  overload: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: 'Field required: Email'
+  - type: System.ComponentModel.DataAnnotations.EmailAddressAttribute
+    ctor: System.ComponentModel.DataAnnotations.EmailAddressAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: Invalid Email Address
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password
+  commentId: P:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password
+  id: Password
+  parent: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  langs:
+  - csharp
+  - vb
+  name: Password
+  nameWithType: UserRegistrationDTO.Password
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Password
+    path: QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+    startLine: 18
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.UserAuthDTO
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Field required: Password")]
+
+      public string Password { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Field required: Password")>
+
+      Public Property Password As String
+  overload: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: 'Field required: Password'
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role
+  commentId: P:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role
+  id: Role
+  parent: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO
+  langs:
+  - csharp
+  - vb
+  name: Role
+  nameWithType: UserRegistrationDTO.Role
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role
+  type: Property
+  source:
+    remote:
+      path: QuickTix/QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+      branch: main
+      repo: https://github.com/SantiPMendoza/QuickTix.git
+    id: Role
+    path: QuickTix.Contracts/DTOs/UserAuthDTO/UserRegistrationDTO.cs
+    startLine: 22
+  assemblies:
+  - QuickTix.Contracts
+  namespace: QuickTix.Contracts.DTOs.UserAuthDTO
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Field required: Role")]
+
+      public string Role { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Field required: Role")>
+
+      Public Property Role As String
+  overload: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: 'Field required: Role'
+references:
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO
+  commentId: N:QuickTix.Contracts.DTOs.UserAuthDTO
+  href: QuickTix.html
+  name: QuickTix.Contracts.DTOs.UserAuthDTO
+  nameWithType: QuickTix.Contracts.DTOs.UserAuthDTO
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO
+  spec.csharp:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO
+    name: UserAuthDTO
+    href: QuickTix.Contracts.DTOs.UserAuthDTO.html
+  spec.vb:
+  - uid: QuickTix
+    name: QuickTix
+    href: QuickTix.html
+  - name: .
+  - uid: QuickTix.Contracts
+    name: Contracts
+    href: QuickTix.Contracts.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs
+    name: DTOs
+    href: QuickTix.Contracts.DTOs.html
+  - name: .
+  - uid: QuickTix.Contracts.DTOs.UserAuthDTO
+    name: UserAuthDTO
+    href: QuickTix.Contracts.DTOs.UserAuthDTO.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name*
+  commentId: Overload:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name
+  href: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.html#QuickTix_Contracts_DTOs_UserAuthDTO_UserRegistrationDTO_Name
+  name: Name
+  nameWithType: UserRegistrationDTO.Name
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName*
+  commentId: Overload:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName
+  href: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.html#QuickTix_Contracts_DTOs_UserAuthDTO_UserRegistrationDTO_UserName
+  name: UserName
+  nameWithType: UserRegistrationDTO.UserName
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.UserName
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email*
+  commentId: Overload:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email
+  href: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.html#QuickTix_Contracts_DTOs_UserAuthDTO_UserRegistrationDTO_Email
+  name: Email
+  nameWithType: UserRegistrationDTO.Email
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Email
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password*
+  commentId: Overload:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password
+  href: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.html#QuickTix_Contracts_DTOs_UserAuthDTO_UserRegistrationDTO_Password
+  name: Password
+  nameWithType: UserRegistrationDTO.Password
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Password
+- uid: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role*
+  commentId: Overload:QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role
+  href: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.html#QuickTix_Contracts_DTOs_UserAuthDTO_UserRegistrationDTO_Role
+  name: Role
+  nameWithType: UserRegistrationDTO.Role
+  fullName: QuickTix.Contracts.DTOs.UserAuthDTO.UserRegistrationDTO.Role
