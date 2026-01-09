@@ -2,115 +2,133 @@
 using CommunityToolkit.Mvvm.Input;
 using QuickTix.Mobile.Services;
 
-namespace QuickTix.Mobile.ViewModels;
-
-public partial class ChangePasswordViewModel : ObservableObject
+namespace QuickTix.Mobile.ViewModels
 {
-    private readonly IAuthService _authService;
-
-    // Guardamos el rol para continuar a la Shell correcta tras el cambio
-    private readonly string _roleToContinue;
-
-    [ObservableProperty]
-    private string currentPassword = string.Empty;
-
-    [ObservableProperty]
-    private string newPassword = string.Empty;
-
-    [ObservableProperty]
-    private string confirmNewPassword = string.Empty;
-
-    [ObservableProperty]
-    private bool isSubmitEnabled;
-
-    [ObservableProperty]
-    private bool isBusy;
-
-    public ChangePasswordViewModel(IAuthService authService)
+    /// <summary>
+    /// ViewModel para el cambio de contraseña en Mobile.
+    /// Valida los campos del formulario, ejecuta la operación de cambio y redirige a la Shell correspondiente según rol.
+    /// </summary>
+    public partial class ChangePasswordViewModel : ObservableObject
     {
-        _authService = authService;
+        private readonly IAuthService _authService;
 
-        var user = _authService.GetCurrentUser();
-        _roleToContinue = (user?.Role ?? string.Empty).Trim().ToLowerInvariant();
+        // Rol capturado al entrar para decidir a qué Shell volver tras el cambio
+        private readonly string _roleToContinue;
 
-        Validate();
-    }
+        [ObservableProperty] private string currentPassword = string.Empty;
+        [ObservableProperty] private string newPassword = string.Empty;
+        [ObservableProperty] private string confirmNewPassword = string.Empty;
 
-    partial void OnCurrentPasswordChanged(string value) => Validate();
-    partial void OnNewPasswordChanged(string value) => Validate();
-    partial void OnConfirmNewPasswordChanged(string value) => Validate();
+        [ObservableProperty] private bool isSubmitEnabled;
+        [ObservableProperty] private bool isBusy;
 
-    private void Validate()
-    {
-        IsSubmitEnabled =
-            !string.IsNullOrWhiteSpace(CurrentPassword) &&
-            !string.IsNullOrWhiteSpace(NewPassword) &&
-            !string.IsNullOrWhiteSpace(ConfirmNewPassword) &&
-            NewPassword == ConfirmNewPassword &&
-            NewPassword.Length >= 6;
-    }
-
-    [RelayCommand]
-    private async Task ConfirmChangePasswordAsync()
-    {
-        if (!IsSubmitEnabled)
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="ChangePasswordViewModel"/>.
+        /// Obtiene el rol del usuario actual y ejecuta una validación inicial.
+        /// </summary>
+        /// <param name="authService">Servicio de autenticación.</param>
+        public ChangePasswordViewModel(IAuthService authService)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Aviso",
-                "Revisa los campos. La nueva contraseña debe coincidir y tener al menos 6 caracteres.",
-                "OK");
-            return;
+            _authService = authService;
+
+            var user = _authService.GetCurrentUser();
+            _roleToContinue = (user?.Role ?? string.Empty).Trim().ToLowerInvariant();
+
+            Validate();
         }
 
-        try
-        {
-            IsBusy = true;
+        partial void OnCurrentPasswordChanged(string value) => Validate();
+        partial void OnNewPasswordChanged(string value) => Validate();
+        partial void OnConfirmNewPasswordChanged(string value) => Validate();
 
-            var result = await _authService.ChangePasswordAsync(CurrentPassword, NewPassword);
-            if (!result)
+        /// <summary>
+        /// Aplica reglas de validación del formulario y habilita/deshabilita el envío.
+        /// </summary>
+        private void Validate()
+        {
+            IsSubmitEnabled =
+                !string.IsNullOrWhiteSpace(CurrentPassword) &&
+                !string.IsNullOrWhiteSpace(NewPassword) &&
+                !string.IsNullOrWhiteSpace(ConfirmNewPassword) &&
+                NewPassword == ConfirmNewPassword &&
+                NewPassword.Length >= 6;
+        }
+
+        /// <summary>
+        /// Ejecuta el cambio de contraseña.
+        /// Muestra mensajes de validación, controla el estado busy y redirige a la Shell por rol.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
+        [RelayCommand]
+        private async Task ConfirmChangePasswordAsync()
+        {
+            if (!IsSubmitEnabled)
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "No se pudo cambiar la contraseña. Verifica la contraseña actual.",
+                    "Aviso",
+                    "Revisa los campos. La nueva contraseña debe coincidir y tener al menos 6 caracteres.",
                     "OK");
+
                 return;
             }
 
-            // Actualizar estado local
-            var user = _authService.GetCurrentUser();
-            if (user is not null)
-                user.MustChangePassword = false;
-
-            // Continuar a la Shell por rol
-            switch (_roleToContinue)
+            try
             {
-                case "client":
-                    App.Current.MainPage = new AppShell_Client();
-                    break;
+                IsBusy = true;
 
-                case "manager":
-                    App.Current.MainPage = new AppShell_Manager();
-                    break;
-
-                case "admin":
-                    App.Current.MainPage = new AppShell_Manager();
-                    break;
-
-                default:
+                var result = await _authService.ChangePasswordAsync(CurrentPassword, NewPassword);
+                if (!result)
+                {
                     await Application.Current.MainPage.DisplayAlert(
                         "Error",
-                        $"Rol no soportado: '{_roleToContinue}'",
+                        "No se pudo cambiar la contraseña. Verifica la contraseña actual.",
                         "OK");
-                    break;
+
+                    return;
+                }
+
+                var user = _authService.GetCurrentUser();
+                if (user is not null)
+                    user.MustChangePassword = false;
+
+                switch (_roleToContinue)
+                {
+                    case "client":
+                        App.Current.MainPage = new AppShell_Client();
+                        break;
+
+                    case "manager":
+                        App.Current.MainPage = new AppShell_Manager();
+                        break;
+
+                    case "admin":
+                        App.Current.MainPage = new AppShell_Manager();
+                        break;
+
+                    default:
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Error",
+                            $"Rol no soportado: '{_roleToContinue}'",
+                            "OK");
+                        break;
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            await Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK");
-        }
-        finally
-        {
-            IsBusy = false;
+            catch (ApiException apiEx)
+            {
+                // Errores controlados desde la API (ApiResponse + ApiException)
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    apiEx.Message,
+                    "OK");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

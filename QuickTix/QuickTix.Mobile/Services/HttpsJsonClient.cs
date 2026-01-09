@@ -1,15 +1,15 @@
 ﻿using QuickTix.Contracts.Common;
 using QuickTix.Mobile.Helpers;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace QuickTix.Mobile.Services
 {
     /// <summary>
-    /// Cliente HTTP genérico para consumir la API QuickTix.
-    /// Soporta autenticación JWT y lanza ApiException con códigos HTTP.
+    /// Cliente HTTP genérico para consumir la API de QuickTix desde Mobile.
+    /// Adjunta automáticamente el token Bearer (si existe), procesa el contrato <see cref="ApiResponse{T}"/>
+    /// y unifica errores mediante <see cref="ApiException"/>.
     /// </summary>
     public class HttpJsonClient
     {
@@ -21,12 +21,20 @@ namespace QuickTix.Mobile.Services
             PropertyNameCaseInsensitive = true
         };
 
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="HttpJsonClient"/>.
+        /// </summary>
+        /// <param name="httpClient">HttpClient configurado con la BaseAddress de la API.</param>
+        /// <param name="tokenStore">Almacén del token JWT.</param>
         public HttpJsonClient(HttpClient httpClient, ITokenStore tokenStore)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _tokenStore = tokenStore ?? throw new ArgumentNullException(nameof(tokenStore));
         }
 
+        /// <summary>
+        /// Adjunta el header Authorization con esquema Bearer cuando existe token en el store.
+        /// </summary>
         private void AddAuthorizationHeader()
         {
             var token = _tokenStore.GetToken();
@@ -39,6 +47,11 @@ namespace QuickTix.Mobile.Services
             }
         }
 
+        /// <summary>
+        /// Intenta extraer un mensaje de error útil desde el body cuando el servidor no devuelve ApiResponse válido.
+        /// </summary>
+        /// <param name="response">Respuesta HTTP.</param>
+        /// <returns>Mensaje de error interpretado.</returns>
         private async Task<string> ExtractErrorMessage(HttpResponseMessage response)
         {
             try
@@ -52,7 +65,6 @@ namespace QuickTix.Mobile.Services
 
                 if (root.ValueKind == JsonValueKind.Object)
                 {
-                    // Nuevo contrato ApiResponse<T>
                     if (root.TryGetProperty("errorMessages", out var errors) && errors.ValueKind == JsonValueKind.Array)
                     {
                         var list = errors.EnumerateArray()
@@ -65,7 +77,6 @@ namespace QuickTix.Mobile.Services
                             return string.Join(" ", list);
                     }
 
-                    // Compatibilidad antigua
                     if (root.TryGetProperty("message", out var msg) && msg.ValueKind == JsonValueKind.String)
                         return msg.GetString() ?? "Error desconocido.";
 
@@ -84,6 +95,13 @@ namespace QuickTix.Mobile.Services
             }
         }
 
+        /// <summary>
+        /// Deserializa el cuerpo como <see cref="ApiResponse{T}"/> y devuelve el Result si la operación fue correcta.
+        /// En caso de error, lanza <see cref="ApiException"/> con el código HTTP correspondiente.
+        /// </summary>
+        /// <typeparam name="T">Tipo del Result esperado.</typeparam>
+        /// <param name="response">Respuesta HTTP.</param>
+        /// <returns>Resultado deserializado o null.</returns>
         private async Task<T?> ReadApiResultAsync<T>(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -105,7 +123,9 @@ namespace QuickTix.Mobile.Services
                     }
                     catch (JsonException)
                     {
-                        throw new ApiException("No se pudo interpretar la respuesta del servidor.", HttpStatusCode.InternalServerError);
+                        throw new ApiException(
+                            "No se pudo interpretar la respuesta del servidor.",
+                            HttpStatusCode.InternalServerError);
                     }
                 }
 
@@ -118,6 +138,7 @@ namespace QuickTix.Mobile.Services
             if (!response.IsSuccessStatusCode || !api.IsSuccess)
             {
                 var status = api.StatusCode != 0 ? api.StatusCode : response.StatusCode;
+
                 var message = (api.ErrorMessages != null && api.ErrorMessages.Count > 0)
                     ? string.Join(" ", api.ErrorMessages)
                     : await ExtractErrorMessage(response);
@@ -128,6 +149,12 @@ namespace QuickTix.Mobile.Services
             return api.Result;
         }
 
+        /// <summary>
+        /// Realiza un GET que devuelve un listado.
+        /// </summary>
+        /// <typeparam name="T">Tipo de elemento.</typeparam>
+        /// <param name="url">Ruta relativa del endpoint.</param>
+        /// <returns>Listado de elementos (vacío si no hay datos).</returns>
         public async Task<List<T>> GetListAsync<T>(string url)
         {
             try
@@ -148,6 +175,12 @@ namespace QuickTix.Mobile.Services
             }
         }
 
+        /// <summary>
+        /// Realiza un GET que devuelve un objeto.
+        /// </summary>
+        /// <typeparam name="T">Tipo de respuesta.</typeparam>
+        /// <param name="url">Ruta relativa del endpoint.</param>
+        /// <returns>Objeto deserializado o null.</returns>
         public async Task<T?> GetAsync<T>(string url)
         {
             try
@@ -167,6 +200,14 @@ namespace QuickTix.Mobile.Services
             }
         }
 
+        /// <summary>
+        /// Realiza un POST con body JSON y devuelve el objeto de respuesta.
+        /// </summary>
+        /// <typeparam name="TRequest">Tipo del body.</typeparam>
+        /// <typeparam name="TResponse">Tipo de la respuesta.</typeparam>
+        /// <param name="url">Ruta relativa del endpoint.</param>
+        /// <param name="data">Payload.</param>
+        /// <returns>Respuesta deserializada.</returns>
         public async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest data)
         {
             try
@@ -191,6 +232,12 @@ namespace QuickTix.Mobile.Services
             }
         }
 
+        /// <summary>
+        /// Realiza un PUT con body JSON.
+        /// </summary>
+        /// <typeparam name="T">Tipo del body.</typeparam>
+        /// <param name="url">Ruta relativa del endpoint.</param>
+        /// <param name="data">Payload.</param>
         public async Task PutAsync<T>(string url, T data)
         {
             try
@@ -210,6 +257,10 @@ namespace QuickTix.Mobile.Services
             }
         }
 
+        /// <summary>
+        /// Realiza un DELETE.
+        /// </summary>
+        /// <param name="url">Ruta relativa del endpoint.</param>
         public async Task DeleteAsync(string url)
         {
             try

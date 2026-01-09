@@ -1,7 +1,10 @@
-﻿using System;
-
-namespace QuickTix.Mobile.Helpers
+﻿namespace QuickTix.Mobile.Helpers
 {
+    /// <summary>
+    /// Define el contrato de sesión de la aplicación para el cliente móvil.
+    /// Centraliza los datos del usuario autenticado (ids y claims relevantes) y expone operaciones
+    /// para inicializar la sesión a partir de un JWT y para limpiar el estado.
+    /// </summary>
     public interface IAppSession
     {
         int VenueId { get; }
@@ -13,10 +16,22 @@ namespace QuickTix.Mobile.Helpers
         string? Role { get; }
         string? Name { get; }
 
+        /// <summary>
+        /// Limpia el estado de sesión actual.
+        /// </summary>
         void Clear();
+
+        /// <summary>
+        /// Carga los datos de sesión a partir de un token JWT (claims).
+        /// </summary>
+        /// <param name="jwt">Token JWT devuelto por la API.</param>
         void LoadFromToken(string jwt);
     }
 
+    /// <summary>
+    /// Implementación de sesión de aplicación basada en claims extraídas de un JWT.
+    /// Mantiene el estado en memoria para su consumo por ViewModels y servicios del cliente móvil.
+    /// </summary>
     public sealed class AppSession : IAppSession
     {
         public int VenueId { get; private set; }
@@ -26,8 +41,13 @@ namespace QuickTix.Mobile.Helpers
         public string? UserId { get; private set; }
         public string? Email { get; private set; }
         public string? Role { get; private set; }
-        public string? Name { get; private set; } // Nuevo
+        public string? Name { get; private set; }
 
+        /// <summary>
+        /// Carga los valores de sesión extrayendo claims del JWT.
+        /// Busca claves alternativas para compatibilidad con diferentes emisores de claims.
+        /// </summary>
+        /// <param name="jwt">Token JWT devuelto por la API.</param>
         public void LoadFromToken(string jwt)
         {
             var claims = JwtClaimReader.Read(jwt);
@@ -56,6 +76,9 @@ namespace QuickTix.Mobile.Helpers
                 "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
         }
 
+        /// <summary>
+        /// Reinicia la sesión y elimina los datos del usuario actual.
+        /// </summary>
         public void Clear()
         {
             VenueId = 0;
@@ -65,6 +88,8 @@ namespace QuickTix.Mobile.Helpers
             Email = null;
             Role = null;
             Name = null;
+
+            VenueName = string.Empty;
         }
     }
 }

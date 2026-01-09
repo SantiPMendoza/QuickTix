@@ -7,17 +7,25 @@ using QuickTix.Mobile.Views;
 
 namespace QuickTix.Mobile.ViewModels
 {
+    /// <summary>
+    /// ViewModel de login para Mobile.
+    /// Gestiona credenciales, preferencia de "recordar usuario", validación del formulario,
+    /// flujo de cambio obligatorio de contraseña y navegación a la Shell correspondiente por rol.
+    /// </summary>
     public partial class LoginViewModel : ObservableObject
     {
         private readonly IAuthService _authService;
         private readonly IServiceProvider _services;
 
-
-
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="LoginViewModel"/>.
+        /// Carga preferencias de "recordar usuario" y precarga credenciales si aplica.
+        /// </summary>
+        /// <param name="authService">Servicio de autenticación.</param>
+        /// <param name="services">Proveedor de servicios para resolver páginas en navegación.</param>
         public LoginViewModel(IAuthService authService, IServiceProvider services)
         {
             _authService = authService;
-
             _services = services;
 
             RememberUser = Preferences.Get("RememberUser", false);
@@ -31,28 +39,17 @@ namespace QuickTix.Mobile.ViewModels
             ValidateLogin();
         }
 
-        // ------------------------------
-        // PROPIEDADES GENERADAS
-        // ------------------------------
+        [ObservableProperty] private string username = string.Empty;
+        [ObservableProperty] private string password = string.Empty;
+        [ObservableProperty] private bool rememberUser;
+        [ObservableProperty] private bool isLoginEnabled;
+        [ObservableProperty] private bool isBusy;
 
-        [ObservableProperty]
-        private string username = string.Empty;
-
-        [ObservableProperty]
-        private string password = string.Empty;
-
-        [ObservableProperty]
-        private bool rememberUser;
-
-        [ObservableProperty]
-        private bool isLoginEnabled;
-
-        [ObservableProperty]
-        private bool isBusy;
-
-        // ------------------------------
-        // COMANDO DE LOGIN
-        // ------------------------------
+        /// <summary>
+        /// Ejecuta el proceso de login.
+        /// Valida el formulario, llama al servicio, persiste preferencias y navega según el estado del usuario.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
         private async Task CheckLoginAsync()
         {
@@ -63,24 +60,26 @@ namespace QuickTix.Mobile.ViewModels
             {
                 await MainThread.InvokeOnMainThreadAsync(() =>
                     Application.Current.MainPage.DisplayAlert("Aviso", "Completa todos los campos.", "OK"));
+
                 return;
             }
 
             IsBusy = true;
+
             try
             {
                 var dto = new UserLoginDTO { UserName = Username, Password = Password };
 
                 var success = await _authService.LoginAsync(dto);
-
                 if (!success)
                 {
                     await MainThread.InvokeOnMainThreadAsync(() =>
                         Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos.", "OK"));
+
                     return;
                 }
 
-                // Preferencias (esto no es UI, pero está bien aquí)
+                // Preferencias (persistencia local de credenciales)
                 if (RememberUser)
                 {
                     Preferences.Set("SavedUsername", Username);
@@ -98,7 +97,11 @@ namespace QuickTix.Mobile.ViewModels
                 if (user is null)
                 {
                     await MainThread.InvokeOnMainThreadAsync(() =>
-                        Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener la información del usuario.", "OK"));
+                        Application.Current.MainPage.DisplayAlert(
+                            "Error",
+                            "No se pudo obtener la información del usuario.",
+                            "OK"));
+
                     return;
                 }
 
@@ -108,7 +111,6 @@ namespace QuickTix.Mobile.ViewModels
 
                     await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
-                        // Importante: asegúrate de que existe NavigationPage o navegación válida
                         await Application.Current.MainPage.Navigation.PushAsync(page);
                     });
 
@@ -124,16 +126,25 @@ namespace QuickTix.Mobile.ViewModels
                         case "client":
                             App.Current.MainPage = new AppShell_Client();
                             break;
+
                         case "manager":
                         case "admin":
                             App.Current.MainPage = new AppShell_Manager();
                             break;
+
                         default:
-                            // Ojo: aquí estás dentro de InvokeOnMainThreadAsync; si quieres alert, hazlo fuera o con Dispatcher async.
-                            App.Current.MainPage.DisplayAlert("Error", $"Rol no soportado: {user.Role ?? "(sin rol)"}", "OK");
+                            Application.Current.MainPage.DisplayAlert(
+                                "Error",
+                                $"Rol no soportado: {user.Role ?? "(sin rol)"}",
+                                "OK");
                             break;
                     }
                 });
+            }
+            catch (ApiException apiEx)
+            {
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Error", apiEx.Message, "OK"));
             }
             catch (Exception ex)
             {
@@ -147,23 +158,17 @@ namespace QuickTix.Mobile.ViewModels
             }
         }
 
-
-        // ------------------------------
-        // MÉTODOS PARCIALES
-        // ------------------------------
-
         partial void OnUsernameChanged(string value) => ValidateLogin();
         partial void OnPasswordChanged(string value) => ValidateLogin();
 
-        // ------------------------------
-        // VALIDACIÓN DEL FORMULARIO
-        // ------------------------------
-
+        /// <summary>
+        /// Valida el estado del formulario y actualiza la disponibilidad del comando de login.
+        /// </summary>
         private void ValidateLogin()
         {
             IsLoginEnabled =
-                !string.IsNullOrWhiteSpace(Username)
-                && !string.IsNullOrWhiteSpace(Password);
+                !string.IsNullOrWhiteSpace(Username) &&
+                !string.IsNullOrWhiteSpace(Password);
         }
     }
 }

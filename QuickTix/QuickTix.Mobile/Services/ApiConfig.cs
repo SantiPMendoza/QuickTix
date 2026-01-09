@@ -13,9 +13,9 @@ public static class ApiConfig
 
         if (platform == DevicePlatform.WinUI)
             return "http://localhost:5137";  // Windows
-
+        /*
         if (platform == DevicePlatform.iOS)
-            return "http://localhost:5137";  // iOS simulator (normalmente)
+            return "http://localhost:5137";*/
 
         return "http://localhost:5137";
     }
