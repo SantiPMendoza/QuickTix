@@ -10,15 +10,8 @@
           RowSpacing="12"
           Padding="16">
 
-        <!-- Cabecera fija: sesión + nueva línea + resumen -->
+        <!-- Cabecera fija: nueva línea + resumen -->
         <VerticalStackLayout Grid.Row="0" Spacing="12">
-
-            <Frame Style="{StaticResource Card}">
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="Datos de sesión" Style="{StaticResource SectionTitle}" />
-                    <Label Text="{Binding SessionInfo}" Style="{StaticResource HintText}" />
-                </VerticalStackLayout>
-            </Frame>
 
             <Frame Style="{StaticResource Card}">
                 <VerticalStackLayout Spacing="12">

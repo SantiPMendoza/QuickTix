@@ -40,7 +40,6 @@ public static class MauiProgram
         // Pages
         builder.Services.AddTransient<TicketsPage>();
         builder.Services.AddTransient<LoginPage>();
-        builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ChangePasswordPage>();
         builder.Services.AddTransient<SubscriptionsPage>();
 
