@@ -12,6 +12,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
+                <!-- Tema Vibra: siempre DESPUÉS de los diccionarios de WPF-UI
+                     para que sus tokens ganen en caso de clave repetida -->
+                <ResourceDictionary Source="pack://application:,,,/Themes/VibraTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Converters globales -->

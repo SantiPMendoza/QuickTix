@@ -15,6 +15,17 @@ public static class MauiProgram
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+
+                // Tipografía del tema Vibra (handoff 1b): Space Grotesk para
+                // titulares, DM Sans para cuerpo/UI, IBM Plex Mono para códigos.
+                fonts.AddFont("SpaceGrotesk-SemiBold.ttf", "SpaceGrotesk");
+                fonts.AddFont("SpaceGrotesk-Bold.ttf", "SpaceGroteskBold");
+                fonts.AddFont("DMSans-Regular.ttf", "DMSans");
+                fonts.AddFont("DMSans-Medium.ttf", "DMSansMedium");
+                fonts.AddFont("DMSans-SemiBold.ttf", "DMSansSemiBold");
+                fonts.AddFont("DMSans-Bold.ttf", "DMSansBold");
+                fonts.AddFont("IBMPlexMono-Medium.ttf", "PlexMono");
+                fonts.AddFont("IBMPlexMono-SemiBold.ttf", "PlexMonoSemiBold");
             });
 
         // Servicios
