@@ -51,12 +51,15 @@ namespace QuickTix.Desktop.Views
                     RootNavigation.IsPaneVisible = false;
                     RootNavigation.OpenPaneLength = 0;
                     RootNavigation.CompactPaneLength = 0;
-
+                    // El backdrop oscuro del sidebar sigue la misma regla que el pane
+                    SidebarBackdrop.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    RootNavigation.OpenPaneLength = 250;
+                    // 230px: ancho de sidebar del tema Vibra (antes 250)
+                    RootNavigation.OpenPaneLength = 230;
                     RootNavigation.CompactPaneLength = double.NaN;
+                    SidebarBackdrop.Visibility = Visibility.Visible;
                 }
             };
         }

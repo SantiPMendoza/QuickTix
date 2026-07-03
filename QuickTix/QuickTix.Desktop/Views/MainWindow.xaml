@@ -1,4 +1,4 @@
-﻿<ui:FluentWindow x:Class="QuickTix.Desktop.Views.MainWindow"
+<ui:FluentWindow x:Class="QuickTix.Desktop.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,28 +15,182 @@
         Height="700" Width="1050"
         WindowStyle="SingleBorderWindow"
         ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="Mica"
+        WindowBackdropType="None"
+        Background="{StaticResource PageBgBrush}"
         WindowCornerPreference="Round"
         d:DesignHeight="450"
         d:DesignWidth="800"
         >
+    <!-- Backdrop "None" en lugar de Mica: el tema Vibra usa PageBg plano
+         como fondo de contenido; Mica pintaría por encima del color. -->
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!-- Title Bar -->
-        <ui:TitleBar
-            Background="#2C3E50"
-            Title="{Binding ApplicationTitle, Mode=OneWay}"
-            Grid.Row="0" FontSize="20" FontFamily="Impact" />
-        <ui:NavigationView x:Name="RootNavigation"
-                   Grid.Row="1"
-                   Visibility="{Binding NavigationVisibility}"
-                   FooterMenuItemsSource="{Binding NavigationFooter, Mode=OneWay}"
-                   MenuItemsSource="{Binding NavigationItems, Mode=OneWay}">
 
-        </ui:NavigationView>
+        <!-- Barra de título Vibra: Ink #14233B, 40px, sin Impact -->
+        <ui:TitleBar Grid.Row="0"
+                     Height="40"
+                     Title="QuickTix Admin"
+                     Background="{StaticResource TitleBarBrush}"
+                     Foreground="White"
+                     ButtonsForeground="White"
+                     FontFamily="{StaticResource VibraDisplayFontFamily}"
+                     FontWeight="SemiBold"
+                     FontSize="13" />
+
+        <Grid Grid.Row="1">
+            <!-- Fondo oscuro del sidebar: el pane del NavigationView es
+                 transparente, así que se pinta por detrás. El code-behind
+                 lo oculta en LoginView (mismo sitio donde ya se oculta
+                 el pane). -->
+            <Border x:Name="SidebarBackdrop"
+                    Width="230"
+                    HorizontalAlignment="Left"
+                    Background="{StaticResource InkSidebarBrush}"
+                    Visibility="Collapsed" />
+
+            <ui:NavigationView x:Name="RootNavigation"
+                       Visibility="{Binding NavigationVisibility}"
+                       FooterMenuItemsSource="{Binding NavigationFooter, Mode=OneWay}"
+                       MenuItemsSource="{Binding NavigationItems, Mode=OneWay}"
+                       PaneDisplayMode="Left"
+                       OpenPaneLength="230"
+                       IsPaneToggleVisible="False"
+                       IsBackButtonVisible="Collapsed"
+                       Background="Transparent">
+
+                <!-- Cabecera del sidebar: logo + wordmark + ADMIN -->
+                <ui:NavigationView.PaneHeader>
+                    <StackPanel Orientation="Horizontal" Margin="10,16,10,14">
+                        <Image Source="pack://application:,,,/Assets/vibra_logo.png"
+                               Width="30" Height="30"
+                               VerticalAlignment="Center"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="QuickTix"
+                                       FontFamily="{StaticResource VibraDisplayFontFamily}"
+                                       FontSize="17" FontWeight="Bold"
+                                       Foreground="White" />
+                            <TextBlock Text="ADMIN"
+                                       FontFamily="{StaticResource VibraBodyFontFamily}"
+                                       FontSize="10" FontWeight="SemiBold"
+                                       Foreground="{StaticResource BrandCyanBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </ui:NavigationView.PaneHeader>
+
+                <!-- Footer: avatar degradado + usuario. El VM no expone el
+                     nombre del usuario logueado -> "Admin" estático.
+                     "Cerrar sesión" real = ítem Logout del footer del VM. -->
+                <ui:NavigationView.PaneFooter>
+                    <StackPanel Orientation="Horizontal" Margin="12,8,12,4">
+                        <Border Width="34" Height="34" CornerRadius="10"
+                                Background="{StaticResource AvatarGradient}">
+                            <TextBlock Text="AD"
+                                       FontFamily="{StaticResource VibraDisplayFontFamily}"
+                                       FontSize="12" FontWeight="Bold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Admin"
+                                       FontFamily="{StaticResource VibraBodyFontFamily}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="White" />
+                            <TextBlock Text="Administrador"
+                                       FontFamily="{StaticResource VibraBodyFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource SidebarInactiveTextBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </ui:NavigationView.PaneFooter>
+
+                <ui:NavigationView.Resources>
+                    <!-- Ítem de navegación Vibra. Estilo implícito local:
+                         los NavigationViewItem los crea el VM y no se tocan.
+                         Los iconos del handoff se mapean aquí por Content
+                         (DataTriggers) para no modificar el ViewModel. -->
+                    <Style TargetType="{x:Type ui:NavigationViewItem}">
+                        <Setter Property="Foreground" Value="{StaticResource SidebarInactiveTextBrush}" />
+                        <Setter Property="FontFamily" Value="{StaticResource VibraBodyFontFamily}" />
+                        <Setter Property="FontSize" Value="13" />
+                        <Setter Property="FontWeight" Value="Medium" />
+                        <Setter Property="Margin" Value="10,2" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ui:NavigationViewItem}">
+                                    <Border x:Name="Bd" Background="Transparent" CornerRadius="12">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Rectangle x:Name="ActiveBar"
+                                                       Grid.Column="0"
+                                                       Width="3" Margin="0,7"
+                                                       RadiusX="1.5" RadiusY="1.5"
+                                                       Fill="{StaticResource SidebarActiveBarGradient}"
+                                                       Visibility="Hidden" />
+                                            <Grid Grid.Column="1" Margin="9,9,0,9" VerticalAlignment="Center">
+                                                <ContentPresenter x:Name="IconPresenter"
+                                                                  Content="{TemplateBinding Icon}"
+                                                                  TextElement.Foreground="{TemplateBinding Foreground}" />
+                                                <ui:SymbolIcon x:Name="MappedIcon"
+                                                               FontSize="19"
+                                                               Foreground="{TemplateBinding Foreground}"
+                                                               Visibility="Collapsed" />
+                                            </Grid>
+                                            <ContentPresenter Grid.Column="2"
+                                                              Margin="10,9,12,9"
+                                                              VerticalAlignment="Center"
+                                                              Content="{TemplateBinding Content}" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#14FFFFFF" />
+                                        </Trigger>
+                                        <Trigger Property="IsActive" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarActiveGradient}" />
+                                            <Setter TargetName="ActiveBar" Property="Visibility" Value="Visible" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                        </Trigger>
+                                        <!-- Iconos del handoff sin tocar el VM -->
+                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Usuarios">
+                                            <Setter TargetName="MappedIcon" Property="Symbol" Value="People24" />
+                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
+                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Historial de&#10;ventas">
+                                            <Setter TargetName="MappedIcon" Property="Symbol" Value="Receipt24" />
+                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
+                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Precios">
+                                            <Setter TargetName="MappedIcon" Property="Symbol" Value="Tag24" />
+                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
+                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Clientes">
+                                            <Setter TargetName="MappedIcon" Property="Symbol" Value="Person24" />
+                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
+                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ui:NavigationView.Resources>
+
+            </ui:NavigationView>
+        </Grid>
     </Grid>
 </ui:FluentWindow>
