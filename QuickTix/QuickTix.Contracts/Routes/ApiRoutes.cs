@@ -165,6 +165,17 @@
                 => Base + $"/history/tickets/{saleId}/detail";
         }
 
+        public static class Analytics
+        {
+            public const string Base = "/api/Analytics";
+
+            /// <summary>
+            /// Resumen agregado para el Panel de escritorio (KPIs, ingresos 7 días,
+            /// distribución por tipo y ventas recientes). Solo lectura.
+            /// </summary>
+            public const string Summary = Base + "/summary";
+        }
+
         public static class SaleItem
         {
             public const string Base = "/api/SaleItem";
