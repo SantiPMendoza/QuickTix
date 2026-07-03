@@ -44,6 +44,13 @@ namespace QuickTix.Desktop.ViewModels
         {
             NavigationItems =
             [
+                // Panel (dashboard, spec 3a): primer ítem y vista inicial tras login
+                new NavigationViewItem
+                {
+                    Content = "Panel",
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Grid24 },
+                    TargetPageType = typeof(PanelView)
+                },
                 new NavigationViewItem
                 {
                     Content = "Usuarios",

@@ -91,7 +91,8 @@ namespace QuickTix.Desktop.ViewModels
                     // ======================================
                     var user = _authService.GetCurrentUser();
                     System.Windows.MessageBox.Show($"Bienvenido {user?.Name}");
-                    _navigationService.Navigate(typeof(UsersView));
+                    // El Panel (dashboard) es la vista inicial tras el login (spec 3a)
+                    _navigationService.Navigate(typeof(PanelView));
                 }
                 else
                 {

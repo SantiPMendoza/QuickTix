@@ -163,6 +163,11 @@
                                             <Setter Property="FontWeight" Value="SemiBold" />
                                         </Trigger>
                                         <!-- Iconos del handoff sin tocar el VM -->
+                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Panel">
+                                            <Setter TargetName="MappedIcon" Property="Symbol" Value="Grid24" />
+                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
+                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Usuarios">
                                             <Setter TargetName="MappedIcon" Property="Symbol" Value="People24" />
                                             <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />

@@ -1,0 +1,371 @@
+<Page x:Class="QuickTix.Desktop.Views.Pages.PanelView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      mc:Ignorable="d"
+      d:DesignHeight="650"
+      d:DesignWidth="1000"
+      Title="PanelView">
+
+    <!-- Panel (dashboard) — spec 3a del handoff Vibra.
+         Todos los valores vienen precalculados del PanelViewModel:
+         el XAML no hace cálculos (sin divisiones por cero con datos vacíos). -->
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <!-- Barras de ingresos: degradado vertical periwinkle→sky;
+             el día pico usa teal→cyan (spec 3a) -->
+        <LinearGradientBrush x:Key="BarGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="0" />
+            <GradientStop Color="{StaticResource BrandSky}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BarGradientPeak" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="{StaticResource BrandTealDeep}" Offset="0" />
+            <GradientStop Color="{StaticResource BrandCyan}" Offset="1" />
+        </LinearGradientBrush>
+
+        <!-- Etiqueta muted de tarjeta KPI -->
+        <Style x:Key="KpiLabel" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource VibraBodyFontFamily}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <!-- Cifra grande de KPI: Space Grotesk 28 (spec 3a) -->
+        <Style x:Key="KpiValue" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource VibraDisplayFontFamily}" />
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
+
+        <!-- Cuadro de color 30x30 radio 10 para el icono de la KPI -->
+        <Style x:Key="KpiIconBox" TargetType="{x:Type Border}">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource PageBgBrush}"
+          TextElement.FontFamily="{StaticResource VibraBodyFontFamily}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Topbar de página -->
+        <Border Grid.Row="0" Style="{StaticResource VibraTopBar}">
+            <Grid>
+                <TextBlock Style="{StaticResource VibraPageTitle}" Text="Panel" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <ui:ProgressRing IsIndeterminate="True"
+                                     Width="22" Height="22"
+                                     Margin="0,0,12,0"
+                                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <Button Content="Actualizar" Width="120"
+                            Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding LoadCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,18">
+
+                <!-- Error inline -->
+                <Border Background="{StaticResource DangerBgBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Padding="14,10" Margin="0,0,0,14"
+                        Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}">
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Foreground="{StaticResource DangerFgBrush}"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap" />
+                </Border>
+
+                <!-- ===== KPIs ===== -->
+                <UniformGrid Columns="4" Margin="-7,0">
+
+                    <!-- Ingresos hoy -->
+                    <Border Style="{StaticResource VibraCard}"
+                            CornerRadius="{StaticResource KpiCornerRadius}"
+                            Margin="7,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock Style="{StaticResource KpiLabel}" Text="Ingresos hoy" Margin="0,0,36,0" />
+                                <Border Style="{StaticResource KpiIconBox}" Background="{StaticResource ChipTealBgBrush}">
+                                    <ui:SymbolIcon Symbol="Money24" FontSize="17"
+                                                   Foreground="{StaticResource ChipTealFgBrush}" />
+                                </Border>
+                            </Grid>
+                            <TextBlock Grid.Row="1" Style="{StaticResource KpiValue}"
+                                       Text="{Binding RevenueToday, StringFormat='{}{0:N2} €'}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Entradas vendidas hoy -->
+                    <Border Style="{StaticResource VibraCard}"
+                            CornerRadius="{StaticResource KpiCornerRadius}"
+                            Margin="7,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock Style="{StaticResource KpiLabel}" Text="Entradas vendidas hoy" Margin="0,0,36,0" />
+                                <Border Style="{StaticResource KpiIconBox}" Background="{StaticResource ChipBlueBgBrush}">
+                                    <ui:SymbolIcon Symbol="TicketDiagonal24" FontSize="17"
+                                                   Foreground="{StaticResource ChipBlueFgBrush}" />
+                                </Border>
+                            </Grid>
+                            <TextBlock Grid.Row="1" Style="{StaticResource KpiValue}"
+                                       Text="{Binding TicketsSoldToday}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Abonos activos -->
+                    <Border Style="{StaticResource VibraCard}"
+                            CornerRadius="{StaticResource KpiCornerRadius}"
+                            Margin="7,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock Style="{StaticResource KpiLabel}" Text="Abonos activos" Margin="0,0,36,0" />
+                                <Border Style="{StaticResource KpiIconBox}" Background="{StaticResource ChipLavBgBrush}">
+                                    <ui:SymbolIcon Symbol="ContactCard24" FontSize="17"
+                                                   Foreground="{StaticResource ChipLavFgBrush}" />
+                                </Border>
+                            </Grid>
+                            <TextBlock Grid.Row="1" Style="{StaticResource KpiValue}"
+                                       Text="{Binding ActiveSubscriptions}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Aforo estimado hoy (sustituye a "Accesos validados" del mock:
+                         el flujo de accesos está aparcado; ver PanelViewModel/API) -->
+                    <Border Style="{StaticResource VibraCard}"
+                            CornerRadius="{StaticResource KpiCornerRadius}"
+                            Margin="7,0"
+                            ToolTip="Estimación basada en las entradas de uso diario vendidas hoy. No incluye abonados (sin registro de accesos).">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock Style="{StaticResource KpiLabel}" Text="Aforo estimado hoy" Margin="0,0,36,0" />
+                                <Border Style="{StaticResource KpiIconBox}" Background="{StaticResource SuccessBgBrush}">
+                                    <ui:SymbolIcon Symbol="PeopleTeam24" FontSize="17"
+                                                   Foreground="{StaticResource SuccessBrush}" />
+                                </Border>
+                            </Grid>
+                            <TextBlock Grid.Row="1" Style="{StaticResource KpiValue}"
+                                       Text="{Binding EstimatedAttendanceToday}" />
+                        </Grid>
+                    </Border>
+                </UniformGrid>
+
+                <!-- ===== Gráfica de ingresos + donut ===== -->
+                <Grid Margin="0,14,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="14" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Ingresos últimos 7 días -->
+                    <Border Grid.Column="0" Style="{StaticResource VibraCard}" Padding="20,16">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource VibraCardTitle}" Text="Ingresos últimos 7 días" />
+                            <ItemsControl ItemsSource="{Binding RevenueBars}" Margin="0,14,0,0" Height="160">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="7" Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ToolTip="{Binding Amount, StringFormat='{}{0:N2} €'}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Border x:Name="Bar"
+                                                    Grid.Row="0"
+                                                    Width="26"
+                                                    Height="{Binding BarHeight}"
+                                                    VerticalAlignment="Bottom"
+                                                    CornerRadius="7,7,0,0"
+                                                    Background="{StaticResource BarGradient}">
+                                                <Border.Style>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsPeak}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource BarGradientPeak}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <TextBlock Grid.Row="1"
+                                                       Text="{Binding DayLabel}"
+                                                       FontSize="11"
+                                                       Foreground="{StaticResource TextMutedBrush}"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0,6,0,0" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Donut "Ventas por tipo" -->
+                    <Border Grid.Column="2" Style="{StaticResource VibraCard}" Padding="20,16">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource VibraCardTitle}" Text="Ventas por tipo" />
+
+                            <Grid Width="160" Height="160" Margin="0,14,0,0" HorizontalAlignment="Center">
+                                <!-- Anillo de fondo (visible cuando no hay datos) -->
+                                <Ellipse Width="116" Height="116"
+                                         Stroke="{StaticResource VibraBorderBrush}"
+                                         StrokeThickness="22" />
+                                <!-- Arcos con geometría precalculada en el ViewModel -->
+                                <Path Data="{Binding TicketsArc}"
+                                      Stroke="{StaticResource BrandPeriwinkleBrush}"
+                                      StrokeThickness="22" />
+                                <Path Data="{Binding SubscriptionsArc}"
+                                      Stroke="{StaticResource BrandTealBrush}"
+                                      StrokeThickness="22" />
+                                <!-- Centro: total de unidades -->
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding TotalUnits}"
+                                               FontFamily="{StaticResource VibraDisplayFontFamily}"
+                                               FontSize="24" FontWeight="Bold"
+                                               Foreground="{StaticResource InkBrush}"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="ventas"
+                                               FontSize="11"
+                                               Foreground="{StaticResource TextMutedBrush}"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Leyenda -->
+                            <StackPanel Margin="0,14,0,0">
+                                <Grid Margin="0,0,0,6">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="10" Height="10" CornerRadius="3"
+                                                Background="{StaticResource BrandPeriwinkleBrush}"
+                                                VerticalAlignment="Center" />
+                                        <TextBlock Text="Entradas" FontSize="12" Margin="8,0,0,0"
+                                                   Foreground="{StaticResource TextMuted2Brush}" />
+                                        <TextBlock Text="{Binding TicketUnits, StringFormat='({0})'}"
+                                                   FontSize="12" Margin="5,0,0,0"
+                                                   Foreground="{StaticResource TextMutedBrush}" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding TicketsPercentText}"
+                                               FontSize="12" FontWeight="SemiBold"
+                                               Foreground="{StaticResource InkBrush}"
+                                               HorizontalAlignment="Right" />
+                                </Grid>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="10" Height="10" CornerRadius="3"
+                                                Background="{StaticResource BrandTealBrush}"
+                                                VerticalAlignment="Center" />
+                                        <TextBlock Text="Abonos" FontSize="12" Margin="8,0,0,0"
+                                                   Foreground="{StaticResource TextMuted2Brush}" />
+                                        <TextBlock Text="{Binding SubscriptionUnits, StringFormat='({0})'}"
+                                                   FontSize="12" Margin="5,0,0,0"
+                                                   Foreground="{StaticResource TextMutedBrush}" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding SubscriptionsPercentText}"
+                                               FontSize="12" FontWeight="SemiBold"
+                                               Foreground="{StaticResource InkBrush}"
+                                               HorizontalAlignment="Right" />
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- ===== Ventas recientes ===== -->
+                <Border Style="{StaticResource VibraCard}" Padding="20,16" Margin="0,14,0,0">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource VibraCardTitle}" Text="Ventas recientes" />
+                        <ListView Style="{StaticResource VibraTableListView}"
+                                  ItemsSource="{Binding RecentSales}"
+                                  HorizontalContentAlignment="Stretch"
+                                  MaxHeight="320"
+                                  Margin="0,10,0,0">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource VibraTableHeader}">
+                                    <GridViewColumn Header="ID" Width="70">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Id}"
+                                                           FontFamily="{StaticResource VibraMonoFontFamily}"
+                                                           FontSize="12.5"
+                                                           Foreground="{StaticResource InkBrush}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="FECHA" Width="170"
+                                                    DisplayMemberBinding="{Binding Date, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" />
+                                    <GridViewColumn Header="RECINTO" Width="240">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding VenueName}"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{StaticResource InkBrush}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="VENDIDO POR" Width="180"
+                                                    DisplayMemberBinding="{Binding ManagerName}" />
+                                    <GridViewColumn Header="Nº ITEMS" Width="90">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ItemCount}" TextAlignment="Center" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="TOTAL" Width="130"
+                                                    HeaderContainerStyle="{StaticResource VibraTableHeaderRight}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalAmount, StringFormat='{}{0:N2} €'}"
+                                                           TextAlignment="Right"
+                                                           FontWeight="Bold"
+                                                           Foreground="{StaticResource InkBrush}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
