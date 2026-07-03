@@ -1,4 +1,4 @@
-﻿<Page x:Class="QuickTix.Desktop.Views.Pages.UsersView"
+<Page x:Class="QuickTix.Desktop.Views.Pages.UsersView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -8,196 +8,253 @@
       mc:Ignorable="d"
       Title="Administradores y Gestores">
 
-
-    <Grid Margin="20">
+    <!-- Rediseño visual Vibra (sistema 3b aplicado a Usuarios): bindings intactos -->
+    <Grid Background="{StaticResource PageBgBrush}"
+          TextElement.FontFamily="{StaticResource VibraBodyFontFamily}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- ============================================================ -->
-        <!-- 🔹 Administradores -->
-        <!-- ============================================================ -->
-        <GroupBox Header="Administradores" Grid.Row="0">
-            <DockPanel Margin="10">
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 10">
-                    <Button Content="Añadir Administrador"
-                            Command="{Binding OpenAdminFlyoutCommand}"
-                            Width="180" Margin="0,0,10,0"/>
+        <!-- Topbar de página -->
+        <Border Grid.Row="0" Style="{StaticResource VibraTopBar}">
+            <TextBlock Style="{StaticResource VibraPageTitle}" Text="Usuarios"/>
+        </Border>
 
-                    <Button Content="Eliminar seleccionado"
-                            Command="{Binding AdminsVM.DeleteCommand}"
-                            Margin="0,0,10,0"
-                            CommandParameter="{Binding AdminsVM.SelectedItem.Id}"
-                            IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
-                    <Button Content="Editar seleccionado"
-        Command="{Binding EditAdminCommand}"
-        IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
-        Width="150" Margin="0,0,10,0"/>
+        <Grid Grid.Row="1" Margin="24,18">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="16"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-
-
-                </StackPanel>
-
-                <ListView ItemsSource="{Binding AdminsVM.Items}"
-                          SelectedItem="{Binding AdminsVM.SelectedItem}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
-                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                            <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
-                            <GridViewColumn Header="NIF" DisplayMemberBinding="{Binding Nif}" Width="200"/>
-                            <GridViewColumn Header="Teléfono" DisplayMemberBinding="{Binding PhoneNumber}" Width="200"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </DockPanel>
-        </GroupBox>
-
-        <!-- ============================================================ -->
-        <!-- 🔹 Gestores -->
-        <!-- ============================================================ -->
-        <GroupBox Header="Gestores" Grid.Row="2">
-            <DockPanel Margin="10">
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 10">
-                    <Button Content="Añadir Gestor"
-                            Command="{Binding OpenManagerFlyoutCommand}"
-                            Width="150" Margin="15,0,10,0"/>
-
-                    <Button Content="Eliminar seleccionado"
-                            Command="{Binding ManagersVM.DeleteCommand}"
-                            Margin="0,0,10,0"
-                            CommandParameter="{Binding ManagersVM.SelectedItem.Id}"
-                            IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
-
-                    <Button Content="Editar seleccionado"
-                            Command="{Binding EditManagerCommand}"
-                            IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
-                            Width="150" Margin="0,0,10,0"/>
-
-
-
-                </StackPanel>
-
-                <ListView ItemsSource="{Binding ManagersVM.Items}"
-                          SelectedItem="{Binding ManagersVM.SelectedItem}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
-                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                            <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250"/>
-                            <GridViewColumn Header="Recinto" DisplayMemberBinding="{Binding VenueName}" Width="200"/>
-                            <GridViewColumn Header="NIF" DisplayMemberBinding="{Binding Nif}" Width="200"/>
-                            <GridViewColumn Header="Teléfono" DisplayMemberBinding="{Binding PhoneNumber}" Width="200"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </DockPanel>
-        </GroupBox>
-
-        <!-- ============================================================ -->
-        <!-- 🔹 Flyout Administrador -->
-        <!-- ============================================================ -->
-        <Popup IsOpen="{Binding IsAdminFlyoutOpen}" StaysOpen="True" Placement="Center">
-            <Grid Background="#80000080">
-                <Border Background="White" Padding="20" Width="400" MinHeight="260" CornerRadius="5">
-                    <StackPanel>
-
-                        <!-- Título dinámico -->
-                        <TextBlock Text="{Binding IsEditingAdmin, 
-                                  Converter={StaticResource BoolToTextConverter},
-                                  ConverterParameter='Editar Administrador|Añadir Administrador'}"
-                           FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
-
-                        <!-- Campos -->
-                        <Label Content="Nombre:"/>
-                        <TextBox Text="{Binding ActiveAdminForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <Label Content="NIF:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding ActiveAdminForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <Label Content="Email:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding ActiveAdminForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <Label Content="Teléfono:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding ActiveAdminForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <TextBlock Text="{Binding AdminsVM.ErrorMessage}"
-           Foreground="Red"
-           TextWrapping="Wrap"
-           Margin="0,0,0,8"
-           Visibility="{Binding AdminsVM.ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
-
-
-
-                        <!-- Botones -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                            <Button Content="Cancelar" Command="{Binding CloseAdminFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
-                            <Button Content="Guardar"  Command="{Binding SaveAdminCommand}"  Width="90"/>
+            <!-- ============================================================ -->
+            <!-- Administradores -->
+            <!-- ============================================================ -->
+            <Border Grid.Row="0" Style="{StaticResource VibraCard}" Padding="14">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" Margin="4,0,4,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource VibraCardTitle}" Text="Administradores" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Content="+ Añadir"
+                                    Style="{StaticResource VibraPrimaryPillButton}"
+                                    Command="{Binding OpenAdminFlyoutCommand}"
+                                    Margin="0,0,8,0"/>
+                            <Button Content="Editar"
+                                    Style="{StaticResource VibraSecondaryButton}"
+                                    Command="{Binding EditAdminCommand}"
+                                    IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
+                                    Margin="0,0,8,0"/>
+                            <Button Content="Eliminar"
+                                    Style="{StaticResource VibraDangerButton}"
+                                    Command="{Binding AdminsVM.DeleteCommand}"
+                                    CommandParameter="{Binding AdminsVM.SelectedItem.Id}"
+                                    IsEnabled="{Binding AdminsVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
                         </StackPanel>
+                    </Grid>
 
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Popup>
+                    <ListView Style="{StaticResource VibraTableListView}"
+                              ItemsSource="{Binding AdminsVM.Items}"
+                              SelectedItem="{Binding AdminsVM.SelectedItem}">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource VibraTableHeader}">
+                                <GridViewColumn Header="ID" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Id}"
+                                                       FontFamily="{StaticResource VibraMonoFontFamily}"
+                                                       FontSize="12.5"
+                                                       Foreground="{StaticResource InkBrush}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="NOMBRE" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource InkBrush}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="EMAIL" Width="250" DisplayMemberBinding="{Binding Email}"/>
+                                <GridViewColumn Header="NIF" Width="140" DisplayMemberBinding="{Binding Nif}"/>
+                                <GridViewColumn Header="TELÉFONO" Width="140" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </Border>
 
-
-        <!-- ============================================================ -->
-        <!-- 🔹 Flyout Gestor -->
-        <!-- ============================================================ -->
-        <Popup IsOpen="{Binding IsManagerFlyoutOpen}" StaysOpen="True" Placement="Center">
-            <Grid Background="#80000080">
-                <Border Background="White" Padding="20" Width="400" MinHeight="320" CornerRadius="5">
-                    <StackPanel>
-
-                        <!-- Título dinámico -->
-                        <TextBlock Text="{Binding IsEditingManager, 
-                                  Converter={StaticResource BoolToTextConverter},
-                                  ConverterParameter='Editar Gestor|Añadir Gestor'}"
-                           FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
-
-                        <!-- Campos -->
-                        <Label Content="Nombre:"/>
-                        <TextBox Text="{Binding ActiveManagerForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <Label Content="NIF:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding ActiveManagerForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <Label Content="Email:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding ActiveManagerForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-                        <Label Content="Teléfono:" Margin="0,10,0,0"/>
-                        <TextBox Text="{Binding ActiveManagerForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="250"/>
-
-
-
-
-                        <Label Content="Recinto:" Margin="0,10,0,0"/>
-                        <ComboBox
-                    ItemsSource="{Binding ManagersVM.Venues}"
-                    SelectedValue="{Binding ActiveManagerForm.VenueId, Mode=TwoWay}"
-                    SelectedValuePath="Id"
-                    DisplayMemberPath="Name"
-                    Width="250"/>
-
-
-                        <TextBlock Text="{Binding ManagersVM.ErrorMessage}"
-           Foreground="Red"
-           TextWrapping="Wrap"
-           Margin="0,8,0,0"
-           Visibility="{Binding ManagersVM.ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
-                        <!-- Botones -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                            <Button Content="Cancelar" Command="{Binding CloseManagerFlyoutCommand}" Width="90" Margin="0,0,10,0"/>
-                            <Button Content="Guardar"  Command="{Binding SaveManagerCommand}"  Width="90"/>
+            <!-- ============================================================ -->
+            <!-- Gestores -->
+            <!-- ============================================================ -->
+            <Border Grid.Row="2" Style="{StaticResource VibraCard}" Padding="14">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" Margin="4,0,4,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource VibraCardTitle}" Text="Gestores" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Content="+ Añadir"
+                                    Style="{StaticResource VibraPrimaryPillButton}"
+                                    Command="{Binding OpenManagerFlyoutCommand}"
+                                    Margin="0,0,8,0"/>
+                            <Button Content="Editar"
+                                    Style="{StaticResource VibraSecondaryButton}"
+                                    Command="{Binding EditManagerCommand}"
+                                    IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}"
+                                    Margin="0,0,8,0"/>
+                            <Button Content="Eliminar"
+                                    Style="{StaticResource VibraDangerButton}"
+                                    Command="{Binding ManagersVM.DeleteCommand}"
+                                    CommandParameter="{Binding ManagersVM.SelectedItem.Id}"
+                                    IsEnabled="{Binding ManagersVM.SelectedItem, Converter={StaticResource NullToBoolConverter}}" />
                         </StackPanel>
+                    </Grid>
 
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Popup>
+                    <ListView Style="{StaticResource VibraTableListView}"
+                              ItemsSource="{Binding ManagersVM.Items}"
+                              SelectedItem="{Binding ManagersVM.SelectedItem}">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource VibraTableHeader}">
+                                <GridViewColumn Header="ID" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Id}"
+                                                       FontFamily="{StaticResource VibraMonoFontFamily}"
+                                                       FontSize="12.5"
+                                                       Foreground="{StaticResource InkBrush}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="NOMBRE" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource InkBrush}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="EMAIL" Width="250" DisplayMemberBinding="{Binding Email}"/>
+                                <GridViewColumn Header="RECINTO" Width="180">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding VenueName}"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource InkBrush}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="NIF" Width="140" DisplayMemberBinding="{Binding Nif}"/>
+                                <GridViewColumn Header="TELÉFONO" Width="140" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </Border>
 
+            <!-- ============================================================ -->
+            <!-- Flyout Administrador -->
+            <!-- ============================================================ -->
+            <Popup IsOpen="{Binding IsAdminFlyoutOpen}" StaysOpen="True" Placement="Center" AllowsTransparency="True">
+                <Grid Margin="24">
+                    <!-- Margen exterior para que la sombra elevada no se recorte -->
+                    <Border Style="{StaticResource VibraPopupCard}" Width="400" MinHeight="260">
+                        <StackPanel>
 
+                            <TextBlock Text="{Binding IsEditingAdmin,
+                                      Converter={StaticResource BoolToTextConverter},
+                                      ConverterParameter='Editar Administrador|Añadir Administrador'}"
+                                       Style="{StaticResource VibraPopupTitle}"/>
+
+                            <Label Content="Nombre:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveAdminForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="NIF:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveAdminForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="Email:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveAdminForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="Teléfono:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveAdminForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="{Binding AdminsVM.ErrorMessage}"
+                                       Foreground="{StaticResource DangerFgBrush}"
+                                       TextWrapping="Wrap"
+                                       Margin="0,10,0,0"
+                                       Visibility="{Binding AdminsVM.ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                                <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                                        Command="{Binding CloseAdminFlyoutCommand}" Width="100" Margin="0,0,10,0"/>
+                                <Button Content="Guardar" Style="{StaticResource VibraPrimaryButton}"
+                                        Command="{Binding SaveAdminCommand}" Width="100"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Popup>
+
+            <!-- ============================================================ -->
+            <!-- Flyout Gestor -->
+            <!-- ============================================================ -->
+            <Popup IsOpen="{Binding IsManagerFlyoutOpen}" StaysOpen="True" Placement="Center" AllowsTransparency="True">
+                <Grid Margin="24">
+                    <Border Style="{StaticResource VibraPopupCard}" Width="400" MinHeight="320">
+                        <StackPanel>
+
+                            <TextBlock Text="{Binding IsEditingManager,
+                                      Converter={StaticResource BoolToTextConverter},
+                                      ConverterParameter='Editar Gestor|Añadir Gestor'}"
+                                       Style="{StaticResource VibraPopupTitle}"/>
+
+                            <Label Content="Nombre:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveManagerForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="NIF:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveManagerForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="Email:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveManagerForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="Teléfono:" Style="{StaticResource VibraFieldLabel}"/>
+                            <TextBox Text="{Binding ActiveManagerForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="250" HorizontalAlignment="Left"/>
+
+                            <Label Content="Recinto:" Style="{StaticResource VibraFieldLabel}"/>
+                            <ComboBox ItemsSource="{Binding ManagersVM.Venues}"
+                                      SelectedValue="{Binding ActiveManagerForm.VenueId, Mode=TwoWay}"
+                                      SelectedValuePath="Id"
+                                      DisplayMemberPath="Name"
+                                      Width="250" HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="{Binding ManagersVM.ErrorMessage}"
+                                       Foreground="{StaticResource DangerFgBrush}"
+                                       TextWrapping="Wrap"
+                                       Margin="0,10,0,0"
+                                       Visibility="{Binding ManagersVM.ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                                <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                                        Command="{Binding CloseManagerFlyoutCommand}" Width="100" Margin="0,0,10,0"/>
+                                <Button Content="Guardar" Style="{StaticResource VibraPrimaryButton}"
+                                        Command="{Binding SaveManagerCommand}" Width="100"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Popup>
+
+        </Grid>
     </Grid>
 </Page>
