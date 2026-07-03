@@ -1,4 +1,4 @@
-<!-- docs: PROJECT.md v1.0.0 — 2026-07-03 — bootstrap inicial de project-docs -->
+<!-- docs: PROJECT.md v1.0.1 — 2026-07-03 — QR aparcado a decisión de Raquel; entrada de visitantes vía impresora térmica -->
 
 # QuickTix — Visión de producto
 
@@ -55,11 +55,15 @@ un municipio de unos cientos de vecinos.
 - Históricos de ventas
 
 ### Deferred (post-MVP — candidatos para las iteraciones con Raquel)
-- **QR de validación de acceso** (pieza clave para la venta al ayuntamiento)
-- Control de aforo en tiempo real por recinto
+- **Impresión térmica de entradas en puerta**: el manager marca cuántas entradas vende y
+  la impresora de calor las genera — este es el flujo de entrada de visitantes elegido
+- Control de aforo en tiempo real por recinto (estimable ya con entradas vendidas/día)
 - Cierre de caja e informes para el ayuntamiento
 - Compra online desde la app de cliente (requiere pasarela de pago)
 - Renovación automática/aviso de caducidad de abonos
+- **QR de validación de acceso — APARCADO a decisión de Raquel**: la mayoría de vecinos
+  usa abono, los visitantes de 1-2 días no se descargarán una app, un lector tipo torno
+  no es viable en este contexto y la lectura por el manager añade retraso en puerta
 
 ## Success Criteria
 
@@ -107,8 +111,8 @@ Estética y pulido de ambos clientes, eliminación de restos de plantilla, featu
 "producto vivo" para la demo con Raquel (alcaldesa de Nalda). Iteración continua con su feedback.
 
 ### Phase 2 — Cierre de producto
-QR de acceso, aforo en tiempo real, cierre de caja, seguridad de producción (secretos,
-passwords, JWT), compra online si Raquel la valida.
+Impresión térmica de entradas en puerta, aforo, cierre de caja, seguridad de producción
+(secretos, passwords, JWT), compra online si Raquel la valida.
 
 ### Phase 3 — Piloto en Nalda
 Despliegue real, datos reales (RGPD resuelto), temporada completa en producción.
@@ -127,7 +131,8 @@ Los términos de dominio se usan siempre en inglés, tal como están en el códi
 
 ## Open Questions
 
-- Estrategia de QR: ¿QR por ticket/abono validado desde la app móvil del manager, o hardware dedicado?
+- Impresora térmica de puerta: ¿qué modelo/protocolo (ESC/POS por USB o Bluetooth) y desde
+  qué app imprime el manager (Desktop de taquilla o móvil)?
 - Pasarela de pago para compra online: ¿cuál encaja con un ayuntamiento (coste/contratación)?
 - Hosting del piloto: ¿servidor municipal, VPS, o nube gestionada?
 - ¿Necesita Raquel informes específicos (formato/periodicidad) para intervención municipal?

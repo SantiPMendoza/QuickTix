@@ -14,14 +14,18 @@ bloqueante solo de cara a piloto con datos reales, no para la demo.
 ## Board
 
 ### TODO
-- [ ] Sprint demo: pulido estético Desktop (WPF-UI) y Mobile alineado al diseño de claude.ai/design
-- [ ] Sprint demo: eliminar restos de plantilla MAUI (MainPage "Welcome to .NET MAUI", splash morado, info debug en TicketsPage)
-- [ ] Sprint demo: revisar StaticResources no definidos en Mobile (posible XamlParseException en TicketsPage)
-- [ ] Fix: `CurrentManagerId = 1` hardcodeado en Desktop (`ClientsViewModel.cs`) — todas las ventas de abono van al manager 1
+Sprint demo, en orden (0 → 1 → 2 → 3):
+- [ ] (S0) Higiene: restos de plantilla MAUI (MainPage "Welcome to .NET MAUI", splash morado, info debug en TicketsPage)
+- [ ] (S0) Higiene: StaticResources no definidos en Mobile (posible XamlParseException en TicketsPage)
+- [ ] (S0) Fix: `CurrentManagerId = 1` hardcodeado en Desktop (`ClientsViewModel.cs`)
+- [ ] (S0) Estética global Desktop + Mobile según diseño de claude.ai/design
+- [ ] (S1) Dashboard analítico en home de admin (Desktop): KPIs (ingresos hoy/semana, entradas hoy, abonos activos, aforo estimado vs Capacity) + endpoint read-only `/api/analytics/summary` (no dispara ADR-002); gráficos con LiveCharts2 en segunda pasada
+- [ ] (S2) Cierre de caja: informe por día/rango y venue/manager + export CSV (CsvHelper ya referenciado en Desktop)
+- [ ] (S3) Venue genérico, versión demo: `VenueType` + textos de UI + seed con recinto no-piscina (NO generalizar TicketType — ver Pending Decisions)
+
+Fuera del sprint:
 - [ ] Fix: unificar la doble ruta de precios (SubscriptionController usa CalculatePrice [Obsolete]; SaleController usa el sistema real)
-- [ ] Feature clave: QR de validación de acceso (pieza estrella para la venta a Nalda)
-- [ ] Feature: control de aforo en tiempo real (⚠️ dispara el trigger de revisión de ADR-002)
-- [ ] Feature: cierre de caja / informes
+- [ ] Feature: impresión térmica de entradas en puerta (flujo de entrada de visitantes elegido — pendiente decisión de hardware)
 - [ ] Seguridad pre-piloto: secretos fuera del repo, passwords iniciales, password en claro en clientes, JWT (lote completo en ARCHITECTURE.md § Security)
 - [ ] Aprendizaje (tutor) — Tema 2: capas y dónde vive la lógica (JWT en UserRepository, refs Desktop→DAL/API, ¿capa de servicios?) → resuelve la decisión UoW
 - [ ] Aprendizaje (tutor) — Tema 3: seguridad de salida a producción
@@ -41,6 +45,8 @@ bloqueante solo de cara a piloto con datos reales, no para la demo.
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-07-03 | QR de acceso APARCADO a decisión de Raquel; entrada de visitantes vía impresora térmica en puerta | Mayoría de vecinos usa abono; visitantes de 1-2 días no se descargarán app; lector tipo torno inviable; lectura por manager = retraso en puerta. |
+| 2026-07-03 | Sprint demo = higiene → dashboard → cierre de caja → venue genérico (versión demo) | Máximo impacto visual/comercial con terreno ya ganado (queries de historial, CsvHelper); sin riesgo técnico nuevo. |
 | 2026-07-03 | Aparcar el refactor a Unit of Work hasta decidir capa de servicios | La frontera de transacción debe vivir donde viva la lógica; decidirlo antes sería invertir el orden. Promovido a ADR-002 (bajo revisión). |
 | 2026-07-03 | Flujo dual: sprints autónomos + sesiones tutor, ambos convergiendo en main con ramas cortas | Rama de aprendizaje de larga vida descartada por divergencia. Tests como red de seguridad compartida. |
 | 2026-07-03 | Testing transversal: cada tema de aprendizaje termina con el test que lo demuestra | El hueco de Santi es "cómo se implementa X"; el test ES la implementación de lo aprendido. |
@@ -65,8 +71,10 @@ bloqueante solo de cara a piloto con datos reales, no para la demo.
 
 ## Pending Decisions
 
-- **¿Capa de servicios + Unit of Work?** — se decide en Tema 2 de aprendizaje; trigger duro: primera operación multi-repositorio (aforo). Ver ADR-002.
-- **Estrategia de QR**: validación desde móvil del manager vs hardware dedicado.
+- **¿Capa de servicios + Unit of Work?** — se decide en Tema 2 de aprendizaje; trigger duro: primera operación multi-repositorio. Ver ADR-002.
+- **QR de acceso**: aparcado a decisión de Raquel (racional en Decision Log y PROJECT.md). No retomar por iniciativa propia.
+- **Impresora térmica**: modelo y protocolo (ESC/POS USB vs Bluetooth) y desde qué app imprime el manager.
+- **Generalizar TicketType por venue**: refactor caro del modelo de precios — solo si Raquel valida el pitch multi-recinto.
 - **Gestión de secretos**: user-secrets (dev) + variables de entorno (prod) es el plan tentativo — falta ejecutarlo y rotar los secretos ya expuestos en el historial de git.
 - **Hosting del piloto** y pasarela de pago (dependen de conversación con el ayuntamiento).
 - **Refs de Desktop** (quitar API/DAL/Core → solo Contracts+Core): decidir si se hace en el sprint de demo o en Tema 2.
@@ -74,5 +82,5 @@ bloqueante solo de cara a piloto con datos reales, no para la demo.
 ## Milestones
 
 - [ ] **Demo Raquel**: ambos clientes presentables + features "al día" — Target: verano 2026 (iterativo)
-- [ ] **Cierre de producto**: QR + aforo + cierre de caja + lote de seguridad — Target: fin de verano 2026
+- [ ] **Cierre de producto**: impresión en puerta + aforo + cierre de caja + lote de seguridad — Target: fin de verano 2026
 - [ ] **Piloto Nalda**: temporada real en producción — Target: temporada 2027
