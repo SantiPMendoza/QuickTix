@@ -1,33 +1,134 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="QuickTix.Mobile.Views.LoginPage">
+    x:Class="QuickTix.Mobile.Views.LoginPage"
+    BackgroundColor="{StaticResource PageBg}"
+    NavigationPage.HasNavigationBar="False">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+    <ContentPage.Resources>
+        <!-- Texto oscuro sobre degradado de marca (handoff: #0A2233 sobre CardGradient) -->
+        <Color x:Key="OnGradientInk">#0A2233</Color>
 
-            <Label Text="Acceso a QuickTix" HorizontalOptions="Center" FontSize="24" />
+        <!-- Botón de login del handoff 2d: degradado periwinkle→cyan (ActionGradientAlt).
+             Se redefine el VSM porque los VisualStates no se heredan con BasedOn. -->
+        <Style x:Key="LoginButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="{StaticResource ActionGradientAlt}" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{StaticResource ActionGradientAlt}" />
+                                <Setter Property="TextColor" Value="{StaticResource PrimaryOnColor}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{StaticResource DisabledBgBrush}" />
+                                <Setter Property="TextColor" Value="{StaticResource DisabledText}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
 
-            <Entry Placeholder="Email"
-                   Text="{Binding Username}"
-                   Keyboard="Email" />
+        <!-- Campo de formulario: tarjeta blanca radio 14 con sombra suave -->
+        <Style x:Key="FieldCard" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+            <Setter Property="Stroke" Value="{StaticResource Border}" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+            <Setter Property="Padding" Value="16,2" />
+            <Setter Property="Shadow">
+                <Shadow Brush="{StaticResource BrandPeriwinkleBrush}"
+                        Opacity="0.10"
+                        Radius="16"
+                        Offset="0,6" />
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
 
-            <Entry Placeholder="Contraseña"
-                   Text="{Binding Password}"
-                   IsPassword="True" />
+    <Grid RowDefinitions="Auto,*">
 
-            <HorizontalStackLayout Spacing="10">
-                <CheckBox IsChecked="{Binding RememberUser}" />
-                <Label Text="Recordar usuario" VerticalOptions="Center" />
-            </HorizontalStackLayout>
+        <!-- Cabecera degradada con esquinas inferiores redondeadas (34) -->
+        <Border Grid.Row="0"
+                Background="{StaticResource CardGradient}"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 0,0,34,34"
+                Padding="0,54,0,36">
+            <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                <Image Source="vibra_logo.png"
+                       WidthRequest="78"
+                       HeightRequest="78"
+                       HorizontalOptions="Center">
+                    <Image.Shadow>
+                        <Shadow Brush="{StaticResource InkBrush}"
+                                Opacity="0.25"
+                                Radius="14"
+                                Offset="0,6" />
+                    </Image.Shadow>
+                </Image>
+                <Label Text="QuickTix"
+                       FontFamily="SpaceGroteskBold"
+                       FontSize="22"
+                       CharacterSpacing="-0.5"
+                       TextColor="{StaticResource OnGradientInk}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Border>
 
-            <Button Text="Iniciar sesión"
-                    Command="{Binding CheckLoginCommand}"
-                    IsEnabled="{Binding IsLoginEnabled}"
-                    HorizontalOptions="Center"/>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24,28,24,32" Spacing="16">
 
-        </VerticalStackLayout>
-    </ScrollView>
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Hola de nuevo"
+                           FontFamily="SpaceGroteskBold"
+                           FontSize="22"
+                           CharacterSpacing="-0.5"
+                           TextColor="{StaticResource Ink}" />
+                    <Label Text="Inicia sesión para continuar"
+                           Style="{StaticResource HintText}" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource FieldCard}" Margin="0,8,0,0">
+                    <Entry Placeholder="Email"
+                           Text="{Binding Username}"
+                           Keyboard="Email" />
+                </Border>
+
+                <Border Style="{StaticResource FieldCard}">
+                    <Entry Placeholder="Contraseña"
+                           Text="{Binding Password}"
+                           IsPassword="True" />
+                </Border>
+
+                <HorizontalStackLayout Spacing="6">
+                    <CheckBox IsChecked="{Binding RememberUser}"
+                              Color="{StaticResource BrandPeriwinkle}"
+                              VerticalOptions="Center" />
+                    <Label Text="Recordar usuario"
+                           Style="{StaticResource Body}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Button Text="Iniciar sesión"
+                        Style="{StaticResource LoginButton}"
+                        Command="{Binding CheckLoginCommand}"
+                        IsEnabled="{Binding IsLoginEnabled}"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="52">
+                    <Button.Shadow>
+                        <Shadow Brush="{StaticResource BrandPeriwinkleBrush}"
+                                Opacity="0.4"
+                                Radius="20"
+                                Offset="0,10" />
+                    </Button.Shadow>
+                </Button>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>
