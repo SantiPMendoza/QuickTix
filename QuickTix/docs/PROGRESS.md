@@ -97,6 +97,13 @@ Fuera del sprint:
 
 ## Session Log
 
+### 2026-07-03 — Session 2b (pruebas manuales en casa, inicio)
+- Santi arrancó la checklist: API+Desktop OK por CLI; Mobile destapó 2 bugs, ambos corregidos en la rama:
+  - `c1af573` fix(mobile): LoginPage se inflaba antes que los recursos de App (XamlParseException PageBg) — gotcha: páginas inyectadas en el ctor de App no pueden usar StaticResource del tema
+  - `1552873` fix(dal): el seeder no creaba/asignaba roles manager/client (bug preexistente, destapado por volumen Docker fresco); ahora idempotente, reiniciar la API repara la BD
+- Estado al cerrar: **quedan bastantes fixes (sobre todo visuales) por hacer — la checklist de arriba sigue abierta**; la rama NO se mergea todavía
+- Next: continuar la checklist, apuntar los fixes visuales encontrados, corregir en la rama → merge cuando pase todo
+
 ### 2026-07-03 — Session 2 (sprint demo frontend-only, remote control)
 - S0 completo + S1 completo en `feature/vibra-s0` (17 commits, pusheada; SIN merge a main)
 - Higiene: MainPage/AppShell de plantilla fuera, splash provisional, debug de TicketsPage fuera, 5 StaticResources rotos definidos, managerId desde JWT (nuevo `JwtClaimReader` en Desktop)
