@@ -4,10 +4,11 @@
 
 ## Current State
 
-Fase 1 (sprint de demo para Raquel) arrancando. Backend, Desktop y Mobile funcionales
-heredados del TFG; primer test de integración (atomicidad de ventas) verde y mergeado.
-Rama actual: `main` (limpia y pusheada). Sin bloqueos duros; la deuda de seguridad es
-bloqueante solo de cara a piloto con datos reales, no para la demo.
+Fase 1 (sprint de demo para Raquel), S0 listo para arrancar en modo **frontend-only**:
+Santi está fuera (remote control) y no puede probar — trabajar en rama `feature/vibra-s0`,
+verificar solo con `dotnet build`, NO mergear a main hasta que él pruebe en casa. Diseño
+Vibra versionado en `reference/`. Sin bloqueos duros; la deuda de seguridad es bloqueante
+solo de cara a piloto con datos reales, no para la demo.
 
 **Last updated**: 2026-07-03
 
@@ -21,7 +22,7 @@ tokens, tipografías y specs por pantalla en `reference/App redesign directions/
 - [ ] (S0) Fix: `CurrentManagerId = 1` hardcodeado en Desktop (`ClientsViewModel.cs`)
 - [ ] (S0) Tema Vibra — base: tokens de color/degradados/radios/sombras como ResourceDictionary de tema (WPF `App.xaml`) y `Colors.xaml`/`Styles.xaml` (MAUI); fuentes Space Grotesk + DM Sans + IBM Plex Mono empaquetadas; logo y appicon del handoff (sustituyen Impact y el splash morado)
 - [ ] (S0) Tema Vibra — restyling por pantalla (sin tocar ViewModels/bindings): Mobile → LoginPage (2d), SubscriptionsPage carrusel (2a/2f), TicketsPage POS; Desktop → shell/sidebar/titlebar, SalesView (3b, pestañas segmentadas), ClientsView (3c, dos columnas), PricingView (3d), UsersView (GroupBox → tarjetas)
-- [ ] (S1) Panel (3a): nueva vista inicial en Desktop (añadir "Panel" a `MainViewModel.NavigationItems`) — 4 KPI cards + gráfica ingresos 7 días + donut ventas por tipo + tabla ventas recientes; endpoint read-only `/api/analytics/summary` (no dispara ADR-002). KPI "Accesos validados" del mock queda condicionado a la decisión del pase digital
+- [ ] (S1) Panel (3a): nueva vista inicial en Desktop (añadir "Panel" a `MainViewModel.NavigationItems`) — 4 KPI cards + gráfica ingresos 7 días + donut ventas por tipo + tabla ventas recientes; endpoint read-only `/api/analytics/summary` (no dispara ADR-002). KPI "Accesos validados" del mock NO entra (pase digital aparcado) — sustituir por "Aforo estimado hoy"
 - [ ] (S2) Cierre de caja: informe por día/rango y venue/manager + export CSV (CsvHelper ya referenciado en Desktop)
 - [ ] (S3) Venue genérico, versión demo: `VenueType` + textos de UI + seed con recinto no-piscina (el handoff ya usa "Pabellón Sócon" — refuerza la narrativa) (NO generalizar TicketType — ver Pending Decisions)
 
@@ -47,6 +48,8 @@ Fuera del sprint:
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-07-03 | Pase digital de abonados (handoff 2b/2c/2e) APARCADO junto al QR; carrusel 2a/2f entra (visual puro, sin gesto de entrada) | Mismo razonamiento que el QR: gestor mirando móvil en puerta = retraso, y en un pueblo al abonado se le conoce. Requeriría backend nuevo + trigger ADR-002. |
+| 2026-07-03 | Próxima(s) sesión(es): iteración FRONTEND-ONLY en rama `feature/vibra-s0`, sin merge a main hasta que Santi pruebe en casa | Santi fuera con remote control, no puede probar; `dotnet build` como única verificación. |
 | 2026-07-03 | Dirección de diseño elegida: "1b Vibra" (teal/cyan/periwinkle, Space Grotesk + DM Sans, degradados en acciones) | Handoff generado en claude.ai/design y versionado en `reference/`. Rediseño puramente visual: no tocar ViewModels ni bindings. |
 | 2026-07-03 | Carpeta externa reorganizada: `archivo/{tfg,notas,design}`; repo git externo vacío eliminado; compose duplicado eliminado | Dejar limpio el arranque de la segunda etapa; el único repo es QuickTix/ (interno). |
 | 2026-07-03 | QR de acceso APARCADO a decisión de Raquel; entrada de visitantes vía impresora térmica en puerta | Mayoría de vecinos usa abono; visitantes de 1-2 días no se descargarán app; lector tipo torno inviable; lectura por manager = retraso en puerta. |
@@ -76,8 +79,7 @@ Fuera del sprint:
 ## Pending Decisions
 
 - **¿Capa de servicios + Unit of Work?** — se decide en Tema 2 de aprendizaje; trigger duro: primera operación multi-repositorio. Ver ADR-002.
-- **QR de acceso**: aparcado a decisión de Raquel (racional en Decision Log y PROJECT.md). No retomar por iniciativa propia.
-- **⚠️ Flujo de pase digital de abonados (handoff 2b/2c/2e)**: el diseño Vibra incluye "deslizar el abono para entrar" → pantalla de pase → cola de validación en la app del gestor → confirmación. Se solapa parcialmente con la decisión del QR aparcado (aunque no es igual: aplica a ABONADOS con app, no a visitantes, y el gestor valida con un tap, sin escanear). Requiere backend nuevo (estado de pase, cola de solicitudes, polling/push) — trabajo significativo y probable trigger de ADR-002. PENDIENTE de decisión de Santi: ¿entra en el sprint, se aparca con el QR, o versión visual sin backend (solo pantalla de pase estática) para la demo?
+- **QR de acceso Y pase digital de abonados (handoff 2b/2c/2e)**: ambos aparcados a decisión de Raquel (racional en Decision Log y PROJECT.md). No retomar por iniciativa propia. El carrusel de abonos (2a/2f) SÍ entra — es visual puro, sin gesto de "deslizar para entrar".
 - **Impresora térmica**: modelo y protocolo (ESC/POS USB vs Bluetooth) y desde qué app imprime el manager.
 - **Generalizar TicketType por venue**: refactor caro del modelo de precios — solo si Raquel valida el pitch multi-recinto.
 - **Gestión de secretos**: user-secrets (dev) + variables de entorno (prod) es el plan tentativo — falta ejecutarlo y rotar los secretos ya expuestos en el historial de git.
