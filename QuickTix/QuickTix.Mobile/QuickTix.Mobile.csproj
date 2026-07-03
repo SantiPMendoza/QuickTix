@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;</TargetFrameworks>
+		<TargetFrameworks>net8.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
@@ -39,18 +39,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.png" />
+		<!-- App Icon: icono Vibra del handoff; Color rellena el fondo si hay transparencia -->
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#F2F6FF" />
 
-		<!-- Splash Screen: color provisional (PageBg del tema Vibra); el svg y el splash definitivo llegan en el bloque de tema -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#F2F6FF" BaseSize="128,128" />
+		<!-- Splash Screen: logo Vibra sobre PageBg (#F2F6FF); el logo es 466x337 (ratio ~1.38) -->
+		<MauiSplashScreen Include="Resources\Splash\vibra_splash.png" Color="#F2F6FF" BaseSize="200,145" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
-		<!-- Custom Fonts -->
+		<!-- Custom Fonts (las licencias OFL conviven en la carpeta pero no son fuentes) -->
 		<MauiFont Include="Resources\Fonts\*" />
+		<MauiFont Remove="Resources\Fonts\*.txt" />
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
@@ -101,11 +101,6 @@
 	  <MauiXaml Update="Views\ChangePasswordPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Models\" />
-	  <Folder Include="ViewModels\NewFolder\" />
 	</ItemGroup>
 
 </Project>
