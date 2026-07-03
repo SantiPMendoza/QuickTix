@@ -17,8 +17,12 @@ namespace QuickTix.Desktop.ViewModels
     {
         protected override string Endpoint => "Client";
 
-        // Id del manager en sesión (idealmente proviene del login/usuario actual)
-        public int CurrentManagerId { get; set; } = 1;
+        private readonly IAuthService _authService;
+
+        // Id del manager en sesión, leído de los claims del JWT en cada acceso.
+        // Es 0 cuando no hay sesión o el usuario logueado no es manager (p.ej. admin):
+        // en ese caso SaveSubscription muestra el error inline existente en lugar de vender.
+        public int CurrentManagerId => _authService.GetManagerId();
 
         // Estado del flyout de Cliente
         [ObservableProperty] private bool isClientFlyoutOpen;
@@ -41,8 +45,10 @@ namespace QuickTix.Desktop.ViewModels
         /// crea el módulo de suscripciones y carga el listado inicial de clientes.
         /// </summary>
         /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
-        public ClientsViewModel(HttpJsonClient httpClient) : base(httpClient)
+        /// <param name="authService">Servicio de autenticación (sesión y claims del JWT).</param>
+        public ClientsViewModel(HttpJsonClient httpClient, IAuthService authService) : base(httpClient)
         {
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             SubscriptionsVM = new SubscriptionsViewModel(httpClient);
             _ = LoadAsync();
         }
@@ -199,7 +205,7 @@ namespace QuickTix.Desktop.ViewModels
             {
                 // Se mantiene el patrón de error inline del módulo de suscripciones
                 SubscriptionsVM.ErrorMessage =
-                    "No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).";
+                    "La sesión actual no tiene un Manager asociado. Inicia sesión como manager para registrar ventas.";
 
                 IsSubscriptionFlyoutOpen = true;
                 return;
