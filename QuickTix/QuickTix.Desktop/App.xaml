@@ -22,6 +22,7 @@
             <conv:BoolToTextConverter x:Key="BoolToTextConverter" />
             <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <conv:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
+            <conv:InitialsConverter x:Key="InitialsConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
