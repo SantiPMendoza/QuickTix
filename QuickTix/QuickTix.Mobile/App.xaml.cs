@@ -4,11 +4,13 @@ namespace QuickTix.Mobile;
 
 public partial class App : Application
 {
-    public App(LoginPage loginPage)
+    public App(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
-
-        MainPage = new NavigationPage(loginPage);
+        // LoginPage se resuelve DESPUÉS de InitializeComponent: si se inyecta por
+        // constructor, la página se infla antes de que existan los recursos de App
+        // y cualquier StaticResource del tema lanza XamlParseException.
+        MainPage = new NavigationPage(serviceProvider.GetRequiredService<LoginPage>());
     }
 }
