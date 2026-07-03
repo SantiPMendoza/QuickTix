@@ -1,4 +1,4 @@
-<!-- docs: CLAUDE.md v1.0.0 — 2026-07-03 — bootstrap inicial de project-docs -->
+<!-- docs: CLAUDE.md v1.0.1 — 2026-07-03 — referencia al handoff de diseño Vibra -->
 
 # QuickTix
 
@@ -15,6 +15,7 @@ contra una API central: escritorio para taquilla/administración, móvil para ma
 - ADRs y decisiones históricas: `docs/ARCHITECTURE_ADRS.md`
 - Visión del producto: `docs/PROJECT.md`
 - Historial de sesiones: `docs/PROGRESS_HISTORY.md`
+- Diseño visual (dirección "1b Vibra" — tokens, fuentes, specs por pantalla): `reference/App redesign directions/design_handoff_quicktix_vibra/README.md`
 
 ## Commands
 
