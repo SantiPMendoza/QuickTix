@@ -5,21 +5,45 @@
              x:Class="QuickTix.Mobile.Views.SubscriptionsPage"
              x:DataType="vm:SubscriptionsViewModel"
              Title="Abonos"
-             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             BackgroundColor="{StaticResource PageBg}"
              Visual="Material">
 
     <ContentPage.Resources>
-        <Color x:Key="ChipOverlayColor">#33000000</Color>
+        <!-- Texto oscuro sobre degradado de marca (handoff 2a: chip #0A2233) -->
+        <Color x:Key="OnGradientInk">#0A2233</Color>
+        <!-- Chip de estado ACTIVO: blanco al 40% sobre el degradado -->
+        <Color x:Key="ChipOverlayColor">#66FFFFFF</Color>
+        <!-- Texto secundario sobre tarjeta degradada -->
         <Color x:Key="CardMutedOnColor">#EDEDED</Color>
-
-        <Color x:Key="ExpiredCardColor">#9CA3AF</Color>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*,Auto,Auto"
+    <Grid RowDefinitions="Auto,*,Auto,Auto"
           Padding="16"
           RowSpacing="12">
 
-        <CarouselView Grid.Row="0"
+        <!-- Cabecera: título + avatar de marca (no hay propiedad de nombre a nivel
+             de página, así que el avatar lleva el logo en vez de iniciales) -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              Margin="0,4,0,0">
+            <Label Text="Mis abonos"
+                   FontFamily="SpaceGroteskBold"
+                   FontSize="24"
+                   CharacterSpacing="-0.5"
+                   TextColor="{StaticResource Ink}"
+                   VerticalOptions="Center" />
+            <Border Grid.Column="1"
+                    Background="{StaticResource AvatarGradient}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    WidthRequest="42"
+                    HeightRequest="42"
+                    Padding="8">
+                <Image Source="vibra_logo.png" Aspect="AspectFit" />
+            </Border>
+        </Grid>
+
+        <CarouselView Grid.Row="1"
                       ItemsSource="{Binding Subscriptions}"
                       CurrentItem="{Binding SelectedSubscription}"
                       IndicatorView="subscriptionsIndicator"
@@ -28,39 +52,60 @@
 
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="vm:SubscriptionCardViewModel">
-                    <Border StrokeShape="RoundRectangle 24"
+                    <Border StrokeShape="RoundRectangle 26"
                             Padding="0"
-                            Margin="8"
-                            BackgroundColor="{Binding CardColor}"
-                            Stroke="{DynamicResource CardBorderColor}">
+                            Margin="8,12"
+                            StrokeThickness="0"
+                            Background="{StaticResource CardGradient}">
 
                         <Border.Shadow>
-                            <Shadow Opacity="0.25"
-                                    Radius="18"
-                                    Offset="0,8" />
+                            <!-- Sombra de color del handoff: rgba(96,150,224,.6) suavizada -->
+                            <Shadow Brush="{StaticResource BrandPeriwinkleBrush}"
+                                    Opacity="0.45"
+                                    Radius="34"
+                                    Offset="0,14" />
                         </Border.Shadow>
 
                         <Grid RowDefinitions="Auto,*,Auto"
-                              Padding="20">
+                              Padding="22,20">
 
                             <Grid Grid.Row="0"
                                   ColumnDefinitions="Auto,*"
                                   ColumnSpacing="12">
 
-                                <Border StrokeShape="RoundRectangle 16"
-                                        Padding="10,6"
+                                <!-- Chip de estado: pill blanca .4 (activa) / gris (caducada) -->
+                                <Border StrokeShape="RoundRectangle 20"
+                                        StrokeThickness="0"
+                                        Padding="12,6"
                                         BackgroundColor="{StaticResource ChipOverlayColor}">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border"
+                                                     Binding="{Binding IsExpired}"
+                                                     Value="True">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="{StaticResource ExpiredBg}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
                                     <Label Text="{Binding StatusText}"
-                                           TextColor="{DynamicResource PrimaryOnColor}"
-                                           FontAttributes="Bold"
-                                           FontSize="14" />
+                                           TextColor="{StaticResource OnGradientInk}"
+                                           FontFamily="DMSansBold"
+                                           FontSize="12">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding IsExpired}"
+                                                         Value="True">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource ExpiredFg}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </Border>
 
                                 <Label Grid.Column="1"
                                        Text="{Binding SubscriptionTitle}"
                                        TextColor="{DynamicResource PrimaryOnColor}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
+                                       FontFamily="SpaceGrotesk"
+                                       FontSize="17"
                                        HorizontalOptions="End"
                                        VerticalOptions="Center"
                                        LineBreakMode="TailTruncation" />
@@ -68,58 +113,68 @@
 
                             <!-- Cuerpo: cliente + datos clave -->
                             <Grid Grid.Row="1"
-                                  RowDefinitions="Auto,Auto,Auto"
-                                  RowSpacing="10"
+                                  RowDefinitions="Auto,Auto,Auto,Auto"
+                                  RowSpacing="6"
                                   Margin="0,18,0,18">
 
-                                <Label Text="{Binding ClientName}"
+                                <Label Text="Abonado"
                                        TextColor="{DynamicResource PrimaryOnColor}"
-                                       FontSize="26"
-                                       FontAttributes="Bold"
-                                       LineBreakMode="TailTruncation" />
+                                       FontFamily="DMSansSemiBold"
+                                       FontSize="13"
+                                       Opacity="0.85" />
 
                                 <Label Grid.Row="1"
-                                       Text="{Binding SubscriptionSubtitle}"
-                                       TextColor="{StaticResource CardMutedOnColor}"
-                                       FontSize="16"
+                                       Text="{Binding ClientName}"
+                                       TextColor="{DynamicResource PrimaryOnColor}"
+                                       FontFamily="SpaceGroteskBold"
+                                       FontSize="26"
+                                       CharacterSpacing="-0.5"
                                        LineBreakMode="TailTruncation" />
 
                                 <Label Grid.Row="2"
+                                       Text="{Binding SubscriptionSubtitle}"
+                                       TextColor="{StaticResource CardMutedOnColor}"
+                                       FontFamily="DMSansSemiBold"
+                                       FontSize="14"
+                                       Margin="0,6,0,0"
+                                       LineBreakMode="TailTruncation" />
+
+                                <Label Grid.Row="3"
                                        Text="{Binding ValidityText}"
                                        TextColor="{DynamicResource PrimaryOnColor}"
-                                       FontSize="16"
-                                       FontAttributes="Bold"
+                                       FontFamily="DMSansBold"
+                                       FontSize="13"
                                        LineBreakMode="TailTruncation" />
                             </Grid>
 
-                            <!-- Footer: código / id / notas -->
+                            <!-- Footer: referencia mono + logo pequeño -->
                             <Grid Grid.Row="2"
                                   ColumnDefinitions="*,Auto"
                                   VerticalOptions="End">
 
                                 <Label Text="{Binding ReferenceText}"
                                        TextColor="{StaticResource CardMutedOnColor}"
+                                       FontFamily="PlexMono"
                                        FontSize="14"
+                                       VerticalOptions="Center"
                                        LineBreakMode="TailTruncation" />
 
-                                <Label Grid.Column="1"
-                                       Text="CADUCADA"
-                                       IsVisible="{Binding IsExpired}"
-                                       TextColor="{DynamicResource PrimaryOnColor}"
-                                       FontAttributes="Bold"
-                                       FontSize="14"
-                                       Opacity="0.85" />
+                                <Image Grid.Column="1"
+                                       Source="vibra_logo.png"
+                                       WidthRequest="26"
+                                       HeightRequest="26"
+                                       Opacity="0.9" />
                             </Grid>
 
                         </Grid>
 
-                        <!-- Estado caducada: forzamos un gris elegante y coherente -->
+                        <!-- Estado caducada (2f): degradado gris del tema -->
                         <Border.Triggers>
                             <DataTrigger TargetType="Border"
                                          Binding="{Binding IsExpired}"
                                          Value="True">
-                                <Setter Property="BackgroundColor"
-                                        Value="{StaticResource ExpiredCardColor}" />
+                                <Setter Property="Background"
+                                        Value="{StaticResource ExpiredCardGradient}" />
                             </DataTrigger>
                         </Border.Triggers>
                     </Border>
@@ -127,15 +182,46 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
 
+        <!-- Indicador 2a: punto activo alargado 18×6 periwinkle, inactivos 6×6 -->
         <IndicatorView x:Name="subscriptionsIndicator"
-                       Grid.Row="1"
+                       Grid.Row="2"
                        HorizontalOptions="Center"
-                       IndicatorSize="8"
-                       Margin="0,0,0,6" />
+                       Margin="0,0,0,6">
+            <IndicatorView.IndicatorTemplate>
+                <DataTemplate>
+                    <BoxView WidthRequest="6"
+                             HeightRequest="6"
+                             CornerRadius="3"
+                             Margin="3,0"
+                             Color="#C7D2F0"
+                             VerticalOptions="Center">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="WidthRequest" Value="6" />
+                                            <Setter Property="Color" Value="#C7D2F0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="WidthRequest" Value="18" />
+                                            <Setter Property="Color" Value="{StaticResource BrandPeriwinkle}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </BoxView>
+                </DataTemplate>
+            </IndicatorView.IndicatorTemplate>
+        </IndicatorView>
 
-        <Label Grid.Row="2"
+        <Label Grid.Row="3"
                Text="{Binding ErrorMessage}"
-               TextColor="{DynamicResource DangerColor}"
+               TextColor="{StaticResource DangerFg}"
+               FontFamily="DMSans"
                FontSize="12"
                Margin="0,8,0,0" />
     </Grid>
