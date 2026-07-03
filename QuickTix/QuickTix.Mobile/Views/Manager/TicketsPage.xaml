@@ -3,17 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QuickTix.Mobile.Views.TicketsPage"
              x:Name="Page"
-             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             BackgroundColor="{StaticResource PageBg}"
              Visual="Material">
+
+    <ContentPage.Resources>
+        <!-- Texto oscuro sobre degradado de marca -->
+        <Color x:Key="OnGradientInk">#0A2233</Color>
+
+        <!-- Campo envuelto en chip de color (solo estética; Picker/Entry siguen igual) -->
+        <Style x:Key="FieldChip" TargetType="Border">
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="Padding" Value="12,0" />
+        </Style>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto,*,Auto,Auto"
           RowSpacing="12"
           Padding="16">
 
-        <!-- Cabecera fija: nueva línea + resumen -->
+        <!-- Cabecera fija: header de marca + nueva línea + resumen -->
         <VerticalStackLayout Grid.Row="0" Spacing="12">
 
+            <!-- Cabecera degradada del POS. El nombre del recinto del mock
+                 ("Pabellón Sócon") no tiene propiedad en el VM: candidato
+                 a bloque posterior. -->
+            <Border Background="{StaticResource CardGradient}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 22"
+                    Padding="18,16">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource BrandPeriwinkleBrush}"
+                            Opacity="0.30"
+                            Radius="20"
+                            Offset="0,8" />
+                </Border.Shadow>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                        <Label Text="Punto de venta"
+                               FontFamily="DMSansSemiBold"
+                               FontSize="12"
+                               Opacity="0.8"
+                               TextColor="{StaticResource OnGradientInk}" />
+                        <Label Text="Vender entradas"
+                               FontFamily="SpaceGroteskBold"
+                               FontSize="22"
+                               CharacterSpacing="-0.5"
+                               TextColor="{StaticResource OnGradientInk}" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1"
+                            BackgroundColor="#66FFFFFF"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14"
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            Padding="8"
+                            VerticalOptions="Center">
+                        <Image Source="vibra_logo.png" Aspect="AspectFit" />
+                    </Border>
+                </Grid>
+            </Border>
+
             <Frame Style="{StaticResource Card}">
+                <Frame.Shadow>
+                    <Shadow Brush="{StaticResource BrandPeriwinkleBrush}"
+                            Opacity="0.10"
+                            Radius="16"
+                            Offset="0,6" />
+                </Frame.Shadow>
                 <VerticalStackLayout Spacing="12">
                     <Label Text="Nueva línea" Style="{StaticResource SectionTitle}" />
 
@@ -22,44 +79,64 @@
                           ColumnSpacing="10"
                           RowSpacing="10">
 
-                        <Picker Grid.Row="0" Grid.Column="0"
-                                Title="Tipo de ticket"
-                                ItemsSource="{Binding TicketTypes}"
-                                SelectedItem="{Binding NewLineTicketType}" />
+                        <!-- Chips de color por campo (handoff POS):
+                             Tipo=teal, Contexto=azul, Cantidad=lavanda -->
+                        <Border Grid.Row="0" Grid.Column="0"
+                                Style="{StaticResource FieldChip}"
+                                BackgroundColor="{StaticResource ChipTealBg}">
+                            <Picker Title="Tipo de ticket"
+                                    ItemsSource="{Binding TicketTypes}"
+                                    SelectedItem="{Binding NewLineTicketType}"
+                                    TextColor="{StaticResource ChipTealFg}"
+                                    TitleColor="{StaticResource ChipTealFg}" />
+                        </Border>
 
-                        <Picker Grid.Row="0" Grid.Column="1"
-                                Title="Contexto"
-                                ItemsSource="{Binding TicketContexts}"
-                                SelectedItem="{Binding NewLineTicketContext}" />
+                        <Border Grid.Row="0" Grid.Column="1"
+                                Style="{StaticResource FieldChip}"
+                                BackgroundColor="{StaticResource ChipBlueBg}">
+                            <Picker Title="Contexto"
+                                    ItemsSource="{Binding TicketContexts}"
+                                    SelectedItem="{Binding NewLineTicketContext}"
+                                    TextColor="{StaticResource ChipBlueFg}"
+                                    TitleColor="{StaticResource ChipBlueFg}" />
+                        </Border>
 
-                        <Grid Grid.Row="1" Grid.Column="0"
-                              ColumnDefinitions="Auto,*"
-                              ColumnSpacing="10">
-                            <Label Text="Cantidad"
-                                   VerticalOptions="Center"
-                                   Style="{StaticResource HintText}" />
-                            <Entry Grid.Column="1"
-                                   Text="{Binding NewLineQuantityText}"
-                                   Keyboard="Numeric"
-                                   Placeholder="Ej: 1"
-                                   HorizontalOptions="Fill" />
-                        </Grid>
+                        <Border Grid.Row="1" Grid.Column="0"
+                                Style="{StaticResource FieldChip}"
+                                BackgroundColor="{StaticResource ChipLavBg}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Text="Cantidad"
+                                       VerticalOptions="Center"
+                                       FontFamily="DMSansMedium"
+                                       FontSize="13"
+                                       TextColor="{StaticResource ChipLavFg}" />
+                                <Entry Grid.Column="1"
+                                       Text="{Binding NewLineQuantityText}"
+                                       Keyboard="Numeric"
+                                       Placeholder="Ej: 1"
+                                       HorizontalOptions="Fill" />
+                            </Grid>
+                        </Border>
 
-                        <Grid Grid.Row="1" Grid.Column="1"
-                              ColumnDefinitions="Auto,*"
-                              ColumnSpacing="10">
-                            <Label Text="Precio"
-                                   VerticalOptions="Center"
-                                   Style="{StaticResource HintText}" />
-                            <Entry Grid.Column="1"
-                                   Text="{Binding NewLineUnitPriceText}"
-                                   Keyboard="Numeric"
-                                   Placeholder="Opcional (Ej: 12,50)"
-                                   HorizontalOptions="Fill" />
-                        </Grid>
+                        <Border Grid.Row="1" Grid.Column="1"
+                                Style="{StaticResource FieldChip}"
+                                BackgroundColor="{StaticResource PageBg}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Text="Precio"
+                                       VerticalOptions="Center"
+                                       FontFamily="DMSansMedium"
+                                       FontSize="13"
+                                       TextColor="{StaticResource TextMuted2}" />
+                                <Entry Grid.Column="1"
+                                       Text="{Binding NewLineUnitPriceText}"
+                                       Keyboard="Numeric"
+                                       Placeholder="Opcional (Ej: 12,50)"
+                                       HorizontalOptions="Fill" />
+                            </Grid>
+                        </Border>
                     </Grid>
 
-                    <Button Text="Añadir línea"
+                    <Button Text="+ Añadir línea"
                             Style="{StaticResource PrimaryButton}"
                             Command="{Binding AddLineCommand}"
                             IsEnabled="{Binding CanAddLine}" />
@@ -68,13 +145,23 @@
 
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                 <Label Grid.Column="0"
-                       Text="Líneas de la venta"
-                       Style="{StaticResource SectionTitle}" />
-                <Label Grid.Column="1"
-                       Text="{Binding LinesSummary}"
-                       Style="{StaticResource HintText}"
-                       HorizontalTextAlignment="End"
-                       VerticalTextAlignment="Center" />
+                       Text="Líneas"
+                       Style="{StaticResource SectionTitle}"
+                       VerticalOptions="Center" />
+                <!-- Chip resumen pill (handoff: #EEF3FF / #4E67C7) -->
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource ChipBlueBg}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="12,6"
+                        VerticalOptions="Center">
+                    <Label Text="{Binding LinesSummary}"
+                           TextColor="{StaticResource ChipBlueFg}"
+                           FontFamily="DMSansMedium"
+                           FontSize="12"
+                           HorizontalTextAlignment="End"
+                           VerticalTextAlignment="Center" />
+                </Border>
             </Grid>
 
         </VerticalStackLayout>
@@ -87,7 +174,9 @@
             <CollectionView.EmptyView>
                 <Frame Style="{StaticResource Card}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Aún no hay líneas añadidas." FontAttributes="Bold" />
+                        <Label Text="Aún no hay líneas añadidas."
+                               FontFamily="DMSansSemiBold"
+                               TextColor="{StaticResource Ink}" />
                         <Label Text="Añade una línea para verla aquí." Style="{StaticResource HintText}" />
                     </VerticalStackLayout>
                 </Frame>
@@ -99,47 +188,63 @@
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Reveal">
                                 <SwipeItem Text="Quitar"
-                                           BackgroundColor="{DynamicResource DangerColor}"
+                                           BackgroundColor="{StaticResource DangerBg}"
                                            Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveLineCommand}"
                                            CommandParameter="{Binding}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <Frame Padding="10"
-                               CornerRadius="12"
-                               HasShadow="False"
-                               BorderColor="{DynamicResource CardBorderColor}"
-                               BackgroundColor="{DynamicResource SurfaceColor}"
-                               Margin="0,6">
+                        <!-- Tarjeta de línea: blanca radio 16 con acento izquierdo 4px.
+                             El handoff pide teal (General) / periwinkle (Abonado);
+                             distinguirlo requeriría binding/converter nuevo, así que
+                             se usa un único acento teal (candidato a bloque posterior). -->
+                        <Border StrokeShape="RoundRectangle 16"
+                                Stroke="{StaticResource Border}"
+                                StrokeThickness="1"
+                                BackgroundColor="{StaticResource Surface}"
+                                Padding="0"
+                                Margin="0,6">
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource BrandPeriwinkleBrush}"
+                                        Opacity="0.10"
+                                        Radius="12"
+                                        Offset="0,4" />
+                            </Border.Shadow>
 
-                            <VerticalStackLayout Spacing="6">
-                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                                    <Label Text="{Binding DisplayTitle}"
-                                           FontAttributes="Bold"
-                                           LineBreakMode="TailTruncation"
-                                           TextColor="{DynamicResource TextPrimaryColor}" />
+                            <Grid ColumnDefinitions="4,*" ColumnSpacing="0">
+                                <BoxView Color="{StaticResource BrandTeal}" />
 
-                                    <Label Grid.Column="1"
-                                           Text="{Binding DisplayTotal}"
-                                           FontAttributes="Bold"
-                                           HorizontalTextAlignment="End"
-                                           TextColor="{DynamicResource TextPrimaryColor}" />
-                                </Grid>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="6"
+                                                     Padding="12,10">
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <Label Text="{Binding DisplayTitle}"
+                                               FontFamily="DMSansSemiBold"
+                                               LineBreakMode="TailTruncation"
+                                               TextColor="{StaticResource Ink}" />
 
-                                <Label Text="{Binding DisplayInfo}"
-                                       Style="{StaticResource HintText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding DisplayTotal}"
+                                               FontFamily="DMSansBold"
+                                               HorizontalTextAlignment="End"
+                                               TextColor="{StaticResource Ink}" />
+                                    </Grid>
 
-                                <!-- Botón visible (fallback) para no depender del swipe -->
-                                <Button Text="Quitar"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{DynamicResource DangerColor}"
-                                        Padding="0"
-                                        HorizontalOptions="End"
-                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveLineCommand}"
-                                        CommandParameter="{Binding}" />
-                            </VerticalStackLayout>
+                                    <Label Text="{Binding DisplayInfo}"
+                                           Style="{StaticResource HintText}" />
 
-                        </Frame>
+                                    <!-- Botón visible (fallback) para no depender del swipe -->
+                                    <Button Text="Quitar"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{StaticResource DangerFg}"
+                                            FontFamily="DMSansSemiBold"
+                                            Padding="0"
+                                            HorizontalOptions="End"
+                                            Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveLineCommand}"
+                                            CommandParameter="{Binding}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -181,7 +286,14 @@
             <Button Text="Vender (batch)"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding SellBatchCommand}"
-                    IsEnabled="{Binding CanSell}" />
+                    IsEnabled="{Binding CanSell}">
+                <Button.Shadow>
+                    <Shadow Brush="{StaticResource BrandTealDeepBrush}"
+                            Opacity="0.35"
+                            Radius="16"
+                            Offset="0,8" />
+                </Button.Shadow>
+            </Button>
 
             <Button Grid.Column="1"
                     Text="Limpiar"
