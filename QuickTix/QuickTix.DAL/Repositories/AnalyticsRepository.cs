@@ -15,6 +15,12 @@ namespace QuickTix.DAL.Repositories
     ///
     /// Criterio de fechas: las ventas se guardan con DateTime.UtcNow
     /// (ver SaleRepository), así que "hoy" se calcula también en UTC.
+    ///
+    /// Los importes (decimal) se suman EN MEMORIA sobre proyecciones compactas:
+    /// el provider de SQLite (usado en los tests de integración) no traduce
+    /// agregados sobre decimal, y convertir a double rompería la exactitud del
+    /// dinero. Con el volumen de una piscina municipal y la caché de 30 s,
+    /// traer las líneas de la temporada una vez es más que suficiente.
     /// </summary>
     public class AnalyticsRepository : IAnalyticsRepository
     {
@@ -56,23 +62,66 @@ namespace QuickTix.DAL.Repositories
             var tomorrowUtc = todayUtc.AddDays(1);
             var weekStartUtc = todayUtc.AddDays(-6);
 
-            // --- KPI: ingresos de hoy (todas las líneas de venta del día) ---
-            var revenueToday = await _context.SaleItems
+            // Temporada = año natural en curso (UTC): para una piscina de verano
+            // el acumulado del año coincide con la temporada. Fechas reales de
+            // apertura/cierre pendientes de definir con Raquel (ver AnalyticsSummaryDTO).
+            var seasonStartUtc = new DateTime(todayUtc.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            // Una única consulta trae las líneas de venta desde el inicio de la
+            // temporada (o de la semana, si ésta empieza antes: primeros días de
+            // enero) y de ella salen hoy, el desglose por tipo, la temporada y
+            // la gráfica de 7 días.
+            var itemsFromUtc = weekStartUtc < seasonStartUtc ? weekStartUtc : seasonStartUtc;
+            var saleLines = await _context.SaleItems
                 .AsNoTracking()
-                .Where(i => i.Sale.Date >= todayUtc && i.Sale.Date < tomorrowUtc)
-                .SumAsync(i => (decimal?)(i.UnitPrice * i.Quantity)) ?? 0m;
+                .Where(i => i.Sale.Date >= itemsFromUtc && i.Sale.Date < tomorrowUtc)
+                .Select(i => new
+                {
+                    i.Sale.Date,
+                    IsTicket = i.TicketId != null,
+                    i.UnitPrice,
+                    i.Quantity
+                })
+                .ToListAsync();
+
+            // --- KPI: ingresos de hoy, desglosados por tipo de línea ---
+            // El total del día es la suma de ambos (toda línea es entrada o abono).
+            var todayLines = saleLines
+                .Where(l => l.Date >= todayUtc)
+                .ToList();
+
+            var ticketRevenueToday = todayLines
+                .Where(l => l.IsTicket)
+                .Sum(l => l.UnitPrice * l.Quantity);
+            var subscriptionRevenueToday = todayLines
+                .Where(l => !l.IsTicket)
+                .Sum(l => l.UnitPrice * l.Quantity);
+            var revenueToday = ticketRevenueToday + subscriptionRevenueToday;
+
+            // --- KPI: ingresos acumulados de la temporada ---
+            var seasonRevenue = saleLines
+                .Where(l => l.Date >= seasonStartUtc)
+                .Sum(l => l.UnitPrice * l.Quantity);
 
             // --- KPI: unidades de entradas vendidas hoy ---
-            var ticketsSoldToday = await _context.SaleItems
-                .AsNoTracking()
-                .Where(i => i.TicketId != null
-                            && i.Sale.Date >= todayUtc && i.Sale.Date < tomorrowUtc)
-                .SumAsync(i => (int?)i.Quantity) ?? 0;
+            var ticketsSoldToday = todayLines
+                .Where(l => l.IsTicket)
+                .Sum(l => l.Quantity);
 
             // --- KPI: abonos vigentes ahora mismo ---
             var activeSubscriptions = await _context.Subscriptions
                 .AsNoTracking()
                 .CountAsync(s => s.StartDate <= nowUtc && s.EndDate >= nowUtc);
+
+            // --- KPI: abonos vigentes que caducan en los próximos 7 días ---
+            // Mismo criterio de vigencia que el KPI anterior (subconjunto suyo):
+            // los ya caducados no cuentan, solo los que siguen activos y expiran pronto.
+            var expiringWindowEndUtc = nowUtc.AddDays(7);
+            var expiringSubscriptionsCount = await _context.Subscriptions
+                .AsNoTracking()
+                .CountAsync(s => s.StartDate <= nowUtc
+                                 && s.EndDate >= nowUtc
+                                 && s.EndDate < expiringWindowEndUtc);
 
             // --- KPI: aforo estimado hoy ---
             // Fórmula elegida: entradas vendidas hoy, porque cada entrada es de
@@ -85,14 +134,12 @@ namespace QuickTix.DAL.Repositories
             var estimatedAttendanceToday = ticketsSoldToday;
 
             // --- Ingresos por día, últimos 7 días (hoy incluido) ---
-            var revenueRows = await _context.SaleItems
-                .AsNoTracking()
-                .Where(i => i.Sale.Date >= weekStartUtc && i.Sale.Date < tomorrowUtc)
-                .GroupBy(i => i.Sale.Date.Date)
-                .Select(g => new { Day = g.Key, Amount = g.Sum(x => x.UnitPrice * x.Quantity) })
-                .ToListAsync();
+            // Se completan los días sin ventas con importe 0.
+            var revenueByDay = saleLines
+                .Where(l => l.Date >= weekStartUtc)
+                .GroupBy(l => l.Date.Date)
+                .ToDictionary(g => g.Key, g => g.Sum(l => l.UnitPrice * l.Quantity));
 
-            // Se completan en memoria los días sin ventas con importe 0
             var revenueLast7Days = Enumerable.Range(0, 7)
                 .Select(offset =>
                 {
@@ -100,7 +147,7 @@ namespace QuickTix.DAL.Repositories
                     return new DailyRevenueDTO
                     {
                         Date = day,
-                        Amount = revenueRows.FirstOrDefault(r => r.Day == day)?.Amount ?? 0m
+                        Amount = revenueByDay.TryGetValue(day, out var amount) ? amount : 0m
                     };
                 })
                 .ToList();
@@ -117,28 +164,45 @@ namespace QuickTix.DAL.Repositories
                 .SumAsync(i => (int?)i.Quantity) ?? 0;
 
             // --- Ventas recientes ---
-            var recentSales = await _context.Sales
+            // El total por venta se calcula en memoria (agregado decimal) sobre
+            // las líneas ya proyectadas; son como mucho RecentSalesCount ventas.
+            var recentSaleRows = await _context.Sales
                 .AsNoTracking()
                 .OrderByDescending(s => s.Date)
                 .ThenByDescending(s => s.Id)
                 .Take(RecentSalesCount)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Date,
+                    VenueName = s.Venue.Name,
+                    // Ventas de administración no tienen manager asociado
+                    ManagerName = s.Manager != null ? s.Manager.Name : "Administración",
+                    Lines = s.Items.Select(i => new { i.Quantity, i.UnitPrice }).ToList()
+                })
+                .ToListAsync();
+
+            var recentSales = recentSaleRows
                 .Select(s => new RecentSaleDTO
                 {
                     Id = s.Id,
                     Date = s.Date,
-                    VenueName = s.Venue.Name,
-                    // Ventas de administración no tienen manager asociado
-                    ManagerName = s.Manager != null ? s.Manager.Name : "Administración",
-                    ItemCount = s.Items.Sum(i => i.Quantity),
-                    TotalAmount = s.Items.Sum(i => i.UnitPrice * i.Quantity)
+                    VenueName = s.VenueName,
+                    ManagerName = s.ManagerName,
+                    ItemCount = s.Lines.Sum(l => l.Quantity),
+                    TotalAmount = s.Lines.Sum(l => l.UnitPrice * l.Quantity)
                 })
-                .ToListAsync();
+                .ToList();
 
             var summary = new AnalyticsSummaryDTO
             {
                 RevenueToday = revenueToday,
+                TicketRevenueToday = ticketRevenueToday,
+                SubscriptionRevenueToday = subscriptionRevenueToday,
+                SeasonRevenue = seasonRevenue,
                 TicketsSoldToday = ticketsSoldToday,
                 ActiveSubscriptions = activeSubscriptions,
+                ExpiringSubscriptionsCount = expiringSubscriptionsCount,
                 EstimatedAttendanceToday = estimatedAttendanceToday,
                 RevenueLast7Days = revenueLast7Days,
                 SalesByType = new SalesByTypeDTO

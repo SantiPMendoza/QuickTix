@@ -45,6 +45,15 @@
             <Setter Property="Margin" Value="0,10,0,0" />
         </Style>
 
+        <!-- Subtítulo secundario bajo la cifra de KPI (contexto, sin alarma) -->
+        <Style x:Key="KpiSubtitle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource VibraBodyFontFamily}" />
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
         <!-- Cuadro de color 30x30 radio 10 para el icono de la KPI -->
         <Style x:Key="KpiIconBox" TargetType="{x:Type Border}">
             <Setter Property="Width" Value="30" />
@@ -103,6 +112,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <TextBlock Style="{StaticResource KpiLabel}" Text="Ingresos hoy" Margin="0,0,36,0" />
@@ -113,6 +123,9 @@
                             </Grid>
                             <TextBlock Grid.Row="1" Style="{StaticResource KpiValue}"
                                        Text="{Binding RevenueToday, StringFormat='{}{0:N2} €'}" />
+                            <!-- Acumulado de temporada (año en curso; ver AnalyticsSummaryDTO) -->
+                            <TextBlock Grid.Row="2" Style="{StaticResource KpiSubtitle}"
+                                       Text="{Binding SeasonRevenueText}" />
                         </Grid>
                     </Border>
 
@@ -145,6 +158,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <TextBlock Style="{StaticResource KpiLabel}" Text="Abonos activos" Margin="0,0,36,0" />
@@ -155,6 +169,9 @@
                             </Grid>
                             <TextBlock Grid.Row="1" Style="{StaticResource KpiValue}"
                                        Text="{Binding ActiveSubscriptions}" />
+                            <!-- Abonos que caducan pronto; texto neutro cuando no hay ninguno -->
+                            <TextBlock Grid.Row="2" Style="{StaticResource KpiSubtitle}"
+                                       Text="{Binding ExpiringSubscriptionsText}" />
                         </Grid>
                     </Border>
 
@@ -202,7 +219,10 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid ToolTip="{Binding Amount, StringFormat='{}{0:N2} €'}">
+                                        <!-- Tooltip con texto preformateado en el ViewModel: ToolTip es
+                                             de tipo object y el StringFormat del binding se ignora
+                                             (mostraba el decimal crudo "56.0000"). -->
+                                        <Grid ToolTip="{Binding AmountText}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
@@ -237,10 +257,11 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- Donut "Ventas por tipo" -->
+                    <!-- Donut "Recaudación de hoy por tipo" — reparto en EUROS del día
+                         (no unidades): la lectura que le importa al interventor -->
                     <Border Grid.Column="2" Style="{StaticResource VibraCard}" Padding="20,16">
                         <StackPanel>
-                            <TextBlock Style="{StaticResource VibraCardTitle}" Text="Ventas por tipo" />
+                            <TextBlock Style="{StaticResource VibraCardTitle}" Text="Recaudación de hoy por tipo" />
 
                             <Grid Width="160" Height="160" Margin="0,14,0,0" HorizontalAlignment="Center">
                                 <!-- Anillo de fondo (visible cuando no hay datos) -->
@@ -254,14 +275,14 @@
                                 <Path Data="{Binding SubscriptionsArc}"
                                       Stroke="{StaticResource BrandTealBrush}"
                                       StrokeThickness="22" />
-                                <!-- Centro: total de unidades -->
+                                <!-- Centro: total recaudado hoy en euros -->
                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding TotalUnits}"
+                                    <TextBlock Text="{Binding DonutTotalText}"
                                                FontFamily="{StaticResource VibraDisplayFontFamily}"
-                                               FontSize="24" FontWeight="Bold"
+                                               FontSize="19" FontWeight="Bold"
                                                Foreground="{StaticResource InkBrush}"
                                                HorizontalAlignment="Center" />
-                                    <TextBlock Text="ventas"
+                                    <TextBlock Text="hoy"
                                                FontSize="11"
                                                Foreground="{StaticResource TextMutedBrush}"
                                                HorizontalAlignment="Center" />
@@ -277,7 +298,7 @@
                                                 VerticalAlignment="Center" />
                                         <TextBlock Text="Entradas" FontSize="12" Margin="8,0,0,0"
                                                    Foreground="{StaticResource TextMuted2Brush}" />
-                                        <TextBlock Text="{Binding TicketUnits, StringFormat='({0})'}"
+                                        <TextBlock Text="{Binding TicketRevenueText}"
                                                    FontSize="12" Margin="5,0,0,0"
                                                    Foreground="{StaticResource TextMutedBrush}" />
                                     </StackPanel>
@@ -293,7 +314,7 @@
                                                 VerticalAlignment="Center" />
                                         <TextBlock Text="Abonos" FontSize="12" Margin="8,0,0,0"
                                                    Foreground="{StaticResource TextMuted2Brush}" />
-                                        <TextBlock Text="{Binding SubscriptionUnits, StringFormat='({0})'}"
+                                        <TextBlock Text="{Binding SubscriptionRevenueText}"
                                                    FontSize="12" Margin="5,0,0,0"
                                                    Foreground="{StaticResource TextMutedBrush}" />
                                     </StackPanel>

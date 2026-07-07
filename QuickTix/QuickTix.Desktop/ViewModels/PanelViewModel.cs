@@ -37,15 +37,20 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private int activeSubscriptions;
         [ObservableProperty] private int estimatedAttendanceToday;
 
+        // Subtítulos de KPI (texto ya resuelto: la vista solo lo pinta)
+        [ObservableProperty] private string seasonRevenueText = string.Empty;
+        [ObservableProperty] private string expiringSubscriptionsText = string.Empty;
+
         // ===== Gráfica de ingresos (7 días) =====
         [ObservableProperty] private ObservableCollection<RevenueBarItem> revenueBars = [];
 
-        // ===== Donut "Ventas por tipo" =====
+        // ===== Donut "Recaudación de hoy por tipo" (en euros, no unidades:
+        // al interventor le importa el dinero, no el recuento de tickets) =====
         [ObservableProperty] private Geometry ticketsArc = Geometry.Empty;
         [ObservableProperty] private Geometry subscriptionsArc = Geometry.Empty;
-        [ObservableProperty] private int totalUnits;
-        [ObservableProperty] private int ticketUnits;
-        [ObservableProperty] private int subscriptionUnits;
+        [ObservableProperty] private string donutTotalText = "—";
+        [ObservableProperty] private string ticketRevenueText = "—";
+        [ObservableProperty] private string subscriptionRevenueText = "—";
         [ObservableProperty] private string ticketsPercentText = "—";
         [ObservableProperty] private string subscriptionsPercentText = "—";
         [ObservableProperty] private bool hasSalesData;
@@ -116,10 +121,20 @@ namespace QuickTix.Desktop.ViewModels
             ActiveSubscriptions = summary.ActiveSubscriptions;
             EstimatedAttendanceToday = summary.EstimatedAttendanceToday;
 
+            // Subtítulos de KPI: acumulado de temporada y abonos a punto de caducar.
+            // Cuando no caduca ninguno se muestra un texto neutro (sin alarma).
+            SeasonRevenueText = $"Temporada: {summary.SeasonRevenue.ToString("N2", SpanishCulture)} €";
+            ExpiringSubscriptionsText = summary.ExpiringSubscriptionsCount switch
+            {
+                0 => "Ninguno caduca esta semana",
+                1 => "1 caduca en 7 días",
+                var n => $"{n} caducan en 7 días"
+            };
+
             RevenueBars = new ObservableCollection<RevenueBarItem>(BuildRevenueBars(summary.RevenueLast7Days));
             RecentSales = new ObservableCollection<RecentSaleDTO>(summary.RecentSales);
 
-            ApplyDonut(summary.SalesByType);
+            ApplyDonut(summary.TicketRevenueToday, summary.SubscriptionRevenueToday);
         }
 
         /// <summary>
@@ -139,6 +154,10 @@ namespace QuickTix.Desktop.ViewModels
                     // Etiqueta corta en español: "lun", "mar", ...
                     DayLabel = d.Date.ToString("ddd", SpanishCulture),
                     Amount = d.Amount,
+                    // Texto del tooltip ya formateado: ToolTip es de tipo object,
+                    // así que el StringFormat del binding se ignora y mostraba
+                    // el decimal crudo ("56.0000").
+                    AmountText = $"{d.Amount.ToString("N2", SpanishCulture)} €",
                     BarHeight = maxAmount > 0m
                         ? Math.Max(MinBarHeight, (double)(d.Amount / maxAmount) * MaxBarHeight)
                         : MinBarHeight,
@@ -149,16 +168,21 @@ namespace QuickTix.Desktop.ViewModels
         }
 
         /// <summary>
-        /// Calcula los arcos y porcentajes del donut "Ventas por tipo".
-        /// Con 0 ventas no se dibujan arcos (queda el anillo vacío de fondo).
+        /// Calcula los arcos y porcentajes del donut "Recaudación de hoy por tipo".
+        /// Se reparte por EUROS recaudados hoy (no por unidades): es la lectura
+        /// que le interesa al interventor. Con 0 € no se dibujan arcos
+        /// (queda el anillo vacío de fondo).
         /// </summary>
-        /// <param name="salesByType">Unidades por tipo.</param>
-        private void ApplyDonut(SalesByTypeDTO salesByType)
+        /// <param name="ticketRevenue">Euros de hoy en entradas.</param>
+        /// <param name="subscriptionRevenue">Euros de hoy en abonos.</param>
+        private void ApplyDonut(decimal ticketRevenue, decimal subscriptionRevenue)
         {
-            TicketUnits = salesByType.TicketUnits;
-            SubscriptionUnits = salesByType.SubscriptionUnits;
-            TotalUnits = salesByType.TicketUnits + salesByType.SubscriptionUnits;
-            HasSalesData = TotalUnits > 0;
+            var totalRevenue = ticketRevenue + subscriptionRevenue;
+
+            TicketRevenueText = $"{ticketRevenue.ToString("N2", SpanishCulture)} €";
+            SubscriptionRevenueText = $"{subscriptionRevenue.ToString("N2", SpanishCulture)} €";
+            DonutTotalText = $"{totalRevenue.ToString("N2", SpanishCulture)} €";
+            HasSalesData = totalRevenue > 0m;
 
             if (!HasSalesData)
             {
@@ -169,7 +193,7 @@ namespace QuickTix.Desktop.ViewModels
                 return;
             }
 
-            var ticketsFraction = (double)TicketUnits / TotalUnits;
+            var ticketsFraction = (double)(ticketRevenue / totalRevenue);
             var ticketsSweep = ticketsFraction * 360.0;
 
             // Los arcos parten de las 12 en punto y giran en sentido horario
@@ -243,6 +267,10 @@ namespace QuickTix.Desktop.ViewModels
     {
         public string DayLabel { get; init; } = string.Empty;
         public decimal Amount { get; init; }
+
+        /// <summary>Importe formateado para el tooltip ("56,00 €").</summary>
+        public string AmountText { get; init; } = string.Empty;
+
         public double BarHeight { get; init; }
         public bool IsPeak { get; init; }
     }

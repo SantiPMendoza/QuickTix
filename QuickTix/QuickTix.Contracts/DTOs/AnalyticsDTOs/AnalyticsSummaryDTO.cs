@@ -9,11 +9,31 @@ namespace QuickTix.Contracts.DTOs.AnalyticsDTOs
         /// <summary>Ingresos de hoy (suma de líneas de venta con fecha de hoy, UTC).</summary>
         public decimal RevenueToday { get; set; }
 
+        /// <summary>Ingresos de hoy (UTC) procedentes de líneas de entradas.</summary>
+        public decimal TicketRevenueToday { get; set; }
+
+        /// <summary>Ingresos de hoy (UTC) procedentes de líneas de abonos.</summary>
+        public decimal SubscriptionRevenueToday { get; set; }
+
+        /// <summary>
+        /// Ingresos acumulados de la temporada. De momento equivale al año natural
+        /// en curso (desde el 1 de enero, UTC): para una piscina de verano el
+        /// acumulado del año ES la temporada. Las fechas reales de apertura/cierre
+        /// de temporada quedan pendientes de definir con Raquel.
+        /// </summary>
+        public decimal SeasonRevenue { get; set; }
+
         /// <summary>Unidades de entradas vendidas hoy (UTC).</summary>
         public int TicketsSoldToday { get; set; }
 
         /// <summary>Abonos vigentes ahora mismo (StartDate &lt;= ahora &lt;= EndDate).</summary>
         public int ActiveSubscriptions { get; set; }
+
+        /// <summary>
+        /// Abonos vigentes (no caducados) cuya fecha de fin cae dentro de los
+        /// próximos 7 días. Subconjunto de <see cref="ActiveSubscriptions"/>.
+        /// </summary>
+        public int ExpiringSubscriptionsCount { get; set; }
 
         /// <summary>
         /// Aforo estimado hoy. Con los datos actuales equivale a las entradas
