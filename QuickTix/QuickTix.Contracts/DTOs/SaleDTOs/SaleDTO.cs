@@ -14,8 +14,8 @@ namespace QuickTix.Contracts.Models.DTOs.SaleDTOs
         [Required]
         public int VenueId { get; set; }
 
-        [Required]
-        public int ManagerId { get; set; }
+        // Null = venta registrada por administración (sin manager asociado).
+        public int? ManagerId { get; set; }
 
         public DateTime Date { get; set; }
 

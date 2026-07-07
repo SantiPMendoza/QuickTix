@@ -8,7 +8,8 @@
         public int VenueId { get; set; }
         public string VenueName { get; set; } = string.Empty;
 
-        public int ManagerId { get; set; }
+        // Null = venta registrada por administración (sin manager asociado).
+        public int? ManagerId { get; set; }
         public string ManagerName { get; set; } = string.Empty;
 
         public string SubscriptionCategory { get; set; } = string.Empty;

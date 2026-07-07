@@ -13,8 +13,9 @@ namespace QuickTix.Core.Models.Entities
         public int VenueId { get; set; }
         public Venue Venue { get; set; } = null!;
 
-        public int ManagerId { get; set; }
-        public Manager Manager { get; set; } = null!;
+        // Null = venta registrada por administración (sin manager asociado).
+        public int? ManagerId { get; set; }
+        public Manager? Manager { get; set; }
 
         public ICollection<SaleItem> Items { get; set; } = new List<SaleItem>();
 

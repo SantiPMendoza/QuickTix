@@ -21,8 +21,12 @@ namespace QuickTix.Desktop.ViewModels
 
         // Id del manager en sesión, leído de los claims del JWT en cada acceso.
         // Es 0 cuando no hay sesión o el usuario logueado no es manager (p.ej. admin):
-        // en ese caso SaveSubscription muestra el error inline existente en lugar de vender.
+        // en ese caso SaveSubscription decide por rol (admin vende sin manager).
         public int CurrentManagerId => _authService.GetManagerId();
+
+        // Rol de la sesión actual según el usuario devuelto por la API en el login.
+        private bool IsAdminSession =>
+            string.Equals(_authService.GetCurrentUser()?.Role, "admin", StringComparison.OrdinalIgnoreCase);
 
         // Estado del flyout de Cliente
         [ObservableProperty] private bool isClientFlyoutOpen;
@@ -201,11 +205,23 @@ namespace QuickTix.Desktop.ViewModels
             if (ActiveSubscriptionForm is not SubscriptionFormModel form)
                 return;
 
-            if (CurrentManagerId <= 0)
+            // Admin: la venta se registra sin manager (la API la muestra como "Administración").
+            // Manager: se envía su id real leído del JWT. Sin rol válido: error inline.
+            int? managerIdForSale;
+
+            if (IsAdminSession)
+            {
+                managerIdForSale = null;
+            }
+            else if (CurrentManagerId > 0)
+            {
+                managerIdForSale = CurrentManagerId;
+            }
+            else
             {
                 // Se mantiene el patrón de error inline del módulo de suscripciones
                 SubscriptionsVM.ErrorMessage =
-                    "La sesión actual no tiene un Manager asociado. Inicia sesión como manager para registrar ventas.";
+                    "La sesión actual no tiene un Manager asociado. Inicia sesión como manager o admin para registrar ventas.";
 
                 IsSubscriptionFlyoutOpen = true;
                 return;
@@ -217,7 +233,7 @@ namespace QuickTix.Desktop.ViewModels
             {
                 ClientId = SelectedItem.Id,
                 VenueId = form.VenueId,
-                ManagerId = CurrentManagerId,
+                ManagerId = managerIdForSale,
                 Category = form.Category,
                 Duration = form.Duration,
                 StartDate = form.StartDate,

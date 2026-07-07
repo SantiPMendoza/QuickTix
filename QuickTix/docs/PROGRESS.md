@@ -53,7 +53,18 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 - [ ] Swagger: GET `/api/Analytics/summary` → 401 sin token, 403 como manager/client, 200 como admin; caché TTL 30 s (una venta tarda ≤30 s en reflejarse)
 - [ ] Zona horaria: `Sale.Date` es UTC — una venta a última hora (España = UTC+2 en verano) computa como "mañana" en los KPIs de hoy. ¿Molesta para la demo?
 
+**2b. Fixes visuales Desktop encontrados en la pasada (2026-07-07) — corregir en la rama**
+- [ ] Sidebar: los iconos del menú se ven en blanco (no se distinguen) y el ítem activo necesita destacarse más
+- [ ] Modales de añadir/editar (Users/Clients): los TextBox colapsan a ~1 carácter de ancho — darles anchura mínima
+- [ ] Dashboard: el tooltip de las gráficas muestra "56.0000" — formatear como "56,00 €"
+- [ ] Eliminar abono no pide confirmación → añadir modal de confirmación. De paso: **unificar todos los modales Desktop como componente común** (hoy cada vista monta su propio Popup)
+- [x] Venta de abono como admin bloqueada → CORREGIDO 2026-07-07: en Nalda los administrativos del ayuntamiento (admins de la app) son quienes venden los abonos (ver Decision Log)
+
 **3. Si todo pasa**: merge de `feature/vibra-s0` a main + borrar la rama.
+
+**Seguimiento del fix "venta por admin" (revisión adversaria 2026-07-07)**
+- La migración `SaleManagerOptional` tiene `Down()` insegura: si existen ventas con manager null, el rollback falla (NOT NULL sin backfill). Aceptado — en este flujo no se hacen rollbacks de migraciones; si alguna vez hiciera falta, añadir un `Sql()` de backfill antes del `AlterColumn`.
+- Hueco de tests: `GetSubscriptionHistoryAsync` (reescrita para evitar SQL APPLY en SQLite) no tiene test del camino CON manager ni de venta con varias líneas (invariante N items → N filas). Añadir cuando se toque ventas otra vez.
 
 **Hallazgos fuera de alcance de la rama (apuntados, NO tocados)**
 - SalesView detalle: la columna "INVITADO POR" binde `TicketSales.InvitedByClientName` (escalar del VM vía RelativeSource), no una propiedad por línea → todas las filas muestran el mismo valor. Preexistente al restyling; revisar si una venta puede mezclar líneas invitadas/no invitadas.
@@ -95,6 +106,7 @@ Fuera del sprint:
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-07-07 | Ventas de abono por ADMIN: `Sale.ManagerId` pasa a nullable; venta admin = manager null, mostrada como "Administración" | Producto: en Nalda los administrativos (admins) venden los abonos. Alternativas descartadas: dar perfil Manager al admin le anclaría a UN venue (`Manager.VenueId` requerido) rompiendo multi-recinto; dropdown de manager atribuiría la venta a quien no vendió (falsearía el cierre de caja S2). Venta de TICKETS sigue siendo solo-manager (POS en puerta). Atribución por admin individual aplazada a la capa de servicios (ADR-002). |
 | 2026-07-03 | Pase digital de abonados (handoff 2b/2c/2e) APARCADO junto al QR; carrusel 2a/2f entra (visual puro, sin gesto de entrada) | Mismo razonamiento que el QR: gestor mirando móvil en puerta = retraso, y en un pueblo al abonado se le conoce. Requeriría backend nuevo + trigger ADR-002. |
 | 2026-07-03 | Próxima(s) sesión(es): iteración FRONTEND-ONLY en rama `feature/vibra-s0`, sin merge a main hasta que Santi pruebe en casa | Santi fuera con remote control, no puede probar; `dotnet build` como única verificación. |
 | 2026-07-03 | Dirección de diseño elegida: "1b Vibra" (teal/cyan/periwinkle, Space Grotesk + DM Sans, degradados en acciones) | Handoff generado en claude.ai/design y versionado en `reference/`. Rediseño puramente visual: no tocar ViewModels ni bindings. |
@@ -119,6 +131,7 @@ Fuera del sprint:
 - Higiene: MainWindow.xaml duplicado de la raíz eliminado (nunca instanciado; DI usa Views.MainWindow), `Visual="Material"` (no-op en MAUI) fuera de SubscriptionsPage/TicketsPage
 - Builds verdes: Desktop, Mobile Windows, Mobile Android (primera compilación Android de la rama tras instalar SDK 34)
 - Hallazgos preexistentes apuntados sin tocar (ver bloque sobre el Board): columna INVITADO POR, MauiIcon adaptativo, Shadow implícito blanco
+- Pasada visual de Santi (en curso): 4 fixes visuales Desktop anotados (sección 2b) + decisión de producto resuelta: **admin vende abonos** → `Sale.ManagerId` nullable (migración `SaleManagerOptional`), venta admin = "Administración", guard en API (sell y PUT genérico: solo admin puede dejar manager null), Desktop decide por rol, 2 tests nuevos (4/4 verdes). La reescritura de `GetSubscriptionHistoryAsync` destapó que EF la traducía a SQL APPLY (no soportado por SQLite en tests)
 - Next: pasada visual de Santi con la checklist → merge
 
 ### 2026-07-03 — Session 2b (pruebas manuales en casa, inicio)

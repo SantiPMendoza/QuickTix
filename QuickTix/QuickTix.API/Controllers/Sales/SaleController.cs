@@ -163,6 +163,15 @@ namespace QuickTix.API.Controllers.Sales
                 ));
             }
 
+            // Solo un admin puede registrar ventas sin manager (ManagerId null = "Administración")
+            if (!request.ManagerId.HasValue && !User.IsInRole("admin"))
+            {
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    new[] { "Un manager debe indicar su managerId para registrar la venta." }
+                ));
+            }
+
             var sale = await _saleRepository.SellSubscriptionAsync(request);
 
             _logger.LogInformation("Venta de suscripción registrada. SaleId={SaleId}", sale.Id);
@@ -180,6 +189,25 @@ namespace QuickTix.API.Controllers.Sales
             }
 
             return Ok(BuildOk(dto, HttpStatusCode.OK));
+        }
+
+        /// <summary>
+        /// Actualiza una venta. Aplica la misma regla que la venta de suscripciones:
+        /// solo un admin puede dejar una venta sin manager asociado.
+        /// </summary>
+        // Sin este override, el PUT genérico permitiría a cualquier manager
+        // poner ManagerId a null (reetiquetar la venta como "Administración").
+        public override async Task<IActionResult> Update(int id, [FromBody] SaleDTO dto)
+        {
+            if (dto.ManagerId is null && !User.IsInRole("admin"))
+            {
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    new[] { "Un manager debe indicar su managerId para modificar la venta." }
+                ));
+            }
+
+            return await base.Update(id, dto);
         }
     }
 }

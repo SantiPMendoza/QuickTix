@@ -127,7 +127,8 @@ namespace QuickTix.DAL.Repositories
                     Id = s.Id,
                     Date = s.Date,
                     VenueName = s.Venue.Name,
-                    ManagerName = s.Manager.Name,
+                    // Ventas de administración no tienen manager asociado
+                    ManagerName = s.Manager != null ? s.Manager.Name : "Administración",
                     ItemCount = s.Items.Sum(i => i.Quantity),
                     TotalAmount = s.Items.Sum(i => i.UnitPrice * i.Quantity)
                 })
