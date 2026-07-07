@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d"
              x:Name="RootDialog">
 
@@ -18,8 +19,13 @@
            Placement="Center"
            AllowsTransparency="True">
         <!-- Margen exterior para que la sombra elevada no se recorte -->
-        <Grid Margin="24">
+        <Grid Margin="32">
+            <!-- Relieve del modal: sombra propia (DialogShadow, un punto más
+                 que ElevatedShadow) + brillo sutil en el borde superior.
+                 Overrides locales: VibraPopupCard sigue igual para otros usos. -->
             <Border Style="{StaticResource VibraPopupCard}"
+                    Effect="{StaticResource DialogShadow}"
+                    BorderBrush="{StaticResource DialogCardBorderBrush}"
                     MinWidth="{Binding DialogMinWidth, ElementName=RootDialog}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -62,11 +68,11 @@
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Button.Template>
-                            <!-- Glifo Dismiss24 (F36A) de FluentSystemIcons, ya registrada por WPF-UI -->
-                            <TextBlock Text="&#xF36A;"
-                                       FontFamily="{DynamicResource FluentSystemIcons}"
-                                       FontSize="14"
-                                       Foreground="{StaticResource TextMutedBrush}"/>
+                            <!-- SymbolIcon directo (ruta nativa de WPF-UI): el glifo por
+                                 TextBlock+FluentSystemIcons no renderizaba en runtime -->
+                            <ui:SymbolIcon Symbol="Dismiss24"
+                                           FontSize="14"
+                                           Foreground="{StaticResource TextMutedBrush}"/>
                         </Button>
                     </Grid>
 

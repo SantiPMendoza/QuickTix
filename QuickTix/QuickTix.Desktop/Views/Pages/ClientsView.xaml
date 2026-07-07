@@ -472,5 +472,88 @@
             </controls:VibraDialog.Footer>
         </controls:VibraDialog>
 
+        <!-- Borrado forzado de abono: SOLO aparece si la API devolvió 409
+             (dependencias de venta). Sustituye al MessageBox que provocaba
+             el "segundo diálogo" tras la confirmación. -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding IsForceDeleteSubscriptionOpen}"
+                              DialogMinWidth="420"
+                              Title="El abono tiene ventas asociadas">
+            <controls:VibraDialog.DialogContent>
+                <StackPanel MaxWidth="440">
+                    <TextBlock Text="{Binding ForceDeleteSubscriptionMessage}"
+                               TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}"/>
+                    <TextBlock Text="Si continúas, se eliminará el abono y también los ítems de venta asociados. Esta acción no se puede deshacer."
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"
+                               Foreground="{StaticResource TextMuted2Brush}"/>
+                </StackPanel>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding CancelForceDeleteSubscriptionCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Eliminar todo" Style="{StaticResource VibraDangerButton}"
+                            Command="{Binding ConfirmForceDeleteSubscriptionCommand}" Width="120"/>
+                </StackPanel>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
+        <!-- Confirmación de borrado de cliente (flujo genérico del
+             BaseCrudViewModel: DeleteCommand abre este diálogo) -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding IsConfirmDeleteOpen}"
+                              DialogMinWidth="420"
+                              Title="¿Eliminar el cliente?">
+            <controls:VibraDialog.DialogContent>
+                <TextBlock MaxWidth="440" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextMuted2Brush}">
+                    <Run Text="Se eliminará el cliente"/>
+                    <Run Text="{Binding PendingDeleteItem.Name, Mode=OneWay}" FontWeight="SemiBold"/><Run Text="."/>
+                    <Run Text="Esta acción no se puede deshacer."/>
+                </TextBlock>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding CancelDeleteCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Eliminar" Style="{StaticResource VibraDangerButton}"
+                            Command="{Binding ConfirmDeleteCommand}" Width="100"/>
+                </StackPanel>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
+        <!-- Avisos modales (sustituyen a los MessageBox): uno por VM anfitrión -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding IsAlertOpen}"
+                              DialogMinWidth="380"
+                              Title="{Binding AlertTitle}">
+            <controls:VibraDialog.DialogContent>
+                <TextBlock Text="{Binding AlertMessage}"
+                           MaxWidth="440" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextMuted2Brush}"/>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                        Command="{Binding CloseAlertCommand}" Width="100"/>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding SubscriptionsVM.IsAlertOpen}"
+                              DialogMinWidth="380"
+                              Title="{Binding SubscriptionsVM.AlertTitle}">
+            <controls:VibraDialog.DialogContent>
+                <TextBlock Text="{Binding SubscriptionsVM.AlertMessage}"
+                           MaxWidth="440" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextMuted2Brush}"/>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                        Command="{Binding SubscriptionsVM.CloseAlertCommand}" Width="100"/>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
     </Grid>
 </Page>

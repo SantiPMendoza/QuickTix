@@ -262,6 +262,85 @@
                 </controls:VibraDialog.Footer>
             </controls:VibraDialog>
 
+            <!-- ============================================================ -->
+            <!-- Confirmaciones de borrado (flujo genérico del BaseCrudViewModel:
+                 DeleteCommand abre el diálogo; antes era un MessageBox) -->
+            <!-- ============================================================ -->
+            <controls:VibraDialog Grid.Row="0" Grid.RowSpan="3"
+                                  IsOpen="{Binding AdminsVM.IsConfirmDeleteOpen}"
+                                  DialogMinWidth="420"
+                                  Title="¿Eliminar el administrador?">
+                <controls:VibraDialog.DialogContent>
+                    <TextBlock MaxWidth="440" TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}">
+                        <Run Text="Se eliminará el administrador"/>
+                        <Run Text="{Binding AdminsVM.PendingDeleteItem.Name, Mode=OneWay}" FontWeight="SemiBold"/><Run Text="."/>
+                        <Run Text="Esta acción no se puede deshacer."/>
+                    </TextBlock>
+                </controls:VibraDialog.DialogContent>
+                <controls:VibraDialog.Footer>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                                Command="{Binding AdminsVM.CancelDeleteCommand}" Width="100" Margin="0,0,10,0"/>
+                        <Button Content="Eliminar" Style="{StaticResource VibraDangerButton}"
+                                Command="{Binding AdminsVM.ConfirmDeleteCommand}" Width="100"/>
+                    </StackPanel>
+                </controls:VibraDialog.Footer>
+            </controls:VibraDialog>
+
+            <controls:VibraDialog Grid.Row="0" Grid.RowSpan="3"
+                                  IsOpen="{Binding ManagersVM.IsConfirmDeleteOpen}"
+                                  DialogMinWidth="420"
+                                  Title="¿Eliminar el gestor?">
+                <controls:VibraDialog.DialogContent>
+                    <TextBlock MaxWidth="440" TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}">
+                        <Run Text="Se eliminará el gestor"/>
+                        <Run Text="{Binding ManagersVM.PendingDeleteItem.Name, Mode=OneWay}" FontWeight="SemiBold"/><Run Text="."/>
+                        <Run Text="Esta acción no se puede deshacer."/>
+                    </TextBlock>
+                </controls:VibraDialog.DialogContent>
+                <controls:VibraDialog.Footer>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                                Command="{Binding ManagersVM.CancelDeleteCommand}" Width="100" Margin="0,0,10,0"/>
+                        <Button Content="Eliminar" Style="{StaticResource VibraDangerButton}"
+                                Command="{Binding ManagersVM.ConfirmDeleteCommand}" Width="100"/>
+                    </StackPanel>
+                </controls:VibraDialog.Footer>
+            </controls:VibraDialog>
+
+            <!-- Avisos modales (sustituyen a los MessageBox): uno por VM anfitrión -->
+            <controls:VibraDialog Grid.Row="0" Grid.RowSpan="3"
+                                  IsOpen="{Binding AdminsVM.IsAlertOpen}"
+                                  DialogMinWidth="380"
+                                  Title="{Binding AdminsVM.AlertTitle}">
+                <controls:VibraDialog.DialogContent>
+                    <TextBlock Text="{Binding AdminsVM.AlertMessage}"
+                               MaxWidth="440" TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}"/>
+                </controls:VibraDialog.DialogContent>
+                <controls:VibraDialog.Footer>
+                    <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                            Command="{Binding AdminsVM.CloseAlertCommand}" Width="100"/>
+                </controls:VibraDialog.Footer>
+            </controls:VibraDialog>
+
+            <controls:VibraDialog Grid.Row="0" Grid.RowSpan="3"
+                                  IsOpen="{Binding ManagersVM.IsAlertOpen}"
+                                  DialogMinWidth="380"
+                                  Title="{Binding ManagersVM.AlertTitle}">
+                <controls:VibraDialog.DialogContent>
+                    <TextBlock Text="{Binding ManagersVM.AlertMessage}"
+                               MaxWidth="440" TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}"/>
+                </controls:VibraDialog.DialogContent>
+                <controls:VibraDialog.Footer>
+                    <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                            Command="{Binding ManagersVM.CloseAlertCommand}" Width="100"/>
+                </controls:VibraDialog.Footer>
+            </controls:VibraDialog>
+
         </Grid>
     </Grid>
 </Page>

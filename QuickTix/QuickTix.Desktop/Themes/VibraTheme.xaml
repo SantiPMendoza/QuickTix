@@ -150,10 +150,9 @@
         <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="1" />
     </LinearGradientBrush>
 
-    <!-- Ítem activo del sidebar, versión reforzada (fix pruebas manuales 2b):
-         degradado a opacidad completa para que el activo destaque claramente
-         sobre el fondo InkSidebar. Clave NUEVA: no sustituye a
-         SidebarActiveGradient (otras vistas pueden seguir usándolo). -->
+    <!-- Ítem activo del sidebar, versión reforzada. DESCARTADA para el shell:
+         el handoff pide el degradado sutil (SidebarActiveGradient, arriba).
+         Se conserva la clave por si alguna vista la referencia. -->
     <LinearGradientBrush x:Key="SidebarActiveGradientStrong" StartPoint="0,0.5" EndPoint="1,0.5">
         <GradientStop Color="{StaticResource BrandTealDeep}" Offset="0" />
         <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="1" />
@@ -182,6 +181,17 @@
                       ShadowDepth="6" BlurRadius="16" Opacity="0.07" />
     <DropShadowEffect x:Key="ElevatedShadow" Color="#7C9BF7" Direction="270"
                       ShadowDepth="10" BlurRadius="26" Opacity="0.4" />
+    <!-- Sombra de los diálogos modales (VibraDialog): un punto más de
+         relieve que ElevatedShadow, sin exagerar (fix pruebas manuales 2b) -->
+    <DropShadowEffect x:Key="DialogShadow" Color="#7C9BF7" Direction="270"
+                      ShadowDepth="13" BlurRadius="34" Opacity="0.5" />
+    <!-- Borde de la tarjeta del diálogo: brillo sutil arriba que degrada
+         al borde estándar, para reforzar la sensación de elevación -->
+    <LinearGradientBrush x:Key="DialogCardBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FFFFFF" Offset="0" />
+        <GradientStop Color="{StaticResource Border}" Offset="0.25" />
+        <GradientStop Color="{StaticResource Border}" Offset="1" />
+    </LinearGradientBrush>
     <DropShadowEffect x:Key="ActionShadow" Color="#3CC7C0" Direction="270"
                       ShadowDepth="8" BlurRadius="16" Opacity="0.35" />
     <DropShadowEffect x:Key="ActionShadowAlt" Color="#7C9BF7" Direction="270"

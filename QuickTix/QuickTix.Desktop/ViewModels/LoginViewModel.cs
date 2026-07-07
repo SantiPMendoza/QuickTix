@@ -46,6 +46,44 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty]
         private bool _isLoginEnabled = false;
 
+        // ===== Aviso modal (VibraDialog en modo alerta, fix 2b) =====
+        // Sustituye a los MessageBox del flujo de login.
+        [ObservableProperty] private bool _isAlertOpen;
+        [ObservableProperty] private string? _alertTitle;
+        [ObservableProperty] private string? _alertMessage;
+
+        // True cuando el aviso de bienvenida debe navegar al Panel al cerrarse
+        private bool _navigateToPanelOnAlertClose;
+
+        /// <summary>
+        /// Muestra un aviso modal con título y mensaje.
+        /// </summary>
+        /// <param name="title">Título del aviso.</param>
+        /// <param name="message">Mensaje del aviso.</param>
+        private void ShowAlert(string title, string message)
+        {
+            AlertTitle = title;
+            AlertMessage = message;
+            IsAlertOpen = true;
+        }
+
+        /// <summary>
+        /// Cierra el aviso modal. Tras el aviso de bienvenida, navega al Panel.
+        /// </summary>
+        [RelayCommand]
+        private void CloseAlert()
+        {
+            IsAlertOpen = false;
+
+            if (_navigateToPanelOnAlertClose)
+            {
+                _navigateToPanelOnAlertClose = false;
+
+                // El Panel (dashboard) es la vista inicial tras el login (spec 3a)
+                _navigationService.Navigate(typeof(PanelView));
+            }
+        }
+
         /// <summary>
         /// Comando que intenta iniciar sesión con las credenciales ingresadas.
         /// </summary>
@@ -54,7 +92,7 @@ namespace QuickTix.Desktop.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                System.Windows.MessageBox.Show("Por favor, completa todos los campos.");
+                ShowAlert("Campos incompletos", "Por favor, completa todos los campos.");
                 return;
             }
 
@@ -90,18 +128,21 @@ namespace QuickTix.Desktop.ViewModels
 
                     // ======================================
                     var user = _authService.GetCurrentUser();
-                    System.Windows.MessageBox.Show($"Bienvenido {user?.Name}");
-                    // El Panel (dashboard) es la vista inicial tras el login (spec 3a)
-                    _navigationService.Navigate(typeof(PanelView));
+
+                    // La navegación al Panel ocurre al cerrar el aviso de
+                    // bienvenida (CloseAlert): si navegáramos ya, la página
+                    // de login desaparecería y el aviso con ella.
+                    _navigateToPanelOnAlertClose = true;
+                    ShowAlert("Sesión iniciada", $"Bienvenido {user?.Name}");
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("Usuario o contraseña incorrectos.");
+                    ShowAlert("Error de acceso", "Usuario o contraseña incorrectos.");
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Error de conexión: {ex.Message}");
+                ShowAlert("Error de conexión", $"No se pudo conectar con el servidor: {ex.Message}");
             }
         }
 

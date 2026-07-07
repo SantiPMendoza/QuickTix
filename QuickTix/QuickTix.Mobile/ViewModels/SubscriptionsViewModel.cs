@@ -118,7 +118,8 @@ namespace QuickTix.Mobile.ViewModels
                 ValidityText = $"Inicio: {s.StartDate:dd/MM/yyyy} · Fin: {s.EndDate:dd/MM/yyyy}",
                 ReferenceText = $"Ref: SUB-{s.Id:D6}",
                 IsExpired = expired,
-                ThemeColor = DurationToColor(s.Duration)
+                ThemeColor = DurationToColor(s.Duration),
+                CategoryKey = CategoryToKey(s.Category)
             };
         }
 
@@ -137,6 +138,21 @@ namespace QuickTix.Mobile.ViewModels
             SubscriptionCategory.Jubilado => "Jubilado",
             SubscriptionCategory.FamiliaNumerosa => "Familia numerosa",
             _ => category.ToString()
+        };
+
+        /// <summary>
+        /// Clave estable (ASCII, sin acentos) que consumen los DataTriggers de la tarjeta
+        /// para elegir el degradado por categoría — mismo mapeo que los chips de Desktop.
+        /// </summary>
+        /// <param name="category">Categoría del abono.</param>
+        /// <returns>Clave de categoría para la UI.</returns>
+        private static string CategoryToKey(SubscriptionCategory category) => category switch
+        {
+            SubscriptionCategory.Niño => "Nino",
+            SubscriptionCategory.Adulto => "Adulto",
+            SubscriptionCategory.Jubilado => "Jubilado",
+            SubscriptionCategory.FamiliaNumerosa => "FamiliaNumerosa",
+            _ => "Adulto"
         };
 
         private static Color DurationToColor(SubscriptionDuration duration) => duration switch

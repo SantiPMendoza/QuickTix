@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:QuickTix.Desktop.Controls"
       mc:Ignorable="d"
       d:DesignHeight="650"
       d:DesignWidth="1000"
@@ -222,5 +223,37 @@
             </TabItem>
 
         </TabControl>
+
+        <!-- Avisos modales (sustituyen a los MessageBox de error de carga):
+             uno por cada VM de historial -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding TicketSales.IsAlertOpen}"
+                              DialogMinWidth="380"
+                              Title="{Binding TicketSales.AlertTitle}">
+            <controls:VibraDialog.DialogContent>
+                <TextBlock Text="{Binding TicketSales.AlertMessage}"
+                           MaxWidth="440" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextMuted2Brush}"/>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                        Command="{Binding TicketSales.CloseAlertCommand}" Width="100"/>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding SubscriptionSales.IsAlertOpen}"
+                              DialogMinWidth="380"
+                              Title="{Binding SubscriptionSales.AlertTitle}">
+            <controls:VibraDialog.DialogContent>
+                <TextBlock Text="{Binding SubscriptionSales.AlertMessage}"
+                           MaxWidth="440" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextMuted2Brush}"/>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                        Command="{Binding SubscriptionSales.CloseAlertCommand}" Width="100"/>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
     </Grid>
 </Page>

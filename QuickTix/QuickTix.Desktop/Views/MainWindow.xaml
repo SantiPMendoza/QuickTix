@@ -111,9 +111,11 @@
 
                 <ui:NavigationView.Resources>
                     <!-- Ítem de navegación Vibra. Estilo implícito local:
-                         los NavigationViewItem los crea el VM y no se tocan.
-                         Los iconos del handoff se mapean aquí por Content
-                         (DataTriggers) para no modificar el ViewModel. -->
+                         los NavigationViewItem los crea el VM (que asigna el
+                         SymbolIcon de cada ítem); aquí solo se presenta el
+                         Icon del ítem. NO volver a glifos por DataTrigger:
+                         falló dos veces (SymbolIcon perezoso / TextBlock con
+                         FluentSystemIcons nunca visible en runtime). -->
                     <Style TargetType="{x:Type ui:NavigationViewItem}">
                         <Setter Property="Foreground" Value="{StaticResource SidebarInactiveTextBrush}" />
                         <Setter Property="FontFamily" Value="{StaticResource VibraBodyFontFamily}" />
@@ -138,25 +140,16 @@
                                                        RadiusX="1.5" RadiusY="1.5"
                                                        Fill="{StaticResource SidebarActiveBarGradient}"
                                                        Visibility="Hidden" />
-                                            <Grid Grid.Column="1" Margin="9,9,0,9" VerticalAlignment="Center">
-                                                <ContentPresenter x:Name="IconPresenter"
-                                                                  Content="{TemplateBinding Icon}"
-                                                                  TextElement.FontSize="17"
-                                                                  TextElement.Foreground="{TemplateBinding Foreground}" />
-                                                <!-- Fix iconos "en blanco": ui:SymbolIcon construye su glifo de
-                                                     forma perezosa (fuente vía OnInitialized + TextBlock interno
-                                                     en el primer Measure) y con Symbol llegando SOLO por
-                                                     DataTrigger de plantilla el glifo quedaba vacío. Se dibuja
-                                                     el glifo directamente con un TextBlock y la fuente
-                                                     FluentSystemIcons que ya registra WPF-UI. -->
-                                                <TextBlock x:Name="MappedIcon"
-                                                           FontFamily="{DynamicResource FluentSystemIcons}"
-                                                           FontSize="17"
-                                                           FontWeight="Normal"
-                                                           Foreground="{TemplateBinding Foreground}"
-                                                           VerticalAlignment="Center"
-                                                           Visibility="Collapsed" />
-                                            </Grid>
+                                            <!-- Icono del ítem: se presenta el SymbolIcon que asigna el VM.
+                                                 SymbolIcon hereda Foreground/FontSize vía TextElement,
+                                                 así el color sigue el estado del ítem (handoff: icono 19px). -->
+                                            <ContentPresenter x:Name="IconPresenter"
+                                                              Grid.Column="1"
+                                                              Margin="9,9,0,9"
+                                                              VerticalAlignment="Center"
+                                                              Content="{TemplateBinding Icon}"
+                                                              TextElement.FontSize="19"
+                                                              TextElement.Foreground="{TemplateBinding Foreground}" />
                                             <ContentPresenter Grid.Column="2"
                                                               Margin="10,9,12,9"
                                                               VerticalAlignment="Center"
@@ -168,44 +161,17 @@
                                             <Setter TargetName="Bd" Property="Background" Value="#14FFFFFF" />
                                         </Trigger>
                                         <Trigger Property="IsActive" Value="True">
-                                            <!-- Activo reforzado: degradado a opacidad completa + texto e
-                                                 icono en blanco explícito (fix pruebas manuales 2b) -->
-                                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarActiveGradientStrong}" />
+                                            <!-- Activo EXACTO al handoff (§ESCRITORIO — Shell común):
+                                                 fondo linear-gradient(90deg, rgba(96,199,224,.22),
+                                                 rgba(124,155,247,.14)) = SidebarActiveGradient
+                                                 (#3860C7E0 → #247C9BF7), texto e icono blancos,
+                                                 barra izquierda 3px #60E0CF→#7C9BF7, radio 12. -->
+                                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarActiveGradient}" />
                                             <Setter TargetName="ActiveBar" Property="Visibility" Value="Visible" />
                                             <Setter Property="Foreground" Value="White" />
                                             <Setter Property="FontWeight" Value="SemiBold" />
-                                            <Setter TargetName="MappedIcon" Property="Foreground" Value="White" />
                                             <Setter TargetName="IconPresenter" Property="TextElement.Foreground" Value="White" />
                                         </Trigger>
-                                        <!-- Iconos del handoff sin tocar el VM. Los glifos son los
-                                             codepoints de SymbolRegular (WPF-UI 3.0.5):
-                                             Grid24 F463, People24 F5A9, Receipt24 E9FF,
-                                             Tag24 F77D, Person24 F5BE. -->
-                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Panel">
-                                            <Setter TargetName="MappedIcon" Property="Text" Value="&#xF463;" />
-                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
-                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Usuarios">
-                                            <Setter TargetName="MappedIcon" Property="Text" Value="&#xF5A9;" />
-                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
-                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Historial de&#10;ventas">
-                                            <Setter TargetName="MappedIcon" Property="Text" Value="&#xE9FF;" />
-                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
-                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Precios">
-                                            <Setter TargetName="MappedIcon" Property="Text" Value="&#xF77D;" />
-                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
-                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Value="Clientes">
-                                            <Setter TargetName="MappedIcon" Property="Text" Value="&#xF5BE;" />
-                                            <Setter TargetName="MappedIcon" Property="Visibility" Value="Visible" />
-                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>

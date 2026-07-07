@@ -53,12 +53,16 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 - [ ] Swagger: GET `/api/Analytics/summary` → 401 sin token, 403 como manager/client, 200 como admin; caché TTL 30 s (una venta tarda ≤30 s en reflejarse)
 - [ ] Zona horaria: `Sale.Date` es UTC — una venta a última hora (España = UTC+2 en verano) computa como "mañana" en los KPIs de hoy. ¿Molesta para la demo?
 
-**2b. Fixes visuales Desktop encontrados en la pasada (2026-07-07) — corregir en la rama**
-- [ ] Sidebar: los iconos del menú se ven en blanco (no se distinguen) y el ítem activo necesita destacarse más
-- [ ] Modales de añadir/editar (Users/Clients): los TextBox colapsan a ~1 carácter de ancho — darles anchura mínima
-- [ ] Dashboard: el tooltip de las gráficas muestra "56.0000" — formatear como "56,00 €"
-- [ ] Eliminar abono no pide confirmación → añadir modal de confirmación. De paso: **unificar todos los modales Desktop como componente común** (hoy cada vista monta su propio Popup)
-- [ ] Modal de clientes: los bonos/abonos deben distinguirse por color (ahora todos iguales) — p. ej. color por categoría o duración del abono
+**2b. Fixes visuales encontrados en las pasadas (2026-07-07) — corregir en la rama**
+- [ ] Sidebar iconos (3er intento, pendiente de VERLO): `Icon` asignado en MainViewModel vía SymbolIcon nativo (los 2 intentos por triggers de plantilla fallaron: SymbolIcon construye el glifo perezosamente y no reacciona a Symbol por trigger) + activo exacto del handoff (gradiente .22/.14, barra 3px, blanco, radio 12)
+- [ ] Eliminar abono: el 2º modal era el MessageBox del force-delete 409 — que salta SIEMPRE porque todo abono vendido tiene SaleItems (el "conflicto" es el camino normal). Ahora: 1 confirm + diálogo de conflicto solo si 409 real. Verificar el flujo completo incl. "Eliminar todo"
+- [ ] Los 18 MessageBox de Desktop convertidos a VibraDialog (alerta reutilizable en BaseCrudViewModel + confirm de borrado por diálogo). OJO en la pasada: el aviso "Sesión iniciada" del login ahora navega al Panel AL CERRARLO
+- [ ] VibraDialog con más relieve (DialogShadow 13/34/0.5 + borde con brillo superior). ¿Suficiente?
+- [ ] **Mobile: tarjetas del carrusel por categoría** — Niño=sky (oscurecido para contraste), Adulto=teal héroe, Jubilado=lavanda, FamiliaNumerosa=periwinkle; caducado gris siempre gana. Verificar legibilidad en emulador
+- [ ] Limitación conocida (revisión adversaria): los VibraDialog no son modales de verdad — se pueden abrir 2 a la vez (p.ej. confirm de cliente + confirm de abono). El bug de "borrar el registro equivocado" que esto permitía YA está corregido (snapshot PendingDeleteItem); la exclusión mutua de diálogos queda como mejora si molesta en la práctica
+- [x] Modales de añadir/editar (Users/Clients): TextBox a ancho completo de tarjeta (2026-07-07)
+- [x] Dashboard: tooltip "56.0000" → "56,00 €" preformateado en VM (StringFormat se ignora en ToolTip) (2026-07-07)
+- [x] Modal de clientes: chips de abono por color de categoría (2026-07-07)
 - [x] Venta de abono como admin bloqueada → CORREGIDO 2026-07-07: en Nalda los administrativos del ayuntamiento (admins de la app) son quienes venden los abonos (ver Decision Log)
 
 **3. Si todo pasa**: merge de `feature/vibra-s0` a main + borrar la rama.

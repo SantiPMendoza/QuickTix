@@ -12,6 +12,10 @@ public partial class SubscriptionCardViewModel : ObservableObject
 
     [ObservableProperty] private bool isExpired;
 
+    // Clave estable de categoría (sin acentos) para los DataTriggers de la
+    // tarjeta: "Adulto" | "Nino" | "Jubilado" | "FamiliaNumerosa".
+    [ObservableProperty] private string categoryKey = "Adulto";
+
     [ObservableProperty] private Color themeColor = Colors.DodgerBlue;
 
     public string StatusText => IsExpired ? "CADUCADA" : "ACTIVA";

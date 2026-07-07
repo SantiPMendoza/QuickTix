@@ -167,8 +167,30 @@
 
                         </Grid>
 
-                        <!-- Estado caducada (2f): degradado gris del tema -->
+                        <!-- Color por categoría (mismo mapeo que los chips de Desktop):
+                             Adulto = teal (CardGradient por defecto, sin trigger),
+                             Niño = sky, Jubilado = lavanda, FamiliaNumerosa = periwinkle. -->
                         <Border.Triggers>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding CategoryKey}"
+                                         Value="Nino">
+                                <Setter Property="Background"
+                                        Value="{StaticResource CardGradientSky}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding CategoryKey}"
+                                         Value="Jubilado">
+                                <Setter Property="Background"
+                                        Value="{StaticResource CardGradientLavender}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding CategoryKey}"
+                                         Value="FamiliaNumerosa">
+                                <Setter Property="Background"
+                                        Value="{StaticResource CardGradientPeriwinkle}" />
+                            </DataTrigger>
+                            <!-- Estado caducada (2f): SIEMPRE el último trigger — en MAUI
+                                 el trigger posterior gana, así el gris pisa al color de categoría. -->
                             <DataTrigger TargetType="Border"
                                          Binding="{Binding IsExpired}"
                                          Value="True">

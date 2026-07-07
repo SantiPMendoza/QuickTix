@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:local="clr-namespace:QuickTix.Desktop.Views.Pages"
+      xmlns:controls="clr-namespace:QuickTix.Desktop.Controls"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:LoginView, IsDesignTimeCreatable=True}"
       Title="Inicio de Sesión"
@@ -52,9 +53,26 @@
                Height="45"
                HorizontalAlignment="Center"
                Appearance="Primary"/>
-            
-            
+
+
         </StackPanel>
+
+        <!-- Aviso modal del login (sustituye a los MessageBox). Tras el aviso
+             de bienvenida, CloseAlert navega al Panel. -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="3"
+                              IsOpen="{Binding ViewModel.IsAlertOpen}"
+                              DialogMinWidth="380"
+                              Title="{Binding ViewModel.AlertTitle}">
+            <controls:VibraDialog.DialogContent>
+                <TextBlock Text="{Binding ViewModel.AlertMessage}"
+                           MaxWidth="440" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextMuted2Brush}"/>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
+                        Command="{Binding ViewModel.CloseAlertCommand}" Width="100"/>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
 
     </Grid>
 </Page>

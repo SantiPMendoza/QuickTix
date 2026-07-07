@@ -55,6 +55,17 @@
     <Color x:Key="DisabledBg">#EEF0F6</Color>
     <Color x:Key="DisabledText">#8393AC</Color>
 
+    <!-- ===== Tokens Vibra: tonos intermedios de tarjeta por categoría =====
+         Mapeo compartido con los chips de Desktop:
+         Adulto = teal (CardGradient), Niño = sky, Jubilado = lavanda,
+         FamiliaNumerosa = periwinkle. Los tonos sky van ligeramente más
+         oscuros que BrandSky (#ABD6FF) para que el texto blanco siga
+         siendo legible sobre la variante más clara. -->
+    <Color x:Key="CardSky1">#9CCBFF</Color>
+    <Color x:Key="CardSky2">#89B4FA</Color>
+    <Color x:Key="CardLavMid">#B8A5F0</Color>
+    <Color x:Key="CardBlueMid">#6E8BE8</Color>
+
     <!-- ===== Brushes de los tokens Vibra ===== -->
     <SolidColorBrush x:Key="BrandTealBrush" Color="{StaticResource BrandTeal}" />
     <SolidColorBrush x:Key="BrandTealDeepBrush" Color="{StaticResource BrandTealDeep}" />
@@ -121,6 +132,29 @@
     <LinearGradientBrush x:Key="ExpiredCardGradient" StartPoint="0,0" EndPoint="0.58,1">
         <GradientStop Color="{StaticResource ExpiredCard1}" Offset="0" />
         <GradientStop Color="{StaticResource ExpiredCard2}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Degradados de tarjeta de abono por categoría (150deg, misma geometría
+         que CardGradient). Adulto conserva CardGradient (teal→periwinkle). -->
+    <!-- Niño: familia sky -->
+    <LinearGradientBrush x:Key="CardGradientSky" StartPoint="0,0" EndPoint="0.58,1">
+        <GradientStop Color="{StaticResource CardSky1}" Offset="0" />
+        <GradientStop Color="{StaticResource CardSky2}" Offset="0.45" />
+        <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Jubilado: familia lavanda -->
+    <LinearGradientBrush x:Key="CardGradientLavender" StartPoint="0,0" EndPoint="0.58,1">
+        <GradientStop Color="{StaticResource BrandLavender}" Offset="0" />
+        <GradientStop Color="{StaticResource CardLavMid}" Offset="0.45" />
+        <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Familia numerosa: familia periwinkle/azul -->
+    <LinearGradientBrush x:Key="CardGradientPeriwinkle" StartPoint="0,0" EndPoint="0.58,1">
+        <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="0" />
+        <GradientStop Color="{StaticResource CardBlueMid}" Offset="0.45" />
+        <GradientStop Color="{StaticResource BrandCyan}" Offset="1" />
     </LinearGradientBrush>
 
     <!-- ============================================================
