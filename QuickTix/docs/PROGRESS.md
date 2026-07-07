@@ -133,6 +133,17 @@ Fuera del sprint:
 
 ## Session Log
 
+### 2026-07-07 — Session 3b (pasada visual con soporte en vivo, tarde)
+- Pasada de Santi sobre Desktop → 2 tandas de hallazgos, todos corregidos en la rama (4 commits: `e1f0fad`, `18a48bc`, `668cdd9`, `feab430`):
+  - **Venta de abono por ADMIN** (decisión de producto resuelta): `Sale.ManagerId` nullable, venta admin = "Administración"; la revisión adversaria cazó y cerró un bypass en el PUT genérico
+  - **Panel v2** (quick wins del research): donut en €, caducidades ≤7d, acumulado temporada, fix tooltip (StringFormat se ignora en ToolTip)
+  - **VibraDialog** componente común de modales; 18 MessageBox convertidos; el "2º modal" al borrar abono era el force-delete 409 que saltaba siempre; snapshot `PendingDeleteItem` para no borrar el registro equivocado (revisión adversaria)
+  - **Iconos sidebar**: 2 intentos por triggers de plantilla fallidos (SymbolIcon construye el glifo perezosamente) → 3º: `Icon` desde MainViewModel, vía nativa — PENDIENTE de verificar con ojos
+  - **Mobile**: tarjetas del carrusel por categoría (mismo mapeo que chips Desktop)
+- Gotchas técnicos de la sesión: SQLite no traduce `Sum` decimal (agregados en memoria); la query de historial de abonos generaba SQL APPLY (reescrita); la API necesita SQL Server listo al arrancar (sin retry)
+- Estrategia: `docs/reunion-raquel.md` (8 bloques de decisiones para Raquel); research versionado; decisiones: efectivo hasta Raquel, anulación en S2, bonos N baños descartados
+- Suite 6/6; todo pusheado. Next: verificar los fixes de la tarde (iconos, flujo borrado, tarjeta sky) → resto de checklist → merge
+
 ### 2026-07-07 — Session 3 (auditoría estática del front antes de la pasada manual)
 - Auditoría completa Mobile+Desktop con 2 agentes (recursos, fuentes, bindings, triggers, seguridad ante datos vacíos del Panel): 0 claves XAML colgantes, 0 bindings rotos, managerId verificado extremo a extremo (claim `managerId` en UserRepository ↔ JwtClaimReader en Desktop, error inline si admin sin claim)
 - **Bug grave encontrado y corregido**: sidebar Desktop no reaparecía tras login (`IsPaneVisible=false` en LoginView sin restaurar en la rama else) — habría matado la demo
