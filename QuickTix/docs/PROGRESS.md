@@ -58,6 +58,7 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 - [ ] Modales de añadir/editar (Users/Clients): los TextBox colapsan a ~1 carácter de ancho — darles anchura mínima
 - [ ] Dashboard: el tooltip de las gráficas muestra "56.0000" — formatear como "56,00 €"
 - [ ] Eliminar abono no pide confirmación → añadir modal de confirmación. De paso: **unificar todos los modales Desktop como componente común** (hoy cada vista monta su propio Popup)
+- [ ] Modal de clientes: los bonos/abonos deben distinguirse por color (ahora todos iguales) — p. ej. color por categoría o duración del abono
 - [x] Venta de abono como admin bloqueada → CORREGIDO 2026-07-07: en Nalda los administrativos del ayuntamiento (admins de la app) son quienes venden los abonos (ver Decision Log)
 
 **3. Si todo pasa**: merge de `feature/vibra-s0` a main + borrar la rama.
@@ -76,7 +77,7 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 ### TODO
 Sprint demo, en orden (0 → 1 → 2 → 3). Diseño: **dirección "1b Vibra"** — handoff completo con
 tokens, tipografías y specs por pantalla en `reference/App redesign directions/design_handoff_quicktix_vibra/README.md`:
-- [ ] (S2) Cierre de caja: informe por día/rango y venue/manager + export CSV (CsvHelper ya referenciado en Desktop)
+- [ ] (S2) Cierre de caja: informe por día/rango y venue/manager (+ bucket "Administración") + export CSV (CsvHelper ya referenciado en Desktop). Requisitos añadidos 2026-07-07: **anulación de venta entra sí o sí** (política exacta pendiente de Raquel — ver `docs/reunion-raquel.md` §2); el "día" del arqueo se define en hora local Europe/Madrid, NO en UTC; diseñar campo `PaymentMethod` en Sale aunque de momento todo sea efectivo (activación cuando Raquel confirme datáfono/Bizum); vocabulario de intervención (arqueo, desglose por tipo y medio de pago)
 - [ ] (S3) Venue genérico, versión demo: `VenueType` + textos de UI + seed con recinto no-piscina (el handoff ya usa "Pabellón Sócon" — refuerza la narrativa) (NO generalizar TicketType — ver Pending Decisions)
 
 Fuera del sprint:
@@ -89,6 +90,8 @@ Fuera del sprint:
 
 ### IN PROGRESS
 - [ ] Validación manual de `feature/vibra-s0` en casa (checklist arriba) → merge a main + borrar rama
+- [ ] (S1.5) Panel v2 — quick wins pre-demo del análisis de research: donut en € (no unidades), KPI "abonos que caducan ≤7 días", acumulado de temporada, fix tooltip "56.0000" → "56,00 €"
+- [ ] Fixes visuales Desktop de la sección 2b (sidebar iconos + resalte activo, anchura TextBoxes en modales, componente común VibraDialog + confirmación de borrado, colores por categoría de abono)
 
 ### DONE
 - [x] (S1) Panel (3a): endpoint read-only `/api/Analytics/summary` + vista Panel inicial en Desktop con KPI "Aforo estimado hoy" — en `feature/vibra-s0`, pendiente de prueba manual (2026-07-03)
@@ -107,6 +110,8 @@ Fuera del sprint:
 | Date | Decision | Rationale |
 |---|---|---|
 | 2026-07-07 | Ventas de abono por ADMIN: `Sale.ManagerId` pasa a nullable; venta admin = manager null, mostrada como "Administración" | Producto: en Nalda los administrativos (admins) venden los abonos. Alternativas descartadas: dar perfil Manager al admin le anclaría a UN venue (`Manager.VenueId` requerido) rompiendo multi-recinto; dropdown de manager atribuiría la venta a quien no vendió (falsearía el cierre de caja S2). Venta de TICKETS sigue siendo solo-manager (POS en puerta). Atribución por admin individual aplazada a la capa de servicios (ADR-002). |
+| 2026-07-07 | Medios de pago: TODO efectivo en taquilla hasta decisión de Raquel; anulación de venta entra sí o sí en S2 (política exacta también de Raquel) | Las preguntas concretas viven en `docs/reunion-raquel.md` (agenda de la reunión: accesos/QR, pagos, anulaciones, formato de arqueo, precios reales, RGPD, contratación, hosting). S2 diseña `PaymentMethod` sin activarlo. |
+| 2026-07-07 | Bonos de N baños DESCARTADOS: en Nalda no se gestiona así | Aunque el research lo marca como habitual del sector, no aplica al caso real. No retomar por iniciativa propia; quitado de la agenda de Raquel. |
 | 2026-07-03 | Pase digital de abonados (handoff 2b/2c/2e) APARCADO junto al QR; carrusel 2a/2f entra (visual puro, sin gesto de entrada) | Mismo razonamiento que el QR: gestor mirando móvil en puerta = retraso, y en un pueblo al abonado se le conoce. Requeriría backend nuevo + trigger ADR-002. |
 | 2026-07-03 | Próxima(s) sesión(es): iteración FRONTEND-ONLY en rama `feature/vibra-s0`, sin merge a main hasta que Santi pruebe en casa | Santi fuera con remote control, no puede probar; `dotnet build` como única verificación. |
 | 2026-07-03 | Dirección de diseño elegida: "1b Vibra" (teal/cyan/periwinkle, Space Grotesk + DM Sans, degradados en acciones) | Handoff generado en claude.ai/design y versionado en `reference/`. Rediseño puramente visual: no tocar ViewModels ni bindings. |

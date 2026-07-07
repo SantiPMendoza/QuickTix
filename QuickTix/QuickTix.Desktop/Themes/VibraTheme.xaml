@@ -38,6 +38,9 @@
     <Color x:Key="ChipTealFg">#0F8C82</Color>
     <Color x:Key="ChipLavBg">#F4F1FC</Color>
     <Color x:Key="ChipLavFg">#7A5CB0</Color>
+    <!-- Chip sky (4ª familia de color para categorías de abono, fix 2b) -->
+    <Color x:Key="ChipSkyBg">#EAF4FF</Color>
+    <Color x:Key="ChipSkyFg">#3D7DBF</Color>
 
     <!-- ===== Colores: estados ===== -->
     <Color x:Key="Success">#16A34A</Color>
@@ -78,6 +81,8 @@
     <SolidColorBrush x:Key="ChipTealFgBrush" Color="{StaticResource ChipTealFg}" />
     <SolidColorBrush x:Key="ChipLavBgBrush" Color="{StaticResource ChipLavBg}" />
     <SolidColorBrush x:Key="ChipLavFgBrush" Color="{StaticResource ChipLavFg}" />
+    <SolidColorBrush x:Key="ChipSkyBgBrush" Color="{StaticResource ChipSkyBg}" />
+    <SolidColorBrush x:Key="ChipSkyFgBrush" Color="{StaticResource ChipSkyFg}" />
     <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource Success}" />
     <SolidColorBrush x:Key="SuccessBgBrush" Color="{StaticResource SuccessBg}" />
     <SolidColorBrush x:Key="DangerBgBrush" Color="{StaticResource DangerBg}" />
@@ -142,6 +147,15 @@
     <!-- Barra izquierda del ítem activo del sidebar (vertical) -->
     <LinearGradientBrush x:Key="SidebarActiveBarGradient" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Color="{StaticResource BrandTeal}" Offset="0" />
+        <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Ítem activo del sidebar, versión reforzada (fix pruebas manuales 2b):
+         degradado a opacidad completa para que el activo destaque claramente
+         sobre el fondo InkSidebar. Clave NUEVA: no sustituye a
+         SidebarActiveGradient (otras vistas pueden seguir usándolo). -->
+    <LinearGradientBrush x:Key="SidebarActiveGradientStrong" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Color="{StaticResource BrandTealDeep}" Offset="0" />
         <GradientStop Color="{StaticResource BrandPeriwinkle}" Offset="1" />
     </LinearGradientBrush>
 

@@ -44,6 +44,11 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private bool isEditingSubscription;
         [ObservableProperty] private object? activeSubscriptionForm;
 
+        // Estado del diálogo de confirmación de borrado de abono (fix 2b):
+        // el borrado real solo se ejecuta al confirmar, nunca directamente.
+        [ObservableProperty] private bool isConfirmDeleteSubscriptionOpen;
+        [ObservableProperty] private SubscriptionDTO? pendingDeleteSubscription;
+
         /// <summary>
         /// Inicializa una nueva instancia de <see cref="ClientsViewModel"/>,
         /// crea el módulo de suscripciones y carga el listado inicial de clientes.
@@ -257,11 +262,15 @@ namespace QuickTix.Desktop.ViewModels
         }
 
         /// <summary>
-        /// Cancela la suscripción seleccionada en el módulo de suscripciones.
+        /// Abre el diálogo de confirmación para eliminar la suscripción seleccionada.
+        /// El borrado real se ejecuta en <see cref="ConfirmDeleteSubscription"/>.
         /// </summary>
-        /// <returns>Tarea asíncrona.</returns>
+        /// <remarks>
+        /// Se mantiene el nombre del comando (CancelSubscriptionCommand) para no
+        /// romper el binding existente del botón "Cancelar abono".
+        /// </remarks>
         [RelayCommand]
-        private async Task CancelSubscription()
+        private void CancelSubscription()
         {
             if (SelectedItem == null)
                 return;
@@ -269,10 +278,40 @@ namespace QuickTix.Desktop.ViewModels
             if (SubscriptionsVM.SelectedItem == null)
                 return;
 
-            var subId = SubscriptionsVM.SelectedItem.Id;
+            PendingDeleteSubscription = SubscriptionsVM.SelectedItem;
+            IsConfirmDeleteSubscriptionOpen = true;
+        }
+
+        /// <summary>
+        /// Confirma y ejecuta el borrado de la suscripción pendiente de eliminar.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
+        [RelayCommand]
+        private async Task ConfirmDeleteSubscription()
+        {
+            if (PendingDeleteSubscription == null)
+            {
+                IsConfirmDeleteSubscriptionOpen = false;
+                return;
+            }
+
+            var subId = PendingDeleteSubscription.Id;
+
+            IsConfirmDeleteSubscriptionOpen = false;
+            PendingDeleteSubscription = null;
 
             await SubscriptionsVM.DeleteAsync(subId);
             SubscriptionsVM.SelectedItem = null;
+        }
+
+        /// <summary>
+        /// Cierra el diálogo de confirmación sin eliminar nada.
+        /// </summary>
+        [RelayCommand]
+        private void CancelDeleteSubscription()
+        {
+            IsConfirmDeleteSubscriptionOpen = false;
+            PendingDeleteSubscription = null;
         }
 
         /// <summary>

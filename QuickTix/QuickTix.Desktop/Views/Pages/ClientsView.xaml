@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="clr-namespace:QuickTix.Desktop.Views.Pages"
+      xmlns:controls="clr-namespace:QuickTix.Desktop.Controls"
       mc:Ignorable="d"
       Title="Clientes">
 
@@ -224,9 +225,39 @@
                                             <GridViewColumn Header="CATEGORÍA" Width="140">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Category}"
-                                                                   FontWeight="SemiBold"
-                                                                   Foreground="{StaticResource InkBrush}"/>
+                                                        <!-- Chip por categoría: cada SubscriptionCategory con su
+                                                             familia de color Vibra; caducado degrada a gris
+                                                             (coherente con ExpiredBg en Mobile). Fix 2b. -->
+                                                        <Border x:Name="CategoryChip" HorizontalAlignment="Left"
+                                                                CornerRadius="{StaticResource ChipCornerRadiusSmall}"
+                                                                Padding="10,3"
+                                                                Background="{StaticResource ChipTealBgBrush}">
+                                                            <TextBlock x:Name="CategoryChipText"
+                                                                       Text="{Binding Category}"
+                                                                       FontSize="11" FontWeight="SemiBold"
+                                                                       Foreground="{StaticResource ChipTealFgBrush}"/>
+                                                        </Border>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding Category}" Value="Niño">
+                                                                <Setter TargetName="CategoryChip" Property="Background" Value="{StaticResource ChipSkyBgBrush}"/>
+                                                                <Setter TargetName="CategoryChipText" Property="Foreground" Value="{StaticResource ChipSkyFgBrush}"/>
+                                                            </DataTrigger>
+                                                            <!-- Adulto usa el teal por defecto del chip -->
+                                                            <DataTrigger Binding="{Binding Category}" Value="Jubilado">
+                                                                <Setter TargetName="CategoryChip" Property="Background" Value="{StaticResource ChipLavBgBrush}"/>
+                                                                <Setter TargetName="CategoryChipText" Property="Foreground" Value="{StaticResource ChipLavFgBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Category}" Value="FamiliaNumerosa">
+                                                                <Setter TargetName="CategoryChip" Property="Background" Value="{StaticResource ChipBlueBgBrush}"/>
+                                                                <Setter TargetName="CategoryChipText" Property="Foreground" Value="{StaticResource ChipBlueFgBrush}"/>
+                                                            </DataTrigger>
+                                                            <!-- El gris de caducado va el ÚLTIMO para ganar a los
+                                                                 triggers de categoría (misma propiedad) -->
+                                                            <DataTrigger Binding="{Binding Status}" Value="Caducado">
+                                                                <Setter TargetName="CategoryChip" Property="Background" Value="{StaticResource ExpiredBgBrush}"/>
+                                                                <Setter TargetName="CategoryChipText" Property="Foreground" Value="{StaticResource ExpiredFgBrush}"/>
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -300,109 +331,146 @@
         <!-- Popups -->
         <!-- ============================================================ -->
 
-        <!-- Popup Cliente -->
-        <Popup IsOpen="{Binding IsClientFlyoutOpen}" StaysOpen="True" Placement="Center" AllowsTransparency="True">
-            <Grid Margin="24">
-                <!-- Margen exterior para que la sombra elevada no se recorte -->
-                <Border Style="{StaticResource VibraPopupCard}" Width="420" MinHeight="300">
-                    <StackPanel>
-                        <TextBlock Text="{Binding IsEditingClient,
-                                  Converter={StaticResource BoolToTextConverter},
-                                  ConverterParameter='Editar Cliente|Añadir Cliente'}"
-                                   Style="{StaticResource VibraPopupTitle}"/>
+        <!-- Popup Cliente (chrome común VibraDialog, fix 2b).
+             RowSpan completo: el Popup se centra sobre este control. -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding IsClientFlyoutOpen}"
+                              DialogMinWidth="420"
+                              Title="{Binding IsEditingClient,
+                                      Converter={StaticResource BoolToTextConverter},
+                                      ConverterParameter='Editar Cliente|Añadir Cliente'}"
+                              CloseCommand="{Binding CloseClientFlyoutCommand}">
+            <controls:VibraDialog.DialogContent>
+                <StackPanel>
+                    <!-- Campos a ancho completo de la tarjeta (antes Width=280 fijo) -->
+                    <Label Content="Nombre:" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding ActiveClientForm.Name, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"/>
 
-                        <Label Content="Nombre:" Style="{StaticResource VibraFieldLabel}"/>
-                        <TextBox Text="{Binding ActiveClientForm.Name, UpdateSourceTrigger=PropertyChanged}" Width="280" HorizontalAlignment="Left"/>
+                    <Label Content="NIF:" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding ActiveClientForm.Nif, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"/>
 
-                        <Label Content="NIF:" Style="{StaticResource VibraFieldLabel}"/>
-                        <TextBox Text="{Binding ActiveClientForm.Nif, UpdateSourceTrigger=PropertyChanged}" Width="280" HorizontalAlignment="Left"/>
+                    <Label Content="Email:" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding ActiveClientForm.Email, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"/>
 
-                        <Label Content="Email:" Style="{StaticResource VibraFieldLabel}"/>
-                        <TextBox Text="{Binding ActiveClientForm.Email, UpdateSourceTrigger=PropertyChanged}" Width="280" HorizontalAlignment="Left"/>
+                    <Label Content="Teléfono:" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding ActiveClientForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"/>
 
-                        <Label Content="Teléfono:" Style="{StaticResource VibraFieldLabel}"/>
-                        <TextBox Text="{Binding ActiveClientForm.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="280" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Foreground="{StaticResource DangerFgBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+                </StackPanel>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding CloseClientFlyoutCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Guardar" Style="{StaticResource VibraPrimaryButton}"
+                            Command="{Binding SaveClientCommand}" Width="100"/>
+                </StackPanel>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
 
-                        <TextBlock Text="{Binding ErrorMessage}"
-                                   Foreground="{StaticResource DangerFgBrush}"
-                                   TextWrapping="Wrap"
-                                   Margin="0,10,0,0"
-                                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+        <!-- Popup Abono (chrome común VibraDialog, fix 2b) -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding IsSubscriptionFlyoutOpen}"
+                              DialogMinWidth="460"
+                              Title="{Binding IsEditingSubscription,
+                                      Converter={StaticResource BoolToTextConverter},
+                                      ConverterParameter='Editar abono|Vender abono'}"
+                              CloseCommand="{Binding CloseSubscriptionFlyoutCommand}">
+            <controls:VibraDialog.DialogContent>
+                <StackPanel>
+                    <TextBlock Text="{Binding SelectedItem.Name}"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource TextMuted2Brush}"
+                               Margin="0,0,0,10"/>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                            <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
-                                    Command="{Binding CloseClientFlyoutCommand}" Width="100" Margin="0,0,10,0"/>
-                            <Button Content="Guardar" Style="{StaticResource VibraPrimaryButton}"
-                                    Command="{Binding SaveClientCommand}" Width="100"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Popup>
+                    <Label Content="Recinto:" Style="{StaticResource VibraFieldLabel}"/>
+                    <ComboBox ItemsSource="{Binding SubscriptionsVM.Venues}"
+                              SelectedValue="{Binding ActiveSubscriptionForm.VenueId, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Name"
+                              HorizontalAlignment="Stretch"/>
 
-        <!-- Popup Abono -->
-        <Popup IsOpen="{Binding IsSubscriptionFlyoutOpen}" StaysOpen="True" Placement="Center" AllowsTransparency="True">
-            <Grid Margin="24">
-                <Border Style="{StaticResource VibraPopupCard}" Width="460" MinHeight="360">
-                    <StackPanel>
-                        <TextBlock Text="{Binding IsEditingSubscription,
-                          Converter={StaticResource BoolToTextConverter},
-                          ConverterParameter='Editar abono|Vender abono'}"
-                                   Style="{StaticResource VibraPopupTitle}"/>
+                    <Label Content="Categoría:" Style="{StaticResource VibraFieldLabel}"/>
+                    <ComboBox ItemsSource="{Binding SubscriptionsVM.Categories}"
+                              SelectedItem="{Binding ActiveSubscriptionForm.Category, Mode=TwoWay}"
+                              HorizontalAlignment="Stretch"/>
 
-                        <TextBlock Text="{Binding SelectedItem.Name}"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextMuted2Brush}"
-                                   Margin="0,0,0,10"/>
+                    <Label Content="Duración:" Style="{StaticResource VibraFieldLabel}"/>
+                    <ComboBox ItemsSource="{Binding SubscriptionsVM.Durations}"
+                              SelectedItem="{Binding ActiveSubscriptionForm.Duration, Mode=TwoWay}"
+                              HorizontalAlignment="Stretch"/>
 
-                        <Label Content="Recinto:" Style="{StaticResource VibraFieldLabel}"/>
-                        <ComboBox ItemsSource="{Binding SubscriptionsVM.Venues}"
-                                  SelectedValue="{Binding ActiveSubscriptionForm.VenueId, Mode=TwoWay}"
-                                  SelectedValuePath="Id"
-                                  DisplayMemberPath="Name"
-                                  Width="300" HorizontalAlignment="Left"/>
+                    <!-- Fechas y precio se mantienen estrechos a propósito:
+                         son valores cortos, a ancho completo parecerían campos de texto -->
+                    <Label Content="Fecha de inicio:" Style="{StaticResource VibraFieldLabel}"/>
+                    <DatePicker SelectedDate="{Binding ActiveSubscriptionForm.StartDate, Mode=TwoWay}"
+                                Width="200" HorizontalAlignment="Left"/>
 
-                        <Label Content="Categoría:" Style="{StaticResource VibraFieldLabel}"/>
-                        <ComboBox ItemsSource="{Binding SubscriptionsVM.Categories}"
-                                  SelectedItem="{Binding ActiveSubscriptionForm.Category, Mode=TwoWay}"
-                                  Width="300" HorizontalAlignment="Left"/>
+                    <Label Content="Fecha de fin (calculada):" Style="{StaticResource VibraFieldLabel}"/>
+                    <DatePicker SelectedDate="{Binding ActiveSubscriptionForm.EndDate}"
+                                Width="200" HorizontalAlignment="Left"
+                                IsEnabled="False"/>
 
-                        <Label Content="Duración:" Style="{StaticResource VibraFieldLabel}"/>
-                        <ComboBox ItemsSource="{Binding SubscriptionsVM.Durations}"
-                                  SelectedItem="{Binding ActiveSubscriptionForm.Duration, Mode=TwoWay}"
-                                  Width="300" HorizontalAlignment="Left"/>
+                    <Label Content="Precio (calculado):" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding ActiveSubscriptionForm.Price}"
+                             FontFamily="{StaticResource VibraMonoFontFamily}"
+                             Width="120" HorizontalAlignment="Left"
+                             IsReadOnly="True"/>
 
-                        <Label Content="Fecha de inicio:" Style="{StaticResource VibraFieldLabel}"/>
-                        <DatePicker SelectedDate="{Binding ActiveSubscriptionForm.StartDate, Mode=TwoWay}"
-                                    Width="200" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding SubscriptionsVM.ErrorMessage}"
+                               Foreground="{StaticResource DangerFgBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"
+                               Visibility="{Binding SubscriptionsVM.ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+                </StackPanel>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding CloseSubscriptionFlyoutCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Guardar" Style="{StaticResource VibraPrimaryButton}"
+                            Command="{Binding SaveSubscriptionCommand}" Width="100"/>
+                </StackPanel>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
 
-                        <Label Content="Fecha de fin (calculada):" Style="{StaticResource VibraFieldLabel}"/>
-                        <DatePicker SelectedDate="{Binding ActiveSubscriptionForm.EndDate}"
-                                    Width="200" HorizontalAlignment="Left"
-                                    IsEnabled="False"/>
-
-                        <Label Content="Precio (calculado):" Style="{StaticResource VibraFieldLabel}"/>
-                        <TextBox Text="{Binding ActiveSubscriptionForm.Price}"
-                                 FontFamily="{StaticResource VibraMonoFontFamily}"
-                                 Width="120" HorizontalAlignment="Left"
-                                 IsReadOnly="True"/>
-
-                        <TextBlock Text="{Binding SubscriptionsVM.ErrorMessage}"
-                                   Foreground="{StaticResource DangerFgBrush}"
-                                   TextWrapping="Wrap"
-                                   Margin="0,10,0,0"
-                                   Visibility="{Binding SubscriptionsVM.ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                            <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
-                                    Command="{Binding CloseSubscriptionFlyoutCommand}" Width="100" Margin="0,0,10,0"/>
-                            <Button Content="Guardar" Style="{StaticResource VibraPrimaryButton}"
-                                    Command="{Binding SaveSubscriptionCommand}" Width="100"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Popup>
+        <!-- Confirmación de borrado de abono (fix 2b): sustituye al borrado
+             directo sin pregunta. MVVM puro: el delete real solo corre en
+             ConfirmDeleteSubscriptionCommand. -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding IsConfirmDeleteSubscriptionOpen}"
+                              DialogMinWidth="420"
+                              Title="¿Eliminar el abono?">
+            <controls:VibraDialog.DialogContent>
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}">
+                        <Run Text="Se eliminará el abono"/>
+                        <Run Text="{Binding PendingDeleteSubscription.Category, Mode=OneWay}" FontWeight="SemiBold"/>
+                        <Run Text="("/><Run Text="{Binding PendingDeleteSubscription.Duration, Mode=OneWay}"/><Run Text=")"/>
+                        <Run Text="válido hasta el"/>
+                        <Run Text="{Binding PendingDeleteSubscription.EndDate, Mode=OneWay, StringFormat=dd/MM/yyyy}" FontWeight="SemiBold"/><Run Text="."/>
+                        <Run Text="Esta acción no se puede deshacer."/>
+                    </TextBlock>
+                </StackPanel>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding CancelDeleteSubscriptionCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Eliminar" Style="{StaticResource VibraDangerButton}"
+                            Command="{Binding ConfirmDeleteSubscriptionCommand}" Width="100"/>
+                </StackPanel>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
 
     </Grid>
 </Page>
