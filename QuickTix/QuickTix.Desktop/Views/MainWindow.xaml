@@ -57,6 +57,7 @@
                        FooterMenuItemsSource="{Binding NavigationFooter, Mode=OneWay}"
                        MenuItemsSource="{Binding NavigationItems, Mode=OneWay}"
                        PaneDisplayMode="Left"
+                       HeaderVisibility="Collapsed"
                        OpenPaneLength="230"
                        IsPaneToggleVisible="False"
                        IsBackButtonVisible="Collapsed"

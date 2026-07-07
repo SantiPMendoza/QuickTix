@@ -57,6 +57,7 @@ namespace QuickTix.Desktop.Views
                 else
                 {
                     // 230px: ancho de sidebar del tema Vibra (antes 250)
+                    RootNavigation.IsPaneVisible = true;
                     RootNavigation.OpenPaneLength = 230;
                     RootNavigation.CompactPaneLength = double.NaN;
                     SidebarBackdrop.Visibility = Visibility.Visible;
