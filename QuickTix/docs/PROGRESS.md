@@ -12,15 +12,25 @@ Android SDK API 34, así que Mobile solo se compiló con el target Windows (el t
 Android está SIN compilar); `dotnet test` tampoco se ejecutó (restricción de la sesión).
 Siguiente trabajo de sprint: S2 (cierre de caja).
 
-**Last updated**: 2026-07-03 (sesión 2, remote control)
+**Last updated**: 2026-07-07 (sesión 3, auditoría estática del front)
 
 ## Pruebas manuales pendientes (antes de mergear `feature/vibra-s0`)
 
 Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propia rama.
 
+> **Auditoría estática 2026-07-07**: dos agentes revisaron TODO el front (recursos XAML,
+> fuentes, bindings contra ViewModels, triggers). Resultado: todos los StaticResource
+> resuelven (73 claves Mobile, 0 colgantes en Desktop), todos los bindings apuntan a
+> miembros reales, fuentes bien registradas. Se encontró y corrigió 1 bug grave:
+> **el pane del sidebar Desktop no volvía a aparecer tras el login** (`IsPaneVisible`
+> se ponía a false en LoginView y nunca se restauraba). También: `HeaderVisibility="Collapsed"`
+> añadido preventivamente, MainWindow muerto de la raíz eliminado, `Visual="Material"`
+> (no-op de Xamarin) fuera de 2 páginas Mobile. Builds verdes: Desktop, Mobile Windows
+> y Mobile **Android**. La checklist visual de abajo sigue pendiente de ojos humanos.
+
 **0. Builds/tests que faltaron en la sesión**
-- [ ] `dotnet build QuickTix.Mobile` con target **Android** (instalar Android SDK API 34 si falta)
-- [ ] `dotnet test` completo (los tests de ventas deben seguir verdes; Analytics solo lee)
+- [x] `dotnet build QuickTix.Mobile` con target **Android** — verde tras instalar la plataforma API 34 con `dotnet build -t:InstallAndroidDependencies` (2026-07-07)
+- [x] `dotnet test` completo — 2/2 verdes (2026-07-07)
 
 **1. Mobile (emulador o dispositivo)**
 - [ ] Splash y appicon nuevos (resizetizer: recorte del icono adaptativo, tamaño del logo en splash)
@@ -31,9 +41,9 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 - [ ] Sin XamlParseException en TicketsPage (los 5 StaticResources rotos ya están definidos — confirmar en runtime)
 
 **2. Desktop (WPF)**
-- [ ] Sidebar oscuro: pane del NavigationView transparente sobre el fondo InkSidebar; alternancia al login/logout (se togglea en code-behind)
-- [ ] Ítem activo del sidebar con degradado + barra izquierda; los 5 iconos mapeados por DataTrigger aparecen (ojo "Historial de\nventas")
-- [ ] Si aparece título/breadcrumb duplicado sobre las páginas → añadir `HeaderVisibility="Collapsed"` al NavigationView
+- [ ] Sidebar oscuro: pane del NavigationView transparente sobre el fondo InkSidebar; alternancia al login/logout (FIX 2026-07-07: el pane no reaparecía tras el login — confirmar visualmente que ahora sí)
+- [ ] Ítem activo del sidebar con degradado + barra izquierda; los 5 iconos mapeados por DataTrigger aparecen (verificado estáticamente: los 5 valores coinciden, incluido el LF de "Historial de\nventas" vía `&#10;` — solo falta verlo)
+- [x] Título/breadcrumb duplicado: `HeaderVisibility="Collapsed"` añadido preventivamente al NavigationView (2026-07-07) — cada página pinta su propio título, así que colapsar es seguro en ambos casos
 - [ ] TitleBar oscura: contraste del hover en min/max/close
 - [ ] Popups de UsersView/ClientsView: abren centrados y con sombra (se quitó el velo azulado)
 - [ ] PricingView: doble clic en Precio → editor mono con borde de foco; guardar precios funciona
@@ -44,6 +54,11 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 - [ ] Zona horaria: `Sale.Date` es UTC — una venta a última hora (España = UTC+2 en verano) computa como "mañana" en los KPIs de hoy. ¿Molesta para la demo?
 
 **3. Si todo pasa**: merge de `feature/vibra-s0` a main + borrar la rama.
+
+**Hallazgos fuera de alcance de la rama (apuntados, NO tocados)**
+- SalesView detalle: la columna "INVITADO POR" binde `TicketSales.InvitedByClientName` (escalar del VM vía RelativeSource), no una propiedad por línea → todas las filas muestran el mismo valor. Preexistente al restyling; revisar si una venta puede mezclar líneas invitadas/no invitadas.
+- Mobile csproj: `MauiIcon` sin `ForegroundFile`/`BaseSize` — el launcher adaptativo de Android enmascara ~33% del borde; si el icono sale recortado (checklist Mobile punto 1), la solución es separar capa foreground + `ForegroundScale`.
+- Mobile `Styles.xaml`: el estilo implícito de `Shadow` usa brush blanco con offset 10,10 — hoy nadie lo usa (todas las sombras Vibra lo sobreescriben), pero un `<Shadow/>` a pelo futuro sería invisible.
 
 ## Board
 
@@ -96,6 +111,15 @@ Fuera del sprint:
 | 2026-07-03 | Fix managerId: leer claim del JWT con `JwtClaimReader` propio en Desktop (sin System.IdentityModel) | Evita apoyarse en las refs Desktop→DAL/API pendientes de eliminar. Efecto: admin sin claim managerId ya no vende en silencio como manager 1 — decisión de producto pendiente. |
 
 ## Session Log
+
+### 2026-07-07 — Session 3 (auditoría estática del front antes de la pasada manual)
+- Auditoría completa Mobile+Desktop con 2 agentes (recursos, fuentes, bindings, triggers, seguridad ante datos vacíos del Panel): 0 claves XAML colgantes, 0 bindings rotos, managerId verificado extremo a extremo (claim `managerId` en UserRepository ↔ JwtClaimReader en Desktop, error inline si admin sin claim)
+- **Bug grave encontrado y corregido**: sidebar Desktop no reaparecía tras login (`IsPaneVisible=false` en LoginView sin restaurar en la rama else) — habría matado la demo
+- Preventivo: `HeaderVisibility="Collapsed"` en NavigationView (checklist punto 3 Desktop, resuelto sin esperar al runtime)
+- Higiene: MainWindow.xaml duplicado de la raíz eliminado (nunca instanciado; DI usa Views.MainWindow), `Visual="Material"` (no-op en MAUI) fuera de SubscriptionsPage/TicketsPage
+- Builds verdes: Desktop, Mobile Windows, Mobile Android (primera compilación Android de la rama tras instalar SDK 34)
+- Hallazgos preexistentes apuntados sin tocar (ver bloque sobre el Board): columna INVITADO POR, MauiIcon adaptativo, Shadow implícito blanco
+- Next: pasada visual de Santi con la checklist → merge
 
 ### 2026-07-03 — Session 2b (pruebas manuales en casa, inicio)
 - Santi arrancó la checklist: API+Desktop OK por CLI; Mobile destapó 2 bugs, ambos corregidos en la rama:

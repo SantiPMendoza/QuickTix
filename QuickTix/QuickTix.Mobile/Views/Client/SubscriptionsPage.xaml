@@ -5,8 +5,7 @@
              x:Class="QuickTix.Mobile.Views.SubscriptionsPage"
              x:DataType="vm:SubscriptionsViewModel"
              Title="Abonos"
-             BackgroundColor="{StaticResource PageBg}"
-             Visual="Material">
+             BackgroundColor="{StaticResource PageBg}">
 
     <ContentPage.Resources>
         <!-- Texto oscuro sobre degradado de marca (handoff 2a: chip #0A2233) -->
