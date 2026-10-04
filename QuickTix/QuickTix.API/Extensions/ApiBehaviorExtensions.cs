@@ -16,7 +16,9 @@ namespace QuickTix.API.Extensions
         /// </summary>
         public static IServiceCollection AddApiEnvelopeValidation(this IServiceCollection services)
         {
-            services.Configure<ApiBehaviorOptions>(options =>
+            // PostConfigure y no Configure: AddControllers registra después su propia fábrica
+            // (ProblemDetails) y, con Configure, la del framework pisaba esta (cazado en el smoke de S2).
+            services.PostConfigure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
                 {
