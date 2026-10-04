@@ -141,5 +141,38 @@ Ruta por tarea y evidencia del disparador anotadas en cada una. Previsión: ~950
 ### T4b — corrector 2 (misma rama)
 - Ruta: delegated direct (writer sonnet). Alcance: fix de fechas por defecto (solo en navegación, respeta edición, validación con una null), sonda venue cruzado, sonda borrar Client con abono vendido, test tautológico.
 
+- Commit `b9f8a03`. Suelo: 58/58 + 29/29. RED del fix de fechas solo de compilación (excepción declarada). Sondas: venue cruzado y Client con abono vendido → `DbUpdateException` por FK Restrict, nada perdido (aviso RDD de venue refutado **con test**, no razonado). `review assess`: `review_due: false` (`under_budget`) → sin RDD (A1 corregido).
+- RDD de la rama entera (`fe15aef..b9f8a03`, la pidió el stop-hook; Santi: granted) → `lens_context_budget_exceeded`, terminal, sin autoridad creada. La rama ya está cubierta por slices.
+- diff-review de `b9f8a03`: 0 bloqueantes/MAJOR. MINOR: ningún test depende del borrado del marcador (falta caso D→D-1→D); MINOR: con fechas vacías sin Loaded (cambio de sesión con la página abierta) «Consultar» pide fechas en vez de usar hoy → **smoke**; LOW: aserciones DayOfWeek siguen derivadas. Sin nuevo corrector: los MINOR de test van al board; el de comportamiento, al smoke.
+
+## Tiempos (para el ledger)
+- Último commit de implementación: `b9f8a03` a las **2026-10-04 18:14:06 +02:00**; última capa de lectura (diff-review de `b9f8a03`) devuelta poco después.
+- **Fin de la implementación que cuenta (decisión de Santi): 2026-10-04 18:52:01 +02:00** (16:52:01Z), hora del mensaje al que Santi preguntó «¿estás haciendo algo?», con todo terminado y solo el smoke pendiente. Lo que pase después (limpieza, smoke, cierre) no cuenta como implementación.
+- Fuga detectada por Santi: una shell del writer de T3 colgada desde las 17:25:03 (heredoc sin cerrar, PID 30464 → hijos 26244, 30596), viva hasta su `taskkill /T` a las ~18:55. El agente de T3 había avisado «stopped with background work still running» y el orquestador no lo cerró: escape de la capa orquestador, cazado por `human`.
+
+## Smoke (pendiente, con Santi, sobre COPIA de la BD)
+Pasos de `## Checks` 1–7 + comprobaciones heredadas de RDD/verify/diff-review:
+- Swagger: manager → DELETE/PUT/POST api/Sale, void, cash-close = 403; sin token 401; admin → DELETE/PUT/POST api/Sale = 400 envelope; void sin motivo / >200 = 400 envelope; doble void 409; id inexistente 404; cash-close `from=2026-13-01` o ausente = 400 envelope.
+- Borrar abono vendido desde Clientes → 409 con mensaje; borrar cliente con abono vendido → error (mensaje genérico de BD, preexistente).
+- Panel: barras de 7 días con etiquetas de día correctas; Actualizar tras anular baja al momento.
+- Historial: hora en Madrid (21:30Z → 23:30) igual que en el arqueo.
+- Logout desde el pie → login como manager: «Cierre de caja» oculto y sin informe previo; volver a admin: fechas = hoy.
+- CSV en Excel ES: acentos, números sumables, suma de «No» = total, motivo con «=» escapado.
+- Log de arranque: warning EF de `HasDefaultValue` (B10) y migración aplicada sin errores.
+- Zona horaria: API en Windows resuelve Europe/Madrid (implícito en todo lo anterior); aviso Docker sin ruta de contenedor funcional → board.
+
+## Resultado del smoke (2026-10-04, copia `QuickTixDb_Smoke` en `QuickTix_SQL_Server`, sin emulador por decisión de Santi: E11/E12 por los mismos endpoints que usa MAUI)
+- **E13** OK: migración `S2CashCloseAndVoid` aplicada al arrancar; antes 35 ventas / 105 líneas / 3.093,21 €, después idéntico, 35 Cash y 0 anuladas. FKs SaleItem→Ticket/Subscription en SQL Server = `NO_ACTION` (cierra el hueco SQL Server de diff-review T4b). B10: sin warning EF en el log.
+- **HTTP (orquestador con curl)**: cash-close 401 sin token / 403 manager / 200 admin; 400 con envelope para fecha inválida, ausente, from>to y >366 días. DELETE/PUT/POST api/Sale: manager 403, admin 400 envelope («se anulan»). void: manager 403, id inexistente 404, doble void 409, OK 200.
+- **Cazado por el smoke (capa `smoke`)**: B5 no funcionaba — `void` sin motivo / 201 chars / POST inválido devolvían ProblemDetails (`Configure` registrado antes de `AddControllers`, que lo pisaba). Fix `a71c3ed` (`PostConfigure`), suite 58/58 + 29/29, API reiniciada → envelope 400 en los tres casos. diff-review de `a71c3ed`: limpio (PostConfigure correcto, único configurador; nota LOW: un futuro PostConfigure/AddProblemDetails lo regresaría sin test; INFO preexistente: bloques `if (!ModelState.IsValid)` muertos en controllers; 404/415 del framework siguen en ProblemDetails → board). `review assess` de `a71c3ed`: `under_budget` → sin RDD.
+- **E7** OK (409 «La venta ya está anulada.»). Historial: venta 1034 `isVoided:true`, motivo, `paymentMethod:0`, fecha sin `Z` (local).
+- **E11** OK: batch del gestor (2×34 €) → arqueo de hoy Piscina → «Gestor Piscina» 68,00 €, Efectivo.
+- **E12** OK: anular venta 1037 (abono 1030, cliente 2) → `GET api/Subscription/by-client/2` sigue devolviendo el abono.
+- Pendiente con Santi en Desktop: E1, E3 (CSV en Excel), E6 (anular desde Historial), E9 (Panel), E10/E17 (horas), menú por rol/logout, borrar abono vendido desde Clientes (E14).
+
+## Cierre (2026-10-04)
+- Santi ordena cerrar: una sola PR de la rama `feature/s2-t4-fixes` (todas las slices) a `main` y merge — desviación de stacked-to-main decidida por Santi. El smoke de Desktop NO se ejecutó: queda en el board de `docs/PROGRESS.md`. Capa `human`: decisión de merge de Santi sin la pasada visual.
+- Board nuevo (Santi): el aviso al borrar un abono/entrada vendido debe ofrecer anular la venta desde ahí.
+
 ## Siguiente paso
-T4b → diff-review (capa tras corrector) → smoke con Santi.
+Smoke Desktop de S2 (board) → S3.

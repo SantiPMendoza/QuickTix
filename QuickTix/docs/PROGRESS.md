@@ -4,17 +4,15 @@
 
 ## Current State
 
-Fase 1 (sprint de demo para Raquel): **S0 y S1 IMPLEMENTADOS** en la rama `feature/vibra-s0`
-(17 commits, pusheada a origin) durante la sesión frontend-only con remote control.
-Verificado SOLO con `dotnet build` (todo verde) — **NO mergear a main** hasta pasar la
-lista de pruebas manuales de abajo. Gotchas de la sesión: en esta máquina falta el
-Android SDK API 34, así que Mobile solo se compiló con el target Windows (el target
-Android está SIN compilar); `dotnet test` tampoco se ejecutó (restricción de la sesión).
-Siguiente trabajo de sprint: S2 (cierre de caja).
+Fase 1 (sprint de demo para Raquel): S0+S1 (Vibra, Panel) en `main` vía PR #22 (2026-10-04, mergeada
+por decisión de Santi con la checklist visual de abajo aún abierta). **S2 Cierre de caja entregado**
+(arqueo por día de Madrid, anulación lógica solo-admin, `PaymentMethod`, CSV) — contrato y evidencia en
+`odd/tasks/s2-cierre-caja.md`. Suite 58 + 29 (nuevo `QuickTix.Desktop.Tests`). Siguiente: smoke Desktop
+de S2 pendiente (lista en el contrato) y S3 venue genérico.
 
-**Last updated**: 2026-07-07 (sesión 3, auditoría estática del front)
+**Last updated**: 2026-10-04 (piloto v7: S2 cierre de caja)
 
-## Pruebas manuales pendientes (antes de mergear `feature/vibra-s0`)
+## Pruebas manuales pendientes (vibra-s0, ya en `main` desde PR #22)
 
 Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propia rama.
 
@@ -81,7 +79,9 @@ Checklist para cuando Santi llegue a casa. Si algo falla, se corrige en la propi
 ### TODO
 Sprint demo, en orden (0 → 1 → 2 → 3). Diseño: **dirección "1b Vibra"** — handoff completo con
 tokens, tipografías y specs por pantalla en `reference/App redesign directions/design_handoff_quicktix_vibra/README.md`:
-- [ ] (S2) Cierre de caja: informe por día/rango y venue/manager (+ bucket "Administración") + export CSV (CsvHelper ya referenciado en Desktop). Requisitos añadidos 2026-07-07: **anulación de venta entra sí o sí** (política exacta pendiente de Raquel — ver `docs/reunion-raquel.md` §2); el "día" del arqueo se define en hora local Europe/Madrid, NO en UTC; diseñar campo `PaymentMethod` en Sale aunque de momento todo sea efectivo (activación cuando Raquel confirme datáfono/Bizum); vocabulario de intervención (arqueo, desglose por tipo y medio de pago)
+- [ ] (S2) Smoke Desktop pendiente: Cierre de caja, CSV en Excel, Anular en Historial, Panel tras anular, Clientes 409, logout/rol (lista en `odd/tasks/s2-cierre-caja.md` § Resultado del smoke; la parte API ya pasó)
+- [ ] (S2) Al borrar un abono/entrada vendido, el aviso debe decir que hay que anular la venta y ofrecer anularla desde ahí (hoy solo informa del 409)
+- [ ] (S2) Política de anulación de Raquel: quién anula, mismo día o no, ¿revertir Ticket/Subscription? (hoy solo admin, sin límite, abono intacto — E12)
 - [ ] (S3) Venue genérico, versión demo: `VenueType` + textos de UI + seed con recinto no-piscina (el handoff ya usa "Pabellón Sócon" — refuerza la narrativa) (NO generalizar TicketType — ver Pending Decisions)
 
 Fuera del sprint:
@@ -91,13 +91,16 @@ Fuera del sprint:
 - [ ] Aprendizaje (tutor) — Tema 2: capas y dónde vive la lógica (JWT en UserRepository, refs Desktop→DAL/API, ¿capa de servicios?) → resuelve la decisión UoW
 - [ ] Aprendizaje (tutor) — Tema 3: seguridad de salida a producción
 - [ ] Aprendizaje (tutor) — Tema 5: limpieza de contratos (ApiErrorResponseOLD, namespaces DTO duplicados, código [Obsolete])
+- [ ] Deuda de S2 (verify/diff-review 2026-10-04): VMs singleton de Desktop (Historial, Clientes) conservan datos tras logout; borrar Venue/Client con ventas da error genérico de BD (FK Restrict) en vez de mensaje propio; 404/415 del framework siguen en ProblemDetails; bloques `if (!ModelState.IsValid)` muertos en controllers
+- [ ] Deuda de S2: `Down()` de `S2CashCloseAndVoid` des-anula ventas en un rollback; warning EF por `HasDefaultValue(Cash)`; Docker sin ruta de contenedor funcional (compose apunta a un Dockerfile inexistente) y zona horaria sin fail-fast al arrancar
+- [ ] Mobile: caducidad de abonos por día UTC (`SubscriptionsViewModel`), pasar a día de Madrid como el resto
 
 ### IN PROGRESS
-- [ ] Validación manual de `feature/vibra-s0` en casa (checklist arriba) → merge a main + borrar rama
-- [ ] (S1.5) Panel v2 — quick wins pre-demo del análisis de research: donut en € (no unidades), KPI "abonos que caducan ≤7 días", acumulado de temporada, fix tooltip "56.0000" → "56,00 €"
-- [ ] Fixes visuales Desktop de la sección 2b (sidebar iconos + resalte activo, anchura TextBoxes en modales, componente común VibraDialog + confirmación de borrado, colores por categoría de abono)
+- [ ] Validación manual de lo que entró con vibra-s0 (checklist arriba; ya en `main`)
 
 ### DONE
+- [x] (S2) Cierre de caja: arqueo admin por rango de días de Madrid (recinto → gestor/Administración, concepto, medio de pago, anuladas aparte) + CSV; anulación lógica solo-admin; `PaymentMethod` (todo Cash); ventas/abonos/recintos vendidos no se pueden borrar; Historial en hora de Madrid — rama `feature/s2-t4-fixes` (2026-10-04)
+- [x] (S1.5) Panel v2 quick wins + fixes visuales 2b — en `main` vía PR #22, pendientes de verlos (2026-10-04)
 - [x] (S1) Panel (3a): endpoint read-only `/api/Analytics/summary` + vista Panel inicial en Desktop con KPI "Aforo estimado hoy" — en `feature/vibra-s0`, pendiente de prueba manual (2026-07-03)
 - [x] (S0) Restyling Vibra Desktop: shell/sidebar/titlebar (NavigationView conservado), SalesView, ClientsView, PricingView, UsersView — en `feature/vibra-s0` (2026-07-03)
 - [x] (S0) Restyling Vibra Mobile: LoginPage (2d), SubscriptionsPage carrusel (2a/2f, sin gesto), TicketsPage POS — en `feature/vibra-s0` (2026-07-03)
@@ -113,6 +116,10 @@ Fuera del sprint:
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-10-04 | Anulación de venta LÓGICA (`VoidedAt/VoidedByUserId/VoidReason`), solo admin, sin límite de día, motivo obligatorio; Ticket/Subscription NO se revierten | Política de Raquel pendiente; se rechaza el borrado físico porque falsea un arqueo ya cerrado sin rastro. Revertir el abono queda para cuando Raquel decida (E12 documenta que el abono sigue visible). |
+| 2026-10-04 | El "día" de negocio es el día local de Madrid (`LocalBusinessDay`) en arqueo, Panel e Historial; `Sale.Date` sigue en UTC | Una venta a las 23:30 de verano caía en "mañana". Los DTO de historial llevan hora local sin zona (no hacer `.ToLocalTime()`). |
+| 2026-10-04 | Las ventas solo entran por `sell/*` y solo cambian por `void`: POST/PUT/DELETE genéricos de `api/Sale` rechazados; un abono/entrada/recinto con ventas no se puede borrar (se quitó `?force=true`) | La lectura independiente encontró que esos caminos (preexistentes) modificaban o borraban líneas de un arqueo ya hecho. |
+| 2026-10-04 | `QuickTix.Desktop.Tests` (net8.0-windows) separado de `QuickTix.Tests` | El CSV y los VMs viven en Desktop (WPF) y el proyecto de tests solo referencia DAL. |
 | 2026-07-07 | Ventas de abono por ADMIN: `Sale.ManagerId` pasa a nullable; venta admin = manager null, mostrada como "Administración" | Producto: en Nalda los administrativos (admins) venden los abonos. Alternativas descartadas: dar perfil Manager al admin le anclaría a UN venue (`Manager.VenueId` requerido) rompiendo multi-recinto; dropdown de manager atribuiría la venta a quien no vendió (falsearía el cierre de caja S2). Venta de TICKETS sigue siendo solo-manager (POS en puerta). Atribución por admin individual aplazada a la capa de servicios (ADR-002). |
 | 2026-07-07 | Medios de pago: TODO efectivo en taquilla hasta decisión de Raquel; anulación de venta entra sí o sí en S2 (política exacta también de Raquel) | Las preguntas concretas viven en `docs/reunion-raquel.md` (agenda de la reunión: accesos/QR, pagos, anulaciones, formato de arqueo, precios reales, RGPD, contratación, hosting). S2 diseña `PaymentMethod` sin activarlo. |
 | 2026-07-07 | Bonos de N baños DESCARTADOS: en Nalda no se gestiona así | Aunque el research lo marca como habitual del sector, no aplica al caso real. No retomar por iniciativa propia; quitado de la agenda de Raquel. |
@@ -132,6 +139,14 @@ Fuera del sprint:
 | 2026-07-03 | Fix managerId: leer claim del JWT con `JwtClaimReader` propio en Desktop (sin System.IdentityModel) | Evita apoyarse en las refs Desktop→DAL/API pendientes de eliminar. Efecto: admin sin claim managerId ya no vende en silencio como manager 1 — decisión de producto pendiente. |
 
 ## Session Log
+
+### 2026-10-04 — Session 4 (piloto v7 sAI-Stack: S2 cierre de caja, ODD + RDD)
+- vibra-s0 mergeada a `main` (PR #22) por decisión de Santi; RDD no pudo revisarla (`lens_context_budget_exceeded`, 94 ficheros)
+- S2 en 4 slices + 2 correctores (`e9d402d`..`a71c3ed`): modelo/migración `S2CashCloseAndVoid` + día de Madrid → API void/arqueo → Desktop Cierre de caja/CSV/Anular → cierre de bypasses (B1-B9) y avisos RDD
+- Capas: RDD aprobó cada slice (1 lente reliability); verify:directed opus cazó 3 bypasses preexistentes del arqueo fuera del diff; diff-review tras cada corrector cazó 1 MAJOR introducido (fechas por defecto); el smoke cazó que el envelope de validación (B5) no se aplicaba (`Configure` antes de `AddControllers` → `PostConfigure`)
+- Smoke API sobre copia de la BD real: E7/E11/E12/E13 OK; el smoke de Desktop queda en el board
+- Contrato, escenarios E1-E17 y evidencia por capa: `odd/tasks/s2-cierre-caja.md`. Suite 58 + 29.
+- Next: smoke Desktop de S2 → S3 venue genérico
 
 ### 2026-07-07 — Session 3b (pasada visual con soporte en vivo, tarde)
 - Pasada de Santi sobre Desktop → 2 tandas de hallazgos, todos corregidos en la rama (4 commits: `e1f0fad`, `18a48bc`, `668cdd9`, `feab430`):
