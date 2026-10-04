@@ -39,6 +39,11 @@ namespace QuickTix.Desktop.ViewModels
             if (!_isInitialized)
             {
                 InitializeViewModel();
+
+                // Si el VM se construye con una sesión admin ya iniciada, SessionChanged no volverá a
+                // dispararse: hay que aplicar la visibilidad por rol ahora.
+                UpdateRoleVisibility();
+
                 _ = ShowNavigationAfterDelay();
             }
         }
@@ -100,15 +105,17 @@ namespace QuickTix.Desktop.ViewModels
                 },
             ];
 
-            NavigationFooter =
-            [
-                new NavigationViewItem
-                {
-                    Content = "Logout",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowExit20 },
-                    TargetPageType = typeof(LoginView)
-                },
-            ];
+            // Navegar a LoginView por sí solo no cerraba la sesión (token y rol seguían vivos y
+            // SessionChanged no se disparaba): el clic llama primero a IAuthService.Logout().
+            var logoutItem = new NavigationViewItem
+            {
+                Content = "Logout",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowExit20 },
+                TargetPageType = typeof(LoginView)
+            };
+            logoutItem.Click += (_, _) => _authService.Logout();
+
+            NavigationFooter = [logoutItem];
 
             _isInitialized = true;
         }

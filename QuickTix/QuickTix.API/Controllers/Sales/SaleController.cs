@@ -209,34 +209,35 @@ namespace QuickTix.API.Controllers.Sales
         }
 
         /// <summary>
-        /// Actualiza una venta. Aplica la misma regla que la venta de suscripciones:
-        /// solo un admin puede dejar una venta sin manager asociado.
+        /// Las ventas no se crean por el POST genérico: entran solo por los endpoints sell/*,
+        /// que calculan precios en servidor y fijan el vendedor.
         /// </summary>
-        // Sin este override, el PUT genérico permitiría a cualquier manager
-        // poner ManagerId a null (reetiquetar la venta como "Administración").
-        public override async Task<IActionResult> Update(int id, [FromBody] SaleDTO dto)
+        // El POST genérico mapeaba CreateSaleDTO a una Sale sin líneas ni precios (y dejaba elegir
+        // ManagerId/VenueId libremente): una venta fantasma o con vendedor falseado en el arqueo (E15).
+        // Mismo criterio de roles que el Delete: solo admin llega aquí, y siempre recibe 400.
+        [Authorize(Roles = "admin")]
+        public override Task<IActionResult> Create([FromBody] CreateSaleDTO createDto)
         {
-            // Una venta anulada es inmutable: el PUT genérico no puede modificarla.
-            // (Los campos de anulación y PaymentMethod no existen en SaleDTO, así que
-            // el mapeo tampoco puede fijarlos ni limpiarlos.)
-            var existing = await _saleRepository.GetAsync(id);
-            if (existing is { IsVoided: true })
-            {
-                return BadRequest(BuildFail(
-                    HttpStatusCode.BadRequest,
-                    new[] { "La venta está anulada y no se puede modificar." }
-                ));
-            }
+            return Task.FromResult<IActionResult>(BadRequest(BuildFail(
+                HttpStatusCode.BadRequest,
+                new[] { "Las ventas se registran desde los endpoints de venta." }
+            )));
+        }
 
-            if (dto.ManagerId is null && !User.IsInRole("admin"))
-            {
-                return BadRequest(BuildFail(
-                    HttpStatusCode.BadRequest,
-                    new[] { "Un manager debe indicar su managerId para modificar la venta." }
-                ));
-            }
-
-            return await base.Update(id, dto);
+        /// <summary>
+        /// Las ventas no se modifican: una venta incorrecta se anula.
+        /// </summary>
+        // El PUT genérico no persistía nada útil (los campos de anulación y PaymentMethod no existen en
+        // SaleDTO) y, sin guard, permitía a un manager reetiquetar ManagerId a null ("Administración").
+        // Se rechaza siempre: cualquier corrección contable pasa por anular y volver a vender (E16).
+        // Mismo criterio de roles que el Delete: el manager recibe 403 antes de llegar aquí.
+        [Authorize(Roles = "admin")]
+        public override Task<IActionResult> Update(int id, [FromBody] SaleDTO dto)
+        {
+            return Task.FromResult<IActionResult>(BadRequest(BuildFail(
+                HttpStatusCode.BadRequest,
+                new[] { "Las ventas no se modifican: se anulan." }
+            )));
         }
 
         /// <summary>

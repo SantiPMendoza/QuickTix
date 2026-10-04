@@ -102,6 +102,28 @@ namespace QuickTix.Desktop.ViewModels.Sales
         private void CloseVoidDialog() => IsVoidDialogOpen = false;
 
         /// <summary>
+        /// Recarga el historial tras una anulación confirmada. LoadAsync deja el fallo en ErrorMessage
+        /// (o lanza en subclases que lo sobrescriban): en ambos casos se avisa de que la venta SÍ se anuló.
+        /// </summary>
+        private async Task ReloadAfterVoidAsync()
+        {
+            const string title = "Venta anulada";
+            const string reloadFailed = "La venta se anuló correctamente, pero no se pudo recargar la lista. Pulsa «Actualizar» para verla al día.";
+
+            try
+            {
+                await LoadAsync();
+
+                if (!string.IsNullOrEmpty(ErrorMessage))
+                    ShowAlert(title, reloadFailed);
+            }
+            catch (Exception)
+            {
+                ShowAlert(title, reloadFailed);
+            }
+        }
+
+        /// <summary>
         /// Valida el motivo y envía la anulación. Con éxito recarga el historial;
         /// un 400 se muestra dentro del diálogo y el resto (409, 404...) en el aviso modal.
         /// </summary>
@@ -134,8 +156,10 @@ namespace QuickTix.Desktop.ViewModels.Sales
                     ApiRoutes.Sale.VoidBySaleId(PendingVoidSaleId),
                     new VoidSaleDTO { Reason = reason });
 
+                // La anulación ya está confirmada por la API: a partir de aquí un fallo del refresco
+                // NO es un error de anulación (reintentar daría un 409 engañoso).
                 IsVoidDialogOpen = false;
-                await LoadAsync();
+                await ReloadAfterVoidAsync();
             }
             catch (ApiException apiEx) when (apiEx.StatusCode == HttpStatusCode.BadRequest)
             {

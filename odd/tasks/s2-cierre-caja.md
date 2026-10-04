@@ -104,8 +104,32 @@ Ruta por tarea y evidencia del disparador anotadas en cada una. Previsión: ~950
   - S ApiRoutes:205 cultura actual al formatear fechas → **test** en T3 (cultura no gregoriana).
   - S VoidSaleDTO:14 MaxLength sin recortar vs repo recortando → **test** en T3 (DataAnnotations).
 
-### T3 — rama `feature/s2-t3-desktop` (apilada sobre T2)
-- Ruta: delegated direct (writer sonnet). En curso.
+### T3 — rama `feature/s2-t3-desktop` (apilada sobre T2), commit `3307f94`
+- Ruta: delegated direct (writer sonnet). RED 4a/4b: 3/6 fallan (th-TH → `2569-07-15`, ar-SA → `1448-02-01`, 200 chars con espacios rechazado) → GREEN 6/6. Desktop sin tests de VM: solo build.
+- Suelo: build 0 errores (177 warnings preexistentes); `dotnet test` 45/45 (relanzado por el padre).
+- RDD: assess medium, `slice_budget_reached` → Santi: granted → 1 lente (reliability, 1 min 42 s) → **approved**, acusado (`review-c0641b30ae64eadd`). 6 avisos (regla J, pendientes de sonda):
+  - W CashCloseCsvBuilder:48-103 sin test (BOM, `;`, decimales, Sí/No, escape).
+  - W SalesHistoryViewModelBase:133-165 excepción no-ApiException tras POST confirmado → error falso; nuevo `PostAsync` sin resultado sin test.
+  - W CashCloseViewModel:118-137 informe anterior sobrevive a un fallo / a otra sesión (singleton), export habilitado sobre datos viejos.
+  - S CashCloseViewModel:154 ErrorMessage no se limpia al reexportar.
+  - S CashCloseCsvBuilder:68-70 InjectionOptions.Escape incluye «-» → importe negativo como texto.
+  - S MainViewModel:57-62 ítem admin oculto si el VM se construye con sesión ya iniciada.
+- verify:directed (opus) sobre `fe15aef..3307f94`: en curso.
+
+- verify:directed (opus, 6 min 38 s): Parte A 9 afirmaciones — confirmadas en código; 1b Down parcial (rollback des-anula); 5 refutada «en espíritu» (B1); 4/8/9 sin verificación HTTP/runtime. Parte B: B1 MAJOR force-delete Ticket/Subscription borra SaleItems (cualquier rol); B2 MAJOR POST api/Sale genérico; B3 MAJOR? borrar Venue cascada a Sales; B4 PUT ventas no persiste; B5 400 ProblemDetails sin envelope; B6 carrera de invalidación de caché; B7 Historial en hora UTC vs arqueo Madrid; B8 Logout no llama IAuthService.Logout; B9 «hoy» fijado al crear el singleton; B10 warning EF HasDefaultValue; B11 tz en Docker sin ruta de contenedor funcional; B12 Mobile caducidad por día UTC (fuera de alcance).
+
+### Ampliación de alcance (Santi, 2026-10-04): B1, B2, B3+B4, B7 + proyecto `QuickTix.Desktop.Tests`
+- **E14** Dado un abono o entrada con líneas de venta, cuando cualquiera intenta borrarlo (con o sin `force`), entonces 409 y nada se borra; solo admin llega al endpoint; Desktop (Clientes) ya no ofrece «forzar».
+- **E15** Dado un manager o admin, cuando hace `POST api/Sale` genérico, entonces se rechaza (las ventas entran por `sell/*`).
+- **E16** Dado un recinto con ventas, cuando se intenta borrar, entonces se rechaza; `PUT api/Sale/{id}` se rechaza siempre.
+- **E17** Dada una venta a las 21:30 UTC en verano, cuando se mira en «Historial de ventas», entonces muestra 23:30 (hora de Madrid), igual que el arqueo.
+
+### T4 — correcciones (rama `feature/s2-t4-fixes`, apilada sobre T3)
+- Ruta: delegated direct (writer sonnet). Alcance: B1, B2, B3, B4, B5, B6 (si es barato), B7, B8, B9 + 6 avisos RDD de T3 + Desktop.Tests (CSV builder, EsFormat). B10/B11/B12 → board.
+
+- Resultado writer: B1 (RED 3/6 → 6/6 DeleteGuardTests, venue incluido), B3 (400, no 409: no hay excepción de conflicto en Core), B6 hecho (contador de generación; RED «real 8, esperado 0» con interceptor → verde), B7 (RED 3/3 → verde; sin `.ToLocalTime()` en consumidores, Mobile no usa esos DTOs), R1/R5 (Desktop.Tests 21/21; RED 1 en importe negativo), R2 (HttpJsonClientTests). Sin test (capa API/VM WPF) → smoke: B2, B4, B5, B8, B9, R3, R4, R6.
+- Suelo: build 0 errores; `dotnet test` QuickTix.Tests 55/55 + QuickTix.Desktop.Tests 21/21 = 76/76 (relanzado por el padre).
+- Nuevo para el board: borrar un Client ¿cascada a Subscriptions → SaleItems? (misma clase que B1/B3, sin comprobar).
 
 ## Siguiente paso
-T3 → verify:directed (opus) sobre `fe15aef..HEAD` → smoke con Santi.
+Commit T4 → `review assess` + diff-review (capa tras corrector) → smoke con Santi.

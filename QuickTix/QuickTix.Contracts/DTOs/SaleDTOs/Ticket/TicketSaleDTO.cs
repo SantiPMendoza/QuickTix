@@ -5,6 +5,9 @@ namespace QuickTix.Contracts.DTOs.SaleDTOs.Ticket
     public class TicketSaleDTO
     {
         public int Id { get; set; }
+
+        // Fecha/hora LOCAL de Madrid (DateTimeKind.Unspecified), ya convertida desde el UTC almacenado:
+        // los clientes la muestran tal cual, sin ToLocalTime().
         public DateTime Date { get; set; }
 
         public int VenueId { get; set; }
@@ -22,6 +25,7 @@ namespace QuickTix.Contracts.DTOs.SaleDTOs.Ticket
 
         // Anulación lógica: la venta sigue en el historial pero marcada.
         public bool IsVoided { get; set; }
+        // Hora local de Madrid (Unspecified), como Date.
         public DateTime? VoidedAt { get; set; }
         public string? VoidReason { get; set; }
 

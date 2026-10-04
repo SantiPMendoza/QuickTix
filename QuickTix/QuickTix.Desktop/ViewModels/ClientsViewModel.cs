@@ -49,13 +49,6 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private bool isConfirmDeleteSubscriptionOpen;
         [ObservableProperty] private SubscriptionDTO? pendingDeleteSubscription;
 
-        // Estado del diálogo de borrado forzado (409 de la API): solo aparece
-        // si el borrado normal devolvió conflicto por dependencias. Sustituye
-        // al MessageBox que causaba el "segundo diálogo" tras confirmar.
-        [ObservableProperty] private bool isForceDeleteSubscriptionOpen;
-        [ObservableProperty] private string? forceDeleteSubscriptionMessage;
-        private int _forceDeleteSubscriptionId;
-
         /// <summary>
         /// Inicializa una nueva instancia de <see cref="ClientsViewModel"/>,
         /// crea el módulo de suscripciones y carga el listado inicial de clientes.
@@ -291,8 +284,8 @@ namespace QuickTix.Desktop.ViewModels
 
         /// <summary>
         /// Confirma y ejecuta el borrado de la suscripción pendiente de eliminar.
-        /// Si la API devuelve conflicto (409, dependencias de venta), abre el
-        /// diálogo de borrado forzado en lugar de un MessageBox.
+        /// Si la API devuelve conflicto (409: el abono ya se vendió), muestra el motivo en un
+        /// aviso: ya no existe borrado forzado, la vía es anular la venta en el Historial.
         /// </summary>
         /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
@@ -318,10 +311,11 @@ namespace QuickTix.Desktop.ViewModels
                     break;
 
                 case SubscriptionDeleteResult.Conflict:
-                    // Segunda confirmación SOLO en el caso 409: borrado forzado
-                    _forceDeleteSubscriptionId = subId;
-                    ForceDeleteSubscriptionMessage = SubscriptionsVM.LastConflictMessage;
-                    IsForceDeleteSubscriptionOpen = true;
+                    // Un abono vendido no se borra (E14): se explica cómo corregirlo, sin opción de forzar
+                    ShowAlert(
+                        "No se puede eliminar el abono",
+                        SubscriptionsVM.LastConflictMessage
+                            ?? "El abono tiene ventas asociadas. Anula la venta correspondiente desde el Historial de ventas.");
                     break;
 
                 case SubscriptionDeleteResult.Error:
@@ -338,42 +332,6 @@ namespace QuickTix.Desktop.ViewModels
         {
             IsConfirmDeleteSubscriptionOpen = false;
             PendingDeleteSubscription = null;
-        }
-
-        /// <summary>
-        /// Confirma el borrado forzado tras el conflicto (elimina el abono
-        /// junto con los ítems de venta asociados).
-        /// </summary>
-        /// <returns>Tarea asíncrona.</returns>
-        [RelayCommand]
-        private async Task ConfirmForceDeleteSubscription()
-        {
-            var subId = _forceDeleteSubscriptionId;
-
-            IsForceDeleteSubscriptionOpen = false;
-            ForceDeleteSubscriptionMessage = null;
-            _forceDeleteSubscriptionId = 0;
-
-            if (subId == 0)
-                return;
-
-            var result = await SubscriptionsVM.TryDeleteAsync(subId, force: true);
-
-            if (result == SubscriptionDeleteResult.Success)
-                SubscriptionsVM.SelectedItem = null;
-            else
-                ShowAlert("Error", SubscriptionsVM.ErrorMessage ?? "No se pudo eliminar el abono.");
-        }
-
-        /// <summary>
-        /// Cierra el diálogo de borrado forzado sin eliminar nada.
-        /// </summary>
-        [RelayCommand]
-        private void CancelForceDeleteSubscription()
-        {
-            IsForceDeleteSubscriptionOpen = false;
-            ForceDeleteSubscriptionMessage = null;
-            _forceDeleteSubscriptionId = 0;
         }
 
         /// <summary>

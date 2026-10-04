@@ -44,8 +44,18 @@ namespace QuickTix.DAL.Repositories
         // Clave de caché del resumen
         private const string CacheKey = "AnalyticsSummaryCacheKey";
 
+        // Clave de la "generación" de la caché: contador que sube en cada invalidación
+        private const string GenerationKey = "AnalyticsSummaryGenerationKey";
+
         // Tiempo de expiración de la caché (en segundos)
         private const int CacheExpirationTime = 30;
+
+        // El repositorio es scoped pero la IMemoryCache es singleton: el candado serializa el
+        // contador compartido entre peticiones concurrentes.
+        private static readonly object GenerationLock = new();
+
+        // Resumen cacheado junto a la generación con la que se calculó
+        private sealed record CachedSummary(long Generation, AnalyticsSummaryDTO Summary);
 
         // Número de ventas recientes devueltas al Panel
         private const int RecentSalesCount = 8;
@@ -64,13 +74,36 @@ namespace QuickTix.DAL.Repositories
         }
 
         /// <inheritdoc />
-        public void InvalidateSummaryCache() => _cache.Remove(CacheKey);
+        public void InvalidateSummaryCache()
+        {
+            // Subir la generación (y no solo borrar la entrada) cierra la carrera: un resumen
+            // calculado ANTES de la anulación que termina DESPUÉS de esta llamada se guardaría
+            // con la generación vieja y nunca se serviría.
+            lock (GenerationLock)
+            {
+                _cache.Set(GenerationKey, ReadGeneration() + 1);
+            }
+
+            _cache.Remove(CacheKey);
+        }
+
+        private long ReadGeneration() => _cache.TryGetValue(GenerationKey, out long generation) ? generation : 0L;
 
         /// <inheritdoc />
         public async Task<AnalyticsSummaryDTO> GetSummaryAsync()
         {
-            if (_cache.TryGetValue(CacheKey, out AnalyticsSummaryDTO? cached) && cached != null)
-                return cached;
+            // La generación se lee ANTES de calcular: si una invalidación ocurre mientras se calcula,
+            // el resultado queda etiquetado con una generación ya vencida.
+            long generation;
+            lock (GenerationLock)
+            {
+                generation = ReadGeneration();
+            }
+
+            if (_cache.TryGetValue(CacheKey, out CachedSummary? cached)
+                && cached != null
+                && cached.Generation == generation)
+                return cached.Summary;
 
             var nowUtc = _clock.GetUtcNow().UtcDateTime;
 
@@ -237,7 +270,7 @@ namespace QuickTix.DAL.Repositories
 
             _cache.Set(
                 CacheKey,
-                summary,
+                new CachedSummary(generation, summary),
                 new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpirationTime))
             );

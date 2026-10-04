@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using QuickTix.Contracts.DTOs.ReportDTOs;
+using QuickTix.Core.Time;
 
 namespace QuickTix.Desktop.ViewModels
 {
@@ -35,9 +36,13 @@ namespace QuickTix.Desktop.ViewModels
         // Último informe cargado: el CSV exporta ESTE, no lo que haya ahora en los DatePicker.
         private CashCloseReportDTO? _report;
 
-        // ===== Filtros (por defecto, hoy) =====
-        [ObservableProperty] private DateTime? fromDate = DateTime.Today;
-        [ObservableProperty] private DateTime? toDate = DateTime.Today;
+        // Día local (Madrid) para el que se fijaron las fechas por defecto; null si el usuario
+        // las ha tocado o aún no se han fijado. Permite refrescar «hoy» sin pisar un rango elegido.
+        private DateOnly? _defaultDay;
+
+        // ===== Filtros (por defecto, hoy en hora de Madrid; se fijan al cargar, no al construir el singleton) =====
+        [ObservableProperty] private DateTime? fromDate;
+        [ObservableProperty] private DateTime? toDate;
 
         // ===== Estado (mensajes inline, sin MessageBox) =====
         [ObservableProperty] private bool isBusy;
@@ -75,7 +80,69 @@ namespace QuickTix.Desktop.ViewModels
         {
             _httpClient = httpClient;
             _authService = authService;
-            _authService.SessionChanged += () => OnPropertyChanged(nameof(IsAdmin));
+            _authService.SessionChanged += OnSessionChanged;
+        }
+
+        /// <summary>
+        /// Al iniciar/cerrar sesión (o cambiar de rol) el informe anterior no debe sobrevivir:
+        /// el VM es singleton y otro usuario vería (y exportaría) datos de la sesión previa.
+        /// </summary>
+        private void OnSessionChanged()
+        {
+            OnPropertyChanged(nameof(IsAdmin));
+            ClearReport();
+            ErrorMessage = null;
+            ExportMessage = null;
+
+            // La próxima sesión empieza de nuevo en «hoy»
+            FromDate = null;
+            ToDate = null;
+            _defaultDay = null;
+        }
+
+        /// <summary>
+        /// Fija «Desde/Hasta» a hoy (día local de Madrid) cuando están vacías, o las refresca si siguen
+        /// siendo el «hoy» de un día anterior (app abierta de un día para otro) sin pisar un rango elegido.
+        /// </summary>
+        private void EnsureDefaultDates()
+        {
+            var today = LocalBusinessDay.TodayLocal(DateTime.UtcNow);
+
+            bool untouchedStaleDefault =
+                _defaultDay is { } day
+                && day != today
+                && FromDate?.Date == day.ToDateTime(TimeOnly.MinValue)
+                && ToDate?.Date == day.ToDateTime(TimeOnly.MinValue);
+
+            if (FromDate is null || ToDate is null || untouchedStaleDefault)
+            {
+                var todayDate = today.ToDateTime(TimeOnly.MinValue);
+                FromDate = todayDate;
+                ToDate = todayDate;
+                _defaultDay = today;
+            }
+        }
+
+        /// <summary>
+        /// Descarta el informe cargado y devuelve la vista al estado vacío (sin datos que exportar).
+        /// </summary>
+        private void ClearReport()
+        {
+            _report = null;
+            HasReport = false;
+
+            RangeText = string.Empty;
+            TotalText = "—";
+            SaleCountText = "—";
+            VoidedTotalText = "—";
+            VoidedCountText = "—";
+
+            Venues = [];
+            Concepts = [];
+            PaymentMethods = [];
+            Lines = [];
+            VoidedLines = [];
+            HasVoidedLines = false;
         }
 
         /// <summary>
@@ -92,9 +159,12 @@ namespace QuickTix.Desktop.ViewModels
 
             if (!IsAdmin)
             {
+                ClearReport();
                 ErrorMessage = "El cierre de caja solo está disponible para administradores.";
                 return;
             }
+
+            EnsureDefaultDates();
 
             if (FromDate is null || ToDate is null)
             {
@@ -119,6 +189,7 @@ namespace QuickTix.Desktop.ViewModels
 
                 if (report == null)
                 {
+                    ClearReport();
                     ErrorMessage = "La API devolvió un informe vacío.";
                     return;
                 }
@@ -127,6 +198,9 @@ namespace QuickTix.Desktop.ViewModels
             }
             catch (ApiException apiEx)
             {
+                // Un fallo no deja a la vista (ni al CSV) un informe antiguo de otro rango
+                ClearReport();
+
                 // 400 (rango inválido) llega con el mensaje en español del envelope
                 ErrorMessage = apiEx.StatusCode == System.Net.HttpStatusCode.Forbidden
                     ? "El cierre de caja solo está disponible para administradores."
@@ -134,6 +208,7 @@ namespace QuickTix.Desktop.ViewModels
             }
             catch (Exception ex)
             {
+                ClearReport();
                 ErrorMessage = $"Error local cargando el cierre de caja: {ex.Message}";
             }
             finally
@@ -152,6 +227,7 @@ namespace QuickTix.Desktop.ViewModels
                 return;
 
             ExportMessage = null;
+            ErrorMessage = null;
 
             // El diálogo de guardado vive aquí por simplicidad (Desktop no tiene servicio de diálogos de fichero).
             var dialog = new SaveFileDialog

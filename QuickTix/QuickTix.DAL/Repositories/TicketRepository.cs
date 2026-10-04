@@ -174,42 +174,24 @@ namespace QuickTix.DAL.Repositories
         /// <summary>
         /// Elimina un ticket por id y persiste cambios.
         /// Para evitar problemas con entidades proyectadas desde caché, la eliminación se realiza
-        /// sobre una entidad cargada con tracking. Si la entidad tiene elementos de venta asociados,
-        /// se eliminan también para que no queden huérfanos.
+        /// sobre una entidad cargada con tracking. Un ticket que tiene líneas de venta NO se puede
+        /// borrar: arrastrar sus SaleItems falsearía el arqueo sin dejar rastro (la vía es anular la venta).
         /// </summary>
         /// <param name="id">Identificador del ticket.</param>
         /// <returns>True si se elimina; false si no existe.</returns>
+        /// <exception cref="InvalidOperationException">El ticket tiene líneas de venta asociadas.</exception>
         public async Task<bool> DeleteAsync(int id)
         {
             var ticket = await GetForUpdateAsync(id);
             if (ticket == null) return false;
 
-            await using var tx = await _context.Database.BeginTransactionAsync();
+            if (await _context.SaleItems.AnyAsync(i => i.TicketId == id))
+                throw new InvalidOperationException(
+                    "Este ticket tiene líneas de venta asociadas y no se puede eliminar. Anula la venta correspondiente.");
 
-            try
-            {
-                var items = await _context.SaleItems
-                    .Where(i => i.TicketId == id)
-                    .ToListAsync();
-
-                if (items.Count > 0)
-                    _context.SaleItems.RemoveRange(items);
-
-                _context.Tickets.Remove(ticket);
-
-                await _context.SaveChangesAsync();
-                await tx.CommitAsync();
-
-                ClearCache();
-                return true;
-            }
-            catch
-            {
-                await tx.RollbackAsync();
-                throw;
-            }
+            _context.Tickets.Remove(ticket);
+            return await SaveAsync();
         }
-
 
     }
 }

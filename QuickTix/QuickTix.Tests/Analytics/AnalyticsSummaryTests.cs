@@ -1,5 +1,7 @@
 using Microsoft.Data.Sqlite;
+using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Caching.Memory;
 using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
@@ -334,6 +336,63 @@ namespace QuickTix.Tests.Analytics
 
             repository.InvalidateSummaryCache();
 
+            Assert.Equal(0m, (await repository.GetSummaryAsync()).RevenueToday);
+        }
+
+        /// <summary>Ejecuta una acción la primera vez que se lee una consulta (simula una anulación a mitad de cálculo).</summary>
+        private sealed class OnFirstQueryInterceptor : DbCommandInterceptor
+        {
+            public Action? Action { get; set; }
+
+            public override ValueTask<DbDataReader> ReaderExecutedAsync(
+                DbCommand command, CommandExecutedEventData eventData, DbDataReader result,
+                CancellationToken cancellationToken = default)
+            {
+                var action = Action;
+                Action = null;
+                action?.Invoke();
+                return ValueTask.FromResult(result);
+            }
+        }
+
+        [Fact]
+        public async Task InvalidateDuringComputation_DoesNotRepopulateCacheWithStaleSummary()
+        {
+            var now = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            int saleId;
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                var sale = BuildTicketSale(venue, now, 4m, 2);
+                seed.Add(sale);
+                seed.SaveChanges();
+                saleId = sale.Id;
+            }
+
+            var interceptor = new OnFirstQueryInterceptor();
+            var interceptedOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlite(_connection)
+                .AddInterceptors(interceptor)
+                .Options;
+
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            using var context = new ApplicationDbContext(interceptedOptions);
+            var repository = CreateRepository(context, new FixedTimeProvider(now), cache);
+
+            // La anulación llega mientras el resumen se está calculando: la invalidación ocurre
+            // ANTES de que el cálculo (con datos previos a la anulación) intente guardarse en caché.
+            interceptor.Action = () => repository.InvalidateSummaryCache();
+            Assert.Equal(8m, (await repository.GetSummaryAsync()).RevenueToday);
+
+            using (var voidContext = new ApplicationDbContext(_options))
+            {
+                var sale = voidContext.Sales.Single(s => s.Id == saleId);
+                sale.VoidedAt = now;
+                sale.VoidReason = "Error de cobro";
+                voidContext.SaveChanges();
+            }
+
+            // El resumen obsoleto no debe haber repoblado la caché: el siguiente cálculo ve la anulación.
             Assert.Equal(0m, (await repository.GetSummaryAsync()).RevenueToday);
         }
     }

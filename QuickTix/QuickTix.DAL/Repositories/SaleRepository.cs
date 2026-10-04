@@ -7,6 +7,7 @@ using QuickTix.Contracts.Enums;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
+using QuickTix.Core.Time;
 using QuickTix.DAL.Data;
 
 namespace QuickTix.DAL.Repositories
@@ -220,6 +221,11 @@ namespace QuickTix.DAL.Repositories
             return await SaveAsync();
         }
 
+        // Los DTOs de historial exponen hora LOCAL de Madrid (Kind Unspecified), la misma definición de
+        // día que el arqueo y el Panel; en BD sigue siendo UTC. Los clientes no deben reconvertirla.
+        private static DateTime? ToLocalOrNull(DateTime? utc) =>
+            utc.HasValue ? LocalBusinessDay.ToLocalDateTime(utc.Value) : null;
+
         /// <summary>
         /// Obtiene el historial agregado de ventas de tickets.
         /// Devuelve una proyección por venta con cantidades y total monetario.
@@ -258,11 +264,11 @@ namespace QuickTix.DAL.Repositories
             return rows.Select(s => new TicketSaleDTO
             {
                 Id = s.Id,
-                Date = s.Date,
+                Date = LocalBusinessDay.ToLocalDateTime(s.Date),
 
                 PaymentMethod = s.PaymentMethod,
                 IsVoided = s.VoidedAt != null,
-                VoidedAt = s.VoidedAt,
+                VoidedAt = ToLocalOrNull(s.VoidedAt),
                 VoidReason = s.VoidReason,
 
                 VenueId = s.VenueId,
@@ -338,11 +344,11 @@ namespace QuickTix.DAL.Repositories
             return new TicketSaleDetailDTO
             {
                 Id = sale.Id,
-                Date = sale.Date,
+                Date = LocalBusinessDay.ToLocalDateTime(sale.Date),
 
                 PaymentMethod = sale.PaymentMethod,
                 IsVoided = sale.VoidedAt != null,
-                VoidedAt = sale.VoidedAt,
+                VoidedAt = ToLocalOrNull(sale.VoidedAt),
                 VoidReason = sale.VoidReason,
 
                 VenueId = sale.VenueId,
@@ -400,7 +406,7 @@ namespace QuickTix.DAL.Repositories
             return rows.Select(x => new SubscriptionSaleDTO
             {
                 Id = x.Id,
-                Date = x.Date,
+                Date = LocalBusinessDay.ToLocalDateTime(x.Date),
 
                 VenueId = x.VenueId,
                 VenueName = x.VenueName,
@@ -415,7 +421,7 @@ namespace QuickTix.DAL.Repositories
 
                 PaymentMethod = x.PaymentMethod,
                 IsVoided = x.VoidedAt != null,
-                VoidedAt = x.VoidedAt,
+                VoidedAt = ToLocalOrNull(x.VoidedAt),
                 VoidReason = x.VoidReason
             });
         }

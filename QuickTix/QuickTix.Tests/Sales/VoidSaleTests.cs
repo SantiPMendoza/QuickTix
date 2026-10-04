@@ -216,7 +216,8 @@ namespace QuickTix.Tests.Sales
             var row = Assert.Single(history);
             Assert.Equal(ticketSaleId, row.Id);
             Assert.True(row.IsVoided);
-            Assert.Equal(Now.AddHours(1), row.VoidedAt);
+            // El historial expone hora local de Madrid (julio = UTC+2), no la UTC guardada
+            Assert.Equal(new DateTime(2026, 7, 15, 13, 0, 0, DateTimeKind.Unspecified), row.VoidedAt);
             Assert.Equal("Cobro duplicado", row.VoidReason);
             Assert.Equal(PaymentMethod.Cash, row.PaymentMethod);
             Assert.Equal(8m, row.TotalAmount);

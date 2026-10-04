@@ -64,8 +64,12 @@ namespace QuickTix.Desktop.Services
             var config = new CsvConfiguration(EsFormat.Culture)
             {
                 Delimiter = ";",
-                // El motivo lo teclea un admin: un «=» o «+» inicial se interpretaría como fórmula en Excel.
-                InjectionOptions = InjectionOptions.Escape
+                // El motivo lo teclea un admin: un «=», «+» o «@» inicial se interpretaría como fórmula en Excel.
+                InjectionOptions = InjectionOptions.Escape,
+
+                // Por defecto CsvHelper también escapa «-», lo que convertiría un importe negativo en texto
+                // («'-12,50»). Se quita de la lista global y se protege solo en los campos de TEXTO (Text()).
+                InjectionCharacters = ['=', '@', '+', '\t', '\r']
             };
 
             using var csv = new CsvWriter(writer, config, leaveOpen: true);
@@ -77,15 +81,15 @@ namespace QuickTix.Desktop.Services
             foreach (var row in BuildRows(report))
             {
                 csv.WriteField(row.Fecha);
-                csv.WriteField(row.Recinto);
-                csv.WriteField(row.Vendedor);
-                csv.WriteField(row.Concepto);
+                csv.WriteField(Text(row.Recinto));
+                csv.WriteField(Text(row.Vendedor));
+                csv.WriteField(Text(row.Concepto));
                 csv.WriteField(row.Cantidad);
                 csv.WriteField(row.PrecioUnitario);
                 csv.WriteField(row.Subtotal);
                 csv.WriteField(row.MedioPago);
                 csv.WriteField(row.Anulada);
-                csv.WriteField(row.MotivoAnulacion);
+                csv.WriteField(Text(row.MotivoAnulacion));
                 csv.NextRecord();
             }
 
@@ -98,6 +102,10 @@ namespace QuickTix.Desktop.Services
             using var writer = new StreamWriter(path, append: false, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
             Write(writer, report);
         }
+
+        // Campo de texto libre: un «-» inicial se neutraliza aquí (los importes numéricos no pasan por esta ruta).
+        private static string Text(string value) =>
+            value.StartsWith('-') ? "'" + value : value;
 
         // Dos decimales fijos con coma, sin separador de millares (Excel ES lo lee como número).
         private static string Amount(decimal value) => value.ToString("F2", EsFormat.Culture);

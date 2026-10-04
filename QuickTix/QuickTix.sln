@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Contracts", "QuickTix.Contracts\QuickTix.Contracts.csproj", "{D3110FA3-36AA-44FF-A37E-F3F080D22368}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickTix.Desktop.Tests", "QuickTix.Desktop.Tests\QuickTix.Desktop.Tests.csproj", "{48D9B5E4-4014-4925-838D-A043CB1972AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{D3110FA3-36AA-44FF-A37E-F3F080D22368}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3110FA3-36AA-44FF-A37E-F3F080D22368}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3110FA3-36AA-44FF-A37E-F3F080D22368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48D9B5E4-4014-4925-838D-A043CB1972AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D9B5E4-4014-4925-838D-A043CB1972AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D9B5E4-4014-4925-838D-A043CB1972AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D9B5E4-4014-4925-838D-A043CB1972AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

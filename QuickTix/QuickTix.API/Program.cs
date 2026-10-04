@@ -75,6 +75,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddQuickTixCors(builder.Environment);
 builder.Services.AddSwaggerWithAuth();
+builder.Services.AddApiEnvelopeValidation();
 
 // ===================================================
 // 🔹 CONTROLADORES
