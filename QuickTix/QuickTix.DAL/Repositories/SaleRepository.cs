@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using QuickTix.Contracts.DTOs.SaleDTOs;
 using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
 using QuickTix.Contracts.DTOs.SaleDTOs.Ticket;
 using QuickTix.Contracts.Enums;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
+using QuickTix.Core.Time;
 using QuickTix.DAL.Data;
 
 namespace QuickTix.DAL.Repositories
@@ -63,6 +65,35 @@ namespace QuickTix.DAL.Repositories
         /// Invalida la caché de ventas.
         /// </summary>
         public void ClearCache() => _cache.Remove(_cacheKey);
+
+        /// <inheritdoc />
+        public async Task<VoidSaleResult> VoidAsync(int saleId, string userId, string reason, DateTime nowUtc)
+        {
+            var trimmedReason = reason?.Trim();
+            if (string.IsNullOrEmpty(trimmedReason) || trimmedReason.Length > VoidSaleDTO.ReasonMaxLength)
+                return VoidSaleResult.InvalidReason;
+
+            // UPDATE condicionado a "no anulada": atómico, así que dos anulaciones
+            // simultáneas no pueden pisarse (solo una afecta a la fila).
+            var affected = await _context.Sales
+                .Where(s => s.Id == saleId && s.VoidedAt == null)
+                .ExecuteUpdateAsync(set => set
+                    .SetProperty(s => s.VoidedAt, nowUtc)
+                    .SetProperty(s => s.VoidedByUserId, userId)
+                    .SetProperty(s => s.VoidReason, trimmedReason));
+
+            if (affected == 1)
+            {
+                // Las ventas cacheadas (GetAll/Get) mostrarían la venta sin anular.
+                ClearCache();
+                return VoidSaleResult.Voided;
+            }
+
+            // 0 filas: o no existe o ya estaba anulada.
+            return await _context.Sales.AnyAsync(s => s.Id == saleId)
+                ? VoidSaleResult.AlreadyVoided
+                : VoidSaleResult.NotFound;
+        }
 
         /// <summary>
         /// Obtiene el listado de ventas con datos básicos (Venue y Manager).
@@ -190,6 +221,11 @@ namespace QuickTix.DAL.Repositories
             return await SaveAsync();
         }
 
+        // Los DTOs de historial exponen hora LOCAL de Madrid (Kind Unspecified), la misma definición de
+        // día que el arqueo y el Panel; en BD sigue siendo UTC. Los clientes no deben reconvertirla.
+        private static DateTime? ToLocalOrNull(DateTime? utc) =>
+            utc.HasValue ? LocalBusinessDay.ToLocalDateTime(utc.Value) : null;
+
         /// <summary>
         /// Obtiene el historial agregado de ventas de tickets.
         /// Devuelve una proyección por venta con cantidades y total monetario.
@@ -197,32 +233,55 @@ namespace QuickTix.DAL.Repositories
         /// <returns>Listado de ventas de tickets.</returns>
         public async Task<IEnumerable<TicketSaleDTO>> GetTicketHistoryAsync()
         {
-            return await _context.Sales
+            // Los importes (decimal) se suman en memoria: el provider de SQLite de los tests
+            // no traduce agregados decimales; la consulta solo trae cantidades y precios.
+            var rows = await _context.Sales
                 .AsNoTracking()
                 .Where(s => s.Items.Any(i => i.TicketId != null))
-                .Select(s => new TicketSaleDTO
+                .OrderByDescending(s => s.Date)
+                .Select(s => new
                 {
-                    Id = s.Id,
-                    Date = s.Date,
+                    s.Id,
+                    s.Date,
 
-                    VenueId = s.VenueId,
+                    s.PaymentMethod,
+                    s.VoidedAt,
+                    s.VoidReason,
+
+                    s.VenueId,
                     VenueName = s.Venue.Name,
 
-                    // Las ventas de tickets siempre llevan manager, pero la proyección
-                    // se protege igualmente frente a nulls (FK ahora opcional).
-                    ManagerId = s.ManagerId ?? 0,
+                    s.ManagerId,
                     ManagerName = s.Manager != null ? s.Manager.Name : "Administración",
 
-                    Quantity = s.Items
+                    Lines = s.Items
                         .Where(i => i.TicketId != null)
-                        .Sum(i => i.Quantity),
-
-                    TotalAmount = s.Items
-                        .Where(i => i.TicketId != null)
-                        .Sum(i => i.UnitPrice * i.Quantity)
+                        .Select(i => new { i.Quantity, i.UnitPrice })
+                        .ToList()
                 })
-                .OrderByDescending(x => x.Date)
                 .ToListAsync();
+
+            return rows.Select(s => new TicketSaleDTO
+            {
+                Id = s.Id,
+                Date = LocalBusinessDay.ToLocalDateTime(s.Date),
+
+                PaymentMethod = s.PaymentMethod,
+                IsVoided = s.VoidedAt != null,
+                VoidedAt = ToLocalOrNull(s.VoidedAt),
+                VoidReason = s.VoidReason,
+
+                VenueId = s.VenueId,
+                VenueName = s.VenueName,
+
+                // Las ventas de tickets siempre llevan manager, pero la proyección
+                // se protege igualmente frente a nulls (FK ahora opcional).
+                ManagerId = s.ManagerId ?? 0,
+                ManagerName = s.ManagerName,
+
+                Quantity = s.Lines.Sum(l => l.Quantity),
+                TotalAmount = s.Lines.Sum(l => l.UnitPrice * l.Quantity)
+            }).ToList();
         }
 
         /// <summary>
@@ -285,7 +344,12 @@ namespace QuickTix.DAL.Repositories
             return new TicketSaleDetailDTO
             {
                 Id = sale.Id,
-                Date = sale.Date,
+                Date = LocalBusinessDay.ToLocalDateTime(sale.Date),
+
+                PaymentMethod = sale.PaymentMethod,
+                IsVoided = sale.VoidedAt != null,
+                VoidedAt = ToLocalOrNull(sale.VoidedAt),
+                VoidReason = sale.VoidReason,
 
                 VenueId = sale.VenueId,
                 VenueName = sale.Venue.Name,
@@ -330,7 +394,11 @@ namespace QuickTix.DAL.Repositories
                     SubscriptionCategory = i.Subscription!.Category,
                     Price = i.UnitPrice,
 
-                    ClientName = i.Subscription.Client != null ? i.Subscription.Client.Name : string.Empty
+                    ClientName = i.Subscription.Client != null ? i.Subscription.Client.Name : string.Empty,
+
+                    i.Sale.PaymentMethod,
+                    i.Sale.VoidedAt,
+                    i.Sale.VoidReason
                 })
                 .OrderByDescending(x => x.Date)
                 .ToListAsync();
@@ -338,7 +406,7 @@ namespace QuickTix.DAL.Repositories
             return rows.Select(x => new SubscriptionSaleDTO
             {
                 Id = x.Id,
-                Date = x.Date,
+                Date = LocalBusinessDay.ToLocalDateTime(x.Date),
 
                 VenueId = x.VenueId,
                 VenueName = x.VenueName,
@@ -349,7 +417,12 @@ namespace QuickTix.DAL.Repositories
                 SubscriptionCategory = x.SubscriptionCategory.ToString(),
                 Price = x.Price,
 
-                ClientName = x.ClientName
+                ClientName = x.ClientName,
+
+                PaymentMethod = x.PaymentMethod,
+                IsVoided = x.VoidedAt != null,
+                VoidedAt = ToLocalOrNull(x.VoidedAt),
+                VoidReason = x.VoidReason
             });
         }
 

@@ -1,10 +1,13 @@
 using Microsoft.Data.Sqlite;
+using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Caching.Memory;
 using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
 using QuickTix.DAL.Repositories;
+using QuickTix.Tests.Time;
 
 namespace QuickTix.Tests.Analytics
 {
@@ -14,7 +17,7 @@ namespace QuickTix.Tests.Analytics
     /// de EF queda vetado en este proyecto por no soportar transacciones).
     ///
     /// Cubren los campos nuevos del Panel v2: desglose de ingresos de hoy por tipo,
-    /// acumulado de temporada (año en curso, UTC) y abonos que caducan en 7 días.
+    /// acumulado de temporada (año natural LOCAL de Madrid en curso) y abonos que caducan en 7 días.
     /// </summary>
     public class AnalyticsSummaryTests : IDisposable
     {
@@ -38,11 +41,47 @@ namespace QuickTix.Tests.Analytics
 
         public void Dispose() => _connection.Dispose();
 
-        private static AnalyticsRepository CreateRepository(ApplicationDbContext context)
+        // El reloj es obligatorio: un TimeProvider.System por defecto haría los tests dependientes del día en que se ejecutan.
+        private static AnalyticsRepository CreateRepository(
+            ApplicationDbContext context, TimeProvider clock, IMemoryCache? cache = null)
         {
             // Caché fresca por test: el resumen se cachea 30 s y una caché compartida
             // haría que un test viera los datos sembrados por otro.
-            return new AnalyticsRepository(context, new MemoryCache(new MemoryCacheOptions()));
+            return new AnalyticsRepository(
+                context,
+                cache ?? new MemoryCache(new MemoryCacheOptions()),
+                clock);
+        }
+
+        private static Sale BuildTicketSale(Venue venue, DateTime dateUtc, decimal price, int quantity, bool voided = false)
+        {
+            var sale = new Sale
+            {
+                Venue = venue,
+                Date = dateUtc,
+                Items =
+                {
+                    new SaleItem
+                    {
+                        Ticket = new Ticket
+                        {
+                            Venue = venue,
+                            Price = price,
+                            Type = TicketType.AdultoLaboral,
+                            Context = TicketContext.Normal,
+                            PurchaseDate = dateUtc
+                        },
+                        Quantity = quantity,
+                        UnitPrice = price
+                    }
+                }
+            };
+            if (voided)
+            {
+                sale.VoidedAt = dateUtc;
+                sale.VoidReason = "Error de cobro";
+            }
+            return sale;
         }
 
         /// <summary>
@@ -54,14 +93,14 @@ namespace QuickTix.Tests.Analytics
         /// - Abonos sueltos: uno vigente que caduca en 3 días (cuenta como "caduca pronto"),
         ///   uno vigente que caduca en 30 días (activo pero fuera de la ventana) y
         ///   uno ya caducado (no cuenta para nada).
-        /// Devuelve la fecha de la venta antigua para que el assert de temporada
-        /// pueda adaptarse al único día del año en que "ayer" es del año anterior.
+        /// La fecha de la venta antigua ("ayer" en UTC) cae en el año local anterior cuando "ahora" es
+        /// Nochevieja a las 23:30 UTC (ya 1 de enero en Madrid); los tests fijan el total de temporada esperado.
         /// </summary>
-        private DateTime SeedPanelScenario()
+        private void SeedPanelScenario(DateTime nowUtc)
         {
             using var context = new ApplicationDbContext(_options);
 
-            var nowUtc = DateTime.UtcNow;
+            // "Ahora" lo fija el test: es el mismo instante que ve el reloj del repositorio.
             var todayUtc = nowUtc.Date;
             var olderSaleDateUtc = todayUtc.AddDays(-1).AddHours(12);
 
@@ -160,17 +199,20 @@ namespace QuickTix.Tests.Analytics
                 ticketSaleToday, subscriptionSaleToday, olderSale,
                 expiringSoon, activeFarFromExpiry, alreadyExpired);
             context.SaveChanges();
-
-            return olderSaleDateUtc;
         }
 
-        [Fact]
-        public async Task GetSummary_SplitsTodayRevenueByLineTypeAndAccumulatesSeason()
+        // Instantes fijos: un día normal y Nochevieja a las 23:30 UTC, que en Madrid (UTC+1) ya es
+        // 1 de enero (año nuevo local mientras el año UTC sigue siendo el anterior).
+        [Theory]
+        [InlineData("2026-07-15T10:00:00Z", 42)]
+        [InlineData("2026-12-31T23:30:00Z", 32)]
+        public async Task GetSummary_SplitsTodayRevenueByLineTypeAndAccumulatesSeason(string nowIso, int expectedSeasonRevenueEuros)
         {
             // Arrange
-            var olderSaleDateUtc = SeedPanelScenario();
+            var nowUtc = DateTime.Parse(nowIso, null, System.Globalization.DateTimeStyles.AdjustToUniversal);
+            SeedPanelScenario(nowUtc);
             using var context = new ApplicationDbContext(_options);
-            var repository = CreateRepository(context);
+            var repository = CreateRepository(context, new FixedTimeProvider(nowUtc));
 
             // Act
             var summary = await repository.GetSummaryAsync();
@@ -181,20 +223,20 @@ namespace QuickTix.Tests.Analytics
             Assert.Equal(25.00m, summary.SubscriptionRevenueToday);
             Assert.Equal(32.00m, summary.RevenueToday);
 
-            // Assert — temporada (año en curso): incluye la venta antigua solo si
-            // "ayer" cae en el mismo año (el 1 de enero no lo hace).
-            var expectedSeasonRevenue = 32.00m
-                + (olderSaleDateUtc.Year == DateTime.UtcNow.Year ? 10.00m : 0m);
-            Assert.Equal(expectedSeasonRevenue, summary.SeasonRevenue);
+            // Assert — temporada (año LOCAL de Madrid en curso), con el total esperado fijado a mano:
+            // en julio entra la venta antigua (32 + 10); en Nochevieja a las 23:30 UTC ya es 1 de enero
+            // en Madrid, así que la venta del día anterior cae en el año local anterior (solo 32).
+            Assert.Equal((decimal)expectedSeasonRevenueEuros, summary.SeasonRevenue);
         }
 
         [Fact]
         public async Task GetSummary_CountsOnlyActiveSubscriptionsExpiringWithin7Days()
         {
             // Arrange
-            SeedPanelScenario();
+            var nowUtc = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            SeedPanelScenario(nowUtc);
             using var context = new ApplicationDbContext(_options);
-            var repository = CreateRepository(context);
+            var repository = CreateRepository(context, new FixedTimeProvider(nowUtc));
 
             // Act
             var summary = await repository.GetSummaryAsync();
@@ -204,6 +246,154 @@ namespace QuickTix.Tests.Analytics
             // entra en la ventana de 7 días.
             Assert.Equal(3, summary.ActiveSubscriptions);
             Assert.Equal(1, summary.ExpiringSubscriptionsCount);
+        }
+
+        [Fact]
+        public async Task GetSummary_ExcludesVoidedSalesFromRevenueSeasonAndSalesByType()
+        {
+            var now = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                seed.AddRange(
+                    BuildTicketSale(venue, now, 3.50m, 2),
+                    BuildTicketSale(venue, now, 10m, 1, voided: true));
+                seed.SaveChanges();
+            }
+
+            using var context = new ApplicationDbContext(_options);
+            var summary = await CreateRepository(context, new FixedTimeProvider(now)).GetSummaryAsync();
+
+            Assert.Equal(7.00m, summary.RevenueToday);
+            Assert.Equal(7.00m, summary.TicketRevenueToday);
+            Assert.Equal(7.00m, summary.SeasonRevenue);
+            Assert.Equal(2, summary.TicketsSoldToday);
+            Assert.Equal(2, summary.EstimatedAttendanceToday);
+            Assert.Equal(2, summary.SalesByType.TicketUnits);
+            Assert.DoesNotContain(summary.RecentSales, s => s.TotalAmount == 10m);
+            Assert.Equal(7.00m, summary.RevenueLast7Days.Sum(d => d.Amount));
+        }
+
+        [Fact]
+        public async Task GetSummary_TodayIsTheMadridDay_NotTheUtcDay()
+        {
+            // Ahora = 00:30 en Madrid del 16 (22:30 UTC del 15, verano).
+            var now = new DateTime(2026, 7, 15, 22, 30, 0, DateTimeKind.Utc);
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                seed.AddRange(
+                    BuildTicketSale(venue, new DateTime(2026, 7, 15, 22, 15, 0, DateTimeKind.Utc), 5m, 1), // 00:15 Madrid del 16: hoy
+                    BuildTicketSale(venue, new DateTime(2026, 7, 15, 21, 30, 0, DateTimeKind.Utc), 8m, 1)); // 23:30 Madrid del 15: ayer
+                seed.SaveChanges();
+            }
+
+            using var context = new ApplicationDbContext(_options);
+            var summary = await CreateRepository(context, new FixedTimeProvider(now)).GetSummaryAsync();
+
+            Assert.Equal(5m, summary.RevenueToday);
+            Assert.Equal(1, summary.TicketsSoldToday);
+            Assert.Equal(13m, summary.SeasonRevenue);
+
+            // Serie de 7 días: termina en el día local de hoy (16) y la venta de 23:30 cae en el 15.
+            Assert.Equal(7, summary.RevenueLast7Days.Count);
+            Assert.Equal(new DateTime(2026, 7, 16), summary.RevenueLast7Days[6].Date);
+            Assert.Equal(5m, summary.RevenueLast7Days[6].Amount);
+            Assert.Equal(8m, summary.RevenueLast7Days[5].Amount);
+        }
+
+        [Fact]
+        public async Task InvalidateSummaryCache_MakesNextSummaryReflectAVoid()
+        {
+            var now = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            int saleId;
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                var sale = BuildTicketSale(venue, now, 4m, 2);
+                seed.Add(sale);
+                seed.SaveChanges();
+                saleId = sale.Id;
+            }
+
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            using var context = new ApplicationDbContext(_options);
+            var repository = CreateRepository(context, new FixedTimeProvider(now), cache);
+
+            var before = await repository.GetSummaryAsync();
+            Assert.Equal(8m, before.RevenueToday);
+
+            using (var voidContext = new ApplicationDbContext(_options))
+            {
+                var sale = voidContext.Sales.Single(s => s.Id == saleId);
+                sale.VoidedAt = now;
+                sale.VoidReason = "Error de cobro";
+                voidContext.SaveChanges();
+            }
+
+            // Sin invalidar, la caché sigue sirviendo el dato anterior (TTL de 30 s).
+            Assert.Equal(8m, (await repository.GetSummaryAsync()).RevenueToday);
+
+            repository.InvalidateSummaryCache();
+
+            Assert.Equal(0m, (await repository.GetSummaryAsync()).RevenueToday);
+        }
+
+        /// <summary>Ejecuta una acción la primera vez que se lee una consulta (simula una anulación a mitad de cálculo).</summary>
+        private sealed class OnFirstQueryInterceptor : DbCommandInterceptor
+        {
+            public Action? Action { get; set; }
+
+            public override ValueTask<DbDataReader> ReaderExecutedAsync(
+                DbCommand command, CommandExecutedEventData eventData, DbDataReader result,
+                CancellationToken cancellationToken = default)
+            {
+                var action = Action;
+                Action = null;
+                action?.Invoke();
+                return ValueTask.FromResult(result);
+            }
+        }
+
+        [Fact]
+        public async Task InvalidateDuringComputation_DoesNotRepopulateCacheWithStaleSummary()
+        {
+            var now = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            int saleId;
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                var sale = BuildTicketSale(venue, now, 4m, 2);
+                seed.Add(sale);
+                seed.SaveChanges();
+                saleId = sale.Id;
+            }
+
+            var interceptor = new OnFirstQueryInterceptor();
+            var interceptedOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlite(_connection)
+                .AddInterceptors(interceptor)
+                .Options;
+
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            using var context = new ApplicationDbContext(interceptedOptions);
+            var repository = CreateRepository(context, new FixedTimeProvider(now), cache);
+
+            // La anulación llega mientras el resumen se está calculando: la invalidación ocurre
+            // ANTES de que el cálculo (con datos previos a la anulación) intente guardarse en caché.
+            interceptor.Action = () => repository.InvalidateSummaryCache();
+            Assert.Equal(8m, (await repository.GetSummaryAsync()).RevenueToday);
+
+            using (var voidContext = new ApplicationDbContext(_options))
+            {
+                var sale = voidContext.Sales.Single(s => s.Id == saleId);
+                sale.VoidedAt = now;
+                sale.VoidReason = "Error de cobro";
+                voidContext.SaveChanges();
+            }
+
+            // El resumen obsoleto no debe haber repoblado la caché: el siguiente cálculo ve la anulación.
+            Assert.Equal(0m, (await repository.GetSummaryAsync()).RevenueToday);
         }
     }
 }

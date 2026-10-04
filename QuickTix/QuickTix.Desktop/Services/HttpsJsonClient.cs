@@ -240,6 +240,34 @@ namespace QuickTix.Desktop.Services
         }
 
         /// <summary>
+        /// Realiza una petición POST enviando un cuerpo JSON cuando la API no devuelve resultado
+        /// (envelope con Result nulo, p. ej. anular una venta). Solo valida el éxito de la respuesta.
+        /// </summary>
+        /// <typeparam name="TRequest">Tipo del request.</typeparam>
+        /// <param name="url">Ruta relativa o absoluta del endpoint.</param>
+        /// <param name="data">Payload del request.</param>
+        /// <returns>Tarea asíncrona.</returns>
+        /// <exception cref="ApiException">Cuando la API responde con error (400, 404, 409...).</exception>
+        public async Task PostAsync<TRequest>(string url, TRequest data)
+        {
+            try
+            {
+                AddAuthorizationHeader();
+                var response = await _httpClient.PostAsJsonAsync(url, data, JsonOptions);
+
+                await ReadApiResultAsync<object>(response);
+            }
+            catch (ApiException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Error en POST {url}: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Realiza una petición PUT enviando un cuerpo JSON.
         /// </summary>
         /// <typeparam name="T">Tipo del payload.</typeparam>

@@ -34,6 +34,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 // Registrar IMemoryCache
 builder.Services.AddMemoryCache();
 
+// Reloj inyectable (tests deterministas); en producción es el reloj del sistema
+builder.Services.AddSingleton(TimeProvider.System);
+
 // ===================================================
 // 🔹 REGISTRAR SERVICIOS Y REPOSITORIOS
 // ===================================================
@@ -48,6 +51,7 @@ builder.Services.AddScoped<IVenueRepository, VenueRepository>();
 builder.Services.AddScoped<ISaleItemRepository, SaleItemRepository>();
 builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
+builder.Services.AddScoped<ICashCloseRepository, CashCloseRepository>();
 
 
 // AutoMapper
@@ -71,6 +75,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddQuickTixCors(builder.Environment);
 builder.Services.AddSwaggerWithAuth();
+builder.Services.AddApiEnvelopeValidation();
 
 // ===================================================
 // 🔹 CONTROLADORES

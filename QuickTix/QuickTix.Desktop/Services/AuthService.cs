@@ -35,6 +35,17 @@ namespace QuickTix.Desktop.Services
         int GetManagerId();
 
         /// <summary>
+        /// Indica si el usuario autenticado tiene rol admin.
+        /// </summary>
+        bool IsAdmin { get; }
+
+        /// <summary>
+        /// Se dispara tras iniciar o cerrar sesión, para que la UI reevalúe lo que depende del rol
+        /// (p. ej. el menú «Cierre de caja» o el botón «Anular»).
+        /// </summary>
+        event Action? SessionChanged;
+
+        /// <summary>
         /// Cierra sesión limpiando token y usuario en memoria.
         /// </summary>
         void Logout();
@@ -81,6 +92,7 @@ namespace QuickTix.Desktop.Services
 
             _tokenStore.SetToken(result.Token);
             _currentUser = result.User;
+            SessionChanged?.Invoke();
 
             return true;
         }
@@ -96,6 +108,13 @@ namespace QuickTix.Desktop.Services
         /// </summary>
         /// <returns>Usuario actual o null.</returns>
         public UserDTO? GetCurrentUser() => _currentUser;
+
+        /// <inheritdoc />
+        public bool IsAdmin =>
+            string.Equals(_currentUser?.Role, "admin", StringComparison.OrdinalIgnoreCase);
+
+        /// <inheritdoc />
+        public event Action? SessionChanged;
 
         /// <summary>
         /// Lee el claim "managerId" del JWT almacenado.
@@ -119,6 +138,7 @@ namespace QuickTix.Desktop.Services
         {
             _tokenStore.Clear();
             _currentUser = null;
+            SessionChanged?.Invoke();
         }
     }
 }

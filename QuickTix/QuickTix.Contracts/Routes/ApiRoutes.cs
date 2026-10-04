@@ -156,6 +156,16 @@
             public const string SellTicketsBatch = Base + "/sell/tickets/batch";
             public const string SellSubscription = Base + "/sell/subscription";
 
+            /// <summary>Anula (lógicamente) una venta. Solo admin; body: VoidSaleDTO.</summary>
+            public const string Void = Base + "/{id:int}/void";
+
+            /// <summary>
+            /// Construye la ruta para anular una venta.
+            /// Evita reemplazos manuales de placeholders en consumidores.
+            /// </summary>
+            /// <param name="saleId">Identificador de la venta.</param>
+            public static string VoidBySaleId(int saleId) => Base + $"/{saleId}/void";
+
             /// <summary>
             /// Construye la ruta para obtener el detalle de una venta de tickets.
             /// Evita reemplazos manuales de placeholders en consumidores.
@@ -174,6 +184,25 @@
             /// distribución por tipo y ventas recientes). Solo lectura.
             /// </summary>
             public const string Summary = Base + "/summary";
+        }
+
+        public static class Reports
+        {
+            public const string Base = "/api/Reports";
+
+            /// <summary>
+            /// Cierre de caja (arqueo) por rango inclusivo de días locales. Solo admin; solo lectura.
+            /// Query: from=yyyy-MM-dd&amp;to=yyyy-MM-dd.
+            /// </summary>
+            public const string CashClose = Base + "/cash-close";
+
+            /// <summary>
+            /// Construye la ruta del cierre de caja con el formato de fecha que espera la API (yyyy-MM-dd).
+            /// </summary>
+            /// <param name="from">Primer día local incluido.</param>
+            /// <param name="to">Último día local incluido.</param>
+            public static string CashCloseByRange(DateOnly from, DateOnly to)
+                => CashClose + $"?from={from.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)}&to={to.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)}";
         }
 
         public static class SaleItem

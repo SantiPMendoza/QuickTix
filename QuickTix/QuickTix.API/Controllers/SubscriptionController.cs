@@ -102,29 +102,32 @@ namespace QuickTix.API.Controllers
         }
 
 
+        /// <summary>
+        /// Elimina un abono. Solo admin. Un abono que ya se vendió (tiene líneas de venta) nunca se
+        /// borra: la vía es anular la venta.
+        /// </summary>
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public override async Task<IActionResult> Delete(int id)
         {
             var traceId = HttpContext.TraceIdentifier;
-            var force = string.Equals(Request.Query["force"], "true", StringComparison.OrdinalIgnoreCase);
 
             var entity = await _repository.GetAsync(id);
             if (entity == null)
                 return NotFound(BuildFail(HttpStatusCode.NotFound, new[] { "Registro no encontrado." }));
 
             var count = await _saleItemRepository.CountBySubscriptionAsync(id);
-            if (count > 0 && !force)
+            if (count > 0)
             {
                 return Conflict(ApiResponse<object>.Fail(
                     HttpStatusCode.Conflict,
                     new[]
                     {
-                $"Este abono tiene {count} ítems de venta asociados.",
-                "Si continúas, se eliminarán también esos ítems de venta.",
-                "Repite la operación con ?force=true para confirmar."
+                        $"Este abono tiene {count} líneas de venta asociadas y no se puede eliminar.",
+                        "Para corregirlo, anula la venta correspondiente desde el Historial de ventas."
                     },
                     traceId
                 ));

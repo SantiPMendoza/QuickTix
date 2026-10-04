@@ -15,5 +15,13 @@ namespace QuickTix.Core.Interfaces
         /// </summary>
         /// <returns>Resumen para el Panel.</returns>
         Task<AnalyticsSummaryDTO> GetSummaryAsync();
+
+        /// <summary>
+        /// Descarta el resumen cacheado (TTL 30 s) para que la siguiente lectura refleje
+        /// cambios inmediatos, p. ej. la anulación de una venta. La caché es un
+        /// <c>IMemoryCache</c> singleton, así que invalidar desde otra instancia scoped
+        /// del repositorio afecta a todas las peticiones.
+        /// </summary>
+        void InvalidateSummaryCache();
     }
 }

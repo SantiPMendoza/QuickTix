@@ -111,8 +111,8 @@ namespace QuickTix.Desktop.ViewModels
         }
 
         /// <summary>
-        /// Mensaje de la API cuando el borrado devolvió 409 (dependencias).
-        /// Lo consume el diálogo de confirmación de borrado forzado.
+        /// Mensaje de la API cuando el borrado devolvió 409 (el abono ya se vendió).
+        /// El anfitrión lo muestra en un aviso; no existe borrado forzado.
         /// </summary>
         public string? LastConflictMessage { get; private set; }
 
@@ -122,26 +122,24 @@ namespace QuickTix.Desktop.ViewModels
         /// Recarga el listado del cliente si existe contexto.
         /// </summary>
         /// <param name="id">Identificador de la suscripción.</param>
-        /// <param name="force">True para reintentar con force=true tras un 409 confirmado.</param>
         /// <returns>Resultado del intento: éxito, conflicto (409) o error.</returns>
-        public async Task<SubscriptionDeleteResult> TryDeleteAsync(int id, bool force = false)
+        public async Task<SubscriptionDeleteResult> TryDeleteAsync(int id)
         {
             try
             {
                 ErrorMessage = null;
                 LastConflictMessage = null;
 
-                var route = ApiRoutes.Subscription.DeleteById(id) + (force ? "?force=true" : string.Empty);
-                await _httpClient.DeleteAsync(route);
+                await _httpClient.DeleteAsync(ApiRoutes.Subscription.DeleteById(id));
 
                 if (CurrentClientId.HasValue)
                     await LoadByClientAsync(CurrentClientId.Value);
 
                 return SubscriptionDeleteResult.Success;
             }
-            catch (ApiException apiEx) when (!force && apiEx.StatusCode == System.Net.HttpStatusCode.Conflict)
+            catch (ApiException apiEx) when (apiEx.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                // La API avisa de dependencias: el anfitrión debe pedir confirmación de borrado forzado
+                // La API avisa de que el abono tiene ventas: el anfitrión muestra el motivo
                 LastConflictMessage = apiEx.Message;
                 return SubscriptionDeleteResult.Conflict;
             }

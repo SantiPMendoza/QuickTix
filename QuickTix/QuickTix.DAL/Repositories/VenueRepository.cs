@@ -162,14 +162,21 @@ namespace QuickTix.DAL.Repositories
         /// <summary>
         /// Elimina un recinto por id y persiste cambios.
         /// Para evitar problemas con entidades proyectadas desde caché, la eliminación se realiza
-        /// sobre una entidad cargada con tracking.
+        /// sobre una entidad cargada con tracking. Un recinto con ventas NO se puede borrar: la cascada
+        /// de la relación Venue→Sale las arrastraría y el arqueo perdería ingresos sin rastro
+        /// (la configuración de cascada no se toca para no requerir migración).
         /// </summary>
         /// <param name="id">Identificador del recinto.</param>
         /// <returns>True si se elimina; false si no existe.</returns>
+        /// <exception cref="InvalidOperationException">El recinto tiene ventas asociadas.</exception>
         public async Task<bool> DeleteAsync(int id)
         {
             var venue = await GetForUpdateAsync(id);
             if (venue == null) return false;
+
+            if (await _context.Sales.AnyAsync(s => s.VenueId == id))
+                throw new InvalidOperationException(
+                    "Este recinto tiene ventas registradas y no se puede eliminar.");
 
             _context.Venues.Remove(venue);
             return await SaveAsync();

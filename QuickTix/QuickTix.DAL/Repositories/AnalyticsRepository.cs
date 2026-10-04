@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using QuickTix.Contracts.DTOs.AnalyticsDTOs;
 using QuickTix.Core.Interfaces;
+using QuickTix.Core.Time;
 using QuickTix.DAL.Data;
 
 namespace QuickTix.DAL.Repositories
@@ -13,8 +14,14 @@ namespace QuickTix.DAL.Repositories
     /// lecturas AsNoTracking sobre el modelo de ventas existente, por lo que
     /// queda fuera de la decisión aparcada sobre Unit of Work (ADR-002).
     ///
-    /// Criterio de fechas: las ventas se guardan con DateTime.UtcNow
-    /// (ver SaleRepository), así que "hoy" se calcula también en UTC.
+    /// Criterio de fechas: las ventas se guardan en UTC (ver SaleRepository), pero el
+    /// "día" del Panel es el día local de Madrid (LocalBusinessDay), el mismo que usa el
+    /// arqueo. Las consultas se acotan con el intervalo UTC [inicio, fin) de esos días
+    /// locales y las agrupaciones por día se hacen sobre la fecha local.
+    ///
+    /// Las ventas anuladas (VoidedAt != null) quedan fuera de TODOS los agregados.
+    /// Los abonos no se tocan al anular una venta (política pendiente), así que los KPI
+    /// de abonos vigentes/por caducar se derivan de la tabla de abonos.
     ///
     /// Los importes (decimal) se suman EN MEMORIA sobre proyecciones compactas:
     /// el provider de SQLite (usado en los tests de integración) no traduce
@@ -31,11 +38,24 @@ namespace QuickTix.DAL.Repositories
         // TTL corto: el Panel tolera datos con hasta 30 s de retraso.
         private readonly IMemoryCache _cache;
 
+        // Reloj inyectable (tests deterministas); en producción TimeProvider.System.
+        private readonly TimeProvider _clock;
+
         // Clave de caché del resumen
         private const string CacheKey = "AnalyticsSummaryCacheKey";
 
+        // Clave de la "generación" de la caché: contador que sube en cada invalidación
+        private const string GenerationKey = "AnalyticsSummaryGenerationKey";
+
         // Tiempo de expiración de la caché (en segundos)
         private const int CacheExpirationTime = 30;
+
+        // El repositorio es scoped pero la IMemoryCache es singleton: el candado serializa el
+        // contador compartido entre peticiones concurrentes.
+        private static readonly object GenerationLock = new();
+
+        // Resumen cacheado junto a la generación con la que se calculó
+        private sealed record CachedSummary(long Generation, AnalyticsSummaryDTO Summary);
 
         // Número de ventas recientes devueltas al Panel
         private const int RecentSalesCount = 8;
@@ -45,27 +65,61 @@ namespace QuickTix.DAL.Repositories
         /// </summary>
         /// <param name="context">DbContext de la aplicación.</param>
         /// <param name="cache">Caché en memoria.</param>
-        public AnalyticsRepository(ApplicationDbContext context, IMemoryCache cache)
+        /// <param name="clock">Reloj (UTC) para calcular "hoy".</param>
+        public AnalyticsRepository(ApplicationDbContext context, IMemoryCache cache, TimeProvider clock)
         {
             _context = context;
             _cache = cache;
+            _clock = clock;
         }
+
+        /// <inheritdoc />
+        public void InvalidateSummaryCache()
+        {
+            // Subir la generación (y no solo borrar la entrada) cierra la carrera: un resumen
+            // calculado ANTES de la anulación que termina DESPUÉS de esta llamada se guardaría
+            // con la generación vieja y nunca se serviría.
+            lock (GenerationLock)
+            {
+                _cache.Set(GenerationKey, ReadGeneration() + 1);
+            }
+
+            _cache.Remove(CacheKey);
+        }
+
+        private long ReadGeneration() => _cache.TryGetValue(GenerationKey, out long generation) ? generation : 0L;
 
         /// <inheritdoc />
         public async Task<AnalyticsSummaryDTO> GetSummaryAsync()
         {
-            if (_cache.TryGetValue(CacheKey, out AnalyticsSummaryDTO? cached) && cached != null)
-                return cached;
+            // La generación se lee ANTES de calcular: si una invalidación ocurre mientras se calcula,
+            // el resultado queda etiquetado con una generación ya vencida.
+            long generation;
+            lock (GenerationLock)
+            {
+                generation = ReadGeneration();
+            }
 
-            var nowUtc = DateTime.UtcNow;
-            var todayUtc = nowUtc.Date;
-            var tomorrowUtc = todayUtc.AddDays(1);
-            var weekStartUtc = todayUtc.AddDays(-6);
+            if (_cache.TryGetValue(CacheKey, out CachedSummary? cached)
+                && cached != null
+                && cached.Generation == generation)
+                return cached.Summary;
 
-            // Temporada = año natural en curso (UTC): para una piscina de verano
+            var nowUtc = _clock.GetUtcNow().UtcDateTime;
+
+            // "Hoy", la semana y la temporada se definen en días LOCALES de Madrid y se
+            // convierten a límites UTC [inicio, fin) para consultar (correcto en cambios de hora).
+            var todayLocal = LocalBusinessDay.TodayLocal(nowUtc);
+            var weekStartLocal = todayLocal.AddDays(-6);
+
+            // Temporada = año natural local en curso: para una piscina de verano
             // el acumulado del año coincide con la temporada. Fechas reales de
             // apertura/cierre pendientes de definir con Raquel (ver AnalyticsSummaryDTO).
-            var seasonStartUtc = new DateTime(todayUtc.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var seasonStartLocal = new DateOnly(todayLocal.Year, 1, 1);
+
+            var (todayStartUtc, tomorrowUtc) = LocalBusinessDay.ToUtcRange(todayLocal);
+            var weekStartUtc = LocalBusinessDay.ToUtcRange(weekStartLocal).StartUtc;
+            var seasonStartUtc = LocalBusinessDay.ToUtcRange(seasonStartLocal).StartUtc;
 
             // Una única consulta trae las líneas de venta desde el inicio de la
             // temporada (o de la semana, si ésta empieza antes: primeros días de
@@ -74,7 +128,7 @@ namespace QuickTix.DAL.Repositories
             var itemsFromUtc = weekStartUtc < seasonStartUtc ? weekStartUtc : seasonStartUtc;
             var saleLines = await _context.SaleItems
                 .AsNoTracking()
-                .Where(i => i.Sale.Date >= itemsFromUtc && i.Sale.Date < tomorrowUtc)
+                .Where(i => i.Sale.VoidedAt == null && i.Sale.Date >= itemsFromUtc && i.Sale.Date < tomorrowUtc)
                 .Select(i => new
                 {
                     i.Sale.Date,
@@ -87,7 +141,7 @@ namespace QuickTix.DAL.Repositories
             // --- KPI: ingresos de hoy, desglosados por tipo de línea ---
             // El total del día es la suma de ambos (toda línea es entrada o abono).
             var todayLines = saleLines
-                .Where(l => l.Date >= todayUtc)
+                .Where(l => l.Date >= todayStartUtc)
                 .ToList();
 
             var ticketRevenueToday = todayLines
@@ -137,16 +191,16 @@ namespace QuickTix.DAL.Repositories
             // Se completan los días sin ventas con importe 0.
             var revenueByDay = saleLines
                 .Where(l => l.Date >= weekStartUtc)
-                .GroupBy(l => l.Date.Date)
+                .GroupBy(l => LocalBusinessDay.ToLocalDate(l.Date))
                 .ToDictionary(g => g.Key, g => g.Sum(l => l.UnitPrice * l.Quantity));
 
             var revenueLast7Days = Enumerable.Range(0, 7)
                 .Select(offset =>
                 {
-                    var day = weekStartUtc.AddDays(offset);
+                    var day = weekStartLocal.AddDays(offset);
                     return new DailyRevenueDTO
                     {
-                        Date = day,
+                        Date = day.ToDateTime(TimeOnly.MinValue),
                         Amount = revenueByDay.TryGetValue(day, out var amount) ? amount : 0m
                     };
                 })
@@ -155,12 +209,12 @@ namespace QuickTix.DAL.Repositories
             // --- Distribución de unidades por tipo (histórico completo) ---
             var ticketUnits = await _context.SaleItems
                 .AsNoTracking()
-                .Where(i => i.TicketId != null)
+                .Where(i => i.Sale.VoidedAt == null && i.TicketId != null)
                 .SumAsync(i => (int?)i.Quantity) ?? 0;
 
             var subscriptionUnits = await _context.SaleItems
                 .AsNoTracking()
-                .Where(i => i.SubscriptionId != null)
+                .Where(i => i.Sale.VoidedAt == null && i.SubscriptionId != null)
                 .SumAsync(i => (int?)i.Quantity) ?? 0;
 
             // --- Ventas recientes ---
@@ -168,6 +222,7 @@ namespace QuickTix.DAL.Repositories
             // las líneas ya proyectadas; son como mucho RecentSalesCount ventas.
             var recentSaleRows = await _context.Sales
                 .AsNoTracking()
+                .Where(s => s.VoidedAt == null)
                 .OrderByDescending(s => s.Date)
                 .ThenByDescending(s => s.Id)
                 .Take(RecentSalesCount)
@@ -215,7 +270,7 @@ namespace QuickTix.DAL.Repositories
 
             _cache.Set(
                 CacheKey,
-                summary,
+                new CachedSummary(generation, summary),
                 new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpirationTime))
             );

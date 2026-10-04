@@ -177,40 +177,23 @@ namespace QuickTix.DAL.Repositories
         /// <summary>
         /// Elimina una suscripción por id y persiste cambios.
         /// Para evitar problemas con entidades proyectadas desde caché, la eliminación se realiza
-        /// sobre una entidad cargada con tracking. Si la suscripción tiene elementos de venta asociados,
-        /// se eliminan también para que no queden huérfanos.
+        /// sobre una entidad cargada con tracking. Una suscripción que tiene líneas de venta NO se puede
+        /// borrar: arrastrar sus SaleItems falsearía el arqueo sin dejar rastro (la vía es anular la venta).
         /// </summary>
         /// <param name="id">Identificador de la suscripción.</param>
         /// <returns>True si se elimina; false si no existe.</returns>
+        /// <exception cref="InvalidOperationException">La suscripción tiene líneas de venta asociadas.</exception>
         public async Task<bool> DeleteAsync(int id)
         {
             var sub = await GetForUpdateAsync(id);
             if (sub == null) return false;
 
-            await using var tx = await _context.Database.BeginTransactionAsync();
+            if (await _context.SaleItems.AnyAsync(i => i.SubscriptionId == id))
+                throw new InvalidOperationException(
+                    "Este abono tiene líneas de venta asociadas y no se puede eliminar. Anula la venta correspondiente.");
 
-            try
-            {
-                var items = await _context.SaleItems
-                    .Where(i => i.SubscriptionId == id)
-                    .ToListAsync();
-
-                if (items.Count > 0)
-                    _context.SaleItems.RemoveRange(items);
-
-                _context.Subscriptions.Remove(sub);
-
-                await _context.SaveChangesAsync();
-                await tx.CommitAsync();
-
-                ClearCache();
-                return true;
-            }
-            catch
-            {
-                await tx.RollbackAsync();
-                throw;
-            }
+            _context.Subscriptions.Remove(sub);
+            return await SaveAsync();
         }
 
 
