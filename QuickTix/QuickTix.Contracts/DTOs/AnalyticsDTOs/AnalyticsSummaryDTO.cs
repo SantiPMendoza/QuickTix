@@ -6,24 +6,24 @@ namespace QuickTix.Contracts.DTOs.AnalyticsDTOs
     /// </summary>
     public class AnalyticsSummaryDTO
     {
-        /// <summary>Ingresos de hoy (suma de líneas de venta con fecha de hoy, UTC).</summary>
+        /// <summary>Ingresos de hoy (suma de líneas de venta no anuladas con fecha de hoy, día local de Madrid).</summary>
         public decimal RevenueToday { get; set; }
 
-        /// <summary>Ingresos de hoy (UTC) procedentes de líneas de entradas.</summary>
+        /// <summary>Ingresos de hoy (día local de Madrid) procedentes de líneas de entradas.</summary>
         public decimal TicketRevenueToday { get; set; }
 
-        /// <summary>Ingresos de hoy (UTC) procedentes de líneas de abonos.</summary>
+        /// <summary>Ingresos de hoy (día local de Madrid) procedentes de líneas de abonos.</summary>
         public decimal SubscriptionRevenueToday { get; set; }
 
         /// <summary>
         /// Ingresos acumulados de la temporada. De momento equivale al año natural
-        /// en curso (desde el 1 de enero, UTC): para una piscina de verano el
+        /// en curso (desde el 1 de enero, hora local de Madrid): para una piscina de verano el
         /// acumulado del año ES la temporada. Las fechas reales de apertura/cierre
         /// de temporada quedan pendientes de definir con Raquel.
         /// </summary>
         public decimal SeasonRevenue { get; set; }
 
-        /// <summary>Unidades de entradas vendidas hoy (UTC).</summary>
+        /// <summary>Unidades de entradas vendidas hoy (día local de Madrid).</summary>
         public int TicketsSoldToday { get; set; }
 
         /// <summary>Abonos vigentes ahora mismo (StartDate &lt;= ahora &lt;= EndDate).</summary>
@@ -56,7 +56,7 @@ namespace QuickTix.Contracts.DTOs.AnalyticsDTOs
     /// <summary>Ingresos de un día concreto.</summary>
     public class DailyRevenueDTO
     {
-        /// <summary>Día (fecha UTC, sin componente horario).</summary>
+        /// <summary>Día local de Madrid (sin componente horario).</summary>
         public DateTime Date { get; set; }
 
         /// <summary>Importe total del día.</summary>

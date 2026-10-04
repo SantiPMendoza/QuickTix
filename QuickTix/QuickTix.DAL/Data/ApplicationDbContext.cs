@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
 using QuickTix.Core.Models.Entities.Price;
 
@@ -109,6 +110,16 @@ namespace QuickTix.DAL.Data
                 .HasForeignKey(s => s.ManagerId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Sale: medio de pago (int, default 0 = Cash) y anulación lógica
+            modelBuilder.Entity<Sale>(e =>
+            {
+                e.Property(s => s.PaymentMethod).HasConversion<int>().HasDefaultValue(PaymentMethod.Cash);
+                e.Property(s => s.VoidReason).HasMaxLength(200);
+                // 450 = longitud de las claves de Identity (AspNetUsers.Id)
+                e.Property(s => s.VoidedByUserId).HasMaxLength(450);
+                e.Ignore(s => s.IsVoided);
+            });
 
             // Sale ↔ SaleItem
             modelBuilder.Entity<Sale>()

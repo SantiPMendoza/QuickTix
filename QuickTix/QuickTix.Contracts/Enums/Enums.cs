@@ -40,5 +40,16 @@ namespace QuickTix.Contracts.Enums
         Temporada
     }
 
+    /// <summary>
+    /// Medio de pago de una venta. De momento todo es efectivo; Card/Bizum se
+    /// activarán cuando el ayuntamiento confirme datáfono/Bizum.
+    /// </summary>
+    public enum PaymentMethod
+    {
+        Cash = 0,
+        Card = 1,
+        Bizum = 2
+    }
+
 
 }

@@ -5,6 +5,7 @@ using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
 using QuickTix.DAL.Data;
 using QuickTix.DAL.Repositories;
+using QuickTix.Tests.Time;
 
 namespace QuickTix.Tests.Analytics
 {
@@ -38,11 +39,46 @@ namespace QuickTix.Tests.Analytics
 
         public void Dispose() => _connection.Dispose();
 
-        private static AnalyticsRepository CreateRepository(ApplicationDbContext context)
+        private static AnalyticsRepository CreateRepository(
+            ApplicationDbContext context, TimeProvider? clock = null, IMemoryCache? cache = null)
         {
             // Caché fresca por test: el resumen se cachea 30 s y una caché compartida
             // haría que un test viera los datos sembrados por otro.
-            return new AnalyticsRepository(context, new MemoryCache(new MemoryCacheOptions()));
+            return new AnalyticsRepository(
+                context,
+                cache ?? new MemoryCache(new MemoryCacheOptions()),
+                clock ?? TimeProvider.System);
+        }
+
+        private static Sale BuildTicketSale(Venue venue, DateTime dateUtc, decimal price, int quantity, bool voided = false)
+        {
+            var sale = new Sale
+            {
+                Venue = venue,
+                Date = dateUtc,
+                Items =
+                {
+                    new SaleItem
+                    {
+                        Ticket = new Ticket
+                        {
+                            Venue = venue,
+                            Price = price,
+                            Type = TicketType.AdultoLaboral,
+                            Context = TicketContext.Normal,
+                            PurchaseDate = dateUtc
+                        },
+                        Quantity = quantity,
+                        UnitPrice = price
+                    }
+                }
+            };
+            if (voided)
+            {
+                sale.VoidedAt = dateUtc;
+                sale.VoidReason = "Error de cobro";
+            }
+            return sale;
         }
 
         /// <summary>
@@ -204,6 +240,97 @@ namespace QuickTix.Tests.Analytics
             // entra en la ventana de 7 días.
             Assert.Equal(3, summary.ActiveSubscriptions);
             Assert.Equal(1, summary.ExpiringSubscriptionsCount);
+        }
+
+        [Fact]
+        public async Task GetSummary_ExcludesVoidedSalesFromRevenueSeasonAndSalesByType()
+        {
+            var now = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                seed.AddRange(
+                    BuildTicketSale(venue, now, 3.50m, 2),
+                    BuildTicketSale(venue, now, 10m, 1, voided: true));
+                seed.SaveChanges();
+            }
+
+            using var context = new ApplicationDbContext(_options);
+            var summary = await CreateRepository(context, new FixedTimeProvider(now)).GetSummaryAsync();
+
+            Assert.Equal(7.00m, summary.RevenueToday);
+            Assert.Equal(7.00m, summary.TicketRevenueToday);
+            Assert.Equal(7.00m, summary.SeasonRevenue);
+            Assert.Equal(2, summary.TicketsSoldToday);
+            Assert.Equal(2, summary.EstimatedAttendanceToday);
+            Assert.Equal(2, summary.SalesByType.TicketUnits);
+            Assert.DoesNotContain(summary.RecentSales, s => s.TotalAmount == 10m);
+            Assert.Equal(7.00m, summary.RevenueLast7Days.Sum(d => d.Amount));
+        }
+
+        [Fact]
+        public async Task GetSummary_TodayIsTheMadridDay_NotTheUtcDay()
+        {
+            // Ahora = 00:30 en Madrid del 16 (22:30 UTC del 15, verano).
+            var now = new DateTime(2026, 7, 15, 22, 30, 0, DateTimeKind.Utc);
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                seed.AddRange(
+                    BuildTicketSale(venue, new DateTime(2026, 7, 15, 22, 15, 0, DateTimeKind.Utc), 5m, 1), // 00:15 Madrid del 16: hoy
+                    BuildTicketSale(venue, new DateTime(2026, 7, 15, 21, 30, 0, DateTimeKind.Utc), 8m, 1)); // 23:30 Madrid del 15: ayer
+                seed.SaveChanges();
+            }
+
+            using var context = new ApplicationDbContext(_options);
+            var summary = await CreateRepository(context, new FixedTimeProvider(now)).GetSummaryAsync();
+
+            Assert.Equal(5m, summary.RevenueToday);
+            Assert.Equal(1, summary.TicketsSoldToday);
+            Assert.Equal(13m, summary.SeasonRevenue);
+
+            // Serie de 7 días: termina en el día local de hoy (16) y la venta de 23:30 cae en el 15.
+            Assert.Equal(7, summary.RevenueLast7Days.Count);
+            Assert.Equal(new DateTime(2026, 7, 16), summary.RevenueLast7Days[6].Date);
+            Assert.Equal(5m, summary.RevenueLast7Days[6].Amount);
+            Assert.Equal(8m, summary.RevenueLast7Days[5].Amount);
+        }
+
+        [Fact]
+        public async Task InvalidateSummaryCache_MakesNextSummaryReflectAVoid()
+        {
+            var now = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            int saleId;
+            using (var seed = new ApplicationDbContext(_options))
+            {
+                var venue = new Venue { Name = "Piscina Nalda", Location = "Nalda", Capacity = 200 };
+                var sale = BuildTicketSale(venue, now, 4m, 2);
+                seed.Add(sale);
+                seed.SaveChanges();
+                saleId = sale.Id;
+            }
+
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            using var context = new ApplicationDbContext(_options);
+            var repository = CreateRepository(context, new FixedTimeProvider(now), cache);
+
+            var before = await repository.GetSummaryAsync();
+            Assert.Equal(8m, before.RevenueToday);
+
+            using (var voidContext = new ApplicationDbContext(_options))
+            {
+                var sale = voidContext.Sales.Single(s => s.Id == saleId);
+                sale.VoidedAt = now;
+                sale.VoidReason = "Error de cobro";
+                voidContext.SaveChanges();
+            }
+
+            // Sin invalidar, la caché sigue sirviendo el dato anterior (TTL de 30 s).
+            Assert.Equal(8m, (await repository.GetSummaryAsync()).RevenueToday);
+
+            repository.InvalidateSummaryCache();
+
+            Assert.Equal(0m, (await repository.GetSummaryAsync()).RevenueToday);
         }
     }
 }

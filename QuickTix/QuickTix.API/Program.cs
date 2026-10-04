@@ -34,6 +34,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 // Registrar IMemoryCache
 builder.Services.AddMemoryCache();
 
+// Reloj inyectable (tests deterministas); en producción es el reloj del sistema
+builder.Services.AddSingleton(TimeProvider.System);
+
 // ===================================================
 // 🔹 REGISTRAR SERVICIOS Y REPOSITORIOS
 // ===================================================
