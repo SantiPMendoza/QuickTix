@@ -6,6 +6,21 @@ using QuickTix.Desktop.ViewModels.Base;
 namespace QuickTix.Desktop.ViewModels
 {
     /// <summary>
+    /// Resultado del intento de borrado de una suscripción.
+    /// </summary>
+    public enum SubscriptionDeleteResult
+    {
+        /// <summary>Borrado completado.</summary>
+        Success,
+
+        /// <summary>La API detectó dependencias (409): requiere confirmación de borrado forzado.</summary>
+        Conflict,
+
+        /// <summary>Error controlado; el detalle queda en ErrorMessage.</summary>
+        Error
+    }
+
+    /// <summary>
     /// ViewModel de suscripciones (abonos).
     /// Permite cargar suscripciones por cliente, realizar operaciones CRUD y registrar la venta de una suscripción.
     /// </summary>
@@ -55,7 +70,7 @@ namespace QuickTix.Desktop.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error cargando recintos: {ex.Message}");
+                ShowAlert("Error", $"Error cargando recintos: {ex.Message}");
             }
         }
 
@@ -78,7 +93,7 @@ namespace QuickTix.Desktop.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error cargando abonos del cliente: {ex.Message}");
+                ShowAlert("Error", $"Error cargando abonos del cliente: {ex.Message}");
             }
         }
 
@@ -96,54 +111,56 @@ namespace QuickTix.Desktop.ViewModels
         }
 
         /// <summary>
-        /// Elimina una suscripción mediante el flujo CRUD estándar y recarga el listado del cliente si existe contexto.
+        /// Mensaje de la API cuando el borrado devolvió 409 (dependencias).
+        /// Lo consume el diálogo de confirmación de borrado forzado.
+        /// </summary>
+        public string? LastConflictMessage { get; private set; }
+
+        /// <summary>
+        /// Intenta eliminar una suscripción sin mostrar UI propia; el flujo de
+        /// confirmación (VibraDialog) lo orquesta el ViewModel anfitrión.
+        /// Recarga el listado del cliente si existe contexto.
         /// </summary>
         /// <param name="id">Identificador de la suscripción.</param>
-        /// <returns>Tarea asíncrona.</returns>
-        public override async Task DeleteAsync(int id)
+        /// <param name="force">True para reintentar con force=true tras un 409 confirmado.</param>
+        /// <returns>Resultado del intento: éxito, conflicto (409) o error.</returns>
+        public async Task<SubscriptionDeleteResult> TryDeleteAsync(int id, bool force = false)
         {
             try
             {
                 ErrorMessage = null;
+                LastConflictMessage = null;
 
-                // 1) Intento normal
-                await _httpClient.DeleteAsync(ApiRoutes.Subscription.DeleteById(id));
+                var route = ApiRoutes.Subscription.DeleteById(id) + (force ? "?force=true" : string.Empty);
+                await _httpClient.DeleteAsync(route);
 
                 if (CurrentClientId.HasValue)
                     await LoadByClientAsync(CurrentClientId.Value);
+
+                return SubscriptionDeleteResult.Success;
             }
-            catch (ApiException apiEx) when (apiEx.StatusCode == System.Net.HttpStatusCode.Conflict)
+            catch (ApiException apiEx) when (!force && apiEx.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                // 2) La API avisa de dependencias: el usuario debe confirmar
-                var confirm = MessageBox.Show(
-                    $"{apiEx.Message}\n\nSi pulsas Aceptar, se eliminará el abono y también los ítems de venta asociados.\n¿Deseas continuar?",
-                    "Confirmar eliminación",
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Warning);
-
-                if (confirm != MessageBoxResult.OK)
-                    return;
-
-                // 3) Reintento con force=true
-                await _httpClient.DeleteAsync(ApiRoutes.Subscription.DeleteById(id) + "?force=true");
-
-                if (CurrentClientId.HasValue)
-                    await LoadByClientAsync(CurrentClientId.Value);
+                // La API avisa de dependencias: el anfitrión debe pedir confirmación de borrado forzado
+                LastConflictMessage = apiEx.Message;
+                return SubscriptionDeleteResult.Conflict;
             }
             catch (ApiException apiEx)
             {
                 ErrorMessage = $"No se pudo eliminar el abono.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
+                return SubscriptionDeleteResult.Error;
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Error local eliminando el abono: {ex.Message}";
+                return SubscriptionDeleteResult.Error;
             }
         }
 
 
         /// <summary>
         /// Registra la venta de una suscripción y recarga el listado del cliente asociado.
-        /// Muestra MessageBox en caso de error.
+        /// Muestra un aviso modal en caso de error.
         /// </summary>
         /// <param name="request">Datos de la venta de suscripción.</param>
         /// <returns>Tarea asíncrona.</returns>
@@ -159,12 +176,12 @@ namespace QuickTix.Desktop.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error registrando la venta del abono: {ex.Message}");
+                ShowAlert("Error", $"Error registrando la venta del abono: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Registra la venta de una suscripción sin mostrar MessageBox.
+        /// Registra la venta de una suscripción sin mostrar avisos modales.
         /// Devuelve false y deja <see cref="BaseCrudViewModel{T, TCreate}.ErrorMessage"/> preparado para UI inline.
         /// </summary>
         /// <param name="request">Datos de la venta de suscripción.</param>

@@ -44,7 +44,7 @@ namespace QuickTix.Desktop.ViewModels.Users
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error cargando recintos: {ex.Message}");
+                ShowAlert("Error", $"Error cargando recintos: {ex.Message}");
             }
         }
     }

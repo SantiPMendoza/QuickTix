@@ -29,6 +29,12 @@ namespace QuickTix.Desktop.Services
         UserDTO? GetCurrentUser();
 
         /// <summary>
+        /// Obtiene el id de Manager de la sesión actual leyendo los claims del JWT.
+        /// </summary>
+        /// <returns>ManagerId de la sesión, o 0 si no hay sesión o el usuario no es manager.</returns>
+        int GetManagerId();
+
+        /// <summary>
         /// Cierra sesión limpiando token y usuario en memoria.
         /// </summary>
         void Logout();
@@ -90,6 +96,21 @@ namespace QuickTix.Desktop.Services
         /// </summary>
         /// <returns>Usuario actual o null.</returns>
         public UserDTO? GetCurrentUser() => _currentUser;
+
+        /// <summary>
+        /// Lee el claim "managerId" del JWT almacenado.
+        /// La API solo emite este claim para usuarios con rol manager.
+        /// </summary>
+        /// <returns>ManagerId de la sesión, o 0 si no hay token o no existe el claim.</returns>
+        public int GetManagerId()
+        {
+            var token = _tokenStore.GetToken();
+            if (string.IsNullOrWhiteSpace(token))
+                return 0;
+
+            var claims = JwtClaimReader.Read(token);
+            return JwtClaimReader.GetInt(claims, "managerId", "ManagerId");
+        }
 
         /// <summary>
         /// Limpia la sesión actual borrando token y usuario.

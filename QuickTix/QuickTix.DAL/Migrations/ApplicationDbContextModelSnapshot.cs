@@ -390,7 +390,7 @@ namespace QuickTix.DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ManagerId")
+                    b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<int>("VenueId")
@@ -671,8 +671,7 @@ namespace QuickTix.DAL.Migrations
                     b.HasOne("QuickTix.Core.Models.Entities.Manager", "Manager")
                         .WithMany("Sales")
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("QuickTix.Core.Models.Entities.Venue", "Venue")
                         .WithMany("Sales")

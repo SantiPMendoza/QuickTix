@@ -10,6 +10,5 @@ public partial class AppShell_Manager : Shell
 
         Routing.RegisterRoute(nameof(TicketsPage), typeof(TicketsPage));
         Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 }

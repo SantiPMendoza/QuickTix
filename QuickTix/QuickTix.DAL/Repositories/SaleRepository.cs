@@ -208,8 +208,10 @@ namespace QuickTix.DAL.Repositories
                     VenueId = s.VenueId,
                     VenueName = s.Venue.Name,
 
-                    ManagerId = s.ManagerId,
-                    ManagerName = s.Manager.Name,
+                    // Las ventas de tickets siempre llevan manager, pero la proyección
+                    // se protege igualmente frente a nulls (FK ahora opcional).
+                    ManagerId = s.ManagerId ?? 0,
+                    ManagerName = s.Manager != null ? s.Manager.Name : "Administración",
 
                     Quantity = s.Items
                         .Where(i => i.TicketId != null)
@@ -290,8 +292,9 @@ namespace QuickTix.DAL.Repositories
 
                 InvitedByClientName = invitedByName,
 
-                ManagerId = sale.ManagerId,
-                ManagerName = sale.Manager.Name,
+                // Defensivo: las ventas de tickets siempre llevan manager a día de hoy.
+                ManagerId = sale.ManagerId ?? 0,
+                ManagerName = sale.Manager != null ? sale.Manager.Name : "Administración",
 
                 Quantity = totalQuantity,
                 TotalAmount = totalAmount,
@@ -307,26 +310,28 @@ namespace QuickTix.DAL.Repositories
         /// <returns>Listado de ventas de suscripciones.</returns>
         public async Task<IEnumerable<SubscriptionSaleDTO>> GetSubscriptionHistoryAsync()
         {
-            var rows = await _context.Sales
+            // La consulta parte de SaleItems (y no de Sales.SelectMany) para que EF la
+            // traduzca con JOINs simples: la versión con SelectMany requería APPLY,
+            // que SQLite (usado en tests de integración) no soporta.
+            var rows = await _context.SaleItems
                 .AsNoTracking()
-                .SelectMany(s => s.Items
-                    .Where(i => i.SubscriptionId != null)
-                    .Select(i => new
-                    {
-                        Id = s.Id,
-                        s.Date,
+                .Where(i => i.SubscriptionId != null)
+                .Select(i => new
+                {
+                    Id = i.SaleId,
+                    i.Sale.Date,
 
-                        s.VenueId,
-                        VenueName = s.Venue.Name,
+                    i.Sale.VenueId,
+                    VenueName = i.Sale.Venue.Name,
 
-                        s.ManagerId,
-                        ManagerName = s.Manager.Name,
+                    i.Sale.ManagerId,
+                    ManagerName = i.Sale.Manager != null ? i.Sale.Manager.Name : "Administración",
 
-                        SubscriptionCategory = i.Subscription.Category,
-                        Price = i.UnitPrice,
+                    SubscriptionCategory = i.Subscription!.Category,
+                    Price = i.UnitPrice,
 
-                        ClientName = i.Subscription.Client != null ? i.Subscription.Client.Name : string.Empty
-                    }))
+                    ClientName = i.Subscription.Client != null ? i.Subscription.Client.Name : string.Empty
+                })
                 .OrderByDescending(x => x.Date)
                 .ToListAsync();
 
@@ -512,11 +517,16 @@ namespace QuickTix.DAL.Repositories
         /// <returns>Venta creada.</returns>
         public async Task<Sale> SellSubscriptionAsync(SellSubscriptionDTO request)
         {
-            var manager = await _context.Managers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == request.ManagerId)
-                          ?? throw new ArgumentException("Manager no existe.");
+            // ManagerId null = venta registrada por administración: no hay manager
+            // que validar y la venta se persiste sin manager asociado.
+            if (request.ManagerId.HasValue)
+            {
+                var manager = await _context.Managers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == request.ManagerId.Value)
+                              ?? throw new ArgumentException("Manager no existe.");
 
-            if (manager.VenueId != request.VenueId)
-                throw new ArgumentException("El Manager no pertenece al Venue indicado.");
+                if (manager.VenueId != request.VenueId)
+                    throw new ArgumentException("El Manager no pertenece al Venue indicado.");
+            }
 
             var venueExists = await _context.Venues.AsNoTracking().AnyAsync(v => v.Id == request.VenueId);
             if (!venueExists)

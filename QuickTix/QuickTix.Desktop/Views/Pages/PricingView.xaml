@@ -1,4 +1,4 @@
-﻿<Page x:Class="QuickTix.Desktop.Views.Pages.PricingView"
+<Page x:Class="QuickTix.Desktop.Views.Pages.PricingView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,150 +7,168 @@
       mc:Ignorable="d"
       Title="Pricing">
 
-    <Grid Margin="20">
+    <Page.Resources>
+        <!-- Celdas de solo lectura del mapa de precios (3d) -->
+        <Style x:Key="PriceKeyCellText" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="PriceMutedCellText" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Page.Resources>
+
+    <!-- Rediseño visual Vibra (spec 3d): bindings intactos -->
+    <Grid Background="{StaticResource PageBgBrush}"
+          TextElement.FontFamily="{StaticResource VibraBodyFontFamily}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Barra superior -->
-        <GroupBox Header="Mapa de precios por recinto" Grid.Row="0">
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="260"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <!-- Topbar de página -->
+        <Border Grid.Row="0" Style="{StaticResource VibraTopBar}">
+            <TextBlock Style="{StaticResource VibraPageTitle}" Text="Precios"/>
+        </Border>
 
-                <ComboBox Grid.Column="0"
-                  ItemsSource="{Binding Venues}"
-                  SelectedItem="{Binding SelectedVenue}"
-                  DisplayMemberPath="Name"
-                  Width="260"/>
+        <Grid Grid.Row="1" Margin="24,18">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                <Button Grid.Column="2"
-                Content="Cargar"
-                Width="110"
-                Command="{Binding LoadPriceMapCommand}"
-                IsEnabled="{Binding SelectedVenue, Converter={StaticResource NullToBoolConverter}}"/>
+            <!-- Toolbar en tarjeta -->
+            <Border Grid.Row="0" Style="{StaticResource VibraCard}" Margin="0,0,0,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="260"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="4"
-                Content="Guardar"
-                Width="110"
-                Command="{Binding SavePriceMapCommand}"
-                IsEnabled="{Binding SelectedVenue, Converter={StaticResource NullToBoolConverter}}"/>
+                    <TextBlock Grid.Column="0" Text="Recinto"
+                               FontSize="12" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextMuted2Brush}"
+                               VerticalAlignment="Center" Margin="4,0,10,0"/>
 
-                <TextBlock Grid.Column="6"
-                   VerticalAlignment="Center"
-                   Foreground="Gray"
-                   Text="{Binding InfoMessage}"
-                   TextTrimming="CharacterEllipsis"/>
-            </Grid>
-        </GroupBox>
+                    <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding Venues}"
+                              SelectedItem="{Binding SelectedVenue}"
+                              DisplayMemberPath="Name"
+                              Background="{StaticResource PageBgBrush}"
+                              VerticalAlignment="Center"/>
 
+                    <Button Grid.Column="3"
+                            Content="Cargar"
+                            Width="110"
+                            Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding LoadPriceMapCommand}"
+                            IsEnabled="{Binding SelectedVenue, Converter={StaticResource NullToBoolConverter}}"/>
 
-        <!-- Error -->
-        <TextBlock Grid.Row="2"
-                   Text="{Binding ErrorMessage}"
-                   Foreground="Red"
-                   TextWrapping="Wrap"
-                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+                    <Button Grid.Column="5"
+                            Content="Guardar"
+                            Width="110"
+                            Style="{StaticResource VibraPrimaryButton}"
+                            Effect="{StaticResource ActionShadow}"
+                            Command="{Binding SavePriceMapCommand}"
+                            IsEnabled="{Binding SelectedVenue, Converter={StaticResource NullToBoolConverter}}"/>
 
-        <!-- Tabs -->
-        <TabControl Grid.Row="4">
-
-            <TabItem Header="Tickets">
-                <Grid Margin="0,10,0,0">
-                    <DataGrid ItemsSource="{Binding TicketPrices}"
-                              AutoGenerateColumns="False"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              IsReadOnly="False"
-                              HeadersVisibility="Column"
-                              RowHeaderWidth="0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Tipo"
-                    Binding="{Binding Type}"
-                    IsReadOnly="True"
-                    Width="*">
-                                <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Setter Property="Background" Value="#FFEDEDED"/>
-                                        <Setter Property="Foreground" Value="#FF444444"/>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridTextColumn Header="Contexto"
-                    Binding="{Binding Context}"
-                    IsReadOnly="True"
-                    Width="*">
-                                <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Setter Property="Background" Value="#FFEDEDED"/>
-                                        <Setter Property="Foreground" Value="#FF444444"/>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridTextColumn Header="Precio"
-                                                Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
-                                                Width="140"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <!-- Estado: "✓ ..." en Success (el texto viene del VM) -->
+                    <TextBlock Grid.Column="7"
+                               VerticalAlignment="Center"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource SuccessBrush}"
+                               TextTrimming="CharacterEllipsis"
+                               Visibility="{Binding InfoMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"><Run Text="✓ "/><Run Text="{Binding InfoMessage, Mode=OneWay}"/></TextBlock>
                 </Grid>
-            </TabItem>
+            </Border>
 
-            <TabItem Header="Abonos">
-                <Grid Margin="0,10,0,0">
-                    <DataGrid ItemsSource="{Binding SubscriptionPrices}"
-                              AutoGenerateColumns="False"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              IsReadOnly="False"
-                              HeadersVisibility="Column"
-                              RowHeaderWidth="0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Categoría"
-                    Binding="{Binding Category}"
-                    IsReadOnly="True"
-                    Width="*">
-                                <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Setter Property="Background" Value="#FFEDEDED"/>
-                                        <Setter Property="Foreground" Value="#FF444444"/>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
-                            </DataGridTextColumn>
+            <!-- Error -->
+            <TextBlock Grid.Row="1"
+                       Text="{Binding ErrorMessage}"
+                       Foreground="{StaticResource DangerFgBrush}"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,10"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
 
-                            <DataGridTextColumn Header="Duración"
-                    Binding="{Binding Duration}"
-                    IsReadOnly="True"
-                    Width="*">
-                                <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Setter Property="Background" Value="#FFEDEDED"/>
-                                        <Setter Property="Foreground" Value="#FF444444"/>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
-                            </DataGridTextColumn>
+            <!-- Pestañas segmentadas Tickets/Abonos -->
+            <TabControl Grid.Row="2" Style="{StaticResource SegmentedTabControl}">
 
-                            <DataGridTextColumn Header="Precio"
-                                                Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
-                                                Width="140"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
+                <TabItem Header="Tickets">
+                    <Border Style="{StaticResource VibraCard}" Padding="10">
+                        <DataGrid ItemsSource="{Binding TicketPrices}"
+                                  Style="{StaticResource VibraDataGrid}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="False"
+                                  HeadersVisibility="Column"
+                                  RowHeaderWidth="0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="TIPO"
+                                                    Binding="{Binding Type}"
+                                                    IsReadOnly="True"
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource PriceKeyCellText}"/>
 
-        </TabControl>
+                                <DataGridTextColumn Header="CONTEXTO"
+                                                    Binding="{Binding Context}"
+                                                    IsReadOnly="True"
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource PriceMutedCellText}"/>
 
+                                <DataGridTextColumn Header="PRECIO"
+                                                    Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                    Width="140"
+                                                    ElementStyle="{StaticResource VibraPriceCellText}"
+                                                    EditingElementStyle="{StaticResource VibraPriceCellEditor}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </TabItem>
+
+                <TabItem Header="Abonos">
+                    <Border Style="{StaticResource VibraCard}" Padding="10">
+                        <DataGrid ItemsSource="{Binding SubscriptionPrices}"
+                                  Style="{StaticResource VibraDataGrid}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="False"
+                                  HeadersVisibility="Column"
+                                  RowHeaderWidth="0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="CATEGORÍA"
+                                                    Binding="{Binding Category}"
+                                                    IsReadOnly="True"
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource PriceKeyCellText}"/>
+
+                                <DataGridTextColumn Header="DURACIÓN"
+                                                    Binding="{Binding Duration}"
+                                                    IsReadOnly="True"
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource PriceMutedCellText}"/>
+
+                                <DataGridTextColumn Header="PRECIO"
+                                                    Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                    Width="140"
+                                                    ElementStyle="{StaticResource VibraPriceCellText}"
+                                                    EditingElementStyle="{StaticResource VibraPriceCellEditor}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
     </Grid>
 </Page>

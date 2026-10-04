@@ -102,11 +102,12 @@ namespace QuickTix.DAL.Data
                 .HasForeignKey(s => s.VenueId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Sale ↔ Manager
+            // Sale ↔ Manager (opcional: ManagerId null = venta registrada por administración)
             modelBuilder.Entity<Sale>()
                 .HasOne(s => s.Manager)
                 .WithMany(m => m.Sales)
                 .HasForeignKey(s => s.ManagerId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Sale ↔ SaleItem

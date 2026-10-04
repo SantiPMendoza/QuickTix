@@ -53,6 +53,7 @@ namespace QuickTix.Desktop
 
                 // ViewModels
                 _ = services.AddSingleton<LoginViewModel>();
+                _ = services.AddSingleton<PanelViewModel>();
                 _ = services.AddSingleton<UsersViewModel>();
                 _ = services.AddSingleton<TicketSalesViewModel>();
                 _ = services.AddSingleton<SubscriptionsViewModel>();
@@ -62,6 +63,7 @@ namespace QuickTix.Desktop
                 _ = services.AddTransient<PricingViewModel>();
 
                 // Views
+                _ = services.AddSingleton<PanelView>();
                 _ = services.AddTransient<PricingView>();
                 _ = services.AddSingleton<LoginView>();
                 _ = services.AddSingleton<UsersView>();

@@ -1,4 +1,4 @@
-<!-- docs: CLAUDE.md v1.0.1 — 2026-07-03 — referencia al handoff de diseño Vibra -->
+<!-- docs: CLAUDE.md v1.0.2 — 2026-07-07 — refs a research de mercado y agenda de Raquel -->
 
 # QuickTix
 
@@ -14,6 +14,8 @@ contra una API central: escritorio para taquilla/administración, móvil para ma
 - Arquitectura técnica: @docs/ARCHITECTURE.md
 - ADRs y decisiones históricas: `docs/ARCHITECTURE_ADRS.md`
 - Visión del producto: `docs/PROJECT.md`
+- Research de mercado y competencia: `docs/quicktix_research.md`
+- Agenda de decisiones pendientes de Raquel: `docs/reunion-raquel.md`
 - Historial de sesiones: `docs/PROGRESS_HISTORY.md`
 - Diseño visual (dirección "1b Vibra" — tokens, fuentes, specs por pantalla): `reference/App redesign directions/design_handoff_quicktix_vibra/README.md`
 

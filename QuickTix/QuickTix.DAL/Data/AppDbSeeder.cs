@@ -18,10 +18,17 @@ namespace QuickTix.DAL.Data
 
             await context.Database.MigrateAsync();
 
-            // ---- 1️⃣ Crear rol administrador ----
+            // ---- 1️⃣ Crear roles ----
+            // Los tres roles que emite el JWT (LoginAsync); sin rol, los clientes
+            // móviles no pueden elegir shell ("Rol no soportado").
             const string adminRole = "admin";
-            if (!await roleManager.RoleExistsAsync(adminRole))
-                await roleManager.CreateAsync(new IdentityRole(adminRole));
+            const string managerRole = "manager";
+            const string clientRole = "client";
+            foreach (var role in new[] { adminRole, managerRole, clientRole })
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
 
             // ---- 2️⃣ Crear usuario administrador ----
             const string adminEmail = "admin2@quicktix.com";
@@ -37,8 +44,10 @@ namespace QuickTix.DAL.Data
                     Nif= "00000000A"
                 };
                 await userManager.CreateAsync(adminUser, adminPassword);
-                await userManager.AddToRoleAsync(adminUser, adminRole);
             }
+            // Idempotente: repara BDs sembradas antes de que existiera la asignación
+            if (!await userManager.IsInRoleAsync(adminUser, adminRole))
+                await userManager.AddToRoleAsync(adminUser, adminRole);
 
             // ---- 3️⃣ Registrar entidad Admin ----
             if (!await context.Admins.AnyAsync())
@@ -74,21 +83,25 @@ namespace QuickTix.DAL.Data
             }
 
             // ---- 5️⃣ Crear Manager ----
+            // Usuario y rol se garantizan SIEMPRE (fuera del guard de la entidad)
+            // para reparar BDs sembradas sin asignación de rol.
+            var managerEmail = "manager@quicktix.com";
+            var managerUser = await userManager.FindByEmailAsync(managerEmail);
+            if (managerUser == null)
+            {
+                managerUser = new AppUser
+                {
+                    UserName = managerEmail,
+                    Email = managerEmail,
+                    Name = "Gestor Piscina"
+                };
+                await userManager.CreateAsync(managerUser, "Abcd123!");
+            }
+            if (!await userManager.IsInRoleAsync(managerUser, managerRole))
+                await userManager.AddToRoleAsync(managerUser, managerRole);
+
             if (!await context.Managers.AnyAsync())
             {
-                var managerEmail = "manager@quicktix.com";
-                var managerUser = await userManager.FindByEmailAsync(managerEmail);
-                if (managerUser == null)
-                {
-                    managerUser = new AppUser
-                    {
-                        UserName = managerEmail,
-                        Email = managerEmail,
-                        Name = "Gestor Piscina"
-                    };
-                    await userManager.CreateAsync(managerUser, "Abcd123!");
-                }
-
                 var firstVenue = await context.Venues.FirstAsync();
                 context.Managers.Add(new Manager
                 {
@@ -101,31 +114,35 @@ namespace QuickTix.DAL.Data
             }
 
             // ---- 6️⃣ Crear Clientes ----
-            if (!await context.Clients.AnyAsync())
+            var seedClients = !await context.Clients.AnyAsync();
+            for (int i = 1; i <= 3; i++)
             {
-                for (int i = 1; i <= 3; i++)
+                var email = $"cliente{i}@quicktix.com";
+                var clientUser = await userManager.FindByEmailAsync(email);
+                if (clientUser == null)
                 {
-                    var email = $"cliente{i}@quicktix.com";
-                    var clientUser = await userManager.FindByEmailAsync(email);
-                    if (clientUser == null)
+                    clientUser = new AppUser
                     {
-                        clientUser = new AppUser
-                        {
-                            UserName = email,
-                            Email = email,
-                            Name = $"Cliente {i}"
-                        };
-                        await userManager.CreateAsync(clientUser, "Abcd123!");
-                    }
+                        UserName = email,
+                        Email = email,
+                        Name = $"Cliente {i}"
+                    };
+                    await userManager.CreateAsync(clientUser, "Abcd123!");
+                }
+                if (!await userManager.IsInRoleAsync(clientUser, clientRole))
+                    await userManager.AddToRoleAsync(clientUser, clientRole);
 
+                if (seedClients)
+                {
                     context.Clients.Add(new Client
                     {
                         Name = $"Cliente {i}",
                         AppUserId = clientUser.Id
                     });
                 }
-                await context.SaveChangesAsync();
             }
+            if (seedClients)
+                await context.SaveChangesAsync();
 
             // ---- 7️⃣ Crear Tickets de prueba ----
             if (!await context.Tickets.AnyAsync())

@@ -6,7 +6,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <!-- Icono Vibra del exe (generado desde assets/appicon.png del handoff) -->
+    <ApplicationIcon>Assets\vibra_appicon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Fuentes del tema Vibra (Space Grotesk / DM Sans / IBM Plex Mono, licencia SIL OFL) -->
+    <Resource Include="Fonts\*.ttf" />
+    <Resource Include="Assets\vibra_logo.png" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CsvHelper" Version="33.1.0" />

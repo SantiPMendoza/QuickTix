@@ -17,8 +17,16 @@ namespace QuickTix.Desktop.ViewModels
     {
         protected override string Endpoint => "Client";
 
-        // Id del manager en sesión (idealmente proviene del login/usuario actual)
-        public int CurrentManagerId { get; set; } = 1;
+        private readonly IAuthService _authService;
+
+        // Id del manager en sesión, leído de los claims del JWT en cada acceso.
+        // Es 0 cuando no hay sesión o el usuario logueado no es manager (p.ej. admin):
+        // en ese caso SaveSubscription decide por rol (admin vende sin manager).
+        public int CurrentManagerId => _authService.GetManagerId();
+
+        // Rol de la sesión actual según el usuario devuelto por la API en el login.
+        private bool IsAdminSession =>
+            string.Equals(_authService.GetCurrentUser()?.Role, "admin", StringComparison.OrdinalIgnoreCase);
 
         // Estado del flyout de Cliente
         [ObservableProperty] private bool isClientFlyoutOpen;
@@ -36,13 +44,27 @@ namespace QuickTix.Desktop.ViewModels
         [ObservableProperty] private bool isEditingSubscription;
         [ObservableProperty] private object? activeSubscriptionForm;
 
+        // Estado del diálogo de confirmación de borrado de abono (fix 2b):
+        // el borrado real solo se ejecuta al confirmar, nunca directamente.
+        [ObservableProperty] private bool isConfirmDeleteSubscriptionOpen;
+        [ObservableProperty] private SubscriptionDTO? pendingDeleteSubscription;
+
+        // Estado del diálogo de borrado forzado (409 de la API): solo aparece
+        // si el borrado normal devolvió conflicto por dependencias. Sustituye
+        // al MessageBox que causaba el "segundo diálogo" tras confirmar.
+        [ObservableProperty] private bool isForceDeleteSubscriptionOpen;
+        [ObservableProperty] private string? forceDeleteSubscriptionMessage;
+        private int _forceDeleteSubscriptionId;
+
         /// <summary>
         /// Inicializa una nueva instancia de <see cref="ClientsViewModel"/>,
         /// crea el módulo de suscripciones y carga el listado inicial de clientes.
         /// </summary>
         /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
-        public ClientsViewModel(HttpJsonClient httpClient) : base(httpClient)
+        /// <param name="authService">Servicio de autenticación (sesión y claims del JWT).</param>
+        public ClientsViewModel(HttpJsonClient httpClient, IAuthService authService) : base(httpClient)
         {
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             SubscriptionsVM = new SubscriptionsViewModel(httpClient);
             _ = LoadAsync();
         }
@@ -195,11 +217,23 @@ namespace QuickTix.Desktop.ViewModels
             if (ActiveSubscriptionForm is not SubscriptionFormModel form)
                 return;
 
-            if (CurrentManagerId <= 0)
+            // Admin: la venta se registra sin manager (la API la muestra como "Administración").
+            // Manager: se envía su id real leído del JWT. Sin rol válido: error inline.
+            int? managerIdForSale;
+
+            if (IsAdminSession)
+            {
+                managerIdForSale = null;
+            }
+            else if (CurrentManagerId > 0)
+            {
+                managerIdForSale = CurrentManagerId;
+            }
+            else
             {
                 // Se mantiene el patrón de error inline del módulo de suscripciones
                 SubscriptionsVM.ErrorMessage =
-                    "No hay Manager asignado para registrar la venta. Define CurrentManagerId (sesión/login).";
+                    "La sesión actual no tiene un Manager asociado. Inicia sesión como manager o admin para registrar ventas.";
 
                 IsSubscriptionFlyoutOpen = true;
                 return;
@@ -211,7 +245,7 @@ namespace QuickTix.Desktop.ViewModels
             {
                 ClientId = SelectedItem.Id,
                 VenueId = form.VenueId,
-                ManagerId = CurrentManagerId,
+                ManagerId = managerIdForSale,
                 Category = form.Category,
                 Duration = form.Duration,
                 StartDate = form.StartDate,
@@ -235,11 +269,15 @@ namespace QuickTix.Desktop.ViewModels
         }
 
         /// <summary>
-        /// Cancela la suscripción seleccionada en el módulo de suscripciones.
+        /// Abre el diálogo de confirmación para eliminar la suscripción seleccionada.
+        /// El borrado real se ejecuta en <see cref="ConfirmDeleteSubscription"/>.
         /// </summary>
-        /// <returns>Tarea asíncrona.</returns>
+        /// <remarks>
+        /// Se mantiene el nombre del comando (CancelSubscriptionCommand) para no
+        /// romper el binding existente del botón "Cancelar abono".
+        /// </remarks>
         [RelayCommand]
-        private async Task CancelSubscription()
+        private void CancelSubscription()
         {
             if (SelectedItem == null)
                 return;
@@ -247,10 +285,95 @@ namespace QuickTix.Desktop.ViewModels
             if (SubscriptionsVM.SelectedItem == null)
                 return;
 
-            var subId = SubscriptionsVM.SelectedItem.Id;
+            PendingDeleteSubscription = SubscriptionsVM.SelectedItem;
+            IsConfirmDeleteSubscriptionOpen = true;
+        }
 
-            await SubscriptionsVM.DeleteAsync(subId);
-            SubscriptionsVM.SelectedItem = null;
+        /// <summary>
+        /// Confirma y ejecuta el borrado de la suscripción pendiente de eliminar.
+        /// Si la API devuelve conflicto (409, dependencias de venta), abre el
+        /// diálogo de borrado forzado en lugar de un MessageBox.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
+        [RelayCommand]
+        private async Task ConfirmDeleteSubscription()
+        {
+            if (PendingDeleteSubscription == null)
+            {
+                IsConfirmDeleteSubscriptionOpen = false;
+                return;
+            }
+
+            var subId = PendingDeleteSubscription.Id;
+
+            IsConfirmDeleteSubscriptionOpen = false;
+            PendingDeleteSubscription = null;
+
+            var result = await SubscriptionsVM.TryDeleteAsync(subId);
+
+            switch (result)
+            {
+                case SubscriptionDeleteResult.Success:
+                    SubscriptionsVM.SelectedItem = null;
+                    break;
+
+                case SubscriptionDeleteResult.Conflict:
+                    // Segunda confirmación SOLO en el caso 409: borrado forzado
+                    _forceDeleteSubscriptionId = subId;
+                    ForceDeleteSubscriptionMessage = SubscriptionsVM.LastConflictMessage;
+                    IsForceDeleteSubscriptionOpen = true;
+                    break;
+
+                case SubscriptionDeleteResult.Error:
+                    ShowAlert("Error", SubscriptionsVM.ErrorMessage ?? "No se pudo eliminar el abono.");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Cierra el diálogo de confirmación sin eliminar nada.
+        /// </summary>
+        [RelayCommand]
+        private void CancelDeleteSubscription()
+        {
+            IsConfirmDeleteSubscriptionOpen = false;
+            PendingDeleteSubscription = null;
+        }
+
+        /// <summary>
+        /// Confirma el borrado forzado tras el conflicto (elimina el abono
+        /// junto con los ítems de venta asociados).
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
+        [RelayCommand]
+        private async Task ConfirmForceDeleteSubscription()
+        {
+            var subId = _forceDeleteSubscriptionId;
+
+            IsForceDeleteSubscriptionOpen = false;
+            ForceDeleteSubscriptionMessage = null;
+            _forceDeleteSubscriptionId = 0;
+
+            if (subId == 0)
+                return;
+
+            var result = await SubscriptionsVM.TryDeleteAsync(subId, force: true);
+
+            if (result == SubscriptionDeleteResult.Success)
+                SubscriptionsVM.SelectedItem = null;
+            else
+                ShowAlert("Error", SubscriptionsVM.ErrorMessage ?? "No se pudo eliminar el abono.");
+        }
+
+        /// <summary>
+        /// Cierra el diálogo de borrado forzado sin eliminar nada.
+        /// </summary>
+        [RelayCommand]
+        private void CancelForceDeleteSubscription()
+        {
+            IsForceDeleteSubscriptionOpen = false;
+            ForceDeleteSubscriptionMessage = null;
+            _forceDeleteSubscriptionId = 0;
         }
 
         /// <summary>

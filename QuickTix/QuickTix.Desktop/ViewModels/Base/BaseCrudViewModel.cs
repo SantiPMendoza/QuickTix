@@ -37,6 +37,53 @@ namespace QuickTix.Desktop.ViewModels.Base
         // Mensaje de error persistente para UI (flyouts, banners, formularios inline, etc.)
         [ObservableProperty] private string? errorMessage;
 
+        // ===== Aviso modal (VibraDialog en modo alerta, fix 2b) =====
+        // Sustituye a los MessageBox: cada vista aloja un VibraDialog
+        // enlazado a IsAlertOpen/AlertTitle/AlertMessage + CloseAlertCommand.
+
+        /// <summary>Controla la visibilidad del aviso modal.</summary>
+        [ObservableProperty] private bool isAlertOpen;
+
+        /// <summary>Título del aviso modal.</summary>
+        [ObservableProperty] private string? alertTitle;
+
+        /// <summary>Mensaje del aviso modal.</summary>
+        [ObservableProperty] private string? alertMessage;
+
+        /// <summary>
+        /// Muestra un aviso modal (VibraDialog) con título y mensaje.
+        /// </summary>
+        /// <param name="title">Título del aviso.</param>
+        /// <param name="message">Mensaje del aviso.</param>
+        protected void ShowAlert(string title, string message)
+        {
+            AlertTitle = title;
+            AlertMessage = message;
+            IsAlertOpen = true;
+        }
+
+        /// <summary>
+        /// Cierra el aviso modal.
+        /// </summary>
+        [RelayCommand]
+        private void CloseAlert() => IsAlertOpen = false;
+
+        // ===== Confirmación de borrado (VibraDialog, fix 2b) =====
+
+        /// <summary>Controla la visibilidad del diálogo de confirmación de borrado.</summary>
+        [ObservableProperty] private bool isConfirmDeleteOpen;
+
+        /// <summary>
+        /// Snapshot del elemento a borrar, capturado al abrir el diálogo.
+        /// El texto del diálogo debe bindear AQUÍ y no a SelectedItem: el popup
+        /// no es modal y la selección puede cambiar con el diálogo abierto
+        /// (se mostraría un nombre y se borraría otro).
+        /// </summary>
+        [ObservableProperty] private T? pendingDeleteItem;
+
+        // Id pendiente de borrar mientras el diálogo de confirmación está abierto
+        private int _pendingDeleteId;
+
         /// <summary>
         /// Ruta del endpoint de listado (GET).
         /// Por defecto apunta al CRUD base del recurso.
@@ -99,12 +146,12 @@ namespace QuickTix.Desktop.ViewModels.Base
                 ErrorMessage =
                     $"Error cargando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
 
-                MessageBox.Show(ErrorMessage, "Error API", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error API", ErrorMessage);
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Error local cargando {Endpoint}: {ex.Message}";
-                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error", ErrorMessage);
             }
         }
 
@@ -142,7 +189,7 @@ namespace QuickTix.Desktop.ViewModels.Base
         }
 
         /// <summary>
-        /// Crea un nuevo elemento mostrando MessageBox en caso de error.
+        /// Crea un nuevo elemento mostrando un aviso modal en caso de error.
         /// </summary>
         /// <param name="newItem">DTO con los datos de creación.</param>
         /// <returns>Tarea asíncrona.</returns>
@@ -152,7 +199,7 @@ namespace QuickTix.Desktop.ViewModels.Base
             var ok = await TryAddAsync(newItem);
 
             if (!ok && !string.IsNullOrWhiteSpace(ErrorMessage))
-                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error", ErrorMessage);
         }
 
         /// <summary>
@@ -190,7 +237,7 @@ namespace QuickTix.Desktop.ViewModels.Base
         }
 
         /// <summary>
-        /// Actualiza un elemento mostrando MessageBox en caso de error.
+        /// Actualiza un elemento mostrando un aviso modal en caso de error.
         /// </summary>
         /// <param name="id">Identificador del recurso.</param>
         /// <param name="updatedItem">DTO con los datos actualizados.</param>
@@ -200,24 +247,67 @@ namespace QuickTix.Desktop.ViewModels.Base
             var ok = await TryUpdateAsync(id, updatedItem);
 
             if (!ok && !string.IsNullOrWhiteSpace(ErrorMessage))
-                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error", ErrorMessage);
         }
 
         /// <summary>
-        /// Elimina un elemento tras confirmación del usuario y recarga el listado.
+        /// Solicita la eliminación de un elemento abriendo el diálogo de
+        /// confirmación (VibraDialog). El borrado real se ejecuta en
+        /// <see cref="ConfirmDeleteCommand"/>; las vistas conservan su
+        /// binding a DeleteCommand.
         /// </summary>
         /// <param name="id">Identificador del recurso a eliminar.</param>
         /// <returns>Tarea asíncrona.</returns>
         [RelayCommand]
-        public virtual async Task DeleteAsync(int id)
+        public virtual Task DeleteAsync(int id)
         {
+            if (id == 0)
+                return Task.CompletedTask;
+
+            _pendingDeleteId = id;
+            PendingDeleteItem = SelectedItem;
+            IsConfirmDeleteOpen = true;
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Confirma el borrado pendiente y lo ejecuta.
+        /// </summary>
+        /// <returns>Tarea asíncrona.</returns>
+        [RelayCommand]
+        private async Task ConfirmDelete()
+        {
+            var id = _pendingDeleteId;
+
+            IsConfirmDeleteOpen = false;
+            _pendingDeleteId = 0;
+            PendingDeleteItem = null;
+
             if (id == 0)
                 return;
 
-            if (MessageBox.Show("¿Eliminar registro?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
-                return;
+            await ExecuteDeleteAsync(id);
+        }
 
+        /// <summary>
+        /// Cierra el diálogo de confirmación sin eliminar nada.
+        /// </summary>
+        [RelayCommand]
+        private void CancelDelete()
+        {
+            IsConfirmDeleteOpen = false;
+            _pendingDeleteId = 0;
+            PendingDeleteItem = null;
+        }
+
+        /// <summary>
+        /// Ejecuta el borrado contra la API y recarga el listado.
+        /// Muestra un aviso modal en caso de error.
+        /// </summary>
+        /// <param name="id">Identificador del recurso a eliminar.</param>
+        /// <returns>Tarea asíncrona.</returns>
+        protected virtual async Task ExecuteDeleteAsync(int id)
+        {
             try
             {
                 ErrorMessage = null;
@@ -230,12 +320,12 @@ namespace QuickTix.Desktop.ViewModels.Base
                 ErrorMessage =
                     $"Error eliminando {Endpoint}.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
 
-                MessageBox.Show(ErrorMessage, "Error API", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowAlert("Error API", ErrorMessage);
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Error local eliminando {Endpoint}: {ex.Message}";
-                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error", ErrorMessage);
             }
         }
 
@@ -274,12 +364,12 @@ namespace QuickTix.Desktop.ViewModels.Base
                 ErrorMessage =
                     $"Error API al cambiar selección.\nCódigo: {(int)apiEx.StatusCode}\nMensaje: {apiEx.Message}";
 
-                MessageBox.Show(ErrorMessage, "Error API", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error API", ErrorMessage);
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Error local al cambiar selección: {ex.Message}";
-                MessageBox.Show(ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowAlert("Error", ErrorMessage);
             }
         }
     }

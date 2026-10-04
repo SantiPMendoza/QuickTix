@@ -39,33 +39,44 @@ namespace QuickTix.Desktop.ViewModels
         /// </summary>
         /// <remarks>
         /// Los items se definen como <see cref="NavigationViewItem"/> y apuntan a páginas (TargetPageType).
+        /// Los iconos se asignan aquí como SymbolIcon directos (ruta nativa de WPF-UI):
+        /// asignar el glifo por triggers de plantilla no funciona porque SymbolIcon
+        /// construye su glifo de forma perezosa. Mapeo del handoff Vibra:
+        /// Panel=grid, Usuarios=personas, Ventas=recibo, Precios=etiqueta, Clientes=persona.
         /// </remarks>
         private void InitializeViewModel()
         {
             NavigationItems =
             [
+                // Panel (dashboard, spec 3a): primer ítem y vista inicial tras login
+                new NavigationViewItem
+                {
+                    Content = "Panel",
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Grid24 },
+                    TargetPageType = typeof(PanelView)
+                },
                 new NavigationViewItem
                 {
                     Content = "Usuarios",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Person24 },
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.People24 },
                     TargetPageType = typeof(UsersView)
                 },
                 new NavigationViewItem
                 {
                     Content = "Historial de\nventas",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Clock24 },
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Receipt24 },
                     TargetPageType = typeof(SalesView)
                 },
                 new NavigationViewItem
                 {
                     Content = "Precios",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.AlbumAdd24 },
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Tag24 },
                     TargetPageType = typeof(PricingView)
                 },
                 new NavigationViewItem
                 {
                     Content = "Clientes",
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.AlertUrgent16 },
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Person24 },
                     TargetPageType = typeof(ClientsView)
                 },
             ];
