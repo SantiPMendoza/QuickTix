@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
+using QuickTix.Core.Time;
 using QuickTix.DAL.Data;
 using QuickTix.DAL.Repositories;
 using QuickTix.Tests.Time;
@@ -93,11 +94,11 @@ namespace QuickTix.Tests.Analytics
         /// Devuelve la fecha de la venta antigua para que el assert de temporada
         /// pueda adaptarse al único día del año en que "ayer" es del año anterior.
         /// </summary>
-        private DateTime SeedPanelScenario()
+        private DateTime SeedPanelScenario(DateTime nowUtc)
         {
             using var context = new ApplicationDbContext(_options);
 
-            var nowUtc = DateTime.UtcNow;
+            // "Ahora" lo fija el test: es el mismo instante que ve el reloj del repositorio.
             var todayUtc = nowUtc.Date;
             var olderSaleDateUtc = todayUtc.AddDays(-1).AddHours(12);
 
@@ -200,13 +201,18 @@ namespace QuickTix.Tests.Analytics
             return olderSaleDateUtc;
         }
 
-        [Fact]
-        public async Task GetSummary_SplitsTodayRevenueByLineTypeAndAccumulatesSeason()
+        // Instantes fijos: un día normal y Nochevieja a las 23:30 UTC, que en Madrid (UTC+1) ya es
+        // 1 de enero (año nuevo local mientras el año UTC sigue siendo el anterior).
+        [Theory]
+        [InlineData("2026-07-15T10:00:00Z")]
+        [InlineData("2026-12-31T23:30:00Z")]
+        public async Task GetSummary_SplitsTodayRevenueByLineTypeAndAccumulatesSeason(string nowIso)
         {
             // Arrange
-            var olderSaleDateUtc = SeedPanelScenario();
+            var nowUtc = DateTime.Parse(nowIso, null, System.Globalization.DateTimeStyles.AdjustToUniversal);
+            var olderSaleDateUtc = SeedPanelScenario(nowUtc);
             using var context = new ApplicationDbContext(_options);
-            var repository = CreateRepository(context);
+            var repository = CreateRepository(context, new FixedTimeProvider(nowUtc));
 
             // Act
             var summary = await repository.GetSummaryAsync();
@@ -217,10 +223,11 @@ namespace QuickTix.Tests.Analytics
             Assert.Equal(25.00m, summary.SubscriptionRevenueToday);
             Assert.Equal(32.00m, summary.RevenueToday);
 
-            // Assert — temporada (año en curso): incluye la venta antigua solo si
-            // "ayer" cae en el mismo año (el 1 de enero no lo hace).
+            // Assert — temporada (año LOCAL de Madrid en curso): incluye la venta antigua
+            // solo si cae en el mismo año local que "hoy" (en Nochevieja a las 23:30 UTC ya no).
             var expectedSeasonRevenue = 32.00m
-                + (olderSaleDateUtc.Year == DateTime.UtcNow.Year ? 10.00m : 0m);
+                + (LocalBusinessDay.ToLocalDate(olderSaleDateUtc).Year == LocalBusinessDay.TodayLocal(nowUtc).Year
+                    ? 10.00m : 0m);
             Assert.Equal(expectedSeasonRevenue, summary.SeasonRevenue);
         }
 
@@ -228,9 +235,10 @@ namespace QuickTix.Tests.Analytics
         public async Task GetSummary_CountsOnlyActiveSubscriptionsExpiringWithin7Days()
         {
             // Arrange
-            SeedPanelScenario();
+            var nowUtc = new DateTime(2026, 7, 15, 10, 0, 0, DateTimeKind.Utc);
+            SeedPanelScenario(nowUtc);
             using var context = new ApplicationDbContext(_options);
-            var repository = CreateRepository(context);
+            var repository = CreateRepository(context, new FixedTimeProvider(nowUtc));
 
             // Act
             var summary = await repository.GetSummaryAsync();
