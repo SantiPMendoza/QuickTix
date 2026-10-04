@@ -40,6 +40,9 @@ namespace QuickTix.Desktop.ViewModels
         // las ha tocado o aún no se han fijado. Permite refrescar «hoy» sin pisar un rango elegido.
         private DateOnly? _defaultDay;
 
+        // true mientras el propio VM escribe las fechas (por defecto/reset), para no tomarlo por una edición del usuario.
+        private bool _settingDefaults;
+
         // ===== Filtros (por defecto, hoy en hora de Madrid; se fijan al cargar, no al construir el singleton) =====
         [ObservableProperty] private DateTime? fromDate;
         [ObservableProperty] private DateTime? toDate;
@@ -95,32 +98,54 @@ namespace QuickTix.Desktop.ViewModels
             ExportMessage = null;
 
             // La próxima sesión empieza de nuevo en «hoy»
-            FromDate = null;
-            ToDate = null;
+            _settingDefaults = true;
+            try
+            {
+                FromDate = null;
+                ToDate = null;
+            }
+            finally
+            {
+                _settingDefaults = false;
+            }
             _defaultDay = null;
         }
 
         /// <summary>
-        /// Fija «Desde/Hasta» a hoy (día local de Madrid) cuando están vacías, o las refresca si siguen
-        /// siendo el «hoy» de un día anterior (app abierta de un día para otro) sin pisar un rango elegido.
+        /// Fija «Desde/Hasta» a hoy (día local de Madrid) al abrir la página: si están vacías, o si siguen
+        /// siendo el «hoy» por defecto de un día anterior. Nunca pisa un rango que el usuario haya editado
+        /// y NO se llama desde «Consultar».
         /// </summary>
-        private void EnsureDefaultDates()
+        public void RefreshDefaultDates() => RefreshDefaultDates(LocalBusinessDay.TodayLocal(DateTime.UtcNow));
+
+        /// <summary>Variante con «hoy» explícito (testeable).</summary>
+        public void RefreshDefaultDates(DateOnly today)
         {
-            var today = LocalBusinessDay.TodayLocal(DateTime.UtcNow);
+            var result = CashCloseDateDefaults.ForNavigation(FromDate, ToDate, _defaultDay, today);
 
-            bool untouchedStaleDefault =
-                _defaultDay is { } day
-                && day != today
-                && FromDate?.Date == day.ToDateTime(TimeOnly.MinValue)
-                && ToDate?.Date == day.ToDateTime(TimeOnly.MinValue);
-
-            if (FromDate is null || ToDate is null || untouchedStaleDefault)
+            _settingDefaults = true;
+            try
             {
-                var todayDate = today.ToDateTime(TimeOnly.MinValue);
-                FromDate = todayDate;
-                ToDate = todayDate;
-                _defaultDay = today;
+                FromDate = result.From;
+                ToDate = result.To;
             }
+            finally
+            {
+                _settingDefaults = false;
+            }
+
+            _defaultDay = result.DefaultDay;
+        }
+
+        // Cualquier cambio de fecha que no venga del valor por defecto es del usuario: ya no se refresca solo.
+        partial void OnFromDateChanged(DateTime? value)
+        {
+            if (!_settingDefaults) _defaultDay = null;
+        }
+
+        partial void OnToDateChanged(DateTime? value)
+        {
+            if (!_settingDefaults) _defaultDay = null;
         }
 
         /// <summary>
@@ -163,8 +188,6 @@ namespace QuickTix.Desktop.ViewModels
                 ErrorMessage = "El cierre de caja solo está disponible para administradores.";
                 return;
             }
-
-            EnsureDefaultDates();
 
             if (FromDate is null || ToDate is null)
             {

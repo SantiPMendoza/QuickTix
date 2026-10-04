@@ -131,5 +131,15 @@ Ruta por tarea y evidencia del disparador anotadas en cada una. Previsión: ~950
 - Suelo: build 0 errores; `dotnet test` QuickTix.Tests 55/55 + QuickTix.Desktop.Tests 21/21 = 76/76 (relanzado por el padre).
 - Nuevo para el board: borrar un Client ¿cascada a Subscriptions → SaleItems? (misma clase que B1/B3, sin comprobar).
 
+- Commit `1ecff6e`. RDD: assess medium `slice_budget_reached` → Santi: granted → 1 lente (reliability, 1 min 30 s) → **approved**, acusado (`review-127eab504f252771`). 4 avisos (regla J):
+  - W CashCloseViewModel:116-122 `EnsureDefaultDates` pisa AMBAS fechas si se vacía una (determinista, introducido) → corrector.
+  - W ApiBehaviorExtensions:19-38 fábrica B5 sin test real de la API → smoke (Swagger void con body vacío) o test directo de la fábrica.
+  - S SaleController:218-219 overrides POST/PUT sin test de rutas/roles → smoke.
+  - S VenueRepository:177-179 la guarda solo mira `Sales.VenueId`; tickets/abonos del recinto con SaleItems en ventas de OTRO recinto caen en cascada; check-then-act no atómico → sonda/test en corrector.
+- diff-review de `1ecff6e`: 1 MAJOR introducido (`EnsureDefaultDates` en «Consultar» salta a D+1 tras medianoche: arqueo/CSV del día equivocado; el marcador «tocado» nunca se limpia), 3 MINOR (una fecha null pisa ambas — mismo que RDD; venue 400 no 409 + check-then-act; test DiaSemanaString tautológico). **Contradice** el aviso RDD de venue (SaleItem→Ticket/Subscription Restrict → error FK → 409) — por regla J se prueba con test, no se acepta razonado. Rutas de borrado B1/B3 cerradas; B6 correcto; B7 sin doble conversión. Hueco global: otros VMs singleton conservan datos tras logout (preexistente → board).
+
+### T4b — corrector 2 (misma rama)
+- Ruta: delegated direct (writer sonnet). Alcance: fix de fechas por defecto (solo en navegación, respeta edición, validación con una null), sonda venue cruzado, sonda borrar Client con abono vendido, test tautológico.
+
 ## Siguiente paso
-Commit T4 → `review assess` + diff-review (capa tras corrector) → smoke con Santi.
+T4b → diff-review (capa tras corrector) → smoke con Santi.

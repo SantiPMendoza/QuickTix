@@ -112,8 +112,10 @@ namespace QuickTix.Tests.Sales
             Assert.Equal(ExpectedLocal, dto.Date);
             Assert.Equal(DateTimeKind.Unspecified, dto.Date.Kind);
             Assert.Equal(ExpectedVoidedLocal, dto.VoidedAt);
-            // el día de la semana se calcula sobre la fecha local ya convertida
-            Assert.Equal(ExpectedLocal.ToString("dddd"), dto.DiaSemanaString);
+            // La anulación a las 22:30Z (miércoles en UTC) es 00:30 del jueves 16 en Madrid: el día de la
+            // semana tiene que salir de la fecha local (sin depender de la cultura del servidor).
+            Assert.Equal(DayOfWeek.Wednesday, dto.Date.DayOfWeek);
+            Assert.Equal(DayOfWeek.Thursday, dto.VoidedAt!.Value.DayOfWeek);
         }
 
         [Fact]

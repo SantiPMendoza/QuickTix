@@ -181,5 +181,80 @@ namespace QuickTix.Tests.Sales
             using var verify = new ApplicationDbContext(_options);
             Assert.False(await verify.Venues.AnyAsync(v => v.Id == ids.FreeVenueId));
         }
+
+        /// <summary>
+        /// Venta en el recinto B que referencia un ticket y un abono del recinto A (los precios/ítems no están
+        /// atados al recinto de la venta): borrar A no debe llevarse esos SaleItems por la cascada de Venue→Ticket.
+        /// </summary>
+        private (int VenueAId, int ClientId) SeedCrossVenueSale(bool viaSubscription)
+        {
+            using var context = new ApplicationDbContext(_options);
+
+            var venueA = new Venue { Name = "Piscina A", Location = "Nalda", Capacity = 100 };
+            var venueB = new Venue { Name = "Pabellon B", Location = "Nalda", Capacity = 100 };
+            var client = new Client { Name = "Cliente Dos", AppUser = new AppUser { UserName = "client2", Name = "Cliente Dos" } };
+
+            var item = viaSubscription
+                ? new SaleItem
+                {
+                    Subscription = new Subscription
+                    {
+                        Venue = venueA, Client = client, Category = SubscriptionCategory.Adulto,
+                        Duration = SubscriptionDuration.Mensual, Price = 25m,
+                        StartDate = Now, EndDate = Now.AddMonths(1)
+                    },
+                    Quantity = 1, UnitPrice = 25m
+                }
+                : new SaleItem
+                {
+                    Ticket = new Ticket
+                    {
+                        Venue = venueA, Price = 4m, Type = TicketType.AdultoLaboral,
+                        Context = TicketContext.Normal, PurchaseDate = Now
+                    },
+                    Quantity = 1, UnitPrice = 4m
+                };
+
+            context.Add(new Sale { Venue = venueB, Manager = null, Date = Now, Items = { item } });
+            context.SaveChanges();
+            return (venueA.Id, client.Id);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task VenueDelete_WhoseTicketOrSubscriptionIsSoldInAnotherVenue_FailsAndKeepsSaleItems(bool viaSubscription)
+        {
+            var seed = SeedCrossVenueSale(viaSubscription);
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var repository = new VenueRepository(context, NewCache());
+                await Assert.ThrowsAsync<DbUpdateException>(() => repository.DeleteAsync(seed.VenueAId));
+            }
+
+            using var verify = new ApplicationDbContext(_options);
+            Assert.True(await verify.Venues.AnyAsync(v => v.Id == seed.VenueAId));
+            Assert.Equal(1, await verify.Sales.CountAsync());
+            Assert.Equal(1, await verify.SaleItems.CountAsync());
+        }
+
+        [Fact]
+        public async Task ClientDelete_WithSoldSubscription_FailsAndRemovesNothing()
+        {
+            var seed = SeedCrossVenueSale(viaSubscription: true);
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var repository = new ClientRepository(context, NewCache());
+                await Assert.ThrowsAsync<DbUpdateException>(() => repository.DeleteAsync(seed.ClientId));
+            }
+
+            using var verify = new ApplicationDbContext(_options);
+            Assert.True(await verify.Clients.AnyAsync(c => c.Id == seed.ClientId));
+            Assert.Equal(1, await verify.Subscriptions.CountAsync());
+            Assert.Equal(1, await verify.Sales.CountAsync());
+            Assert.Equal(1, await verify.SaleItems.CountAsync());
+        }
     }
 }
