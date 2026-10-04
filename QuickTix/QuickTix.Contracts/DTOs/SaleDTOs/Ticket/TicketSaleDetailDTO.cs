@@ -19,6 +19,13 @@ namespace QuickTix.Contracts.DTOs.SaleDTOs.Ticket
         public int Quantity { get; set; }
         public decimal TotalAmount { get; set; }
 
+        public PaymentMethod PaymentMethod { get; set; }
+
+        // Anulación lógica: la venta sigue en el historial pero marcada.
+        public bool IsVoided { get; set; }
+        public DateTime? VoidedAt { get; set; }
+        public string? VoidReason { get; set; }
+
         public List<TicketSaleDetailLineDTO> Lines { get; set; } = new();
 
         public string DiaSemanaString => Date.ToString("dddd");

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using QuickTix.Contracts.Enums;
 using QuickTix.Core.Models.Entities;
-using QuickTix.Core.Time;
 using QuickTix.DAL.Data;
 using QuickTix.DAL.Repositories;
 using QuickTix.Tests.Time;
@@ -16,7 +15,7 @@ namespace QuickTix.Tests.Analytics
     /// de EF queda vetado en este proyecto por no soportar transacciones).
     ///
     /// Cubren los campos nuevos del Panel v2: desglose de ingresos de hoy por tipo,
-    /// acumulado de temporada (año en curso, UTC) y abonos que caducan en 7 días.
+    /// acumulado de temporada (año natural LOCAL de Madrid en curso) y abonos que caducan en 7 días.
     /// </summary>
     public class AnalyticsSummaryTests : IDisposable
     {
@@ -40,15 +39,16 @@ namespace QuickTix.Tests.Analytics
 
         public void Dispose() => _connection.Dispose();
 
+        // El reloj es obligatorio: un TimeProvider.System por defecto haría los tests dependientes del día en que se ejecutan.
         private static AnalyticsRepository CreateRepository(
-            ApplicationDbContext context, TimeProvider? clock = null, IMemoryCache? cache = null)
+            ApplicationDbContext context, TimeProvider clock, IMemoryCache? cache = null)
         {
             // Caché fresca por test: el resumen se cachea 30 s y una caché compartida
             // haría que un test viera los datos sembrados por otro.
             return new AnalyticsRepository(
                 context,
                 cache ?? new MemoryCache(new MemoryCacheOptions()),
-                clock ?? TimeProvider.System);
+                clock);
         }
 
         private static Sale BuildTicketSale(Venue venue, DateTime dateUtc, decimal price, int quantity, bool voided = false)
@@ -91,10 +91,10 @@ namespace QuickTix.Tests.Analytics
         /// - Abonos sueltos: uno vigente que caduca en 3 días (cuenta como "caduca pronto"),
         ///   uno vigente que caduca en 30 días (activo pero fuera de la ventana) y
         ///   uno ya caducado (no cuenta para nada).
-        /// Devuelve la fecha de la venta antigua para que el assert de temporada
-        /// pueda adaptarse al único día del año en que "ayer" es del año anterior.
+        /// La fecha de la venta antigua ("ayer" en UTC) cae en el año local anterior cuando "ahora" es
+        /// Nochevieja a las 23:30 UTC (ya 1 de enero en Madrid); los tests fijan el total de temporada esperado.
         /// </summary>
-        private DateTime SeedPanelScenario(DateTime nowUtc)
+        private void SeedPanelScenario(DateTime nowUtc)
         {
             using var context = new ApplicationDbContext(_options);
 
@@ -197,20 +197,18 @@ namespace QuickTix.Tests.Analytics
                 ticketSaleToday, subscriptionSaleToday, olderSale,
                 expiringSoon, activeFarFromExpiry, alreadyExpired);
             context.SaveChanges();
-
-            return olderSaleDateUtc;
         }
 
         // Instantes fijos: un día normal y Nochevieja a las 23:30 UTC, que en Madrid (UTC+1) ya es
         // 1 de enero (año nuevo local mientras el año UTC sigue siendo el anterior).
         [Theory]
-        [InlineData("2026-07-15T10:00:00Z")]
-        [InlineData("2026-12-31T23:30:00Z")]
-        public async Task GetSummary_SplitsTodayRevenueByLineTypeAndAccumulatesSeason(string nowIso)
+        [InlineData("2026-07-15T10:00:00Z", 42)]
+        [InlineData("2026-12-31T23:30:00Z", 32)]
+        public async Task GetSummary_SplitsTodayRevenueByLineTypeAndAccumulatesSeason(string nowIso, int expectedSeasonRevenueEuros)
         {
             // Arrange
             var nowUtc = DateTime.Parse(nowIso, null, System.Globalization.DateTimeStyles.AdjustToUniversal);
-            var olderSaleDateUtc = SeedPanelScenario(nowUtc);
+            SeedPanelScenario(nowUtc);
             using var context = new ApplicationDbContext(_options);
             var repository = CreateRepository(context, new FixedTimeProvider(nowUtc));
 
@@ -223,12 +221,10 @@ namespace QuickTix.Tests.Analytics
             Assert.Equal(25.00m, summary.SubscriptionRevenueToday);
             Assert.Equal(32.00m, summary.RevenueToday);
 
-            // Assert — temporada (año LOCAL de Madrid en curso): incluye la venta antigua
-            // solo si cae en el mismo año local que "hoy" (en Nochevieja a las 23:30 UTC ya no).
-            var expectedSeasonRevenue = 32.00m
-                + (LocalBusinessDay.ToLocalDate(olderSaleDateUtc).Year == LocalBusinessDay.TodayLocal(nowUtc).Year
-                    ? 10.00m : 0m);
-            Assert.Equal(expectedSeasonRevenue, summary.SeasonRevenue);
+            // Assert — temporada (año LOCAL de Madrid en curso), con el total esperado fijado a mano:
+            // en julio entra la venta antigua (32 + 10); en Nochevieja a las 23:30 UTC ya es 1 de enero
+            // en Madrid, así que la venta del día anterior cae en el año local anterior (solo 32).
+            Assert.Equal((decimal)expectedSeasonRevenueEuros, summary.SeasonRevenue);
         }
 
         [Fact]

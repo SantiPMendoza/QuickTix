@@ -17,6 +17,16 @@ namespace QuickTix.Core.Interfaces
 
         Task<Sale> SellTicketsBatchAsync(SellTicketsBatchDTO request);
 
+        /// <summary>
+        /// Anula lógicamente una venta (nunca se borra). Valida el motivo (recortado, obligatorio, máx. 200).
+        /// No toca Ticket/Subscription asociados. Invalida la caché de ventas.
+        /// </summary>
+        /// <param name="saleId">Venta a anular.</param>
+        /// <param name="userId">Id (Identity) del usuario que anula.</param>
+        /// <param name="reason">Motivo de la anulación.</param>
+        /// <param name="nowUtc">Instante UTC de la anulación.</param>
+        Task<VoidSaleResult> VoidAsync(int saleId, string userId, string reason, DateTime nowUtc);
+
 
     }
 }

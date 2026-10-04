@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickTix.Contracts.Common;
+using QuickTix.Contracts.DTOs.SaleDTOs;
 using QuickTix.Contracts.DTOs.SaleDTOs.Subscription;
 using QuickTix.Contracts.DTOs.SaleDTOs.Ticket;
 using QuickTix.Contracts.Models.DTOs.SaleDTOs;
 using QuickTix.Core.Interfaces;
 using QuickTix.Core.Models.Entities;
 using System.Net;
+using System.Security.Claims;
 
 namespace QuickTix.API.Controllers.Sales
 {
@@ -23,16 +25,31 @@ namespace QuickTix.API.Controllers.Sales
         // Repositorio específico de ventas con lógica de consulta y registro
         private readonly ISaleRepository _saleRepository;
 
+        // Repositorio de analítica: al anular hay que invalidar su caché (TTL 30 s) para que el Panel baje al instante
+        private readonly IAnalyticsRepository _analyticsRepository;
+
+        // Reloj inyectable (tests deterministas); en producción TimeProvider.System
+        private readonly TimeProvider _clock;
+
         /// <summary>
         /// Inicializa una nueva instancia del <see cref="SaleController"/>.
         /// </summary>
         /// <param name="repository">Repositorio de ventas.</param>
         /// <param name="mapper">Servicio de mapeo entre entidades y DTOs.</param>
         /// <param name="logger">Logger del controlador.</param>
-        public SaleController(ISaleRepository repository, IMapper mapper, ILogger<SaleController> logger)
+        /// <param name="analyticsRepository">Repositorio de analítica (invalidación de caché al anular).</param>
+        /// <param name="clock">Reloj (UTC) para fechar las anulaciones.</param>
+        public SaleController(
+            ISaleRepository repository,
+            IMapper mapper,
+            ILogger<SaleController> logger,
+            IAnalyticsRepository analyticsRepository,
+            TimeProvider clock)
             : base(repository, mapper, logger)
         {
             _saleRepository = repository;
+            _analyticsRepository = analyticsRepository;
+            _clock = clock;
         }
 
         /// <summary>
@@ -199,6 +216,18 @@ namespace QuickTix.API.Controllers.Sales
         // poner ManagerId a null (reetiquetar la venta como "Administración").
         public override async Task<IActionResult> Update(int id, [FromBody] SaleDTO dto)
         {
+            // Una venta anulada es inmutable: el PUT genérico no puede modificarla.
+            // (Los campos de anulación y PaymentMethod no existen en SaleDTO, así que
+            // el mapeo tampoco puede fijarlos ni limpiarlos.)
+            var existing = await _saleRepository.GetAsync(id);
+            if (existing is { IsVoided: true })
+            {
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    new[] { "La venta está anulada y no se puede modificar." }
+                ));
+            }
+
             if (dto.ManagerId is null && !User.IsInRole("admin"))
             {
                 return BadRequest(BuildFail(
@@ -208,6 +237,75 @@ namespace QuickTix.API.Controllers.Sales
             }
 
             return await base.Update(id, dto);
+        }
+
+        /// <summary>
+        /// Anula (lógicamente) una venta: queda en el historial pero fuera del arqueo y del Panel.
+        /// Solo admin. No toca los Ticket/Subscription asociados (política pendiente de definir).
+        /// </summary>
+        /// <param name="id">Identificador de la venta.</param>
+        /// <param name="request">Motivo de la anulación (obligatorio, máx. 200 caracteres).</param>
+        [HttpPost("{id:int}/void")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Void(int id, [FromBody] VoidSaleDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(BuildFail(
+                    HttpStatusCode.BadRequest,
+                    ExtractModelStateErrors(ModelState)
+                ));
+            }
+
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue("sub") ??
+                User.FindFirstValue("nameid");
+
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new UnauthorizedAccessException("Token inválido o sin identificador de usuario.");
+
+            var result = await _saleRepository.VoidAsync(id, userId, request.Reason, _clock.GetUtcNow().UtcDateTime);
+
+            switch (result)
+            {
+                case VoidSaleResult.Voided:
+                    // E9: el Panel cachea el resumen 30 s; sin esto la venta anulada seguiría sumando.
+                    _analyticsRepository.InvalidateSummaryCache();
+                    _logger.LogInformation("Venta anulada. SaleId={SaleId} UserId={UserId}", id, userId);
+                    return Ok(BuildOk<object?>(null, HttpStatusCode.OK));
+
+                case VoidSaleResult.NotFound:
+                    return NotFound(BuildFail(HttpStatusCode.NotFound, new[] { "Venta no encontrada." }));
+
+                case VoidSaleResult.AlreadyVoided:
+                    return Conflict(BuildFail(HttpStatusCode.Conflict, new[] { "La venta ya está anulada." }));
+
+                default:
+                    return BadRequest(BuildFail(
+                        HttpStatusCode.BadRequest,
+                        new[] { $"El motivo de la anulación es obligatorio y no puede superar los {VoidSaleDTO.ReasonMaxLength} caracteres." }
+                    ));
+            }
+        }
+
+        /// <summary>
+        /// Las ventas nunca se borran físicamente: borrarlas falsearía el arqueo sin dejar rastro.
+        /// </summary>
+        // El [Authorize(Roles = "admin")] hace que un manager reciba 403 antes de llegar aquí;
+        // un admin recibe 400 indicando la vía correcta. Se elige 400 (y no 405) porque la ruta
+        // DELETE existe y el cliente necesita el mensaje en el envelope ApiResponse.
+        [Authorize(Roles = "admin")]
+        public override Task<IActionResult> Delete(int id)
+        {
+            return Task.FromResult<IActionResult>(BadRequest(BuildFail(
+                HttpStatusCode.BadRequest,
+                new[] { "Las ventas no se borran: se anulan." }
+            )));
         }
     }
 }

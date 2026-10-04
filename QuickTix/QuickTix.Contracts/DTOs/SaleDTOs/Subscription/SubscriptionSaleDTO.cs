@@ -1,4 +1,6 @@
-﻿namespace QuickTix.Contracts.DTOs.SaleDTOs.Subscription
+﻿using QuickTix.Contracts.Enums;
+
+namespace QuickTix.Contracts.DTOs.SaleDTOs.Subscription
 {
     public class SubscriptionSaleDTO
     {
@@ -16,6 +18,13 @@
         public decimal Price { get; set; }
 
         public string ClientName { get; set; } = string.Empty;
+
+        public PaymentMethod PaymentMethod { get; set; }
+
+        // Anulación lógica: la venta sigue en el historial pero marcada.
+        public bool IsVoided { get; set; }
+        public DateTime? VoidedAt { get; set; }
+        public string? VoidReason { get; set; }
 
         public string DiaSemanaString => Date.ToString("dddd");
     }

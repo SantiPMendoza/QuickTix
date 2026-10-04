@@ -79,7 +79,23 @@ Ruta por tarea y evidencia del disparador anotadas en cada una. Previsión: ~950
   verify:directed (opus) sobre el rango completo, RDD según `review assess`, smoke con Santi, pasada `human`, ledger + mem_save.
 
 ## Progreso / evidencia
-(vacío)
+### T1 — commits `e9d402d` (feat) + `b738531` (test, corrector)
+- Ruta: delegated direct (writer sonnet). RED: solo de compilación (CS0234, faltaba `QuickTix.Core.Time`); sin RED de comportamiento → excepción declarada. GREEN: 19/19, luego 20/20.
+- Suelo: `dotnet build QuickTix.sln` 0 errores; `dotnet test QuickTix.sln` 20/20 (relanzado por el padre).
+- Lectura orquestador: AnalyticsRepository (filtro `VoidedAt == null` en las 4 consultas de ventas; KPIs de abonos vienen de `Subscriptions`, coherente con E12) y LocalBusinessDay.
+- RDD: assess medium, `review_due` por `slice_budget_reached` → consentimiento de Santi: granted → 1 lente (reliability, 54 s) → **approved**, acusado (lineage `review-e22b14fd525af4e2`). 3 avisos no bloqueantes (regla J):
+  - R3-nondeterministic-default-clock → **sonda**: test Theory con reloj fijo en 2026-12-31T23:30Z → RED (esperado 42, real 32) — defecto real del test (año UTC vs año local). Corregido en `b738531`; diff-review pendiente.
+  - R3-dailyrevenue-kind-change → sonda de código: único consumidor `PanelViewModel.BuildRevenueBars` usa `d.Date.ToString("ddd")` sin conversión de zona; Mobile no lo consume. Confirmación visual en smoke (etiquetas de barras del Panel).
+  - R3-tz-resolution-failure → pendiente sonda con Docker arriba: `aspnet:8.0` (Dockerfile.txt) ¿trae tzdata? En Windows resuelve (tests verdes).
+
+- diff-review de `b738531` (capa tras corrector, 4f): fix correcto, 0 graves/medios; 3 bajos (expectativa calculada con el mismo helper, reloj por defecto latente, 2 comentarios) → aplicados en T2.
+
+### T2 — rama `feature/s2-t2-api` (apilada sobre T1)
+- Ruta: delegated direct (writer sonnet). RED de comportamiento: stubs compilables → 17 fallos / 22 verdes. GREEN 39/39 (destapó y corrigió `Sum` decimal en SQL en `GetTicketHistoryAsync`, sin test previo sobre SQLite).
+- Suelo: `dotnet build QuickTix.sln --no-incremental` 0 errores (177 warnings preexistentes); `dotnet test` 39/39 (relanzado por el padre).
+- Lectura orquestador: `VoidAsync` (UPDATE condicionado `VoidedAt == null`, atómico; distingue NotFound/AlreadyVoided), endpoint void (invalida caché de Analytics), override Update/Delete; SaleItemController solo GET.
+- Hueco declarado: guard del PUT y mapeo viven en API (tests solo referencian DAL) → comprobación en smoke (Swagger PUT sobre venta anulada).
+- Para T3: `PaymentMethod` se serializa como número; líneas del informe agrupadas por venta+concepto+precio.
 
 ## Siguiente paso
-T1.
+Commit T2 → `review assess` → T3 (rama `feature/s2-t3-desktop`).

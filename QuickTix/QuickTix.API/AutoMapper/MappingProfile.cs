@@ -55,10 +55,20 @@ namespace QuickTix.API.AutoMapper
 
             CreateMap<Subscription, CreateSubscriptionDTO>().ReverseMap();
 
-
             // Sale
-            CreateMap<Sale, SaleDTO>().ReverseMap();
-            CreateMap<Sale, CreateSaleDTO>().ReverseMap();
+            // Los campos de anulación y el medio de pago solo se modifican por sus vías propias
+            // (POST api/Sale/{id}/void, endpoints de venta): ningún DTO → Sale puede fijarlos
+            // ni limpiarlos, ni hoy ni si alguien añade esas propiedades a SaleDTO mañana.
+            CreateMap<Sale, SaleDTO>().ReverseMap()
+                .ForMember(d => d.PaymentMethod, o => o.Ignore())
+                .ForMember(d => d.VoidedAt, o => o.Ignore())
+                .ForMember(d => d.VoidedByUserId, o => o.Ignore())
+                .ForMember(d => d.VoidReason, o => o.Ignore());
+            CreateMap<Sale, CreateSaleDTO>().ReverseMap()
+                .ForMember(d => d.PaymentMethod, o => o.Ignore())
+                .ForMember(d => d.VoidedAt, o => o.Ignore())
+                .ForMember(d => d.VoidedByUserId, o => o.Ignore())
+                .ForMember(d => d.VoidReason, o => o.Ignore());
 
             // SaleItem
             CreateMap<SaleItem, SaleItemDTO>().ReverseMap();
