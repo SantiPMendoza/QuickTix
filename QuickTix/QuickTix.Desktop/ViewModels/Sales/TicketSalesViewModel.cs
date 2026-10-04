@@ -13,7 +13,7 @@ namespace QuickTix.Desktop.ViewModels.Sales
     /// Permite visualizar el detalle de una venta seleccionada.
     /// </summary>
     public partial class TicketSalesViewModel
-        : BaseCrudViewModel<TicketSaleDTO, CreateSaleDTO>
+        : SalesHistoryViewModelBase<TicketSaleDTO>
     {
         /// <summary>
         /// Listado de managers disponible para la vista.
@@ -59,12 +59,19 @@ namespace QuickTix.Desktop.ViewModels.Sales
         /// Inicializa una nueva instancia de <see cref="TicketSalesViewModel"/>.
         /// </summary>
         /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
-        public TicketSalesViewModel(HttpJsonClient httpClient)
-            : base(httpClient)
+        /// <param name="authService">Servicio de autenticación (rol de la sesión).</param>
+        public TicketSalesViewModel(HttpJsonClient httpClient, IAuthService authService)
+            : base(httpClient, authService)
         {
             PropertyChanged += OnSelfPropertyChanged;
             _ = LoadAsync();
         }
+
+        /// <inheritdoc />
+        protected override int GetSaleId(TicketSaleDTO item) => item.Id;
+
+        /// <inheritdoc />
+        protected override bool GetIsVoided(TicketSaleDTO item) => item.IsVoided;
 
         /// <summary>
         /// Detecta cambios en propiedades del propio ViewModel.
@@ -106,6 +113,10 @@ namespace QuickTix.Desktop.ViewModels.Sales
 
                 DetailHeader =
                     $"Venta {detail.Id} | {detail.Date:dd/MM/yyyy HH:mm} | {detail.VenueName} | {detail.ManagerName} | Entradas={detail.Quantity} | Total={detail.TotalAmount}";
+
+                // Venta anulada: el detalle deja visible que no cuenta y por qué
+                if (detail.IsVoided)
+                    DetailHeader += $" | ANULADA: {detail.VoidReason}";
 
                 DetailLines = new ObservableCollection<TicketSaleDetailLineDTO>(detail.Lines);
                 InvitedByClientName = string.IsNullOrWhiteSpace(detail.InvitedByClientName)

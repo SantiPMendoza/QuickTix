@@ -10,6 +10,10 @@
       d:DesignWidth="1000"
       Title="SalesView">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+
     <!-- Rediseño visual Vibra (spec 3b): bindings intactos -->
     <Grid Background="{StaticResource PageBgBrush}"
           TextElement.FontFamily="{StaticResource VibraBodyFontFamily}">
@@ -37,6 +41,11 @@
                         <Button Content="Recargar" Width="120"
                                 Style="{StaticResource VibraSecondaryButton}"
                                 Command="{Binding TicketSales.LoadCommand}" />
+                        <!-- Anular: solo admin y solo sobre una venta no anulada seleccionada -->
+                        <Button Content="Anular venta seleccionada" Width="200" Margin="10,0,0,0"
+                                Style="{StaticResource VibraDangerButton}"
+                                Visibility="{Binding TicketSales.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Command="{Binding TicketSales.OpenVoidForSelectedCommand}" />
                     </StackPanel>
 
                     <!-- Tabla en tarjeta -->
@@ -58,10 +67,22 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    <GridViewColumn Header="ESTADO" Width="90">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <!-- Badge «Anulada» (el motivo va en el tooltip) -->
+                                                <Border Style="{StaticResource VibraDangerChip}"
+                                                        ToolTip="{Binding VoidReason, StringFormat='Motivo: {0}'}"
+                                                        Visibility="{Binding IsVoided, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <TextBlock Text="Anulada"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                     <GridViewColumn Header="FECHA DE VENTA" Width="180"
                                         DisplayMemberBinding="{Binding Date, StringFormat=\{0:dd/MM/yyyy HH:mm\}}"/>
-                                    <GridViewColumn Header="DÍA SEMANA" Width="120" DisplayMemberBinding="{Binding DiaSemanaString}"/>
-                                    <GridViewColumn Header="RECINTO" Width="250">
+                                    <GridViewColumn Header="DÍA SEMANA" Width="100" DisplayMemberBinding="{Binding DiaSemanaString}"/>
+                                    <GridViewColumn Header="RECINTO" Width="190">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding VenueName}"
@@ -70,7 +91,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="VENDIDO POR" Width="170" DisplayMemberBinding="{Binding ManagerName}"/>
+                                    <GridViewColumn Header="VENDIDO POR" Width="150" DisplayMemberBinding="{Binding ManagerName}"/>
                                     <GridViewColumn Header="Nº ENTRADAS" Width="110" DisplayMemberBinding="{Binding Quantity}"/>
                                     <GridViewColumn Header="TOTAL" Width="140"
                                                     HeaderContainerStyle="{StaticResource VibraTableHeaderRight}">
@@ -79,7 +100,18 @@
                                                 <TextBlock Text="{Binding TotalAmount, StringFormat='{}{0:N2} €'}"
                                                            TextAlignment="Right"
                                                            FontWeight="Bold"
-                                                           Foreground="{StaticResource InkBrush}"/>
+                                                           Foreground="{StaticResource InkBrush}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsVoided}" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                                    <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -169,6 +201,11 @@
                         <Button Content="Recargar" Width="120"
                                 Style="{StaticResource VibraSecondaryButton}"
                                 Command="{Binding SubscriptionSales.LoadCommand}" />
+                        <!-- Anular: solo admin y solo sobre una venta no anulada seleccionada -->
+                        <Button Content="Anular venta seleccionada" Width="200" Margin="10,0,0,0"
+                                Style="{StaticResource VibraDangerButton}"
+                                Visibility="{Binding SubscriptionSales.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Command="{Binding SubscriptionSales.OpenVoidForSelectedCommand}" />
                     </StackPanel>
 
                     <Border Grid.Row="1" Style="{StaticResource VibraCard}" Padding="10">
@@ -189,10 +226,22 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    <GridViewColumn Header="ESTADO" Width="90">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <!-- Badge «Anulada» (el motivo va en el tooltip) -->
+                                                <Border Style="{StaticResource VibraDangerChip}"
+                                                        ToolTip="{Binding VoidReason, StringFormat='Motivo: {0}'}"
+                                                        Visibility="{Binding IsVoided, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <TextBlock Text="Anulada"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                     <GridViewColumn Header="FECHA DE VENTA" Width="180"
                                                     DisplayMemberBinding="{Binding Date, StringFormat=\{0:dd/MM/yyyy HH:mm\}}"/>
-                                    <GridViewColumn Header="DÍA SEMANA" Width="120" DisplayMemberBinding="{Binding DiaSemanaString}"/>
-                                    <GridViewColumn Header="RECINTO" Width="250">
+                                    <GridViewColumn Header="DÍA SEMANA" Width="100" DisplayMemberBinding="{Binding DiaSemanaString}"/>
+                                    <GridViewColumn Header="RECINTO" Width="190">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding VenueName}"
@@ -201,7 +250,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="VENDIDO POR" Width="170" DisplayMemberBinding="{Binding ManagerName}"/>
+                                    <GridViewColumn Header="VENDIDO POR" Width="150" DisplayMemberBinding="{Binding ManagerName}"/>
                                     <GridViewColumn Header="CLIENTE" Width="220" DisplayMemberBinding="{Binding ClientName}"/>
                                     <GridViewColumn Header="CATEGORÍA" Width="160" DisplayMemberBinding="{Binding SubscriptionCategory}"/>
                                     <GridViewColumn Header="PRECIO" Width="110"
@@ -211,7 +260,18 @@
                                                 <TextBlock Text="{Binding Price, StringFormat='{}{0:N2} €'}"
                                                            TextAlignment="Right"
                                                            FontWeight="Bold"
-                                                           Foreground="{StaticResource InkBrush}"/>
+                                                           Foreground="{StaticResource InkBrush}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsVoided}" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                                    <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -253,6 +313,88 @@
             <controls:VibraDialog.Footer>
                 <Button Content="Aceptar" Style="{StaticResource VibraPrimaryButton}"
                         Command="{Binding SubscriptionSales.CloseAlertCommand}" Width="100"/>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
+        <!-- Diálogo de anulación (TicketSales): motivo obligatorio, máx. 200 -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding TicketSales.IsVoidDialogOpen}"
+                              DialogMinWidth="440"
+                              Title="{Binding TicketSales.VoidDialogTitle}"
+                              CloseCommand="{Binding TicketSales.CloseVoidDialogCommand}">
+            <controls:VibraDialog.DialogContent>
+                <StackPanel MaxWidth="480">
+                    <TextBlock TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}"
+                               Text="La venta no se borra: queda marcada como anulada y deja de contar en el cierre de caja y en el Panel. Esta acción no se puede deshacer."/>
+
+                    <Label Content="Motivo de la anulación:" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding TicketSales.VoidReason, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="False"
+                             MinHeight="70"
+                             VerticalContentAlignment="Top"/>
+                    <TextBlock Text="{Binding TicketSales.VoidReasonCounter}"
+                               HorizontalAlignment="Right"
+                               Margin="0,4,0,0"
+                               Foreground="{StaticResource TextMutedBrush}"/>
+
+                    <TextBlock Text="{Binding TicketSales.VoidError}"
+                               Foreground="{StaticResource DangerFgBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"
+                               Visibility="{Binding TicketSales.VoidError, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+                </StackPanel>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding TicketSales.CloseVoidDialogCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Anular venta" Style="{StaticResource VibraDangerButton}"
+                            Command="{Binding TicketSales.ConfirmVoidCommand}" Width="130"/>
+                </StackPanel>
+            </controls:VibraDialog.Footer>
+        </controls:VibraDialog>
+
+        <!-- Diálogo de anulación (SubscriptionSales): motivo obligatorio, máx. 200 -->
+        <controls:VibraDialog Grid.Row="0" Grid.RowSpan="2"
+                              IsOpen="{Binding SubscriptionSales.IsVoidDialogOpen}"
+                              DialogMinWidth="440"
+                              Title="{Binding SubscriptionSales.VoidDialogTitle}"
+                              CloseCommand="{Binding SubscriptionSales.CloseVoidDialogCommand}">
+            <controls:VibraDialog.DialogContent>
+                <StackPanel MaxWidth="480">
+                    <TextBlock TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted2Brush}"
+                               Text="La venta no se borra: queda marcada como anulada y deja de contar en el cierre de caja y en el Panel. Esta acción no se puede deshacer."/>
+
+                    <Label Content="Motivo de la anulación:" Style="{StaticResource VibraFieldLabel}"/>
+                    <TextBox Text="{Binding SubscriptionSales.VoidReason, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="False"
+                             MinHeight="70"
+                             VerticalContentAlignment="Top"/>
+                    <TextBlock Text="{Binding SubscriptionSales.VoidReasonCounter}"
+                               HorizontalAlignment="Right"
+                               Margin="0,4,0,0"
+                               Foreground="{StaticResource TextMutedBrush}"/>
+
+                    <TextBlock Text="{Binding SubscriptionSales.VoidError}"
+                               Foreground="{StaticResource DangerFgBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"
+                               Visibility="{Binding SubscriptionSales.VoidError, Converter={StaticResource NullToCollapsedVisibilityConverter}}"/>
+                </StackPanel>
+            </controls:VibraDialog.DialogContent>
+            <controls:VibraDialog.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Cancelar" Style="{StaticResource VibraSecondaryButton}"
+                            Command="{Binding SubscriptionSales.CloseVoidDialogCommand}" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Anular venta" Style="{StaticResource VibraDangerButton}"
+                            Command="{Binding SubscriptionSales.ConfirmVoidCommand}" Width="130"/>
+                </StackPanel>
             </controls:VibraDialog.Footer>
         </controls:VibraDialog>
     </Grid>

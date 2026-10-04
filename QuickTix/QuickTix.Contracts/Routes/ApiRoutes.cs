@@ -202,7 +202,7 @@
             /// <param name="from">Primer día local incluido.</param>
             /// <param name="to">Último día local incluido.</param>
             public static string CashCloseByRange(DateOnly from, DateOnly to)
-                => CashClose + $"?from={from:yyyy-MM-dd}&to={to:yyyy-MM-dd}";
+                => CashClose + $"?from={from.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)}&to={to.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)}";
         }
 
         public static class SaleItem

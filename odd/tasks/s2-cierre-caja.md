@@ -97,5 +97,15 @@ Ruta por tarea y evidencia del disparador anotadas en cada una. Previsión: ~950
 - Hueco declarado: guard del PUT y mapeo viven en API (tests solo referencian DAL) → comprobación en smoke (Swagger PUT sobre venta anulada).
 - Para T3: `PaymentMethod` se serializa como número; líneas del informe agrupadas por venta+concepto+precio.
 
+- Commit `e08502b`. RDD: assess medium, `slice_budget_reached` → consentimiento Santi: granted → 1 lente (reliability, 1 min 32 s) → **approved**, acusado (`review-05331ded6fe4f84f`). 5 avisos (regla J):
+  - W SaleController:218-229 guard PUT sin test + check-then-act → **smoke** (Swagger PUT sobre venta anulada → 400; PUT sobre no anulada conserva VoidedAt/PaymentMethod).
+  - W SaleController:254-294 void/delete sin aserción HTTP (mapeo 200/404/409/400, invalidación en controller, userId de claims) → **smoke** (E7, E8, E9 desde Desktop/Swagger).
+  - S ReportsController:51-67 parseo de fechas sin test → **smoke** (from ausente / `2026-13-01` → 400 con envelope).
+  - S ApiRoutes:205 cultura actual al formatear fechas → **test** en T3 (cultura no gregoriana).
+  - S VoidSaleDTO:14 MaxLength sin recortar vs repo recortando → **test** en T3 (DataAnnotations).
+
+### T3 — rama `feature/s2-t3-desktop` (apilada sobre T2)
+- Ruta: delegated direct (writer sonnet). En curso.
+
 ## Siguiente paso
-Commit T2 → `review assess` → T3 (rama `feature/s2-t3-desktop`).
+T3 → verify:directed (opus) sobre `fe15aef..HEAD` → smoke con Santi.

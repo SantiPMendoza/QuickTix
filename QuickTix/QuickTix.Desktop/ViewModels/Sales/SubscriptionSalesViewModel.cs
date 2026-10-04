@@ -11,7 +11,7 @@ namespace QuickTix.Desktop.ViewModels.Sales
     /// Consume endpoints específicos de consulta (no CRUD estándar).
     /// </summary>
     public partial class SubscriptionSalesViewModel
-        : BaseCrudViewModel<SubscriptionSaleDTO, CreateSaleDTO>
+        : SalesHistoryViewModelBase<SubscriptionSaleDTO>
     {
         /// <summary>
         /// Listado de managers disponible para la vista
@@ -40,10 +40,17 @@ namespace QuickTix.Desktop.ViewModels.Sales
         /// Inicializa una nueva instancia de <see cref="SubscriptionSalesViewModel"/>.
         /// </summary>
         /// <param name="httpClient">Cliente HTTP para consumo de la API.</param>
-        public SubscriptionSalesViewModel(HttpJsonClient httpClient)
-            : base(httpClient)
+        /// <param name="authService">Servicio de autenticación (rol de la sesión).</param>
+        public SubscriptionSalesViewModel(HttpJsonClient httpClient, IAuthService authService)
+            : base(httpClient, authService)
         {
             _ = LoadAsync();
         }
+
+        /// <inheritdoc />
+        protected override int GetSaleId(SubscriptionSaleDTO item) => item.Id;
+
+        /// <inheritdoc />
+        protected override bool GetIsVoided(SubscriptionSaleDTO item) => item.IsVoided;
     }
 }

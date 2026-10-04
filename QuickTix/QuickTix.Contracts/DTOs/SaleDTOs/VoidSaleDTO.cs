@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using QuickTix.Contracts.Validation.Attributes;
 
 namespace QuickTix.Contracts.DTOs.SaleDTOs
 {
@@ -11,7 +12,8 @@ namespace QuickTix.Contracts.DTOs.SaleDTOs
         public const int ReasonMaxLength = 200;
 
         [Required(ErrorMessage = "El motivo de la anulación es obligatorio.")]
-        [MaxLength(ReasonMaxLength, ErrorMessage = "El motivo no puede superar los 200 caracteres.")]
+        // Se mide el texto recortado, igual que el repositorio (que hace Trim antes de comprobar).
+        [TrimmedMaxLength(ReasonMaxLength, ErrorMessage = "El motivo no puede superar los 200 caracteres.")]
         public string Reason { get; set; } = string.Empty;
     }
 }

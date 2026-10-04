@@ -614,4 +614,31 @@
         <Setter Property="Margin" Value="0,10,0,4" />
     </Style>
 
+    <!-- Etiqueta muted de tarjeta KPI (pantalla Cierre de caja) -->
+    <Style x:Key="VibraKpiLabel" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="{StaticResource VibraBodyFontFamily}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Cifra grande de KPI: Space Grotesk 24 -->
+    <Style x:Key="VibraKpiValue" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="{StaticResource VibraDisplayFontFamily}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="Margin" Value="0,8,0,0" />
+    </Style>
+
+    <!-- Chip de estado "Anulada" (fondo/texto de peligro del tema) -->
+    <Style x:Key="VibraDangerChip" TargetType="{x:Type Border}" BasedOn="{StaticResource VibraChip}">
+        <Setter Property="Background" Value="{StaticResource DangerBgBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource DangerFgBrush}" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
 </ResourceDictionary>

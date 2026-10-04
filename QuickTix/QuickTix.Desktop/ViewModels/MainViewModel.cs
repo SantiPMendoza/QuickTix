@@ -11,7 +11,11 @@ namespace QuickTix.Desktop.ViewModels
     public partial class MainViewModel : ViewModel
     {
         private readonly INavigationService _navigationService;
+        private readonly IAuthService _authService;
         private bool _isInitialized = false;
+
+        // Ítem «Cierre de caja»: solo lo ve el admin (la API responde 403 al resto)
+        private NavigationViewItem? _cashCloseItem;
 
         [ObservableProperty] private string applicationTitle = "QuickTix";
         [ObservableProperty] private ObservableCollection<object> navigationItems = [];
@@ -23,9 +27,14 @@ namespace QuickTix.Desktop.ViewModels
         /// Configura el menú de navegación y aplica un retraso de visibilidad para suavizar la carga inicial.
         /// </summary>
         /// <param name="navigationService">Servicio de navegación proporcionado por Wpf.Ui.</param>
-        public MainViewModel(INavigationService navigationService)
+        /// <param name="authService">Servicio de autenticación (rol de la sesión).</param>
+        public MainViewModel(INavigationService navigationService, IAuthService authService)
         {
             _navigationService = navigationService;
+            _authService = authService;
+
+            // El menú se construye antes del login: se reevalúa al iniciar/cerrar sesión
+            _authService.SessionChanged += UpdateRoleVisibility;
 
             if (!_isInitialized)
             {
@@ -46,6 +55,15 @@ namespace QuickTix.Desktop.ViewModels
         /// </remarks>
         private void InitializeViewModel()
         {
+            // Arqueo: admin only. Oculto hasta que una sesión admin lo muestre (UpdateRoleVisibility).
+            _cashCloseItem = new NavigationViewItem
+            {
+                Content = "Cierre de caja",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Calculator24 },
+                TargetPageType = typeof(CashCloseView),
+                Visibility = Visibility.Collapsed
+            };
+
             NavigationItems =
             [
                 // Panel (dashboard, spec 3a): primer ítem y vista inicial tras login
@@ -67,6 +85,7 @@ namespace QuickTix.Desktop.ViewModels
                     Icon = new SymbolIcon { Symbol = SymbolRegular.Receipt24 },
                     TargetPageType = typeof(SalesView)
                 },
+                _cashCloseItem,
                 new NavigationViewItem
                 {
                     Content = "Precios",
@@ -92,6 +111,15 @@ namespace QuickTix.Desktop.ViewModels
             ];
 
             _isInitialized = true;
+        }
+
+        /// <summary>
+        /// Muestra u oculta los ítems de menú que dependen del rol de la sesión actual.
+        /// </summary>
+        private void UpdateRoleVisibility()
+        {
+            if (_cashCloseItem != null)
+                _cashCloseItem.Visibility = _authService.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
